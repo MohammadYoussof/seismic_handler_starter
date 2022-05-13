@@ -1,0 +1,22 @@
+    • SH is a seismic analysis code which is very useful for processing seismic data.  
+    • I have compiled SH (the command line version) successfully on Mac . 
+    • Please find here is the tarball from ..... you can unpack it to you [/usr/local] to create [/usr/local/sh] . 
+    • It is worth to point out that this version contains a new shsetup file that I modified to fit the Mac configuration ….
+   
+     • It is important to remove some of the libraries in lib folder that create linking problems.
+     • And before compiling with make, check if the environment is OK. 
+    
+    
+     Then do: 
+    • cd /usr/local/sh
+    • source setup/shsetup
+    • make depend
+    • make
+    • make world
+    •  Now type the command SH should start the SH command line interface. Try typing "xopen ;;" to make sure the xwindows stuff works properly. 
+    You should add the line "source /usr/local/sh/setup/shsetup" to your .cshrc.
+
+    • If you are migrating data from a linux version of SH, you will need to byteswap the binary part of your Q files (the .QHD files are in ASCII format so should work fine). 
+    This can be done with the 'swapbytes' command from Seismic Unix, for example: 
+    • swapbytes < MYDATA.QBN > tmp
+    • mv -f tmp MYDATA.QBN
