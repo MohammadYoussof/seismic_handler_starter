@@ -1,0 +1,12 @@
+! file window_configs.txt
+!      ==================
+!
+! version 1, 12-Oct-95
+!
+! window configuration file
+! K. Stammler, 12-Oct-95
+
+parameter_box    115   0 125 700 3
+phase_box        -30   0 155 720 3
+window_main      247 220 765 548 3
+single_trace_box 247   0 765 203 3

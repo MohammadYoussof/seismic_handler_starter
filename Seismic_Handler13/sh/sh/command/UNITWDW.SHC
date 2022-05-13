@@ -1,0 +1,26 @@
+! file UNITWDW.SHC
+!      ===========
+!
+! version 1, 6-AUG-91
+!
+! sets all peaks to value 1.0 within a selected time window
+! K. Stammler, 6-AUG-91
+
+sdef lo
+sdef hi
+sdef tmp
+
+echo select time window
+time ;;&lo
+time ;;&hi
+
+if  "lo ltr "hi  goto/forward  ok:
+   calc r &tmp = "hi
+   calc r &hi = "lo
+   calc r &lo = "tmp
+ok:
+
+unit_all "lo "hi
+norm c
+
+return

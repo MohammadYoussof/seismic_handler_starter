@@ -1,0 +1,20 @@
+command procedure MAX_AL <lo-wdw> <hi-wdw>
+========================
+
+key: cp:align trace maxima
+
+Aligns all trace maxima within the given time window
+(<lo-wdw>,<hi-wdw>).  All traces of the display are affected.
+
+
+parameters
+
+<lo-wdw>, <hi-wdw>  ---  parameter type: real
+   Time window to search the trace maxima within.
+
+
+Example:
+
+   MAX_AL 0. 100.    ! finds all trace maxima between 0. and 100. sec
+                     ! and aligns them
+

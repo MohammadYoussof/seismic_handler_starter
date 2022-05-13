@@ -1,0 +1,27 @@
+
+! file DOUBLEFIL.SHC
+!      =============
+!
+! version 1, 30-JUL-91
+!
+! filters all traces on display forward and backward with a given filter
+! K. Stammler, 3-JUL-91
+
+default 1 ;;      filter
+
+sdef flst |1-|$dsptrcs|
+
+nr
+fili f #1
+demean "flst
+echo first pass ...
+filter f "flst
+del "flst
+mirror "flst
+echo second pass ...
+filter f "flst
+del "flst
+mirror "flst
+rd
+
+return

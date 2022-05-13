@@ -1,0 +1,41 @@
+command SUM <trc-list>[;<lo-bound>;<hi-bound>]
+===========
+
+key: sum traces
+
+Sums all traces specified in <trc-list>.  The result is displayed
+in a new created trace on top of the display.  The sum trace is
+normalized by the number of input traces unless the "/nonorm"
+qualifier is specified.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be summed.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   The summation trace is restricted to this time window.  If no
+   time window is entered the current display time window is used.
+
+
+qualifiers
+----------
+
+/nonorm
+   If passed, the summation trace is the plain sum of the input
+   traces and is not normalised by the number of input traces.
+
+
+examples
+--------
+
+   sum all              ! creates sum of all traces and appends result
+                        ! trace to the top of the display
+
+   sum 1,3,5            ! creates sum of listed traces
+
+   sum _azimuth(0:180)  ! sums all traces with an azimuth value
+                        ! between 0 and 180 degrees
+

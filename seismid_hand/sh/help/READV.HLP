@@ -1,0 +1,26 @@
+command READV <device> <start-time> <seconds>
+=============
+
+key: read VLP data
+
+Reads VLP data from optical disk.  Reads the three components of station A1.
+
+
+parameters
+
+<device>  ---  parameter type: string
+   Name of the device to read from.  Don't forget the colon ":" !
+
+<start-time>  ---  parameter type: time
+   Start time for reading of VLP data.
+
+<seconds>  ---  parameter type: real
+   Number of seconds to be read from VLP channel.
+
+
+examples:
+
+   READV OD6: 22-MAY-83_4:30 10000.0
+
+   READV OD6: 22,5,83,4,30 10000.0
+

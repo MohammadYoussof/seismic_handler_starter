@@ -1,0 +1,106 @@
+! file gcp_dayplot_q.shc
+!      ===============
+!
+! version 1, 13-Jan-93
+!
+! plots a day of longperiod data from a GRN station
+! K. Stammler, 13-Jan-93
+
+default 1 gcp_q            parameter file
+default 2 3600             trace length in sec
+default 3 1.0              rel zoom
+default 4 ;;               filter
+
+sdef line            ! current line
+sdef linecnt 1       ! line counters
+sdef maxline %#1(0)  ! number of plots
+sdef qname
+sdef qno
+sdef title           ! title text
+sdef zoom            ! zoom factor
+sdef zoomstr         ! zoom string
+sdef status          ! read status
+sdef tmp             ! scratch
+sdef newdelta        ! new delta
+
+! general setup
+trctxt ^time($x)
+fct setstyle $trcinfostyle charsize 0.02
+fct setstyle $timeaxisstyle charsize 0.03
+fct margin b .25
+fct margin l .1
+!fct axis timeaxis tick_intv 60
+fct axis timeaxis tick_intv 1
+trctxtp -.06 0. 
+
+loop_start:
+
+   ! get next trace info
+   if  "linecnt gti "maxline  goto/forward loop_exit:
+   calc s &line = %#1("linecnt)
+   calc s &qname = "line parse 1
+   calc s &qno = "line parse 2
+
+   ! read next trace
+   nr
+   del all
+   dtw
+   switch cmderrstop off
+   read "qname "qno
+   calc i &status = $status
+   switch cmderrstop on
+!   if  "status eqi 0  goto/forward read_ok:
+   if  $dsptrcs nei 0  goto/forward read_ok:
+      echo couldn't read file "qname "qno
+      goto/forward next_trace:
+   read_ok:
+   demean 1
+
+   ! filtering
+   if  #4 eqs ;;  goto/forward no_filter:
+      fili r #4
+      filter r 1
+      del 1
+   no_filter:
+
+   ! setup display
+   split 1 #2
+   if  ^length($dsptrcs) gti 1  goto/forward last_ok:
+      del $dsptrcs
+   last_ok:
+   calc r &zoom = %|gcp_|^station|_zoom| * #3
+   calc r &zoomstr = "zoom * 1000.0 /fmt=<%7.3@f>
+   calc s &title = |^station|$blank|^comp|$blank(3)|^date(2)|
+   calc s &title = |"title|$blank(5)|zoom:|"zoomstr|$slash|1000|
+   if  #4 eqs ;;  goto/forward no_filtertitle:
+      calc s &title = |"title|$blank(5)|filter:|$blank|#4|
+   no_filtertitle:
+   title 3  "title
+   gcp_labels
+   reverse_traces
+   zoom all "zoom
+   norm c
+   rd
+
+   ! change time scale
+   calc r &tmp = ^delta
+   calc r &newdelta = ^delta div 60.
+   set/priv all delta "newdelta
+   rd
+
+@  SYSTEM |sleep|$BLANK|10|
+   if  #hc eqs _existsnot_  goto/forward make_no_hc:
+      ulhc;;a3
+@     SYSTEM |sleep|$BLANK|1700|
+   make_no_hc:
+
+   set/priv all delta "tmp
+
+   next_trace:
+   calc i &linecnt = "linecnt + 1
+
+goto loop_start:
+loop_exit:
+
+return
+

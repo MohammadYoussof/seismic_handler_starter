@@ -1,0 +1,978 @@
+! file shm_phase_box.uil
+!      =================
+!
+! version 7, 22-May-2006
+!
+! phase selection box
+! K. Stammler, 15-Jul-94
+
+
+object
+   phase_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'phase selection';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+         XmNmarginWidth = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard phase_name_box;
+         XmRowColumn     phase_main_button_box;
+      };
+   };
+
+object
+   phase_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+!         XmNspacing = 30;
+         XmNx = k_pos_x_phase_main_buttons;
+         XmNy = k_pos_y_phase_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_phase_ok;
+         XmPushButton     button_phase_delete;
+!         XmPushButton     button_phase_dismiss;
+      };
+   };
+
+object
+   button_phase_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'Rename';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_ok );
+      };
+   };
+
+object
+   button_phase_dismiss: XmPushButton {
+      arguments {
+         XmNlabelString = 'Hide';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_dismiss );
+      };
+   };
+
+object
+   button_phase_delete: XmPushButton {
+      arguments {
+         XmNlabelString = 'Del';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_delete );
+      };
+   };
+
+object
+   phase_name_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'phase selection';
+         XmNmarginWidth = 3;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 3;
+         XmNshadowThickness = 1;
+      };
+      controls {
+         XmOptionMenu phase_name_option;
+         XmOptionMenu phase_name_option2;
+         XmText       phase_name_text;
+         XmLabel      label_phase_sign;
+         XmRadioBox   phase_sign_box;
+         XmLabel      label_phase_spec;
+         XmRadioBox   phase_spec_box;
+         XmLabel      label_phase_reliab;
+         XmRadioBox   phase_reliab_box;
+         XmOptionMenu phase_type_option;
+         XmOptionMenu phase_weight_option;
+			XmPushButton phase_attrib_ext;
+      };
+   };
+
+object
+   phase_sign_box: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_phase_sign_box;
+         XmNy = k_pos_y_phase_sign_box + 22;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNmarginWidth = 3;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_phase_sign_p;
+         XmToggleButton     button_phase_sign_m;
+         XmToggleButton     button_phase_sign_0;
+      };
+   };
+
+object
+   button_phase_sign_p: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '+';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_sign_p );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_sign_p );
+      };
+   };
+
+object
+   button_phase_sign_m: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_sign_m );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_sign_m );
+      };
+   };
+
+object
+   button_phase_sign_0: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_sign_0 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_sign_0 );
+      };
+   };
+
+object
+   label_phase_sign: XmLabel {
+      arguments {
+         XmNx = k_pos_x_phase_sign_box;
+         XmNy = k_pos_y_phase_sign_box;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sign:  ';
+      };
+   };
+
+object
+   phase_reliab_box: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_phase_reliab_box;
+         XmNy = k_pos_y_phase_reliab_box + 22;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_phase_reliab_yes;
+         XmToggleButton     button_phase_reliab_no;
+      };
+   };
+
+object
+   phase_spec_box: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_phase_spec_box;
+         XmNy = k_pos_y_phase_spec_box + 22;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_phase_spec_e;
+         XmToggleButton     button_phase_spec_i;
+      };
+   };
+
+object
+   button_phase_reliab_yes: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'y';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_reliab_yes );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_reliab_yes );
+      };
+   };
+
+object
+   button_phase_reliab_no: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'n';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_reliab_no );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_reliab_no );
+      };
+   };
+
+object
+   label_phase_reliab: XmLabel {
+      arguments {
+         XmNx = k_pos_x_phase_reliab_box;
+         XmNy = k_pos_y_phase_reliab_box;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'reliable: ';
+      };
+   };
+
+!object
+!   label_phase_type: XmLabel {
+!      arguments {
+!         XmNx = k_pos_x_phase_type_box;
+!         XmNy = k_pos_y_phase_type_box;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNlabelString = 'event type: ';
+!      };
+!   };
+
+object
+   phase_type_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_phase_type_box;
+!         XmNy = k_pos_y_phase_type_box + 28;
+         XmNy = k_pos_y_phase_type_box;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'event type';
+			XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNmenuHistory = XmPushButton button_phase_type_other;
+      };
+      controls {
+         XmPulldownMenu phase_type_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_option );
+      };
+   };
+
+object
+   phase_type_menu: XmPulldownMenu {
+      controls {
+         XmPushButton     button_phase_type_local;
+         XmPushButton     button_phase_type_regio;
+         XmPushButton     button_phase_type_tele;
+         XmPushButton     button_phase_type_nuclear;
+         XmPushButton     button_phase_type_blast;
+         XmPushButton     button_phase_type_mining;
+         XmPushButton     button_phase_type_other;
+      };
+   };
+
+object
+   button_phase_type_local: XmPushButton {
+      arguments {
+         XmNlabelString = 'local';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_local );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_local );
+      };
+   };
+
+object
+   button_phase_type_regio: XmPushButton {
+      arguments {
+         XmNlabelString = 'regio';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_regio );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_regio );
+      };
+   };
+
+object
+   button_phase_type_tele: XmPushButton {
+      arguments {
+         XmNlabelString = 'tele';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_tele );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_tele );
+      };
+   };
+
+object
+   button_phase_type_nuclear: XmPushButton {
+      arguments {
+         XmNlabelString = 'nucl';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_nuclear );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_nuclear );
+      };
+   };
+
+object
+   button_phase_type_blast: XmPushButton {
+      arguments {
+         XmNlabelString = 'blast';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_blast );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_blast );
+      };
+   };
+
+object
+   button_phase_type_mining: XmPushButton {
+      arguments {
+         XmNlabelString = 'mining';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_mining );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_mining );
+      };
+   };
+
+object
+   button_phase_type_other: XmPushButton {
+      arguments {
+         XmNlabelString = 'other';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_type_other );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_type_other );
+      };
+   };
+
+object
+   button_phase_spec_e: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'e';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_spec_e );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_spec_e );
+      };
+   };
+
+object
+   button_phase_spec_i: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'i';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_spec_i );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_phase_spec_i );
+      };
+   };
+
+object
+   label_phase_spec: XmLabel {
+      arguments {
+         XmNx = k_pos_x_phase_spec_box;
+         XmNy = k_pos_y_phase_spec_box;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'onset spec: ';
+      };
+   };
+
+object
+   phase_name_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_phase_name_option;
+         XmNy = k_pos_y_phase_name_option;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'local';
+!			XmNorientation = XmVERTICAL;
+         XmNmenuHistory = XmPushButton button_phase_name_b;
+      };
+      controls {
+         XmPulldownMenu phase_name_menu;
+      };
+   };
+
+object
+   phase_name_option2: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_phase_name_option2;
+         XmNy = k_pos_y_phase_name_option2;
+         XmNunitType = XmPIXELS;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'tele';
+			XmNorientation = XmVERTICAL;
+         XmNmenuHistory = XmPushButton button_phase_name_P;
+      };
+      controls {
+         XmPulldownMenu phase_name_menu2;
+      };
+   };
+
+object
+   phase_name_menu: XmPulldownMenu {
+		arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+		};
+      controls {
+         XmPushButton   button_phase_name_b;
+         XmPushButton   button_phase_name_Pn;
+         XmPushButton   button_phase_name_Pg;
+         XmPushButton   button_phase_name_Sn;
+         XmPushButton   button_phase_name_Sg;
+         XmPushButton   button_phase_name_Lg;
+         XmPushButton   button_phase_name_Rg;
+      };
+   };
+
+object
+   phase_name_menu2: XmPulldownMenu {
+      controls {
+         XmPushButton   button_phase_name_P;
+         XmPushButton   button_phase_name_pP;
+         XmPushButton   button_phase_name_sP;
+         XmPushButton   button_phase_name_PKPdf;
+         XmPushButton   button_phase_name_PKPbc;
+         XmPushButton   button_phase_name_PKPab;
+         XmPushButton   button_phase_name_pPKPdf;
+         XmPushButton   button_phase_name_pPKPbc;
+         XmPushButton   button_phase_name_pPKPab;
+         XmPushButton   button_phase_name_PKP;
+         XmPushButton   button_phase_name_PP;
+         XmPushButton   button_phase_name_pPP;
+         XmPushButton   button_phase_name_S;
+         XmPushButton   button_phase_name_SKS;
+         XmPushButton   button_phase_name_PKKP;
+         XmPushButton   button_phase_name_PKPPKP;
+         XmPushButton   button_phase_name_PcP;
+         XmPushButton   button_phase_name_L;
+         XmPushButton   button_phase_name_X;
+      };
+   };
+
+object
+   button_phase_name_b: XmPushButton {
+      arguments {
+         XmNlabelString = 'b';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_b );
+      };
+   };
+
+object
+   button_phase_name_Pn: XmPushButton {
+      arguments {
+         XmNlabelString = 'Pn';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Pn );
+      };
+   };
+
+object
+   button_phase_name_Pg: XmPushButton {
+      arguments {
+         XmNlabelString = 'Pg';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Pg );
+      };
+   };
+
+object
+   button_phase_name_Lg: XmPushButton {
+      arguments {
+         XmNlabelString = 'Lg';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Lg );
+      };
+   };
+
+object
+   button_phase_name_Rg: XmPushButton {
+      arguments {
+         XmNlabelString = 'Rg';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Rg );
+      };
+   };
+
+object
+   button_phase_name_Sn: XmPushButton {
+      arguments {
+         XmNlabelString = 'Sn';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Sn );
+      };
+   };
+
+object
+   button_phase_name_Sg: XmPushButton {
+      arguments {
+         XmNlabelString = 'Sg';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_Sg );
+      };
+   };
+
+object
+   button_phase_name_P: XmPushButton {
+      arguments {
+         XmNlabelString = 'P';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_P );
+      };
+   };
+
+object
+   button_phase_name_pP: XmPushButton {
+      arguments {
+         XmNlabelString = 'pP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_pP );
+      };
+   };
+
+object
+   button_phase_name_sP: XmPushButton {
+      arguments {
+         XmNlabelString = 'sP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_sP );
+      };
+   };
+
+object
+   button_phase_name_PKPdf: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKPdf';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKPdf );
+      };
+   };
+
+object
+   button_phase_name_PKPbc: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKPbc';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKPbc );
+      };
+   };
+
+object
+   button_phase_name_PKPab: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKPab';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKPab );
+      };
+   };
+
+object
+   button_phase_name_pPKPdf: XmPushButton {
+      arguments {
+         XmNlabelString = 'pPKPdf';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_pPKPdf );
+      };
+   };
+
+object
+   button_phase_name_pPKPbc: XmPushButton {
+      arguments {
+         XmNlabelString = 'pPKPbc';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_pPKPbc );
+      };
+   };
+
+object
+   button_phase_name_pPKPab: XmPushButton {
+      arguments {
+         XmNlabelString = 'pPKPab';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_pPKPab );
+      };
+   };
+
+object
+   button_phase_name_PKP: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKP );
+      };
+   };
+
+object
+   button_phase_name_PP: XmPushButton {
+      arguments {
+         XmNlabelString = 'PP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PP );
+      };
+   };
+
+object
+   button_phase_name_pPP: XmPushButton {
+      arguments {
+         XmNlabelString = 'pPP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_pPP );
+      };
+   };
+
+object
+   button_phase_name_S: XmPushButton {
+      arguments {
+         XmNlabelString = 'S';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_S );
+      };
+   };
+
+object
+   button_phase_name_SKS: XmPushButton {
+      arguments {
+         XmNlabelString = 'SKS';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_SKS );
+      };
+   };
+
+object
+   button_phase_name_PKKP: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKKP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKKP );
+      };
+   };
+
+object
+   button_phase_name_PKPPKP: XmPushButton {
+      arguments {
+         XmNlabelString = 'PKPPKP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PKPPKP );
+      };
+   };
+
+object
+   button_phase_name_PcP: XmPushButton {
+      arguments {
+         XmNlabelString = 'PcP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_PcP );
+      };
+   };
+
+object
+   button_phase_name_L: XmPushButton {
+      arguments {
+         XmNlabelString = 'L';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_L );
+      };
+   };
+
+object
+   button_phase_name_X: XmPushButton {
+      arguments {
+         XmNlabelString = 'X';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_name_X );
+      };
+   };
+
+object
+   phase_name_text: XmText {
+      arguments {
+         XmNx = k_pos_x_phase_name_text;
+         XmNy = k_pos_y_phase_name_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = 'beam';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_name_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_phase_name_text );
+      };
+   };
+
+object
+   phase_weight_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_phase_weight;
+         XmNy = k_pos_y_phase_weight;
+         XmNunitType = XmPIXELS;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'quality';
+			XmNorientation = XmVERTICAL;
+         XmNmenuHistory = XmPushButton button_phase_qual_1;
+      };
+      controls {
+         XmPulldownMenu phase_weight_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_weight_option );
+      };
+   };
+
+object
+   phase_weight_menu: XmPulldownMenu {
+      controls {
+ !        XmPushButton   button_phase_qual_0;
+         XmPushButton   button_phase_qual_1;
+         XmPushButton   button_phase_qual_2;
+         XmPushButton   button_phase_qual_3;
+         XmPushButton   button_phase_qual_4;
+         XmPushButton   button_phase_qual_5;
+         XmPushButton   button_phase_qual_6;
+         XmPushButton   button_phase_qual_7;
+         XmPushButton   button_phase_qual_8;
+         XmPushButton   button_phase_qual_9;
+      };
+   };
+
+object
+   button_phase_qual_0: XmPushButton {
+      arguments {
+         XmNlabelString = '0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0 );
+      };
+   };
+
+object
+   button_phase_qual_1: XmPushButton {
+      arguments {
+         XmNlabelString = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+1 );
+      };
+   };
+
+object
+   button_phase_qual_2: XmPushButton {
+      arguments {
+         XmNlabelString = '2';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+2 );
+      };
+   };
+
+object
+   button_phase_qual_3: XmPushButton {
+      arguments {
+         XmNlabelString = '3';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+3 );
+      };
+   };
+
+object
+   button_phase_qual_4: XmPushButton {
+      arguments {
+         XmNlabelString = '4';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+4 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+4 );
+      };
+   };
+
+object
+   button_phase_qual_5: XmPushButton {
+      arguments {
+         XmNlabelString = '5';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+5 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+5 );
+      };
+   };
+
+object
+   button_phase_qual_6: XmPushButton {
+      arguments {
+         XmNlabelString = '6';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+6 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+6 );
+      };
+   };
+
+object
+   button_phase_qual_7: XmPushButton {
+      arguments {
+         XmNlabelString = '7';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+7 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+7 );
+      };
+   };
+
+object
+   button_phase_qual_8: XmPushButton {
+      arguments {
+         XmNlabelString = '8';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+8 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+8 );
+      };
+   };
+
+object
+   button_phase_qual_9: XmPushButton {
+      arguments {
+         XmNlabelString = '9';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_qual_0+9 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_qual_0+9 );
+      };
+   };
+
+object
+   phase_attrib_ext: XmPushButton {
+      arguments {
+         XmNx = k_pos_x_phase_attrib_ext;
+         XmNy = k_pos_y_phase_attrib_ext;
+         XmNlabelString = ' More ';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_attrib_ext );
+      };
+   };
+

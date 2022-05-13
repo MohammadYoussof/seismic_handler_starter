@@ -1,0 +1,53 @@
+command MARK <trc> <time>
+============
+
+key: mark time at trace
+
+Marks time point on the specified trace by a vertical bar.
+
+parameters
+
+<trc>  ---  parameter type: trace
+   Trace to be marked at time <time>.
+
+<time>  ---  parameter type: real
+   Time position to be marked at <trc>.  The time value can be
+   entered as a relative time (example: "23.132") or, if the
+   "/ABS"-qualifier is specified, as an absolute time value
+   (example: "14-JUL-1990_18:30:02.132").
+
+
+qualifiers
+
+/ABS
+   the specified time <time> is an absolute value rather than
+   a relative.
+
+/LABEL=<text>
+   Prints a label <text> on the marked position.
+
+/POS=<pos>
+   Determines the position of the label.  A <pos>-value of 1.0
+   puts the text on top of the vertical mark line, a value
+   of 0.0 puts it on the bottom.  You can specify any real
+   value in between (or even outside but then the text will be
+   apart from the mark line).  The default value is 1.0.
+
+/SIZE=<size>
+   Specifies the length of the vertical marker.  Default value
+   is 1.0 (full length).  You get shorter markers if you set
+   <size> smaller than 1.0.
+
+
+Examples:
+
+   MARK/ABS 2 ^P-ONSET(2)   ! marks onset time of second trace
+
+   MARK 1 0.                ! marks zero time of trace 1
+
+   MARK/LABEL=PKP/POS=0.0/LENGTH=.5 1 23.0
+                            ! marks trace 1 at time 23.0 with a
+                            ! labelled ("PKP" at the bottom) bar
+                            ! of half of the standard length
+                            
+

@@ -1,0 +1,9 @@
+! appends name of q-file to list file
+default 1 ;;   list file
+default 2 1    trace number
+sdef insfile ^file(#2)
+echo_ch #1
+echo "insfile
+echo_ch
+echo inserted "insfile to list-file #1
+return

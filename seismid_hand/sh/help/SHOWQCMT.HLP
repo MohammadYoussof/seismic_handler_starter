@@ -1,0 +1,22 @@
+command procedure SHOWQCMT <q-file>
+==========================
+
+key: cp:show q-file comment
+
+Displays the comment lines at the beginning of a q-file header.  These
+comment lines refer to all traces in the file and shouldn't be
+confused with the "comment" info entry of every single trace.
+
+
+parameter
+---------
+
+<q-file>  ---  parameter type: filename (without extension)
+   Name of q-file whose comment lines are to be displayed.
+
+
+example
+-------
+
+   showqcmt myqfile    ! displays comment lines of q-file MYQFILE
+

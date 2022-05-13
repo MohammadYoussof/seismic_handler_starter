@@ -1,0 +1,22 @@
+! file phc.shc
+!      =======
+!
+! version 1, 27-Nov-92
+!
+! PostScript hardcopy
+! K. Stammler, 27-Nov-92
+
+default 1 ;;   hc window
+
+sdef hcfile     ! name of hardcopy file
+sdef cmd        ! command line
+
+@ECHO writing hardcopy file
+hc #1 p &hcfile
+
+@ECHO send file "HCFILE to printer
+! @CALC S &CMD = |lpr|$BLANK|-h|$BLANK|-s|$BLANK|-r|$BLANK|"HCFILE|
+@CALC S &CMD = |lpr|$BLANK|-s|$BLANK|"HCFILE|
+system "cmd
+
+return

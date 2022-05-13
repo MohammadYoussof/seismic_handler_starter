@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Sfdb Main Page</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>Database concept for MiniSEED data files</H2>
+<P>
+On archive systems containing ten thousands of (MiniSEED-) data files
+or more the file referencing system based on sfdfiles (see
+<a href="miniseed.html">reading MiniSEED data into SH/SHM</a>) is not effective
+any more.  For this purpose a database concept for accessing waveform data
+in such cases has been developped.  The location and supplementary information
+of all files of the archive are stored in a database.  SH and SHM then retrieve
+the necessary information from the database instead of using sfdfiles.
+When many information entries are present, database requests are much faster
+than reading from plain files.  As an alternative, lookup files (directory
+files for sfdfiles) may help up to some extent, but they tend to make things
+complicated and confusing.
+</P>
+<P>
+Such a database has been implemented at the SZGRF.  The name
+for the database is sfdb (seed file database).  It is implemented on a
+<i>mysql</i> database system, but actually it should run on any standard
+database system since no API (application programming interface) is used.
+Instead, all calls from SH/SHM to the database are based on shell commands
+which makes it pretty flexible. 
+</P>
+<P>The main idea of the database concept is that the data files are divided into
+three classes: (A) files from online data transmission protocols like seedlink
+which are usually available for a limited time on a specific directory
+tree; (B) intermediate term archive files, collected from various data sources
+usually available with a time delay of a day or a few days; (C) permanently
+archived files which have been analysed, quality checked and put to a final
+location on a RAID system or CD/DVD jukebox.  These (C)-data usually are put into
+pieces of moderate size (e.g. DVD capacity) and are available after some
+weeks.  To keep the database up to date, it is necessary to update the
+tables every minute or every few minutes for (A)-type files, once a day
+for (B)-type files and for (C)-type files the database should be updated
+as soon as a new archive path is found. The data paths of an archive should
+be categorised in this way, then the database can be set up as
+described in the following sections.
+</P>
+<P>
+Based on this concept on (A)-, (B)- and (C)-type fils an
+<a href="sfdb_archiving.html">archiving system</a> is implemented at the SZGRF.
+</P>
+
+<h3>Tables used in sfdb</h3>
+
+<P>
+The sfdb database uses the following tables:
+<ul>
+	<li> <a href="sfdb_table_pathtab.html">pathtab</a> (rootpaths for data directories)
+	<li> <a href="sfdb_table_sftab.html">sftab</a> (pointing to MiniSEED data files)
+	<li> <a href="sfdb_table_newfilescmd.html">newfilescmd</a> (finding new data files)
+	<li> <a href="sfdb_table_surveytab.html">surveytab</a> (archive directories to survey)
+	<li> <a href="sfdb_table_integrity.html">integrity</a> (data integrity check via md5 checksums)
+	<li> <a href="sfdb_table_qualtab.html">qualtab</a> (data quality statistics)
+	<li> <a href="sfdb_table_backup.html">backup</a> (backup administration)
+</ul>
+The tables <i>pathtab</i> and <i>sftab</i> contain the information where the
+data are stored.  The other tables are used for maintenance of the database.
+</P>
+
+<h3>Setting up the database</h3>
+<P>
+After creating the tables (see $SH_UTIL/sfdb/create_tables.s, contains valid
+commands for a mysql database) the main archive paths must be inserted manually
+into the tables <a href="sfdb_table_pathtab.html">pathtab</a> and
+<a href="sfdb_table_surveytab.html">surveytab</a>.  Please use <i>pathid</i>
+numbers from 1 to 99 for (A)-type files, from 101 to 999 for (B)-type files
+and numbers above 1000 for permanent archives ((C)-type files).  Define an empty
+entry for <i>pathid</i> zero and a
+dummy entry for <i>pathid</i> 1000 as a separator between temporary and
+permanent archive paths.  Paths to (C)-type files may be omitted in the
+table <i>sftab</i> at the beginning, as they can be managed automatically
+using the
+table <i>surveytab</i>.  Examples for data entries can be found in
+$SH_UTIL/sfdb/create_tables.s.  New or modified data files of (A)- and
+(B)-type files are detected using commands of the table
+<a href="sfdb_table_newfilescmd.html">newfilescmd</a>.
+For each data path with an id between 1 and 999 this table should hold commands
+for finding such files.  In the current setup for the id's 1 to 99 only 
+command <i>m_cmd</i> and for the id's 101 to 999 only command <i>d_cmd</i>
+is used.  The root paths of all permanent archive directories should be
+put to the table <a href="sfdb_table_surveytab.html">surveytab</a>.  All
+directories one level below these paths (i.e. <i>subdirlev</i>=1, other
+values are currently ignored) are
+regarded as permanent archive paths and inserted to the table <i>sftab</i>
+automatically (after starting the cron jobs).  The table
+<a href="sfdb_table_integrity.html">integrity</a> contains information about
+data integrity, i.e. results of checksum tests.  All archive paths with
+id's above 1000 ((C)-type files) have to have an md5 checksum file in its
+top level directory, named <i>checksum.md5</i>.  This checksum file is regularly
+checked to verify that the data are still readable.  The time of the last check
+and its result is stored in the table entries.  If such a checksum file does
+not exist, it is created (needs write permission for the sfdb cron job on
+the data directories).
+</P>
+
+<h3>Cron Jobs</h3>
+
+<P>
+The cron jobs of the sfdb system keep the tables of the database up to date
+and perform checks for data integrity.  The jobs to be setup are:
+<ul>
+<li><b>update_sfdb.py &lt;backtime&gt; &lt;unit&gt;</b>: Finds new files on temporary
+archive paths.  Should run every few minutes with &lt;unit&gt; '<i>m</i>' and
+once a day with &lt;unit&gt; '<i>d</i>'.
+<li><b>sfdb_void_entry_check.py &lt;maxpathid&gt;</b>: Checks for outdated
+(void) entries in the temporary archive paths.  Should run at least once a day.
+<li><b>sfdb_survey_paths.csh</b>: looks for new data directories in the permanent
+archive.  Should run once per hour.
+<li><b>integrity_check.csh</b>: data integrity check. Should run several times
+per day.
+<li><b>new_tmpfiles.csh, clean_tmpfiles.csh</b>: manage temporary data files.
+</ul>
+A typical example of a crontab file would be:<br>
+<i>
+*/2 * * * * /usr/local/SH/sh/util/sfdb/update_sfdb.py 3 m >/dev/null 2>/dev/null<br>
+1,4,7,10,13,16,19,22,25,28,31,34,37,40,43,46,49,52,55,58 * * * * /usr/local/SH/sh/util/sfdb/new_tmpfiles.csh >/dev/null 2>/dev/null
+8 7,9 * * * /usr/local/SH/sh/util/sfdb/update_sfdb.py 3 d >/dev/null 2>/dev/null<br>
+9 3 * * * /usr/local/SH/sh/util/sfdb/sfdb_void_entry_check.py 1000 >>log/sfdb_void_entry_check.log 2>>log/sfdb_void_entry_check.err<br>
+29 * * * * /usr/local/SH/sh/util/sfdb/sfdb_void_entry_check.py 100 >>log/sfdb_void_entry_check_x.log 2>>log/sfdb_void_entry_check_x.err<br>
+13 * * * * /usr/local/SH/sh/util/sfdb/sfdb_survey_paths.csh >>log/sfdb_survey_paths.log 2>>log/sfdb_survey_paths.err<br>
+09 0,10,21 * * * /usr/local/SH/sh/util/sfdb/integrity_check.csh >>log/integrity_check.log 2>1<br>
+15 18 * * * /usr/local/SH/sh/util/sfdb/clean_tmpfiles.csh >/dev/null 2>/dev/null</i>
+</P>
+
+<P>
+A more detailed description of the cron jobs and utility routines to be found
+in $SH_UTIL/sfdb follows:
+
+<ul>
+<li><b>integrity_check.csh</b><br>
+
+	Create missing checksum files (checksum.md5) on all paths from 'pathtab'
+	one by one.  Check one checksum file and put result to table 'integrity'.
+
+
+
+<li><b>sfdb_check_lost_files.csh &lt;rootpath&gt; [&lt;priority&gt;] [&lt;interactive&gt;]</b><br>
+
+	Finds all files matching wildcard '*.??[zne]' under a given rootpath and
+	checks the existance of a corresponding entry in the table 'sftab'.
+	If no file entry is found and a priority is given it is added to the table.
+	For the given rootpath an entry in the table 'pathtab' must exist
+	otherwise the program exits.  Called by <i>sfdb_survey_paths.csh</i>.
+
+
+<li><b>sfdb_list.csh</b><br>
+
+	Gives summary of all (C)-type archive paths of sfdb database (pathid>1000).
+
+
+
+<li><b>sfdb_survey_paths.csh</b><br>
+
+	Loops all paths of table 'surveytab' with 'subdirlev=1'.  Data files found
+	in new directories one level below these paths are inserted into database.
+	Insertion is done using an sfdfile if one is found with '$ROOT' text
+	elements in it.  If no sfdfile is found or the sfdfile does not contain
+	'$ROOT' the data files are inserted if the directory is older than one day
+	without using a possibly existing sfdfile.  This job does not check for
+	new/changed data files in old (=already existing) permanent archive paths!
+	Priority of paths with id lower
+	than 100 is set to 3, paths with id's between 101 and 999 are set to
+	priority 6.
+
+
+<li><b>sfdb_void_entry_check.py &lt;maxpathid&gt;</b><br>
+
+	Loops all paths of 'pathtab' with a 'pathid' between 0 and &lt;maxpathid&gt;
+   and removes outdated sftab entries found.  Outdated means that an sftab entry
+   points to a non existing file.
+
+
+
+<li><b>update_sfdb.py &lt;backtime&gt; &lt;unit&gt;</b><br>
+
+	Finds modified files on all archive paths with low path id's and updates
+	their database entries.  &lt;unit&gt; may be 'm' (minutes) or 'd' (days).  On
+	'm'-unit archive paths with id's lower than 100 are searched for files
+	modified within the last &lt;backtime&gt; minutes, on 'd' archive paths with id's
+	lower than 1000 are searched for files modified within the last &lt;backtime&gt;
+	days.  The commands for finding files are taken from the table 'newfilesmcd'.
+	Usually run from cron.
+
+<li><b>new_tmpfiles.csh, clean_tmpfiles.csh</b><br>
+
+	Takes SEED or MiniSEED data files from an input
+	directory and moves it to a temporary directory (pointed to by sftab entry
+	1000).  The content of the id1000 directory is surveyed by the database routines
+	and is automatically deleted after 4 days by clean_tmpfiles.csh.  With this
+   option data files maybe temporarily inserted to the sfdb system.
+
+</ul>
+</P>
+
+<h3>Remarks on priority entries</h3>
+<P>
+Table <i>sftab</i> has an entry <i>priority</i> and the table <i>surveytab</i>
+has an entry <i>defpri</i> which control the file
+priority, i.e. which file is used for data input if more than one is available.
+Usually there will be some overlap in time intervals between the (A)-, (B)-
+and (C)-type files.  E.g. if a time window is contained in the online
+directory ((A)-type) and in the intermediate term archive ((B)-type) where
+the data have been quality checked already, then the latter should have
+a higher priority to get the best possible data and to make use of the higher
+access speed on RAID systems where the (B)- and (C)-type data usually are.
+In the setup of the SZGRF the data paths with id's between 1 and 99 have
+priority 3, the path id's 101 to 999 have priority 6 and the id's above 1000
+have priority 9.  If the highest priority data file is not available the
+read request will fail.  A read retry on files with lower priority is currently
+not implemented.
+</P>
+
+<h3>SH/SHM interface</h3>
+<P>
+The database inerface is implemented since versions 5.0c (SH) and 2.4g (SHM)
+from 28-Dec-2006.
+To access the database from SH or SHM enter <i>DB</i> or <i>DB:</i> as sfd path.
+SH/SHM will launch a shell process to retrieve possible data file candidates
+for the read command.  The result of the database request is stored in a
+temporary file, currently <i>/tmp/sql_sfdb_*.000</i>.  A new read time or read
+length issues a new database request and will overwrite this file.  The name
+resolutions of the root paths (entries of table <i>pathtab</i>) are cached in
+SH/SHM to minimise the number of calls to this table.  For this reason the
+first read procedure in SH/SHM usually takes a little more time than all
+following.
+SH and SHM only access the tables <i>pathtab</i> and <i>sftab</i>.  All other
+tables are not seen by SH/SHM.
+</P>
+<P>
+The command to read from the sfdb tables has to be specified in the
+configuration file of SHM.  There are two parameters responsible for this
+interface: <i>sfdb_command</i> and <i>sfdb_exec_qual</i>.  <i>sfdb_command</i>
+specifies the access command, for a local mysql installation this would
+be <i>mysql sfdb</i>, a remote installation, e.g. <i>mysql -h szpc35 sfdb</i>.
+The execution qualifiers go into <i>sfdb_exec_qual</i>.  For mysql these are
+<i>-B -e</i>.  The Sun/Solaris interface is done currently with a small
+script since there is no mysql installed in a standard system.  The settings
+for <i>sfdb_command</i> and <i>sfdb_exec_qual</i> would be e.g.
+<i>$SH_UTIL/sol_sql_call.csh szpc35</i> and <i>&lt;NULL&gt;</i>, respectively,
+if szpc35 is the database server.
+</P>
+
+
+<P><small>This page last modified 28-Feb-2007</small></P>
+</BODY>
+</HTML>

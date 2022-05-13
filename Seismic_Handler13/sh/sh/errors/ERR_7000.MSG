@@ -1,0 +1,39 @@
+! file ERR_7000.MSG
+!      ============
+!
+! version 6, 21-Dec-2006
+!
+! error messages of SEED modules
+! K. Stammler, 10-Apr-94
+!
+*** SEED-01 error opening input file ***
+*** SEED-02 no setup file read ***
+*** SEED-03 EOF found ***
+*** SEED-04 illegal stream name ***
+*** SEED-05 no time list specified ***
+*** SEED-06 too many time lists ***
+*** SEED-07 time list too long ***
+*** SEED-08 illegal time window ***
+*** SEED-09 too many streams ***
+*** SEED-10 illegal record size ***
+*** SEED-11 error reading SFD file ***
+*** SEED-12 stream/time not found in SFD file ***
+*** SEED-13 next file returned ***
+*** SEED-14 SEED channel out of range ***
+*** SEED-15 string overflow ***
+*** SEED-16 read error on SEED file ***
+*** SEED-17 seek error on SEED file ***
+*** SEED-18 program bug ***
+*** SEED-19 channel not opened ***
+*** SEED-20 time gap ***
+*** SEED-21 error opening output file ***
+*** SEED-22 error writing SEED file ***
+*** SEED-23 zero length trace specified ***
+*** SEED-24 next possible time positioned ***
+*** SEED-25 double data in SEED file ***
+*** SEED-26 data not available ***
+*** SEED-27 illegal cut command (copy_recs -exact) ***
+*** SEED-28 error decoding SEED record ***
+*** SEED-29 error reading CD lookup ***
+*** SEED-30 illegal compression ***
+*** SEED-31 no calibration gain found ***

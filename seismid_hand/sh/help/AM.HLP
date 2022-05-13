@@ -1,0 +1,61 @@
+command AM [<trc> <lo-time> <hi-time>] [<min>] [<max>] [<minpos>] [<maxpos>]
+==========
+
+key: determine amplitude
+! version 1, 5-May-92
+
+Determines maximum amplitude of trace <trc> within time window
+from <lo-time> to <hi-time>.  If no parameter is specified the
+trace and the time window is selected simultaneously by graphic cursor.
+If no output parameter is specified the result is displayed on
+the dialog channel(s).
+
+
+parameters
+----------
+
+<trc>  ---  parameter type: trace
+   Trace to determine maximum amplitude
+
+<lo-time>, <hi-time>  ---  parameter type: real
+   Time window to search for maximum amplitude.  If no parameter is
+   specified the trace and time window is selected simultaneously
+   by graphic cursor.
+
+<min>  ---   parameter type: symbol address
+   Output symbol for minimum value
+
+<max>  ---   parameter type: symbol address
+   Output symbol for maximum value
+
+<minpos>  ---   parameter type: symbol address
+   Output symbol for position of minimum (relative time)
+
+<maxpos>  ---   parameter type: symbol address
+   Output symbol for position of maximum (relative time)
+
+
+qualifiers
+----------
+
+/nomark
+   Selections are not marked on display
+
+/abs
+   <max> contains largest absolute value in specified time window
+
+
+examples
+--------
+
+   am 1 0. 10.              ! determine maximum and minimum of first trace
+                            ! between 0 and 10 sec and display it on screen
+
+   am 1 0. 10. &min &max    ! determine maximum and minimum of first trace
+                            ! between 0 and 10 sec and store results in
+                            ! symbols "min" and "max"
+
+   am 1 0. 10. ;;;;&MAXPOS  ! determine position of maximum between 0
+                            ! and 10 sec of first trace and store it
+                            ! in symbol "maxpos"
+

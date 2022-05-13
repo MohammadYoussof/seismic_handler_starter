@@ -1,0 +1,50 @@
+default 1 ;;         q-file (& recno):
+default 2 -20        window start:
+default 3 130        window end:
+default 4 rest_05_3  filter:
+
+sdef qfile      ! qfile name
+sdef recs       ! first record to be read
+sdef rece       ! last record to be read
+sdef onsett     ! onset time
+sdef start
+sdef end
+sdef status     ! status
+
+nr
+del all
+dtw
+
+calc s &qfile = #1 parse 1
+switch cmderrstop off
+switch noerrmsg on
+calc s &recs = #1 parse 2
+if  $status eqi 0  goto/forward recno_ok:
+   calc i &recs = 1
+recno_ok:
+switch noerrmsg off
+switch cmderrstop on
+calc i &rece = "recs + 2
+
+read "qfile |"recs|-|"rece|
+switch cmderrstop off
+echo slowness ^slowness
+calc i &status = $status
+switch cmderrstop on
+if  "status eqi 0  goto/forward slowness_ok:
+   echo inserting slowness
+   insert_slowness
+slowness_ok:
+remav all
+calc t &onsett = ^p-onset tdiff ^start
+calc r &start = "onsett + #2
+calc r &end = "onsett + #3
+if  "start ger 0.0  goto/forward start_ok:
+   calc r &start = 0.0
+start_ok:
+fili f #4
+filter f all "start "end
+del 1-3
+rd
+
+return

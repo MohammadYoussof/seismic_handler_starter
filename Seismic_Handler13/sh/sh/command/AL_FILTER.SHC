@@ -1,0 +1,21 @@
+! file AL_FILTER.SHC
+!      =============
+!
+! version 1, 23-Mar-2001
+!
+! Applies filter to input traces
+! K. Stammler, 23-Mar-2001
+
+default 1 ;; filter
+
+! local variables
+sdef trcno $dsptrcs
+
+if  #1 eqs none  return
+
+demean all
+fili f #1
+filter f all
+del |1-|"trcno|
+
+return

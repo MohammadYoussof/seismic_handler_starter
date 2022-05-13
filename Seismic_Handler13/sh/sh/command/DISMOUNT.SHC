@@ -1,0 +1,17 @@
+! file DISMOUNT.SHC
+
+default 1 dub6:     device
+
+switch cmderrstop off
+readk xx: 1,2,3,4,5 1 1
+switch cmderrstop on
+
+echo $blank
+echo $blank
+echo >>>>>>*******************<<<<<<
+echo >>>>>> dismounting #1 <<<<<<
+echo >>>>>>*******************<<<<<<
+echo $blank
+echo $blank
+system |dismount|$blank|#1|
+return

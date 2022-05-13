@@ -1,0 +1,13 @@
+
+command procedure KLS
+=====================
+
+create event list from PDE file
+setup KLS parameters with KLS_SETUP command
+procedure KLS_NEXT_EVENT reads lines from event list (check positions of
+entries) and passes information to mounting and plotting commands
+
+KLS <cnt>
+
+reads the event that is <cnt> lines apart from last read event
+

@@ -1,0 +1,184 @@
+#! /bin/csh
+#
+# file shsetup
+#      =======
+#
+# version 6, 29-May-96
+# ^^^ this is a dummy version number.  It is usually not updated, because
+# this file should not be automatically copied to your system.
+#
+# setup of SH program
+# K. Stammler, 12-Dec-92
+#
+# This file must be 'source'd in a csh or tcsh shell before running SH.
+# Please edit the beginning of the file to match your environment.
+
+#
+#
+# root path
+# ---------
+#
+# root path for SH (this is where the directories 'source', 'util',
+# 'help', etc ..., are)
+#
+set shcroot=##ROOTPATH##
+set userroot=##USERROOT##
+
+
+#
+#
+# compiler switches
+# -----------------
+#
+# If you have to recompile the sources set appropriate values to these
+# environment variables.
+# SH_COMPILER   :   The ANSI compiler (like gcc or acc, others I didn't check)
+#                   The ordinary cc of Sun-Solaris-1 does NOT work.
+# SH_CCOPTIONS  :   Options passed to the compiler.  Debugging (-g) is enabled
+#                   by default.  Don't use '-DSH_SETUP_GRF' at other places
+#                   than SZGRF observatory.  If you want to have compiled the
+#                   AH-interface specify '-DSH_SETUP_AH'.  But then you
+#                   need (a) to specify also '-lahio' on SH_LINKLIBS and (b)
+#                   an appropriate AH-library (libahio.a) in $SH_LIB.  The
+#                   one provided is working only on Sun Solaris-1 (SunOS 4.1.3).
+# SH_TEXTEDIT   :   Call to (graphical) text editor, like '##EDITOR##' in OpenLook
+#                   or 'vuepad' in HP-UX.
+# SH_LINKLIBS   :   Additional libraries linked to the executables.  '-lahio'
+#                   is required if you have specified '-DSH_SETUP_AH' on
+#                   SH_CCOPTIONS (see above).
+# SH_MOTIFLIBS  :   extra libraries for OSF/Motif
+# SH_LINKOPTIONS:   Additional library paths
+# SH_RANLIB     :   ranlib-program for libraries.  Usually 'ranlib' on
+#                   Sun-Solaris-1 and 'touch' (which means: do nothing) on
+#                   Sun-Solaris-2.
+#
+# some example settings:
+#
+# (1) version for Solaris-1 with acc-compiler and AH interface at SZGRF
+# acc is not used any more at SZGRF for compiling SH, I switched to gcc (vrs 3).
+# acc does not compile properly the one K&R C-source tape_basics.c.
+#OS-sol1a setenv SH_COMPILER acc
+#OS-sol1a setenv SH_CCOPTIONS '-g -Xc -vc -DSH_SETUP_GRF -DSH_SETUP_AH'
+#OS-sol1a setenv SH_TEXTEDIT ##EDITOR##
+#OS-sol1a setenv SH_LINKLIBS '-lahio'
+#OS-sol1a setenv SH_MOTIFLIBS ''
+#OS-sol1a setenv SH_LINKOPTIONS '-Bstatic'
+#OS-sol1a setenv SH_RANLIB ranlib
+#
+# (2) version for Solaris-1 with gcc-compiler with AH interface and wchar_t
+# (tested at BGR Hannover)
+#OS-sol1b setenv SH_COMPILER gcc
+#OS-sol1b setenv SH_CCOPTIONS '-g -DSH_SETUP_AH -Dwchar_t=char'
+#OS-sol1b setenv SH_TEXTEDIT ##EDITOR##
+#OS-sol1b setenv SH_LINKLIBS '-lahio'
+#OS-sol1b setenv SH_MOTIFLIBS ''
+#OS-sol1b setenv SH_LINKOPTIONS
+#OS-sol1b setenv SH_RANLIB ranlib
+#
+# (3) version for Solaris-1 with gcc-compiler, with AH interface
+# (tested at SZGRF)
+#OS-sol1c setenv SH_COMPILER gcc
+#OS-sol1c setenv SH_CCOPTIONS '-g -DSH_SETUP_AH'
+#OS-sol1c setenv SH_TEXTEDIT ##EDITOR##
+#OS-sol1c setenv SH_LINKLIBS '-lahio'
+#OS-sol1c setenv SH_MOTIFLIBS ''
+#OS-sol1c setenv SH_LINKOPTIONS
+#OS-sol1c setenv SH_RANLIB ranlib
+#
+# (4) version for Solaris-2 with gcc compiler, with AH (tested at SZGRF)
+#OS-sol2 setenv SH_COMPILER gcc
+#OS-sol2 setenv SH_CCOPTIONS '-g -DSH_SETUP_AH -DSH_SETUP_SZGRF -I/usr/dt/include -I/usr/openwin/share/include'
+#OS-sol2 setenv SH_TEXTEDIT ##EDITOR##
+#OS-sol2 setenv SH_LINKLIBS '-lahio -lnsl'
+#OS-sol2 setenv SH_MOTIFLIBS ''
+#OS-sol2 setenv SH_LINKOPTIONS -L/usr/dt/lib
+#OS-sol2 setenv SH_RANLIB touch
+#
+# (5) version for Linux with gcc compiler (tested at SZGRF)
+#OS-linux setenv SH_COMPILER gcc
+#OS-linux setenv SH_CCOPTIONS '-g -DSH_SETUP_LINUX -DSH_SETUP_AH -I/usr/X11R6/include'
+#OS-linux setenv SH_TEXTEDIT ##EDITOR##
+#OS-linux setenv SH_LINKLIBS '-lahio'
+#setenv SH_MOTIFLIBS '-lXp -lSM -lICE -lXpm -static'  # static version
+#OS-linux setenv SH_MOTIFLIBS '-lICE -lSM -lXpm'               # dynamic version
+#OS-linux setenv SH_LINKOPTIONS '-L/usr/X11R6/lib'
+#OS-linux setenv SH_RANLIB ranlib
+#
+# (6) version for HP-UX (tested at Collm-Observatory, CLL)
+#OS-hpux setenv SH_COMPILER cc
+#OS-hpux setenv SH_CCOPTIONS '-g -Ae -DSH_SETUP_HPUX -I/usr/include/X11R5 -I/usr/include/Motif1.2'
+#OS-hpux setenv SH_TEXTEDIT vuepad
+#OS-hpux setenv SH_LINKLIBS ''
+#OS-hpux setenv SH_MOTIFLIBS ''
+#OS-hpux setenv SH_LINKOPTIONS '-L/usr/lib/X11R5 -L/usr/lib/Motif1.2'
+#OS-hpux setenv SH_RANLIB ranlib
+#
+# (7) version for IBM/AIX (tested at University of Goettingen)
+#setenv SH_COMPILER c89
+#setenv SH_CCOPTIONS '-g -Xc -vc -DSH_SETUP_AIX -D_POSIX_SOURCE'
+#setenv SH_TEXTEDIT not-yet-tested
+#setenv SH_LINKLIBS ''
+#setenv SH_MOTIFLIBS ''
+#setenv SH_LINKOPTIONS '-L/usr/local/X11/lib'
+#setenv SH_RANLIB ranlib
+
+
+
+# -----------------------------------------------------------------------------
+#  Do not edit beyond this point (at least try to)
+# -----------------------------------------------------------------------------
+
+
+
+# paths
+setenv SH_ROOT $shcroot
+setenv SH_USERROOT $userroot
+setenv SH_HELP $shcroot/help/
+setenv SH_COMMAND $shcroot/command/
+setenv SH_COMMAND2 $shcroot/command/bmp/
+setenv SH_FILTER $shcroot/filter/
+setenv SH_GLOBALS $shcroot/globals/
+setenv SH_ERRORS $shcroot/errors/
+setenv SH_INPUTS $shcroot/inputs/
+setenv SH_UTIL $shcroot/util/
+setenv SH_PDE $shcroot/inputs/pde/
+setenv SH_SOURCE $shcroot/source/
+setenv SH_EXTPROG $shcroot/util/
+setenv SH_LIB $shcroot/lib/
+if  (! -e $SH_USERROOT)  mkdir $SH_USERROOT
+if  (! -e $SH_USERROOT/shscratch)  then
+   echo 'creating directory $SH_USERROOT/shscratch'
+   mkdir $SH_USERROOT/shscratch 
+endif
+if  (! -e $SH_USERROOT/private)  then
+   echo 'creating directory $SH_USERROOT/private'
+   mkdir $SH_USERROOT/private
+endif
+setenv SH_SCRATCH $SH_USERROOT/shscratch/
+setenv SH_USERDIR $SH_USERROOT/private/
+alias SH $shcroot/shc_world
+alias SH_N $shcroot/shc
+#
+#
+# all following instructions are not needed for the command line version SH
+# -------------------------------------------------------------------------
+#
+# for SHM
+#
+alias SHM '(setenv UIDPATH $shcroot/source/motif/shm_world.uid; $shcroot/source/motif/shm_world)'
+alias SHM_N '(setenv UIDPATH $shcroot/source/motif/shm.uid; $shcroot/source/motif/shm)'
+#
+# for utility programs of SHM
+#
+setenv SH_LOCSAT ##LOCSATPATH##
+setenv SH_LOCSAT_EXEC $SH_UTIL/LocSAT
+#
+# for SEED software
+#
+setenv SEED_INPUTS $SH_SOURCE/seed_io/inputs
+setenv SEED_PROG $SH_SOURCE/seed_io
+alias sfdlist $SEED_PROG/sfdlist.csh
+alias sfdlist_l $SEED_PROG/sfdlist_l.csh
+alias sfd_extract_times $SEED_PROG/sfd_extract_times
+alias seed_tape $SEED_PROG/seed_tape
+alias seed_gaps $SEED_PROG/seedgaps

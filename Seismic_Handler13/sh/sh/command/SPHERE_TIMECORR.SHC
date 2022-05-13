@@ -1,0 +1,58 @@
+! file SPHERE_TIMECORR.SHC
+!      ===================
+!
+! version 1, 3-Feb-95
+!
+! applies time corrections to records according to spherical geometry of earth.
+! K. Stammler, 3-Feb-95
+
+default 1 6.0       correction velocity
+
+sdef mean_lat       ! average latitude
+sdef mean_lon       ! average longitude
+sdef cnt            ! trace counter
+sdef lat            ! station latitude
+sdef lon            ! station longitude
+sdef distance       ! distance from center
+sdef bazim          ! back azimuth
+sdef corr           ! correction value
+
+! compute center of array (just averaging latitude & longitude)
+calc r &mean_lat = 0.0
+calc r &mean_lon = 0.0
+calc i &cnt = 1
+mean_loop:
+   if  "cnt gti $dsptrcs  goto/forward mean_loop_exit:
+   call statloc ^station("cnt) &lat &lon
+   calc r &mean_lat = "mean_lat + "lat
+   calc r &mean_lon = "mean_lon + "lon
+   calc i &cnt = "cnt + 1
+goto mean_loop:
+mean_loop_exit:
+
+calc r &mean_lat = "mean_lat div $dsptrcs
+calc r &mean_lon = "mean_lon div $dsptrcs
+echo mean loc "mean_lat "mean_lon
+
+! compute time corrections
+nr
+calc i &cnt = 1
+corr_loop:
+   if  "cnt gti $dsptrcs  goto/forward corr_loop_exit:
+   call statloc ^station("cnt) &lat &lon
+   call locdiff "mean_lat "mean_lon "lat "lon &distance &bazim
+	echo station ^station("cnt) distance "distance
+   calc r &distance = "distance * $pi
+   calc r &distance = "distance div 180.0
+   calc r &corr = "distance * "distance
+   calc r &corr = "corr div 2.0
+   calc r &corr = "corr * 6371.0
+   calc r &corr = "corr div #1
+   echo trace "cnt corr "corr
+   shift "cnt "corr
+   calc i &cnt = "cnt + 1
+goto corr_loop:
+corr_loop_exit:
+rd
+
+return

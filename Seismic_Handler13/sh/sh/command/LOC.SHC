@@ -1,0 +1,183 @@
+
+! file loc.shc
+!      =======
+!
+! version 1, 24-May-92
+!
+! location interface
+! K. Stammler, 24-May-92
+
+sdef slowness 0.000  ! slowness in sec/deg
+sdef distance 0.00   ! distance in deg
+sdef depth    0.0    ! depth in km
+sdef azimuth  0.00   ! back-azimuth in deg
+
+sdef cmd             ! user command
+sdef tmp             ! scratch
+sdef tmp2
+sdef lat
+sdef lon
+sdef t1
+sdef t2
+sdef ponset
+
+switch capcnv off
+
+LOOP_START:
+
+   ECHO/NO_CRLF distance |[|"DISTANCE|]| $BLANK(3)
+   ECHO/NO_CRLF depth |[|"DEPTH|]| $BLANK(3)
+   ECHO/NO_CRLF azimuth |[|"AZIMUTH|]| $BLANK(3)
+   ECHO         slowness |[|"SLOWNESS|]|
+
+   ENTER &CMD sh-loc>
+
+   IF  "CMD EQS q  GOTO/FORWARD LOOP_EXIT:
+	IF  "CMD EQS slowness  GOTO/FORWARD CMD_SLOWNESS:
+	IF  "CMD EQS azimuth  GOTO/FORWARD CMD_AZIMUTH:
+	IF  "CMD EQS depth  GOTO/FORWARD CMD_DEPTH:
+	IF  "CMD EQS distance  GOTO/FORWARD CMD_DISTANCE:
+   IF  "CMD EQS source  GOTO/FORWARD CMD_SOURCE:
+   IF  "CMD EQS fitslow  GOTO/FORWARD CMD_FITSLOW:
+   IF  "CMD EQS fitdepth  GOTO/FORWARD CMD_FITDEPTH:
+   IF  "CMD EQS fittime  GOTO/FORWARD CMD_FITTIME:
+   IF  "CMD EQS azpol  GOTO/FORWARD CMD_AZPOL:
+   IF  "CMD EQS arrloc  GOTO/FORWARD CMD_ARRLOC:
+   IF  "CMD EQS save  GOTO/FORWARD CMD_SAVE:
+   IF  "CMD EQS restore  GOTO/FORWARD CMD_RESTORE:
+   IF  "CMD EQS check  GOTO/FORWARD CMD_CHECK:
+   CALC S &CMD = "CMD UPPER
+   EXEC "CMD
+
+GOTO LOOP_START:
+LOOP_EXIT:
+
+SWITCH CAPCNV ON
+return
+
+
+CMD_SLOWNESS:
+ECHO
+ENTER &TMP new slowness:
+CALC/FMT=<%5.3f> R &SLOWNESS = "TMP
+GOTO LOOP_START:
+
+CMD_AZIMUTH:
+ECHO
+ENTER &TMP new azimuth:
+CALC/FMT=<%5.2f> R &AZIMUTH = "TMP
+GOTO LOOP_START:
+
+CMD_DEPTH:
+ECHO
+ENTER &TMP new depth:
+CALC/FMT=<%3.1f> R &DEPTH = "TMP
+GOTO LOOP_START:
+
+CMD_DISTANCE:
+ECHO
+ENTER &TMP new distance:
+CALC/FMT=<%5.2f> R &DISTANCE = "TMP
+GOTO LOOP_START:
+
+CMD_SOURCE:
+ECHO
+CALL STATLOC ^STATION &LAT &LON
+CALL SPHEREADD "LAT "LON "DISTANCE "AZIMUTH &TMP &TMP2
+CALC/FMT=<%4.2f> R &LAT = "TMP
+CALC/FMT=<%4.2f> R &LON = "TMP2
+ECHO latitude: "LAT $BLANK(3) longitude: "LON
+CALL FER "LAT "LON &TMP
+ECHO source region: "TMP
+GOTO LOOP_START:
+
+CMD_FITSLOW:
+ENTER &TMP phase:
+FITSLOW "SLOWNESS "DEPTH "TMP
+CALC/FMT=<%5.2f> R &DISTANCE = "G1
+GOTO LOOP_START:
+
+CMD_FITDEPTH:
+ENTER &TMP phase1:
+ENTER &TMP2 phase2:
+ECHO select phase "TMP
+TIME ;;&T1
+IF  "TMP NES P  GOTO/FORWARD NO_P:
+   CALC R &PONSET = "T1
+NO_P:
+ECHO select phase "TMP2
+TIME ;;&T2
+CALC R &T1 = "T2 - "T1
+CALC/FMT=<%5.3f> R &T1 = "T1
+ECHO difference time: "T1
+FITDEPTH "DISTANCE "T1 "TMP "TMP2
+CALC/FMT=<%3.1f> R &DEPTH = "G1
+GOTO LOOP_START:
+
+CMD_FITTIME:
+ENTER &TMP phase1:
+ENTER &TMP2 phase2:
+ECHO select phase "TMP
+TIME ;;&T1
+IF  "TMP NES P  GOTO/FORWARD NO_P2:
+   CALC R &PONSET = "T1
+NO_P2:
+ECHO select phase "TMP2
+TIME ;;&T2
+CALC R &T1 = "T2 - "T1
+ENTER &LAT minimum distance:
+ENTER &LON maximum distance:
+CALC/FMT=<%5.3f> R &T1 = "T1
+ECHO difference time: "T1
+FITTIME "DEPTH "T1 "TMP "TMP2 "LAT "LON
+CALC/FMT=<%5.2f> R &DISTANCE = "G1
+GOTO LOOP_START:
+
+CMD_SAVE:
+ECHO_CH/NEW LOCSAVE
+ECHO "DISTANCE
+ECHO "DEPTH
+ECHO "AZIMUTH
+ECHO "SLOWNESS
+ECHO_CH
+GOTO LOOP_START:
+
+CMD_RESTORE:
+CALC S &DISTANCE = %LOCSAVE(1)
+CALC S &DEPTH = %LOCSAVE(2)
+CALC S &AZIMUTH = %LOCSAVE(3)
+CALC S &SLOWNESS = %LOCSAVE(4)
+GOTO LOOP_START:
+
+CMD_AZPOL:
+ECHO
+ENTER &TMP N,E traces:
+ECHO select time window
+MDIR "TMP * ;; &TMP
+IF  "TMP GER 0.0  GOTO/FORWARD AZ_OK:
+   CALC R &TMP = "TMP + 360.0
+AZ_OK:
+CALC/FMT=<%5.2f> R &AZIMUTH = "TMP
+GOTO LOOP_START:
+
+CMD_CHECK:
+RD
+IF  "PONSET NES ;;  GOTO/FORWARD P_OK:
+   ECHO select P-onset
+   TIME ;;&PONSET
+P_OK:
+CALC T &T1 = ^START TADD "PONSET
+CALL TRAVEL P "DISTANCE "DEPTH &T2
+CALC R &T2 = 0.0 - "T2
+CALC T &T1 = "T1 TADD "T2
+ECHO origin time: "T1
+MARKP_II 1 0.0 ;; "DISTANCE "DEPTH "T1
+GOTO LOOP_START:
+
+CMD_ARRLOC:
+ECHO
+ECHO select P-phases (exit with E)
+LOCATE;;&TMP &TMP2
+CALC/FMT=<%5.3f> R &SLOWNESS = "TMP2
+CALC/FMT=<%5.2f> R &AZIMUTH = "TMP
+GOTO LOOP_START:

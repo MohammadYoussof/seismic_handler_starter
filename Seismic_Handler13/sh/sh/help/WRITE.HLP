@@ -1,0 +1,42 @@
+command WRITE <q-file> <trc-list>
+=============
+
+key: write traces to q-file
+
+Writes traces to q-file.  Only the visible part of the traces
+(inside the current display time window) is saved.  All info entry
+values are stored in the q-file.  If the trace is read from q-file
+or is derived from another trace which is read from a q-file, all
+info values stored on file only are copied from the parent q-file to
+the new one.
+If the output q-file doesn't exist a new file is created, otherwise
+the traces are appended at the end of the file.
+
+
+parameters
+----------
+
+<q-file>  ---  parameter type: filename (without extension)
+   Name of q-file to be created or to append traces.
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be written.
+
+
+qualifiers
+----------
+
+/save_origin
+    Updates start time of each trace with respect to the relative
+    time position before writing trace
+
+
+examples
+--------
+
+   write myqfile all        ! writes all traces on display within
+                            ! visible time window to file "MYQFILE"
+
+   write myqfile 1-3,5-7    ! writes traces 1,2,3,5,6,7 on display
+                            ! within visible time window to file "MYQFILE"
+

@@ -1,0 +1,46 @@
+#! /bin/csh
+#
+# file shm_exec_hyposat
+#      ================
+#
+# version 1, 13-Feb-2003
+#
+# Calls HypoSAT from evt file
+# K. Stammler, 13-Feb-2003
+
+if  ("$1" == "")  then
+	echo "Usage: $0 <evtfile>"
+	exit
+endif
+
+# get parameters
+set evtfile=$1
+
+# set constants
+set hypin=hyposat-in
+set hyppar=hyposat-parameter
+set hyptempl=$SH_UTIL/hyposat-partempl.txt
+set hypstation=$SH_SCRATCH/stations.dat
+
+chdir $SH_SCRATCH
+
+if  (! -e $evtfile)  then	
+	echo "$0 : Input file $evtfile not found.  Abort."
+	exit
+endif
+
+if  (-e $hyppar)  \rm $hyppar
+sed "s%@@STATION@@%$hypstation%" $hyptempl >$hyppar
+
+# create station file
+if  (-e $hypstation)  \rm $hypstation
+touch $hypstation
+set slist=`grep 'Station code' $evtfile | awk '{print $4}' | sort -u`
+foreach s ($slist)
+	$SH_UTIL/statinf -hyposat $s >>$hypstation
+end
+
+$SH_UTIL/ev2hyposat $evtfile $hypin
+hyposat
+
+ls -lt | head

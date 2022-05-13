@@ -1,0 +1,47 @@
+! file INSERT_INFO_QLIST.SHC
+!      =====================
+!
+! version 1, 27-JUN-91
+!
+! inserts information value to q-files listed in a q-file list
+! The information is inserted into the first #4 traces of each file
+! K. Stammler, 27-JUN-91
+
+default 1 ;;         q-file list
+default 2 1          first line
+default 3 %#1(0)     last line
+default 4 3          number of traces per file
+default 5 ;;         info entry name
+default 6 ;;         value of info entry
+
+sdef cnt 1           ! counter
+sdef qfile           ! current q-file
+
+del all
+
+! create dummy traces
+dmytrc_loop_start:
+   if  "cnt gti #4  goto/forward dmytrc_loop_exit:
+   create spike 0.05 20 1. 1.
+   set/priv _created recno "cnt
+   calc i &cnt = "cnt + 1
+goto dmytrc_loop_start:
+dmytrc_loop_exit:
+
+! set required entries
+set/priv all fromq y
+set/priv all modif n
+
+! perform insertion
+calc i &cnt = #2
+file_loop_start:
+   if  "cnt gti #3  goto/forward file_loop_exit:
+   calc s &qfile = %#1("cnt) parse 1
+   set/priv all file "qfile
+   set/file all #5 #6
+   echo/no_lf |"cnt|)| inserted #6 to "qfile $blank(10)
+   calc i &cnt = "cnt + 1
+goto file_loop_start:
+file_loop_exit:
+
+return

@@ -1,0 +1,13 @@
+! sets slowness of all traces on display
+
+sdef slo
+sdef trccnt 1
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   call slowness p ^distance("trccnt) ^depth("trccnt) &slo
+   set "trccnt slowness "slo
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+return

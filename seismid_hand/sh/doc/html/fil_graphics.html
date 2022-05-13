@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>fil_graphics</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<FORM METHOD="GET" ACTION="/cgi-bin/send_fil_plot.csh">
+
+<H2>Graphic display of FFT filters used in SH/SHM</H2>
+
+<P><strong>This function currently does not work.
+Please use the script filtgraph.csh
+in the directory $SH_UTIL of your SH/SHM installation (needs GMT).
+</strong></P>
+
+<!--
+<P>This form allows the display of the amplitude spectrum of FFT-filters
+(extension .FLF) used in SH/SHM. Just use Copy+Paste to put in
+your filter file into the text area and select <em>Plot</em>.
+This program stores all filters
+entered and plots them together in one figure using different
+colors if you are selecting <em>Plot</em>
+each time. For this reason it is necessary to give unique names
+to the filters. To reset to a single filter figure
+use <em>Plot Only This</em>.</P>
+
+<P>unique name of filter (required): <INPUT NAME="filname" TYPE="text"
+SIZE="25"></P>
+
+<P>filter file (required): <TEXTAREA NAME="filtertext" ROWS="13"
+COLS="56"
+></TEXTAREA></P>
+
+<DL>
+  <DT>To change scaling in the display use the following optional
+  parameters:
+  <DT>lower frequency bound in Hz: <INPUT NAME="lofrq" TYPE="text"
+  SIZE="10"> upper frequency bound in Hz: <INPUT NAME="hifrq" 
+  TYPE="text" SIZE="10">
+  <DT>lower amplitude bound: <INPUT NAME="loamp" TYPE="text" SIZE="10">
+  upper amplitude bound: <INPUT NAME="hiamp" TYPE="text" SIZE="10">
+  <DT>title of figure: <INPUT NAME="title" TYPE="text" SIZE="40">
+</DL>
+
+<P>To plot this and all previous filters: <INPUT NAME="plot" 
+TYPE="submit" VALUE="Plot"></P>
+
+<P>To remove all previously entered filters and plot only this
+new one:<INPUT NAME="plot" TYPE="submit" VALUE="Plot Only This"></FORM>
+
+-->
+
+</BODY>
+</HTML>

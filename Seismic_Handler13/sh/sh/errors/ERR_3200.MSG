@@ -1,0 +1,17 @@
+! file ERR_3200.MSG
+!      ============
+!
+! version 1, 24-May-92
+!
+! error messages of module XWCH.C
+! K. Stammler, 24-May-92
+!
+*** XW-01 error opening display ***
+*** XW-02 attempt to open window twice ***
+*** XW-03 illegal style number ***
+*** XW-04 unknown style attribute ***
+*** XW-05 illegal window number ***
+*** XW-06 error allocating colour ***
+*** XW-07 illegal colour specification ***
+*** XW-08 illegal style value ***
+*** XW-09 unknown command ID ***

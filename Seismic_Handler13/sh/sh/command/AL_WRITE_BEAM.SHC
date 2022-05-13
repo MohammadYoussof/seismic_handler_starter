@@ -1,0 +1,51 @@
+! file AL_WRITE_BEAM.SHC
+!      =================
+!
+! version 1, 28-Mar-2001
+!
+! Writes beam trace to file
+! K. Stammler, 28-Mar-2001
+
+default 1 ;;     slowness
+default 2 ;;     b-azimuth
+default 3 ;;     outfile
+default 4 ;;     reference station
+
+sdef refshift      ! shift time of first trace relative to reference trace
+sdef status        ! return status
+sdef newtime       ! new start time for beam trace
+
+set all t-origin 0.0
+shift all time_al
+
+beam/ref=#4 all #2 #1
+
+! get reference time for beam trace
+switch cmderrstop off
+switch noerrmsg on
+calc s &refshift = ^opinfo parse 3
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status eqi 0  goto/forward refshift_ok:
+	calc r &refshift = 0.0
+refshift_ok:
+
+sum all
+
+! set correct time on beam trace
+calc t &newtime = ^start($dsptrcs) tadd "refshift
+set $dsptrcs start "newtime
+
+! zero trace if no slowness (=0.0) specified
+if  #1 gtr 0.0  goto/forward slowok:
+   trcfct $dsptrcs mul 0.0
+slowok:
+
+#enter &g1 after computing beam
+
+write #3 $dsptrcs
+del $dsptrcs
+beam/neg/ref=#4 all #2 #1
+
+return

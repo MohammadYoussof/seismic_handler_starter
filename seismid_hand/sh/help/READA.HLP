@@ -1,0 +1,46 @@
+command READA <ascii-file> [<dt> <length>]
+=============
+
+key: read ASCII trace
+
+Reads ASCII trace from file <ascii-file>.  The file may contain
+the sample values in any floating format.  The file may be started
+with info entry keywords followed by the info values, e.g. the
+file may contain a line "DELTA 0.05" or "START 1-JAN-90_5:30:20.3".
+The info values are assigned to the specified info entries.
+If no DELTA and/or no LENGTH info is given these values are
+prompted.
+
+
+parameters
+
+<ascii-file>  ---  parameter type: filename
+   Name of the file to be read in.
+
+<dt>  ---  parameter type: real
+   Sample distance in sec.  This parameter is used only if no DELTA
+   information is given in the file.
+
+<length>  ---  parameter type: integer
+   Length of data array in samples.  This parameter is used only if
+   no LENGTH info is given in the file.
+
+
+qualifiers
+
+/SKIP=<n>
+   skips <n> lines of the file <ascii-file> before starting to read
+
+
+Examples:
+
+   READA MYFILE.ASC        ! reads data from file MYFILE.ASC.  If
+                           ! no informations about sample distance
+                           ! and array length are available these
+                           ! values are prompted.
+
+   READA/SKIP=200 MYFILE.ASC 0.05 1000
+                           ! skips 200 lines from file MYFILE.ASC
+                           ! and then reads 1000 samples of a sample
+                           ! distance 0.05 sec.
+

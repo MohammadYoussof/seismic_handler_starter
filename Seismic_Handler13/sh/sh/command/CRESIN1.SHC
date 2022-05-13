@@ -1,0 +1,30 @@
+! file CRESIN1.SHC
+!      ==========
+!
+! version 1, 26-Dec-91
+!
+! creates centered sine with given frequency 1/#1
+! K. Stammler, 26-Dec-91
+
+default 1 1.0    period (s)
+
+sdef frq         ! frequency
+sdef period2     ! half of period
+sdef sinnum      ! number of sine trace
+
+calc r &frq = 1.0 div #1
+calc r &period2 = #1 div -2.0
+
+nr
+create sin .1 #1 0.5 "frq -90.
+calc i &sinnum = $dsptrcs
+trcfct "sinnum add 0.5
+create spike .1 5. 0. 0.
+append $dsptrcs "sinnum
+append "sinnum $dsptrcs
+del "sinnum
+shift "sinnum "period2
+shift "sinnum -5.
+rd
+
+return

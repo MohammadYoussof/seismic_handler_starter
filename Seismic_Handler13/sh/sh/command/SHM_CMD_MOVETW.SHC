@@ -1,0 +1,22 @@
+! file SHM_CMD_MOVETW.SHC
+!      ==================
+!
+! version 1, 19-Apr-94
+!
+! moves time window by 50%
+! K. Stammler, 19-Apr-94
+
+default 1 1.0  factor     ! positive
+
+sdef width      ! width of display
+sdef new_x      ! new start of x window
+sdef new_xmax   ! new end of x window
+
+calc r &width = $dsp_xmax - $dsp_x
+calc r &width = "width div 2.0
+calc r &width = "width * #1
+calc r &new_x = $dsp_x + "width
+calc r &new_xmax = $dsp_xmax + "width
+stw "new_x "new_xmax
+
+return

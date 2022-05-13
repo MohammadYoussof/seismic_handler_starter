@@ -1,0 +1,22 @@
+! file shm_alert_box.uil
+!      =================
+!
+! version 2, 17-Jun-2006
+!
+! alert box
+! K. Stammler, 15-Jul-94
+
+
+
+object alert_box: XmWarningDialog {
+    arguments {
+        XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+        XmNdialogTitle = 'alert box';
+    };
+    callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_alert_box );
+!        XmNcancelCallback = procedure WarnCancelCB();
+    };
+};
+

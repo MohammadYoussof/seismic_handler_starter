@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Beam</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu Entry <em>Beam</em></H2>
+
+<P>This command takes the values of slowness and back-azimuth
+from the <A HREF="parambox.html">analysis parameter box</A> and
+computes delay times for each trace on display so that signals
+of a plane wavefront of this orientation (given by slowness and
+azimuth) are aligned in time. The delays are applied to the traces
+and a sum trace is added to the display. The result of this operation
+is good, that means the scatter in time of the aligned phase is
+small between the traces and the sum traces shows an enhanced
+signal to noise ratio, if the following conditions are met:</P>
+
+<UL>
+  <LI>The slowness and azimuth values are properly determined.
+  <LI>The assumption of a plane wave is applicable
+  <LI>The dominant frequencies of the signal still allow coherency
+</UL>
+
+<P>This command is organized as a toggle function. Selecting once
+performs delay and sum of the traces, selecting a second time
+restores the original positions of the traces and deletes the
+beam trace. With this operation the results of slowness determination
+(by <A HREF="menu_plane_wave.html">Plane Wave</A> or by
+<A HREF="menu_fk.html">FK</A>)
+may be checked or an amplitude/magnitude measurement on the beam
+trace may be performed.</P>
+
+<P>This command needs the location of your recording stations
+in the station information file (see <A HREF="statloc.html">How
+to put station information into SH/SHM</A>). Required entries
+are <em>lat</em> and <em>lon</em>, recommended is
+<em>xrel</em>, <em>yrel</em> and <em>array</em>.
+If the relative locations are not found in the file, SHM computes
+it from the latitude and longitude. The algorithm used is very
+simple might not be accurate enough.</P>
+
+<P><small>This page last modified 6-Jul-2000</small></P>
+
+</BODY>
+</HTML>

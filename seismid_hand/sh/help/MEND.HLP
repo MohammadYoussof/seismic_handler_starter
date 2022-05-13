@@ -1,0 +1,38 @@
+command MEND <trc> <order> <lo-bound> <hi-bound>
+============
+
+key: mends a trace
+
+Replaces samples on trace <trc> between <lo-bound> and <hi-bound>
+by polynamial (or rational) interpolation of order <order>.
+
+
+parameters
+
+<trc>  ---  parameter type: trace
+   Trace to be mended.
+
+<order>  ---  parameter type: integer
+   Order of interpolation.  Shouldn't exceed 6-9.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Inside this time window the samples are relaced by
+	polynomial interpolation.  It is recommended not to try
+   to interpolate more than 10 samples.
+
+
+qualifier
+
+/RATIONAL
+   Rational instead of polynomial interpolation is used.
+
+
+Examples:
+
+   MEND 1 6 10.1 10.25    ! mends trace 1 between 10.1 and 10.25 sec
+                          ! by interpolation of order 6
+
+   MEND 1 6 *             ! mends trace 1 inside a window to be
+                          ! selected by graphic cursor.  The
+                          ! order of interpolation is 6.
+

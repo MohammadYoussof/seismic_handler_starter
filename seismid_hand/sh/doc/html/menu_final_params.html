@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Final Parameters</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060312;16220000">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Menu entry <EM>Final Parameters</EM></H2>
+<P>Saves all picks and analysis parameters to a text file (evt-file)
+and to a binary status file in <I>$SH_SCRATCH</I>. The evt text file
+is the final output of SHM. The evt-output directory is configurable
+as parameter number 12 in the <A HREF="menu_configure.html">Configure</A>
+menu. Please note the trailing slash (/) in this pathname. When
+activating <I>Final Parameters</I> a unique event number is
+automatically created. The database of event numbers is maintained in
+the <I>evid</I> directory (parameter 11 in Configure, note the
+trailing slash '/' here also.). The filename is created automatically
+by SHM. It is based on the event number. Please make sure that the
+output path for the parameter files (evt-files) and for the <I>evid</I>
+directory exist and are writable otherwise saving of parameters will
+fail. The <A HREF="evt_file_format.html">format of the evt-files</A>
+is pretty good self-explaining and flexible for future extensions.</P>
+<P>The evt-file and the binary status file can be read back in to
+recover the picks and analysis parameters (<A HREF="menu_recover_status.html">Recover
+Status</A> and Recover Evt-File, respectively).</P>
+<P><small>This page last modified 9-Mar-2006</small></P>
+</BODY>
+</HTML>

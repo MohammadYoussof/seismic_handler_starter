@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>menu_marshal_basham</TITLE>
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060311;20430100">
+</HEAD>
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Format of the output parameter files (evt-Files)</H2>
+<P>The evt-file contains all available phase picks and analysis
+parameters of th SHM program. It is a plain text file and is pretty
+good self-explaining. It has one information per line with the
+general format</P>
+<P><I>&lt;descriptive text&gt;: &lt;value&gt;</I></P>
+<P>The available parameters are:</P>
+<P><B>Station code</B>: name of the station where a phase pick was
+made. Taken from trace when phase pick is done. Possible values: text
+string of maximum length 10.</P>
+<P><B>Onset time</B>: time of phase pick. Taken from trace where
+phase pick is done. Possible values: absolute time in <A HREF="timeformat.html">SH
+time format</A></P>
+<P><B>Onset type</B>: type of phase onset. Taken from phase dialog
+box. Possible values: keywords '<I>emergent</I>', '<I>impulsive</I>'.</P>
+<P><B>Phase name</B>: name of picked phase. Taken from phase dialog
+box. Possible values: text string of maximum length 20.</P>
+<P><B>Sign</B>: sign of first onset of specified phase. Taken from
+phase dialog box. Possible values: keywords '<I>positive</I>',
+'<I>negative</I>'.</P>
+<P><B>Component</B>: component where phase was picked. Taken from
+trace where phase pick is done. Possible values: single character.</P>
+<P><B>Period (sec)</B>: dominant period of phase in s. Measured via
+amplitude/period menu entries (e.g. <A HREF="menu_ampl_per_p.html">Ampl
+&amp; Period auto Peak</A>). Possible values: floating point number.</P>
+<P><B>Amplitude (nm)</B>: estimated displacement amplitude of
+measured signal in nm. The determined signal amplitude is divided by
+the amplitude transfer function of the recording equipment at the
+signal period. Measured via amplitude/period menu entries. Possible
+values: floating point number.</P>
+<P><B>Amplitude Time (sec)</B>: time (s) relative to phase pick where
+amplitude was measured. Determined via amplitude/period menu entries.
+Possible values: floating point number.</P>
+<P><B>Vel. Amplitude (nm/sec)</B>: estimated velocity amplitude of
+measured signal in nm/s. The determined signal amplitude is divided
+by the amplitude transfer function of the recording equipment at the
+signal period. Measured via amplitude/period menu entries. Possible
+values: floating point number.</P>
+<P><B>LP component</B>: not used. Possible values: single character.</P>
+<P><B>LP period (sec)</B>: not used. Possible values: floating point
+number.</P>
+<P><B>LP amplitude</B>: not used. Possible values: floating point
+number.</P>
+<P><B>BB amplitude (nm/sec)</B>: broadband amplitude in nm/s measured
+on unfiltered broadband records. Measured via amplitude/period menu
+entries. Possible values: floating point number.</P>
+<P><B>BB period (sec)</B>: signal period in s. Measured via
+amplitude/period menu entries on unfiltered broadband records.
+Possible values: floating point number.</P>
+<P><B>Beam-Slowness (sec/deg)</B>: slowness of phase in s/deg
+(modulus of horizontal slowness vector) measured using array
+algorithms (<A HREF="menu_plane_wave.html">Plane Wave</A>, <A HREF="menu_fk.html">FK</A>).
+Possible values: floating point number.</P>
+<P><B>Beam-Azimuth (deg)</B>: azimuth of phase in deg (complementary
+to Beam-Slowness) measured using array algorithms. Possible values:
+floating point number.</P>
+<P><B>Epi-Slowness (sec/deg)</B>: corrected slowness in s/deg
+(modulus of horizontal slowness vector) of phase computed via
+<A HREF="menu_calibration.html">Calibration</A> menu entry. Used on P
+phases for location purposes. Possible values: floating point number.</P>
+<P><B>Epi-Azimuth (deg)</B>: corrected azimuth of phase in deg
+(complementary to Epi-Slowness). Possible values: floating point
+number.</P>
+<P><B>Distance (deg)</B>: epicentral distance in deg. Computed in
+location programs. Possible values: floating point number.</P>
+<P><B>Distance (km)</B>: epicentral distance in km. Computed in
+location programs. Possible values: floating point number.</P>
+<P><B>Quality number</B>: phase quality number between 1 (=bad) and 9
+(=good). Taken from phase dialog box. Possible values: integer
+numbers 1 to 9.</P>
+<P><B>Magnitude ms</B>: magnitude ms computed via magnitude menu
+entries. Possible values: floating point number.</P>
+<P><B>Magnitude mb</B>: magnitude mb computed via magnitude menu
+entries. Possible values: floating point number.</P>
+<P><B>Magnitude ml</B>: magnitude ml computed via magnitude menu
+entries. Possible values: floating point number.</P>
+<P><B>Magnitude mw</B>: magnitude mw. Possible values floating point
+number.</P>
+<P><B>Broadband Magnitude</B>: broadband magnitude computed via
+magnitude menu entries. Possible value: floating point number.</P>
+<P><B>User Magnitude</B>: user defined magnitude value. Not used by
+SHM. Possible values: floating point number.</P>
+<P><B>User Magn. Description</B>: Description text to above user
+magnitude. Possible values: text string of maximum length 40.</P>
+<P><B>Source Region</B>: name of epicentral region. Usually computed
+in location programs. Possible values: text string of maximum length
+80.</P>
+<P><B>Comment</B>: arbitrary text to comment an event. Possible
+values: text string of arbitrary length.</P>
+<P><B>Latitude</B>: epicentre latitude in deg. Computed in location
+programs. Possible values: floating point number.</P>
+<P><B>Longitude</B>: epicentre longitude in deg. Computed in location
+programs. Possible values: floating point number.</P>
+<P><B>Location method</B>: which algorithm used to get location. Set
+by location program. Possible values: keywords '<I>array beam
+(calibrated)</I>', '<I>array beam (uncorrected)</I>', '<I>array beam
+(resid. corr.)</I>', '<I>hypoellipse</I>', '<I>locsat</I>',
+'<I>hypocenter</I>', '<I>hypo71</I>', '<I>hyposat</I>', '<I>relative
+travel times</I>', '<I>external</I>'.</P>
+<P><B>Location quality</B>: describes quality of location. Taken from
+parameter box. Possible values: keywords '<I>too weak</I>',
+'<I>incoherent</I>', '<I>no bearing</I>', '<I>region</I>',
+'<I>reliable</I>'.</P>
+<P><B>Velocity model</B>: velocity model used for location of
+epicentre. Possible values: text string of maximum length 40.</P>
+<P><B>Location Input Params</B>: additional input parameters for
+external location programs. Possible values: text string of maximum
+length 80.</P>
+<P><B>Applied filter</B>: filter applied to trace when phase pick was
+done. Possible values: text string of maximum length 80.</P>
+<P><B>Depth (km)</B>: source depth in km. Computed in location
+programs or set by user. Possible values: floating point number.</P>
+<P><B>Depth type</B>: type of depth given. Possible values: keywords
+'<I>(n) preset</I>', '<I>(g) estimated</I>', '<I>( ) free</I>', '<I>(?)
+poorly constrained</I>', '<I>(*) less well constrained</I>', '<I>(d)
+reliable</I>'.</P>
+<P><B>Origin time</B>: origin time of event. Computed by location
+programs. Possible values: absolute in <A HREF="timeformat.html">SH
+time format</A>.</P>
+<P><B>Event ID</B>: unique event ID assigned automatically by SHM in
+menu entry <A HREF="menu_final_params.html">Final Parameters</A>.
+Possible values: integer number.</P>
+<P><B>Weight</B>: phase weight derived from phase quality number.
+Meanwhile obsolete. Possible values: integer numbers 1 to 4.</P>
+<P><B>Onset Accuracy</B>: not used. Possible values: keywords
+'<I>seconds</I>', '<I>milliseconds</I>'.</P>
+<P><B>Reference Latitude</B>: latitude in deg of reference point
+(used in array location method). Possible values: floating point
+number.</P>
+<P><B>Reference Longitude</B>: longitude in deg of reference point
+(used in array location method). Possible values: floating point
+number.</P>
+<P><B>Reference Location Name</B>: name of reference location
+(reference station name). Possible values: text string of maximum
+length 10.</P>
+<P><B>Analyst</B>: initials of analyst. Prompted at startup of SHM if
+requested. Possible values: text string of maximum length 10.</P>
+<P><B>No. of Stations used</B>: number of stations used in location.
+Set in location programs. Possible values: integer number.</P>
+<P><B>Region Table</B>: name of region table used. Possible values:
+keywords '<I>Flinn-Engdahl</I>', '<I>GEO_REG</I>', '<I>SEIS_REG</I>'.</P>
+<P><B>Region ID</B>: ID number of source region. Computed in location
+programs. Possible values: integer number.</P>
+<P><B>Event Type</B>: type of event analysed. Taken from phase dialog
+box. Possible values: keywords '<I>teleseismic quake</I>', '<I>nuclear
+explosion</I>', '<I>regional quake</I>', '<I>local quake</I>',
+'<I>quarry blast</I>', '<I>mining event</I>'.</P>
+<P><B>Source of Information</B>: agency reporting the event, taken
+from menu entry <A HREF="menu_info_source.html">Info Source</A>.
+Possible values: text string of maximum length 10.</P>
+<P><B>Ampl&amp;Period Source</B>: where the amplitude measurement was
+done. Possible values: keywords '<I>direct</I>', '<I>beam trace</I>',
+'<I>align trace</I>'.</P>
+<P><B>Onset Window Left</B>: time resolution of onset pick. SHM
+allows the specification of onset time errors. This specifies the
+left inaccuracy time window in s relative to pick. Possible values:
+floating point number.</P>
+<P><B>Onset Window Right</B>: time resolution of onset pick. SHM
+allows the specification of onset time errors. This specifies the
+right inaccuracy time window in s relative to pick. Possible values:
+floating point number.</P>
+<P><B>Error in Latitude (km)</B>: location error in km in latitude
+direction. Computed by the location program. Possible values floating
+point number.</P>
+<P><B>Error in Longitude (km)</B>: location error in km in longitude
+direction. Computed by the location program. Possible values floating
+point number.</P>
+<P><B>Error in Depth (km)</B>: depth error in km. Computed by the
+location program. Possible values: floating point number.</P>
+<P><B>Error in Origin Time</B>: origin time error ins. Computed by
+location program. Possible values: floating point number.</P>
+<P><B>Error Ellipse Major</B>: error ellipsis major axis in km.
+Computed by the location program. Possible values: floating point
+number.</P>
+<P><B>Error Ellipse Minor</B>: error ellipsis minor axis in km.
+Computed by the location program. Possible values: floating point
+number.</P>
+<P><B>Error Ellipse Strike</B>: strike angle of error ellipsis in
+deg. Computed by location program. Possible values: floating point
+number.</P>
+<P><B>Max Azimuthal Gap (deg)</B>: maximum azimuthal gap in observing
+stations. Possible values: floating point number.</P>
+<P><B>RMS of Residuals (sec)</B>: root mean square of time residuals
+quantifying the location fit. Possible values: floating point number.</P>
+<P><B>Phase Flags</B>: flags set on phase. Possible values: text
+string of maximum length 6.</P>
+<P><B>Signal/Noise</B>: signal to noise ratio, determined with S/N
+menu entries. Possible values: floating point number.</P>
+<P><B>Residual Time</B>: residual time of phase in s. Computed by
+location programs. Possible values: floating point number.</P>
+<P><B>Residual Correction</B>: empirical corrections to residual
+times (experimental). Possible values: floating point number.</P>
+<P><B>Pick Type</B>: type of phase pick. Possible values: keywords
+'<I>manual</I>', '<I>automatic</I>', '<I>theoretical</I>'.</P>
+<P><B>Corner Frequency</B>: not used. Possible values: floating point
+number.</P>
+<P><B>Low Frequency Level</B>: not used. Possible values: floating
+point number.</P>
+<P><B>Moment Tensor Elements</B>: not used. Possible values: text
+string of maximum length 80.</P>
+<P><B>Moment Tensor Descr</B>.: Possible values: text string of
+maximum length 80.</P>
+<P><B>Scalar Moment</B>: not used. Possible values: floating point
+number.</P>
+<P><B>Fault Plane Solution</B>: not used. Possible values: text
+string of maximum length 80.</P>
+<P><B>FPS Description</B>: not used. Possible values: text string of
+maximum length 80.</P>
+<P><BR><BR>
+</P>
+<P><small>This page last modified 11-Mar-2006</small></P>
+</BODY>
+</HTML>

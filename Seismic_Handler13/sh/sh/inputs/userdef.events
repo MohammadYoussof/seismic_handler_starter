@@ -1,0 +1,12 @@
+! file userdef.events
+!      ==============
+!
+! version 1, 9-Sep-94
+!
+! contains events to be executed
+! K. Stammler, 9-Sep-94
+
+! read_grsn             ! open dialog box
+read_grsn_nexttime    ! get next time in detection list
+read_grsn_mindn       ! subtract 1 minute from time
+read_grsn_read     ! perform read new

@@ -1,0 +1,13 @@
+! file ERR_2600.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module STATLOC.C
+! K. Stammler, 8-JUL-91
+!
+*** GL-01 station not found ***
+*** GL-02 error opening location file as input ***
+*** GL-03 station is already in location file ***
+*** GL-04 error opening location file as output ***
+*** GL-05 string overflow ***

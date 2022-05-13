@@ -1,0 +1,281 @@
+
+! file mapmatrix.uil
+!      =============
+!
+! version 2, 1-Sep-94
+!
+! widget structure of module mapmatrix.c
+! K. Stammler, 22-Jun-94
+
+
+module mapmatrix
+    version = 'v1.0'
+    names = case_sensitive
+
+procedure
+	call_create_widget( integer );
+	call_activate( integer );
+	call_expose( integer );
+
+value
+
+! texts
+	k_menutitle_file_text    : 'File';
+	k_entry_quit_text        : 'Quit';
+	k_entry_plot_text        : 'Plot';
+	k_entry_plot_log_text    : 'Plot Log';
+	k_entry_plot_p2_text     : 'Pow ++';
+	k_entry_plot_p4_text     : 'Pow --';
+	k_entry_radial_grid_text : 'Rad Grid';
+	k_entry_colors_green_red_text   : 'G-R';
+	k_entry_colors_blue_red_text    : 'B-R';
+	k_entry_colors_black_white_text : 'B-W';
+	k_entry_colors_blue_yellow_text : 'B-Y';
+
+! widget numbers
+	w_draw                   : 2;
+	w_menu_main              : 5;
+	w_entry_quit             : 51;
+	w_entry_plot             : 52;
+	w_entry_plot_log         : 53;
+	w_entry_plot_p2          : 54;
+	w_entry_plot_p4          : 55;
+	w_entry_radial_grid      : 56;
+	w_entry_colors_green_red   : 57;
+	w_entry_colors_blue_red    : 58;
+	w_entry_colors_black_white : 59;
+	w_entry_colors_blue_yellow : 60;
+
+! accelerators
+	k_acc_quit               : "<Key>q";
+	k_acct_quit              : "q";
+	k_acc_plot               : "<Key>p";
+	k_acct_plot              : "p";
+	k_acc_plot_log           : "<Key>l";
+	k_acct_plot_log          : "l";
+	k_acc_plot_p2            : "<Key>u";
+	k_acct_plot_p2           : "u";
+	k_acc_plot_p4            : "<Key>d";
+	k_acct_plot_p4           : "d";
+	k_acc_radial_grid        : "<Key>r";
+	k_acct_radial_grid       : "r";
+	k_acc_colors_green_red   : "<Key>1";
+	k_acct_colors_green_red  : "1";
+	k_acc_colors_blue_red    : "<Key>2";
+	k_acct_colors_blue_red   : "2";
+	k_acc_colors_black_white : "<Key>3";
+	k_acct_colors_black_white: "3";
+	k_acc_colors_blue_yellow : "<Key>4";
+	k_acct_colors_blue_yellow: "4";
+
+! fonts
+   k_menu_font         :
+      font('-ADOBE-Courier-Bold-R-Normal--14-140-75-75-M-90-ISO8859-1');
+
+object
+	main_window: XmMainWindow {
+		arguments {
+!			XmNx = 100;
+!			XmNy = 100;
+			XmNwidth = 910;
+			XmNheight = 642;
+		};
+		controls {
+			XmMenuBar        menu_main;
+			XmDrawingArea    drawing_area;
+		};
+	};
+
+object
+	drawing_area: XmDrawingArea {
+		arguments {
+			XmNx = 0;
+			XmNy = 32;
+			XmNwidth = 910;
+			XmNheight = 610;
+			XmNbackground = color( 'white', background );
+			XmNforeground = color( 'black', foreground );
+		};
+		callbacks {
+			MrmNcreateCallback = procedure call_create_widget(w_draw);
+			XmNexposeCallback = procedure call_expose(w_draw);
+      };
+   };
+
+object
+	menu_main: XmMenuBar {
+		arguments {
+			XmNorientation = XmHORIZONTAL;
+			XmNspacing     = 15;  /* Pixels between items in menu */
+		};
+		controls {
+			XmCascadeButton menutitle_file;
+		};
+		callbacks {
+			MrmNcreateCallback =
+				procedure call_create_widget(w_menu_main);
+		};
+	};
+
+object
+	menutitle_file: XmCascadeButton {
+		arguments {
+			XmNlabelString = k_menutitle_file_text;
+			XmNfontList = k_menu_font;
+		};
+		controls {
+			XmPulldownMenu menu_file;
+		};
+	};
+
+object
+	menu_file: XmPulldownMenu {
+		controls {
+			XmPushButton entry_plot;
+			XmPushButton entry_plot_log;
+			XmPushButton entry_plot_p2;
+			XmPushButton entry_plot_p4;
+			XmPushButton entry_radial_grid;
+			XmPushButton entry_colors_green_red;
+			XmPushButton entry_colors_blue_red;
+			XmPushButton entry_colors_black_white;
+			XmPushButton entry_colors_blue_yellow;
+			XmPushButton entry_quit;
+		};
+	};
+
+object
+	entry_quit: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_quit_text;
+			XmNaccelerator = k_acc_quit;
+			XmNacceleratorText = k_acct_quit;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_quit);
+		};
+	};
+
+object
+	entry_plot: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_plot_text;
+			XmNaccelerator = k_acc_plot;
+			XmNacceleratorText = k_acct_plot;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_plot);
+		};
+	};
+
+object
+	entry_plot_log: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_plot_log_text;
+			XmNaccelerator = k_acc_plot_log;
+			XmNacceleratorText = k_acct_plot_log;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_plot_log);
+		};
+	};
+
+object
+	entry_plot_p2: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_plot_p2_text;
+			XmNaccelerator = k_acc_plot_p2;
+			XmNacceleratorText = k_acct_plot_p2;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_plot_p2);
+		};
+	};
+
+object
+	entry_plot_p4: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_plot_p4_text;
+			XmNaccelerator = k_acc_plot_p4;
+			XmNacceleratorText = k_acct_plot_p4;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_plot_p4);
+		};
+	};
+
+object
+	entry_radial_grid: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_radial_grid_text;
+			XmNaccelerator = k_acc_radial_grid;
+			XmNacceleratorText = k_acct_radial_grid;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_radial_grid);
+		};
+	};
+
+object
+	entry_colors_green_red: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_colors_green_red_text;
+			XmNaccelerator = k_acc_colors_green_red;
+			XmNacceleratorText = k_acct_colors_green_red;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback =
+				procedure call_activate(w_entry_colors_green_red);
+		};
+	};
+
+object
+	entry_colors_blue_red: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_colors_blue_red_text;
+			XmNaccelerator = k_acc_colors_blue_red;
+			XmNacceleratorText = k_acct_colors_blue_red;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback =
+				procedure call_activate(w_entry_colors_blue_red);
+		};
+	};
+
+object
+	entry_colors_black_white: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_colors_black_white_text;
+			XmNaccelerator = k_acc_colors_black_white;
+			XmNacceleratorText = k_acct_colors_black_white;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback =
+				procedure call_activate(w_entry_colors_black_white);
+		};
+	};
+
+object
+	entry_colors_blue_yellow: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_colors_blue_yellow_text;
+			XmNaccelerator = k_acc_colors_blue_yellow;
+			XmNacceleratorText = k_acct_colors_blue_yellow;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback =
+				procedure call_activate(w_entry_colors_blue_yellow);
+		};
+	};
+
+end module;

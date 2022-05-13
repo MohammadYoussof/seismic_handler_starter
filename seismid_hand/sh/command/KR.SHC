@@ -1,0 +1,10 @@
+sdef trcno
+nr
+del all
+readk;;
+calc i &trcno = $dsptrcs
+remav all
+filter r all
+del |1-|"trcno|
+rd
+return

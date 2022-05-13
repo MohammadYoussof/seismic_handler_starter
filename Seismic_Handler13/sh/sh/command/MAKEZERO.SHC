@@ -1,0 +1,54 @@
+! file MAKEZERO.SHC
+!      ============
+!
+! version 1, 28-Nov-97
+!
+! Zeroes part of a trace.
+! K. Stammler, 28-Nov-97
+
+default 1 1       trace number
+default 2 0.0     window start
+default 3 10.0    window end
+default 4 1.0     taper halfwidth
+
+sdef zerowidth    ! width of zero area
+sdef kuepplth     ! length of kuepper signal
+sdef kueppwidth   ! width of kuepper signal
+sdef kuepppos     ! position of kuepper signal
+sdef trcno        ! trace number
+sdef otrcno       ! other trace number
+sdef eot          ! end of trace
+
+calc r &zerowidth = #3 - #2
+calc r &kuepplth = ^length(#1) * ^delta(#1)
+calc r &kuepplth = "kuepplth - "zerowidth
+calc r &kueppwidth = #4 * 2.0
+calc r &kuepppos = #2 - #4
+
+nr
+
+create spike ^delta(#1) "zerowidth 0.0 0
+calc i &otrcno = $dsptrcs
+trcfct "otrcno add 1.0
+create kuepper ^delta(#1) "kuepplth 1 "kuepppos "kueppwidth 1
+calc i &trcno = $dsptrcs
+set "trcno t-origin ^t-origin(#1)
+copy "trcno
+cut "trcno ^t-origin(#1) #2
+append "otrcno "trcno
+del "otrcno   ! makes "trcno pointing to last trace
+calc r &eot = "kuepplth + ^t-origin(#1)
+cut "trcno #2 "eot
+calc i &otrcno = "trcno - 1
+append "trcno "otrcno
+del "trcno
+trcfct "otrcno mul -1
+trcfct "otrcno add 1
+connect mul #1 "otrcno ^t-origin(#1) "eot
+del "otrcno
+del #1
+display $dsptrcs #1
+
+rd
+
+return

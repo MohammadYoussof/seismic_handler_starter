@@ -1,0 +1,35 @@
+! file 20HZ_LE3D5_S+G_WWSSN_SP.FLR
+!      ===========================
+!
+! version 1, 25-Mar-2003
+!
+! Recursive filter file for WWSSN-SP simulation for LE3D/5s instruments
+! created from FFT file LE3D5_S+G_WWSSN_SP.FLF using MATLAB.
+! No frequency prewarpening used.
+! K. Stammler, 25-Mar-2003
+1357913578
+3
+0.05
+1.0
+5
+1.1215
+-2.1201
+-0.1165
+2.1201
+-1.0048
+5
+1.0000
+-3.0323
+3.4888
+-1.8046
+0.3548
+@
+3
+0.05
+2.545360e-03
+2
+1.0
+1.0
+2
+0.1
+-0.1

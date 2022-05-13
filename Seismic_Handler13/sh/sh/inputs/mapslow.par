@@ -1,0 +1,29 @@
+
+! file mapslow.par
+!      ===========
+!
+! version 1, 17-Sep-2002
+!
+! Setup file for mapslow program
+! K. Stammler, 17-Sep-2002
+
+1 aztol      30.0
+1 minqual    1.0e4
+1 sloint     0.25
+1 minrelpow  0.0
+1 minabspow  0.0
+1 color      1.0,0.0,0.0
+
+2 aztol      30.0
+2 minqual    50.0
+2 sloint     0.5
+2 minrelpow  0.0
+2 minabspow  0.0
+2 color      0.9,0.6,0.0
+
+3 aztol      30.0
+3 minqual    1.0
+3 sloint     1.0
+3 minrelpow  0.0
+3 minabspow  0.0
+3 color      0.5,0.5,0.0

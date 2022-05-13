@@ -1,0 +1,605 @@
+
+c NAME
+c	locsat0 -- Locate events using Slowness, Azimuth and Time data.
+
+c FILE    
+c	locsat0.f
+ 
+c SYNOPSIS
+c	Computes event locations, confidence bounds, residuals and
+c	importances using arrival time, azimuths and slowness
+c	measurements from stations at regional and teleseismic
+c	distances.
+ 
+c DESCRIPTION
+c	Subroutine.  Information on travel-time tables, stations, 
+c	detections and location parameters are passed to and from 
+c	LocSAT via the argument list.  The phase and station names 
+c	given for each datum (dstaid,dwavid) must match those in the 
+c	lists of acceptable phases and stations (staid,wavid).
+
+c	---- Indexing ----
+c	i = 1, nsta;	j = 1, nwav;	k = 1, ntbd(j);	m = 1, ntbz(j);
+c	n = 1, ndata;
+
+c	---- On entry ----
+c	ndata:	Number of data
+c	nsta:	Number of stations in network
+c	nwav:	Number of phases in list
+c	maxtbd:	Maximum dimension of k'th position in tbd(), tbtt()
+c	maxtbz:	Maximum dimension of m'th position in tbz(), tbtt()
+
+c	dstaid(n):	Name of station for n'th datum
+c	dwavid(n):	Name of phase for n'th datum
+c	dtype(n):	Data type for n'th datum (time, azim, slow)
+c	atype(n):	Arrival usage
+c			  = d: Defining, used in location
+c			  = n: Could be defining, but not used in location
+c			  = a: Not to be used in location
+c	dobs(n):	Value of n'th datum (sec, deg, sec/deg)
+c	dsd(n): 	Standard deviation in value of n'th datum
+
+c	idarid(n):	Arrival ID for datum
+c	staid(i):	List of all acceptible station names
+c	stalat(i):	Station latitudes  (deg)
+c	stalon(i):	Station longitudes (deg)
+c	wavid(j):	List of all acceptible phases for arrival time and
+c		        slowness data (these are the suffixes for the 
+c			travel-time tables
+
+c	ntbd(j):	Number of distance samples in travel-time tables
+c	ntbz(j):	Number of depth samples in travel-time tables
+c	tbd(k,j):	Distance to k'th lat/lon travel-time node (deg)
+c	tbz(m,j):	Depth to m'th travel-time node from Earths surface (km)
+c	tbtt(k,m,j):	Travel-time of k'th lat/lon and m'th depth nodes (sec)
+
+c	alat0:  	Initial guess of event latitude (deg)
+c	alon0:  	Initial guess of event longitude (deg)
+c			[If alat0 or alon0 non-possible values (e.g. 
+c			abs (lat or lon) > 90 or 180), subroutine hypcut0 
+c			will estimate a starting location.]
+c	zfoc0:  	Initial guess of event focal depth (km)
+c			[WARNING: alat0, alon0, zfoc0 may be changed on 
+c			output from this subroutine if the initial guess 
+c			was changed during processing]
+c	sig0:   	Prior estimate of data standard error
+c	ndf0:   	Number of degrees of freedom in sig0
+c	pconf:  	Confidence probability for confidence regions (0.0-1.0)
+c			[WARNING: subroutine fstat.f only accepts .9 for now]
+c	azwt:   	Weight applied to azimuth data and partials 
+c			(default = 1.0)
+c	damp:   	Percent damping relative to largest singular value, 
+c			if < 0.0, only damp when condition number > million 
+c	maxit:  	Maximum number of iterations allowed in inversion
+c	prtflg: 	= y, Verbose printout
+c			= n, None.
+c	fxdflg: 	= n, Focal depth is a free parameter in inversion
+c			= y, Focal depth is constrained to equal zfoc0
+c	outfile:	Output file name
+c	luout:  	Logical unit number for output file
+
+c	---- On return ----
+c	alat:	Final estimate of event latitude (deg)
+c	alon:	Final estimate of event longitude (deg)
+c	zfoc:	Final estimate of event focal depth (km)
+c	torg:	Final estimate of event origin time (sec)
+c	sighat:	Final estimate of data standard error
+c	snssd:	Normalized sample standard deviation
+c	ndf:	Number of degrees of freedom in sighat
+c	epmaj:	Length of semi-major axis of confidence ellipse on 
+c		epicenter (km)
+c	epmin:	Length of semi-minor axis of confidence ellipse on 
+c		epicenter (km)
+c	epstr:	Strike of semi-major axis of confidence ellipse on 
+c		epicenter (deg)
+c	zfint:	Length of confidence semi-interval on focal depth (km)
+c		= < 0.0 if fxdflg = y' or depth was fixed by program due 
+c		to convergence problem
+c	toint:	Length of confidence semi-interval on origin time (sec)
+c	rank:	Effective rank of the sensitivity matrix
+c	niter:	Total number of iterations performed during inversion
+c	sxx:	(Parameter covariance element)
+c	syy:	(Parameter covariance element)
+c	szz:	(Parameter covariance element)
+c		= < 0.0 if fxdflg = y' or depth was fixed by program due 
+c		to convergence problem
+c	stt:	(Parameter covariance element)
+c	sxy:	(Parameter covariance element)
+c	sxz:	(Parameter covariance element)
+c	syz:	(Parameter covariance element)
+c	stx:	(Parameter covariance element)
+c	sty:	(Parameter covariance element)
+c	stz:	(Parameter covariance element)
+
+c	stadel(i):	Distance from epicenter to i'th station (deg)
+c	staazi(i):	Azimuth from epicenter to i'th station (deg)
+c	stabaz(i):	Back-azimuth from epicenter to i'th station (deg)
+c	epimp(n):	Epicenter importance of n'th datum
+c	zfimp(n):	Depth importance of n'th datum
+c	resid(n):	Residual (obs-calc) for n'th datum (sec, deg, sec/deg)
+
+c	ipsta(n):	Station index for n'th observation
+c	iderr(n):	Error code for n'th observation
+c			=  0, No problem, normal interpolation
+c			=  1, No station information for datum
+c			=  2, No travel-time tables for datum
+c			=  3, Data type unknown
+c			=  4, S.D <= 0.0 for datum
+c			= 11, Distance-depth point (x0,z0) in hole of T-T curve
+c			= 12, x0 < x(1)
+c			= 13, x0 > x(max)
+c			= 14, z0 < z(1)
+c			= 15, z0 > z(max)
+c			= 16, x0 < x(1) and z0 < z(1)
+c			= 17, x0 > x(max) and z0 < z(1)
+c			= 18, x0 < x(1) and z0 > z(max)
+c			= 19, x0 > x(max) and z0 > z(max)
+c	[NOTE:	If any of these codes is .le. 0 (e.g. iderr = -17),
+c		then, the datum was used to compute event location]
+
+c	ierr:	Error flag;
+c		  = 0,	No error
+c		  = 1,	Maximum number of iterations exhausted
+c		  = 2,	Iteration diverged
+c		  = 3,	Too few usable data
+c		  = 4,	Too few usable data to constrain origin time,
+c			however, a valid location was obtained
+c                 = 5,	Insufficient data for a solution
+c                 = 6,	SVD routine cannot decompose matrix
+ 
+c	---- Subroutines called ----
+c	Local
+c		check_data_:	Review and quality check of data
+c		hypcut0:	Compute first initial guess hypocenter
+c		hypinv0:	Compute location
+c		index_array	Sort in ascending order by index
+
+c	---- Functions called ----
+c	From libtime
+c		etoh:  		Compute human time from epoch time
+
+c DIAGNOSTICS
+c	Complains when input data are bad ...
+ 
+c FILES
+c	Open an output file to a specified unit number or standard out.
+
+c NOTES
+c	Remember to add time-offset variable and remove zfimp() from
+c	arguments in the calling subroutine.
+
+c SEE ALSO
+c	Bratt and Bache (1988) Locating events with a sparse network of
+c	regional arrays, BSSA, 78, 780-798.
+
+c AUTHORS
+c	Steve Bratt, December 1988.
+c	Walter Nagy, November 1990.
+
+
+      subroutine locsat0 (dstaid, dwavid, dtype, atype, dobs, dsd,
+     &                    idarid, ndata, staid, stalat, stalon, stelev,
+     &                    stacor, nsta, wavid, nwav, maxtbd, maxtbz, 
+     &                    ntbd, ntbz, tbd, tbz, tbtt, alat0, alon0,
+     &                    zfoc0, sig0, ndf0, pconf, azwt, damp, maxit,
+     &                    prtflg, fxdflg, outfile, luout, alat, alon,
+     &                    zfoc, torg, sighat, snssd, ndf, epmaj, epmin,
+     &                    epstr, zfint, toint, sxx, syy, szz, stt, sxy,
+     &                    sxz, syz, stx, sty, stz, stadel, staazi,
+     &                    stabaz, epimp, zfimp, resid, ipsta, iderr,
+     &                    niter, ierr)
+
+      implicit none   ! K.S. 1-Dec-97, changed 'undefined' to 'none'
+
+      common /sccslocsat0/ sccsid
+      character*80 sccsid
+      data sccsid /'@(#)locsat0.f	44.1	9/20/91'/
+
+
+c     ---- Parameter declarations ----
+
+      integer*4 maxdata
+      real*4    km2deg, radius
+      real*8    deg2rad
+
+c     Radius of the earth (km.)
+      parameter (radius = 6371.0) 
+
+c     Convert kilometers to degrees 
+      parameter (km2deg = 8.99322e-03) 
+
+c     Convert degrees to radians
+      parameter (deg2rad = 0.017453293)
+
+c     Maximum number of data allowed for any single location
+      parameter (maxdata = 300)
+
+c     ---- On entry ----
+
+      integer*4 maxit, maxtbd, maxtbz, ndata, nsta, nwav
+      integer*4 idarid(ndata), luout, ndf0, ntbd(nwav), ntbz(nwav)
+      real*4    alat0, alon0, azwt, damp, dobs(ndata), dsd(ndata), pconf
+      real*4    sig0, stalat(nsta), stalon(nsta), stacor(nsta)
+      real*4    stelev(nsta), tbd(maxtbd,nwav), tbtt(maxtbd,maxtbz,nwav)
+      real*4    tbz(maxtbz,nwav), zfoc0
+      character*(*) atype(ndata), dstaid(ndata), dtype(ndata)
+      character*(*) dwavid(ndata), fxdflg, outfile, prtflg
+      character*(*) staid(nsta), wavid(nwav)
+
+c     ---- On return ----
+
+      integer*4 ndf, niter, ierr, ipsta(ndata), iderr(ndata)
+      real*4    alat, alon, sighat, snssd, epimp(ndata), epmaj, epmin
+      real*4    epstr, resid(ndata), staazi(nsta), stabaz(nsta)
+      real*4    stadel(nsta), stt, stx, sty, stz, sxx, sxy, sxz, syy
+      real*4    syz, szz, toint, torg, zfimp(ndata), zfint, zfoc
+
+c     ---- Internal variables ----
+
+      integer*4 i, icnt, iday, idoy, idtyp(maxdata), igap, ihr, imin
+      integer*4 imo, indx(maxdata), indx2(50), ios, ipwav(maxdata)
+      integer*4 isave, itdex(50), itimes, iyr, j, k2, lnblnk, m, n, nd
+      integer*4 len_sta, len_phase
+      real*4    sec
+      real*8    azim(maxdata), dist(maxdata), dsdnorm, obs(50), rank
+      real*8    slodel, slovecres, timeref, torgd
+      logical   lprt(19), opfil
+      character ew*2, ns*2, mname*3
+
+
+c     call ieee handler
+
+c     call handle
+
+      if (ndata.lt.3) then
+         write (6, '(/a,i2)')
+     &          ' Insufficient data for a solution: # of Data = ', nd
+         ierr = 5
+         return
+      end if
+      if (prtflg.eq.'Y') prtflg = 'y'
+
+c     Check for valid data and load station, wave and data type pointers
+
+      len_sta   = len(staid(1))
+      len_phase = len(wavid(1))
+
+      call check_data (dstaid, dwavid, dtype, dsd, ndata, staid, nsta,
+     &     wavid, nwav, len_sta, len_phase, ipsta, ipwav, idtyp, iderr)
+
+c     Check that each travel-time curve contains valid data.  For arrival 
+c     time or slowness data with empty curves, set iderr = 2
+
+      do 1000  n = 1, ndata
+ 1000    if ((idtyp(n).eq.1 .or. idtyp(n).eq.3) .and.
+     &      (ntbd(ipwav(n)).le.0 .or. ntbz(ipwav(n)).le.0)) iderr(n) = 2
+
+c     Open main output file, unless only screen output is desired
+
+      opfil = .false.
+      if (prtflg.eq.'y' .and. (luout.ne.0 .and. luout.ne.6)) then
+         open (luout, file = outfile, access = 'append',
+     &         iostat = ios)
+         if (ios.ne.0) then
+            k2 = lnblnk(outfile)
+            write (6, '(3a)') ' Output file ', outfile(1:k2),
+     &                        ' will not open'
+            prtflg = 'n'
+            luout  = 6
+         else
+            opfil  = .true.
+         end if
+      end if
+
+c     Print stations and observations
+
+      if (prtflg.eq.'y') then
+         call etoh (timeref, 1970, iyr, imo, mname, iday, idoy, ihr,
+     &              imin, sec)
+         write (luout, '(/a/2a//a,2(i2,a),f5.2,3a,i3,a,i5,//2a/)')
+     &          ' LocSAT LOCATION RESULTS',
+     &          ' =======================================',
+     &          '======================================= ',
+     &          '  First arrival detected at: ', ihr, ':', imin, ':',
+     &          sec, ' (GMT) on: ', mname, '.', iday, ',', iyr,
+     &          ' =======================================',
+     &          '======================================= '
+
+         do 1010 i = 1, nsta
+ 1010    write (luout, '(a6,3(f10.4))') staid(i), stalat(i), stalon(i),
+     &                                  stelev(i)
+
+         write (luout, '(/2a)') ' Ariv ID Statn  Phase    Type Atype',
+     &                          '  Observed    S.D. Err'
+         do 1020 n = 1, ndata
+ 1020    write (luout, '(i8,1x,a6,1x,a8,1x,a4,1x,a1,4x,f10.3,f8.3,i4)')
+     &          idarid(n), dstaid(n), dwavid(n), dtype(n), atype(n),
+     &          dobs(n), dsd(n), iderr(n)
+
+         write (luout, '(2a)') 
+     &          ' =======================================',
+     &          '======================================= '
+      end if
+
+c     Compute initial first-cut guess location
+
+      if (abs(alat0).gt.90.0 .or. abs(alon0).gt.180.0) then
+         call hypcut0 (staid, stalat, stalon, nsta, dobs, dsd, dwavid,
+     &                 ipsta, ipwav, nwav, maxtbd, maxtbz, ntbd, tbd, 
+     &                 tbtt, idtyp, iderr, atype, ndata, luout, prtflg,
+     &                 alat0, alon0, ierr)
+         if (ierr.gt.0) then
+            write (luout, *) '? LocSAT: Too few data to get an initial',
+     &                       ' location'
+            goto 1040
+         end if
+      end if
+
+      sighat = -1.0
+      zfint  = -1.0
+      toint  = -1.0
+      do 1030 i = 1, ndata
+         epimp(i) = -1.0
+         zfimp(i) = -1.0
+ 1030 continue
+
+      call hypinv0 (dstaid, dwavid, dtype, atype, dobs, dsd, ndata,
+     &              stalat, stalon, nsta, maxtbd, maxtbz, ntbd, ntbz,
+     &              tbd, tbz, tbtt, ipsta, ipwav, idtyp, iderr, alat0,
+     &              alon0, zfoc0, sig0, ndf0, pconf, radius, azwt, damp,
+     &              maxit, prtflg, fxdflg, luout, alat, alon, zfoc,
+     &              torg, sighat, snssd, ndf, epmaj, epmin, epstr,
+     &              zfint, toint, sxx, syy, szz, stt, sxy, sxz, syz,
+     &              stx, sty, stz, stadel, staazi, stabaz, epimp, rank,
+     &              resid, igap, niter, nd, ierr)
+      torgd = timeref + torg
+
+c     Print location results, if requested
+
+ 1040 if (prtflg.eq.'y') then
+ 
+         if (ierr.eq.0) then
+            write (luout, '(/a,i3,a)') 
+     &        ' Location ran for', niter, ' iterations ... Converged!'
+         else if (ierr.eq.1) then
+            write (luout, '(/a,i3,a)')
+     &        ' Location ran for', niter, ' iterations ... Exhausted!'
+         else if (ierr.eq.2) then
+            write (luout, '(/a,i3,a)')
+     &        ' Location ran for', niter, ' iterations ... Diverged!'
+         else if (ierr.eq.5) then
+            write (luout, '(/a,i3)')
+     &             ' Insufficient data for a solution: # of Data = ', nd
+            goto 1120
+         else if (ierr.eq.6) then
+            write (luout, '(2a/a)') 
+     &             ' SVD routine cannot invert given matrix --',
+     &             ' No singular values found', ' Returning !!'
+            goto 1120
+         end if
+ 
+         write (luout, '(/2a//)')
+     &          ' =======================================',
+     &          '======================================= '
+         ew = ' E'
+         ns = ' N'
+         if (alon.lt.0.0) ew = ' W'
+         if (alat.lt.0.0) ns = ' S'
+         if (sxx.lt.0.0 .or. syy.lt.0.0) then
+            write (luout, '(a/a,f9.3,2a/a,f9.3,2a)')
+     &             ' Final location estimate:',
+     &             '      Latitude:', abs(alat), ' deg.', ns,
+     &             '     Longitude:', abs(alon), ' deg.', ew
+         else
+            write (luout, '(a,2(/a,f9.3,3a,f9.3,a))')
+     &         ' Final location estimate (+/- S.D.):',
+     &         '      Latitude:', abs(alat), ' deg.', ns, ' +/- ',
+     &         sqrt(syy), ' km.',
+     &         '     Longitude:', abs(alon), ' deg.', ew, ' +/- ', 
+     &         sqrt(sxx), ' km.'
+         end if
+         if (fxdflg.eq.'n') then
+            if (szz.lt.0.0) then
+               write (luout, '(9x,a,f9.3,a)') 'Depth:', zfoc, ' km.'
+            else
+               write (luout, '(9x,a,f9.3,a,f9.3,a)')
+     &                'Depth:', zfoc, '  km.   +/- ', sqrt(szz), ' km.'
+            end if
+         else
+            write (luout, '(a,f9.3,a,f9.3,a)') 
+     &      '         Depth:', zfoc, '  km.   +/- ', 0.0, ' km. (Fixed)'
+         end if
+         if (stt.lt.0.0) then
+            write (luout, '(a,f9.3,a/a,f9.3,a)')
+     &             ' Relative O.T.:', torg,  ' sec.',
+     &             ' Absolute O.T.:', torgd, ' sec.'
+         else
+            write (luout, '(a,f9.3,a,f9.3,a/a,f9.3,a,f9.3,a)')
+     &             ' Relative O.T.:', torg,  ' sec.   +/- ',
+     &             sqrt(stt), ' sec.',
+     &             ' Absolute O.T.:', torgd, ' sec.   +/- ',
+     &             sqrt(stt), ' sec.'
+         end if
+         call etoh (torgd, 1970, iyr, imo, mname, iday, idoy, ihr, imin,
+     &              sec)
+c        write (luout, '(14x,a,i5,3i3,a,i2,a,f5.2)')
+c    &          ':', iyr, imo, iday, ihr, ':', imin, ':', sec
+
+         write (luout, '(/a,f4.2,a,2(/a,f8.1,a,f6.2,a))')
+     &          ' Confidence region at ', pconf, ' level:',
+     &          '   Semi-major axis:', epmaj, '  km. =',
+     &              epmaj*km2deg, ' deg.',
+     &          '   Semi-minor axis:', epmin, '  km. =',
+     &              epmin*km2deg, ' deg.'
+         write (luout, '(a,f8.1,a)') ' Major-axis strike:', epstr,
+     &          ' deg. clockwise from North'
+         if (fxdflg.eq.'n') write (luout, '(a,f8.1,a)') 
+     &                       '       Depth error:', zfint, '  km.'
+         write (luout, '(a,f8.1,a//a/,2(a,f6.2,a,i6,a,/),a,f6.2,a)')
+     &   '  Orig. time error:', toint,' sec.',
+     &   ' Standard errors (sigma):',
+     &   '              Prior:', sig0, ' (', ndf0, ' deg. of freedom)',
+     &   '          Posterior:', sighat, ' (', ndf,' deg. of freedom)',
+     &   '          Posterior:', snssd,' (Normalized sample S.D.)'
+
+         write (luout, '(2(/a,f5.2),/a,i4,a)') 
+     &          '      Azimuthal weighting: ', azwt,
+     &          ' Effective rank of matrix: ', rank,
+     &          '    Maximum azimuthal GAP: ', igap, ' deg.'
+
+         if (damp.ge.0.0) then
+            write (luout, '(8x,a,f12.8)') ' Percent damping: ', damp
+c        else
+c           write (luout, '(a)') '  - No damping required !'
+         end if
+
+         do 1050 i = 1, 19
+ 1050    lprt(i) = .false.
+
+c        Sort data by distance, then by time
+
+         do 1060 n = 1, ndata
+            i         = ipsta(n)
+            dist(n)   = stadel(i)
+            azim(n)   = staazi(i)
+            stadel(i) = stadel(i) + 0.0001
+ 1060    continue
+         call index_array (ndata, dist, indx)
+
+         isave = 0
+         icnt = 1
+         do 1080 n = 1, ndata
+            j = indx(n)
+            i = ipsta(j)
+            if (i.ne.isave) then
+               if (icnt.gt.1 .and. itimes.gt.1) then
+                  call index_array (icnt, obs, indx2)
+                  do 1070 m = 1, icnt
+ 1070             indx(n-(icnt-m)-1) = itdex(indx2(m))
+               end if
+               itimes	= 0
+               icnt	= 1
+               itdex(1)	= j
+               obs(1)	= dobs(j)
+            else
+               icnt = icnt + 1
+               itdex(icnt) = j
+               if (dtype(j)(1:1).eq.'t') then
+                  obs(icnt) = dobs(j)
+                  itimes    = itimes + 1
+               else if (dtype(j)(1:1).eq.'a') then
+                  obs(icnt) = dobs(j-1) + 0.0001
+               else
+                  obs(icnt) = dobs(j-2) + 0.0002
+               end if
+            end if
+            isave = i
+ 1080    continue
+
+         write (luout, '(4(/2a))')
+     &          ' =======================================',
+     &          '======================================= ',
+     &	        '                       Data           Residuals    ',
+     &          'Distance Azimuth   Data',
+     &          ' Ariv ID Statn  Phase  Type at     True Normalized ',
+     &          '  (deg.)  (deg.)  Import Err',
+     &          ' =======================================',
+     &          '======================================= '
+         do 1090  n = 1, ndata
+            j = indx(n)
+
+c           Kludge for the Center
+            if (dtype(j)(1:1).eq.'s') then
+               j = indx(n-1)
+            else if (dtype(j)(1:1).eq.'a') then
+               j = indx(n+1)
+            end if
+
+c           Calculate the residual of vector slowness
+
+            if (dtype(j)(1:1).eq.'s') then
+               slodel    = dobs(j)-resid(j)
+               slovecres = (dobs(j)**2 + slodel**2 - 2*dobs(j)*
+     &                     slodel*cos(deg2rad*resid(j-1)))**0.5
+               write (luout, '(6x,a,f8.3)') 
+     &                'Slowness Vector Residual:', slovecres
+            end if
+
+c           Calculate normalized residual
+
+            if (resid(j).ne.-999.0) then
+               dsdnorm = resid(j)/dsd(j)
+            else
+               dsdnorm = -999.0
+            end if
+
+            write (luout, '(i8,1x,a6,1x,a7,a4,2x,a1,f9.3,f11.3,f9.3,
+     &                      f8.2,f8.3,i4)')
+     &             idarid(j), dstaid(j), dwavid(j), dtype(j), atype(j),
+     &             resid(j), dsdnorm, dist(j), azim(j), epimp(j),
+     &             iderr(j)
+            if (iderr(n).gt.0) lprt(iderr(n)) = .true.
+ 1090    continue
+
+c        ---- Open new location file ----
+
+c        open (32, file = 'new.loc', access = 'append', iostat = ios)
+
+c        if (ios.ne.0) then
+c           write (6, '(a)') ' Output file new.loc will not open'
+c        else
+
+c           Right out new location and phase data to file, "new.loc"
+
+c           iyr = iyr - 1900
+c           write (32, '(3i2,1x,2i2,f6.2,f9.4,f10.4,f7.2,f7.2,i3,i4,)')
+c    &             iyr, imo, iday, ihr, imin, sec, alat, alon, zfoc,
+c    &             0.0, ndata, igap
+c           do 1100  n = 1, ndata
+c              j = indx(n)
+c              write (32, '(i8,1x,a6,1x,a8,1x,a4,1x,a1,4x,f10.3,
+c    &                      f8.3,i4)') idarid(j), dstaid(j), dwavid(j),
+c    &                                 dtype(j), atype(j), dobs(j),
+c    &                                 dsd(j), iderr(j)
+c1100       continue
+c           write (32, *) ' '
+c           close (32)
+c        end if
+
+         write (luout, '(2a/)') 
+     &          ' =======================================',
+     &          '======================================= '
+         write (luout, *) ' =  0, No problem, normal interpolation'
+         if (lprt(1))  write (luout, *) ' =  1, No station information'
+         if (lprt(2))  write (luout, *) ' =  2, No travel-time tables'
+         if (lprt(3))  write (luout, *) ' =  3, Data type unknown'
+         if (lprt(4))  write (luout, *) ' =  4, S.D. <= 0.0'
+         if (lprt(11)) write (luout, *) ' = 11, Distance-depth point ',
+     &                        '(x0,z0) in hole of travel-time curve'
+         if (lprt(12)) write (luout, *) ' = 12, x0 < x(1)'
+         if (lprt(13)) write (luout, *) ' = 13, x0 > x(max)'
+         if (lprt(14)) write (luout, *) ' = 14, z0 < z(1)'
+         if (lprt(15)) write (luout, *) ' = 15, z0 > z(max)'
+         if (lprt(16)) write (luout, *) ' = 16, x0 < x(1) & z0 < z(1)'
+         if (lprt(17)) write (luout, *) ' = 17, x0 > x(max) & z0 < z(1)'
+         if (lprt(18)) write (luout, *) ' = 18, x0 < x(1) & z0 > z(max)'
+         if (lprt(19)) 
+     &       write (luout, *) ' = 19, x0 > x(max) & z0 > z(max)'
+         do 1110 i = 11, 19
+            if (lprt(i)) then
+                write (luout, '(/a/a)')
+     &             ' NOTE: If any of these codes are negative , then, ',
+     &             '       use the datum to compute the event location!'
+               goto 1120
+            end if
+ 1110    continue
+
+      end if
+
+ 1120 if (opfil) close (luout)
+
+      return
+      end
+      
+      
+      

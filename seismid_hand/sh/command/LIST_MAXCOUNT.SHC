@@ -1,0 +1,22 @@
+! file LIST_MAXCOUNT.SHC
+!      =================
+!
+! version 1, 20-Jul-94
+!
+! lists maximum values of traces in counts.  Traces must be original after
+! reading without filtering
+! K. Stammler, 20-Jul-94
+
+sdef cnt 01      ! trace counter
+sdef offset      ! trace offset in counts
+
+loop_start:
+	if  "cnt gti $dsptrcs  goto/forward loop_exit:
+	calc r &offset = ^maxval("cnt) div ^calib("cnt)
+	calc i &offset = "offset int
+@  ECHO trace "CNT , ^STATION("CNT) ^COMP("CNT) maxcount "OFFSET
+	calc i &cnt = "cnt + 1 /fmt=<%02@d>
+goto loop_start:
+loop_exit:
+
+return

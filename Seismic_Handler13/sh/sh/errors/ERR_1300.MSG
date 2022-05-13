@@ -1,0 +1,36 @@
+! file ERR_1300.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module QFILEIO.C
+! K. Stammler, 8-JUL-91
+!
+*** QF-01 q-file name too long ***
+*** QF-02 open error on header file ***
+*** QF-03 read error on header file ***
+*** QF-04 opened file is no q-file ***
+*** QF-05 error parsing q-file header ***
+*** QF-06 info block overflow ***
+*** QF-07 info entry too long ***
+*** QF-08 unknown entry type ***
+*** QF-09 header overflow ***
+*** QF-10 not enough trace lines in this q-file ***
+*** QF-11 open error on binary file ***
+*** QF-12 memory allocation error ***
+*** QF-13 read error on binary file ***
+*** QF-14 illegal trace number ***
+*** QF-15 required entry missing in q-file ***
+*** QF-16 end of file found in q-header ***
+*** QF-17 end of file found in binary file ***
+*** QF-18 open q-file: file descriptor not free ***
+*** QF-19 data array too long ***
+*** QF-20 write error on binary q-file ***
+*** QF-21 empty info entry ***
+*** QF-22 illegal info index ***
+*** QF-23 type of info index does not match ***
+*** QF-24 undefined type in info index ***
+*** QF-25 error closing file ***
+*** QF-26 error opening comment file ***
+*** QF-27 error opening output file ***
+*** QF-28 illegal window in qf_read_wdw ***

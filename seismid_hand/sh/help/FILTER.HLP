@@ -1,0 +1,60 @@
+command FILTER <kind> <trc-list> [<lo-wdw> <hi-wdw>] [<att>]
+==============
+
+key: filter traces
+
+Filters traces with filters read in previously by a FILI command
+(kinds 'F' and 'R') ar attenuates traces (kind 'A').
+All filters of the specified kind (<kind>) in memory are applied
+sequentially to the traces.  If no time window (<lo-wdw>, <hi-wdw>)
+is specified, the whole traces are filtered.  If <kind> 'A' is
+selected, the desired attenuation must be passed in parameter
+<att> (t* in sec).
+
+The result of filtering is displayed in new traces.  The input
+traces remain unchanged.
+
+
+parameters
+
+<kind>  ---  parameter type: char
+   Kind of filter.  Valid values are
+   'F'  applies FFT filter, previously read in by a
+        "FILI F <file>" command
+   'D'  applies digital filter, previously read in by a
+        "FILI D <file>" command
+   'R'  applies recursive filter, previously read in by a
+        "FILI R <file>" command
+   'A'  attenuation with t* = <att> sec
+   'H'  computes Hilbert transformation
+   'M'  computes minimum delay wavelet
+
+<trc-list>  ---  parameter type: trace list
+   Input traces for filtering.  These trace remain unchanged.  If
+   no time window is entered, the whole traces are filtered.
+
+<lo-wdw>, <hi-wdw>  ---  parameter type: real
+   Time window on all traces.  The filtering of the input traces is
+   restricted to this time window.
+
+<att>  ---  paramer type: real
+   Attenuation (t* in sec).  Only valid for <kind> = 'A'.
+
+
+qualifiers
+
+/TAPER=<tapval>
+    Valid only for FFT and digital filters.  Applies a cosine taper
+    to filtered trace in frequency domain.  <tapval> ranges from 0.0
+    to 1.0.  Default value is 1.0.  The taper is started at sample
+    <tapval>*N if N is the length of the trace in frequency domain.
+    A value of 1.0 and greater means that no taper is applied.
+
+
+examples:
+
+   FILTER F ALL         ! filters all traces with the previous read
+                        ! filter in full length
+
+   FILTER F 1-3 10 110  ! filters traces 1-3 within time window 10..110
+

@@ -1,0 +1,26 @@
+
+! file ROTAZ.SHC
+!      =========
+!
+! version 1, 30-JUL-91
+!
+! 2-dim rotation N,E -> R,T with given azimuth.  Output traces are labeled
+! K. Stammler, 30-JUL-91
+
+default 1 2,3         trace list (N,E)
+default 2 0           azimuth
+
+sdef negaz            ! negative azimuth
+sdef trcno $dsptrcs   ! number of traces on display
+
+nr
+calc r &negaz = 0 - #2 /fmt=<%3.1@f>
+rot #1 "negaz
+calc i &trcno = "trcno + 1
+set "trcno comp r
+set "trcno comment |a:|"negaz|
+calc i &trcno = "trcno + 1
+set "trcno comp t
+set "trcno comment |a:|"negaz|
+rd
+return

@@ -1,0 +1,20 @@
+! file ERR_2300.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module SHSYMBOL.C
+! K. Stammler, 8-JUL-91
+!
+*** SS-01 illegal symbol set number ***
+*** SS-02 no more symbols definable ***
+*** SS-03 undefined symbol ***
+*** SS-04 symbol value too long ***
+*** SS-05 symbol name too long ***
+*** SS-06 value output string too short ***
+*** SS-07 not existing command parameter ***
+*** SS-08 error converting number ***
+*** SS-09 error saving command parameters & symbols ***
+*** SS-10 error popping command parameters & symbols ***
+*** SS-11 illegal number of parameters in DEFAULT command ***
+*** SS-12 string overflow ***

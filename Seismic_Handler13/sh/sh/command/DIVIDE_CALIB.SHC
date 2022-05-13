@@ -1,0 +1,23 @@
+! file DIVIDE_CALIB.SHC
+!      ================
+!
+! version 1, 27-feb-95
+!
+! divides each trace by its calib value
+! K. Stammler, 27-Feb-95
+
+sdef cnt 1        ! trace counter
+sdef reci         ! reciprcal value of calib
+
+nr
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc r &reci = 1.0 div ^calib("cnt)
+   trcfct "cnt mul "reci
+   set "cnt calib 1.0
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

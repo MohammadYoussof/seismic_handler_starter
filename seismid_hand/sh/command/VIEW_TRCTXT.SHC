@@ -1,0 +1,23 @@
+! file VIEW_TRCTXT.SHC
+
+sdef cmt1
+sdef cmt2
+sdef trccnt 1
+sdef flg
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   calc s &cmt1 = ^station("trccnt) extract 5 2
+   calc i &flg = "trccnt mod 3
+   if  "flg eqi 1  goto/forward full_info:
+      set "trccnt comment "cmt1
+      goto/forward cont_info:
+   full_info:
+      calc s &cmt2 = ^time("trccnt) extract 1 5
+      set "trccnt comment |"cmt1|$blank|"cmt2|
+   cont_info:
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+trctxt ^comment($x)
+
+return

@@ -1,0 +1,45 @@
+! file readgrn.shc
+!      ===========
+!
+! version 1, 4-Sep-92
+!
+! reads GRN traces with automatic mounting
+! K. Stammler, 4-Sep-92
+
+default 1 dub4            device
+default 2 1-jan-80_0:0:0  start time
+default 3 60.0            length in sec
+default 4 bfo,wet         station list
+default 5 z,n,e           component list
+default 6 20              sample rate
+
+sdef need_volume      ! volume needed
+sdef curr_volume      ! current volume
+
+switch noerrmsg on
+switch cmderrstop off
+fct local |get_label:|#2| &need_volume
+calc i &curr_volume = $status
+switch cmderrstop on
+switch noerrmsg off
+if  "curr_volume nei 0  goto/forward read_data:
+fct local |get_volname:|#1| &curr_volume
+
+if  "need_volume eqs "curr_volume  goto/forward read_data:
+
+echo *******
+echo need volume "need_volume
+if  "curr_volume eqs ;;  goto/forward mount_volume:
+   echo current volume is "curr_volume
+   echo now dismounting "curr_volume
+   system |dismount|$blank|#1|
+mount_volume:
+enter &curr_volume enter <cr> when disk "need_volume is inserted to drive #1
+echo now mounting "need_volume
+system |mount|%slash|nowrite|$blank|#1|$blank|"need_volume|
+
+read_data:
+
+readg #1 #2 #3 #4 #5 #6
+
+return

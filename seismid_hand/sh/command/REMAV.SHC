@@ -1,0 +1,3 @@
+default 1 all    trace list
+trcfct #1 remav
+return

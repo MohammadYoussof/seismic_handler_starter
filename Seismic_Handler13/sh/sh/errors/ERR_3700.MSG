@@ -1,0 +1,9 @@
+! file ERR_3700.MSG
+!      ============
+!
+! version 1, 24-May-92
+!
+! error messages of module FILEOPEN.C
+! K. Stammler, 24-May-92
+!
+*** FO-01 error opening input file ***

@@ -1,0 +1,116 @@
+Station code           : DAVA
+Onset time             : 18-JAN-2002_11:15:20.878
+Onset type             : emergent
+Phase name             : Sn
+Applied filter         : SHM_HP_1HZ_3
+Component              : N
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  0.681
+Distance (km)          : 75.675
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : DAVA
+Onset time             : 18-JAN-2002_11:15:10.504
+Onset type             : emergent
+Phase name             : Pg
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  0.681
+Distance (km)          : 75.675
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : FUR
+Onset time             : 18-JAN-2002_11:15:28.497
+Onset type             : emergent
+Phase name             : Pn
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  1.556
+Distance (km)          : 173.052
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : KBA
+Onset time             : 18-JAN-2002_11:15:33.825
+Onset type             : emergent
+Phase name             : Pn
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  2.034
+Distance (km)          : 226.115
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : MOA
+Onset time             : 18-JAN-2002_11:15:45.219
+Onset type             : emergent
+Phase name             : Pn
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  2.849
+Distance (km)          : 316.726
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : OBKA
+Onset time             : 18-JAN-2002_11:15:45.347
+Onset type             : emergent
+Phase name             : Pn
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  2.849
+Distance (km)          : 316.835
+Phase Flags            : L
+--- End of Phase ---
+
+
+Station code           : WET
+Onset time             : 18-JAN-2002_11:15:44.928
+Onset type             : emergent
+Phase name             : Pn
+Applied filter         : SHM_HP_1HZ_3
+Component              : Z
+Quality number         : 3
+Weight                 : 3
+Distance (deg)         :  2.934
+Distance (km)          : 326.279
+Latitude               : +46.72
+Longitude              :  +10.43
+Depth (km)             :   0.0
+Depth type             : ( ) free
+Origin time            : 18-JAN-2002_11:14:58.513
+Region Table           : Flinn-Engdahl
+Region ID              : 545
+Source region          : NORTHERN ITALY
+Location method        : locsat
+Reference Location Name: GRA1
+Source of Information  : SZGRF
+Error in Latitude (km) :  12.49
+Error in Longitude (km):   9.94
+Error in Depth (km)    :   0.00
+Error in Origin Time   :   1.57
+Error Ellipse Major    :   0.33
+Error Ellipse Minor    :   0.06
+Error Ellipse Strike   :  38.10
+Phase Flags            : L
+--- End of Phase ---
+
+

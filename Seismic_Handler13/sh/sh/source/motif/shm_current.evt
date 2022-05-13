@@ -1,0 +1,23 @@
+Station code      : GRA1
+Onset time        : 19-AUG-1993_08:23:56.252
+Onset type        : emergent
+Following Onsets  : 0
+Phase name        : P
+Sign              : negative
+Component         : Z
+Period (sec)      :  1.63
+Amplitude         : 87.6
+Slowness (sec/deg):  5.0
+Azimuth (deg)     :    9.6
+--- End of Event ---
+
+
+Station code      : GRA1
+Onset time        : 19-AUG-1993_08:24:08.808
+Onset type        : emergent
+Phase name        : pP
+Sign              : negative
+Component         : Z
+--- End of Event ---
+
+

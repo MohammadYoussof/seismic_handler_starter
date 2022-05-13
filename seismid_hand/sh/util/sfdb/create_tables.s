@@ -1,0 +1,5 @@
+XSym
+0042
+c48629c14b779ea436b888d041a29f2a
+/programs/linux/dprog/sfdb/create_tables.s
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

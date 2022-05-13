@@ -1,0 +1,15 @@
+! file SHM_CMD_SEPFIL_BEGIN.SHC
+!      ========================
+!
+! version 2, 19-Oct-94
+!
+! initialization for separate filtering of traces
+! K. Stammler, 10-Mar-94
+
+nr
+display h:all
+del _shm_filter(y)
+demean all $dsp_x $dsp_xmax
+external_routine save_dsp_phases
+
+return

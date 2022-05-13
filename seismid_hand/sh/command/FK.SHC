@@ -1,0 +1,62 @@
+! file FK.SHC
+!      ======
+!
+! version 2, 26-Oct-94
+!
+! computes FK matrix.  Input are all traces on display and the current time
+! window.
+! K. Stammler, 9-Sep-94
+
+default 1 0.7      lo frq bound
+default 2 3.0      hi frq bound
+default 3 12.0     max slowness
+default 4 51       resolution
+default 5 0        verbosity
+default 6 1        unit in deg
+
+sdef cnt 1         ! trace counter
+sdef xpos          ! x position of station
+sdef ypos          ! y position of station
+sdef elev          ! elevation of station
+sdef lofrq         ! lo frq bound
+sdef hifrq         ! hi frq bound
+sdef tmp1          ! scratch
+sdef tmp2          ! scratch
+
+calc r &lofrq = #1 /fmt=<%8.2@f>
+calc r &hifrq = #2 /fmt=<%8.2@f>
+
+! write out header
+@ECHO_CH/NEW fk_signal.hdr
+echo $exclamation header file created by SH
+echo $exclamation =========================
+echo $exclamation
+@ECHO |$EXCLAMATION|*|$BLANK|time:|$BLANK|^START|
+echo $dsptrcs
+trc_loop_start:
+	if  "cnt gti $dsptrcs  goto/forward trc_loop_exit:
+	call statloc ^station("cnt) &tmp1 &tmp2 &xpos &ypos &elev
+   calc r &xpos = "xpos * 1000.0 /fmt=<%9.2@f>
+   calc r &ypos = "ypos * 1000.0 /fmt=<%9.2@f>
+	calc r &elev = "elev /fmt=<%9.2@f>
+	echo "xpos "ypos "elev ^station("cnt)
+	calc i &cnt = "cnt + 1
+goto trc_loop_start:
+trc_loop_exit:
+echo |"lofrq|"hifrq|
+echo #3
+echo #4
+echo #5
+echo #6
+echo_ch
+
+! write data
+@FCT OSCALL FDELETE fk_signal.dat
+@WRITEA fk_signal.dat ALL
+
+! call fk
+fct getpath extprog &tmp1
+@CALC S &TMP1 = |"TMP1|fk|
+system "tmp1
+
+return

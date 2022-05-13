@@ -1,0 +1,128 @@
+
+! file install_unix.txt
+!      ----------------
+!
+! version 3, 19-Sep-2005
+!
+! Installation guide for SH/SHM
+! K. Stammler, 1995
+
+
+(A) Have OpenMotif installed on your system
+===========================================
+
+On recent Solaris versions part of the system, so nothing is to be done here.
+On Linux, install openmotif and openmotif development package.
+
+
+(B) Prepare directories for SH files
+====================================
+
+e.g.:
+mkdir $HOME/shinstall
+mkdir $HOME/shinstall/package
+mkdir $HOME/shinstall/shprog
+cd $HOME/shinstall/package
+
+
+(C) Get the necessary files from our ftp server:
+================================================
+
+on Solaris:
+
+ftp ftp.szgrf.bgr.de
+<login>     ftp
+<password>  myemail@someaddress.net
+
+bin
+cd /pub/software
+get SHM-install.csh
+get SH-SHM.tar.gz
+get locsat-sol2.5.1.tar.gz
+get fk-sol2.5.1.tar.gz
+bye
+
+
+on Linux:
+
+wget ftp://ftp.szgrf.bgr.de/pub/software/SHM-install.csh
+wget ftp://ftp.szgrf.bgr.de/pub/software/SH-SHM.tar.gz
+wget ftp://ftp.szgrf.bgr.de/pub/software/locsat-linux.tar.gz
+wget ftp://ftp.szgrf.bgr.de/pub/software/fk-linux.tar.gz
+
+
+
+(D) Run installation
+====================
+
+chmod a+x ./SHM-install.csh
+./SHM-install.csh $HOME/shinstall/shprog
+(if all settings of the menu are ok, enter) i
+
+
+(E) Define SH/SHM environment
+=============================
+
+Enter csh or tcsh.
+Enter the command 'source $HOME/shinstall/shprog/sh/setup/shsetup'.
+This command has to be given each time you open a new C-Shell or
+you put it to your '.cshrc'-file on your home directory.
+
+Please run SHM only on directories where you have write access!  It is safe
+to change to your home directory (shell command 'cd') before calling SHM.
+
+
+
+________________________________________________________________________________
+
+
+if this fails:
+
+
+MANUAL INSTALLATION OF SH/SHM ON A UNIX MACHINE
+-----------------------------------------------
+
+   i)  select parent directory for SH directory tree
+       % cd <parent-dir>
+
+  ii)  tar all files from tar archive to this directory
+       % tar xvf /dev/rst0
+       % #  or
+       % tar xvf sh_src.tar
+
+ iii)  change directory to new created sh directory
+       % cd sh
+
+  iv)  Edit the file setup/shsetup and set the root path 'shcroot' to
+       the actual value.  If you need to compile the source you also
+       should set the correct compiler (must be an ANSI compiler like
+       acc or gcc) and the appropriate compiler switches.
+       % vi setup/shsetup
+
+   v)  run shsetup.  This should create two directories ~/sh/shscratch and
+       ~/sh/private and define environment variables SH_...
+       This works on C-shells only, sorry for this.
+       % source setup/shsetup
+
+
+       If you are able to use the executables (if provided in the tar-file)
+       you are finished with installation and should be able to run the
+       program by typing 'SH'.  If you have to recompile the source you
+       have to continue.
+
+
+  vi)  cd to the root directory and make SH
+       for SH alone:
+       % cd $SH_ROOT
+       % make depend
+       % make
+       % make world
+
+       for SH and SHM:
+       % cd $SH_ROOT
+       % make depend_shm
+       % make shm
+       % make world
+
+       Now you may start shc_world by the alias SH and shc by SH_N.
+       Similarly, use SHM for shm_world and SHM_N for shm.

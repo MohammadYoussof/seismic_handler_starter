@@ -1,0 +1,18 @@
+! file WAIT_FOR_DELETE.SHC
+!      ===================
+!
+! version 1, 31-Jul-95
+!
+! waits for file to be deleted
+! K. Stammler, 31-Jul-95
+
+default 1 ;;     name of file
+default 2 60     sleeping time in sec
+
+sdef cmd         ! command line
+
+loop_start:
+	nop %#1
+@  CALC S &CMD = |sleep|$BLANK|#2|
+	system "cmd
+goto loop_start:

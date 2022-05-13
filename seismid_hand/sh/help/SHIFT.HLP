@@ -1,0 +1,68 @@
+command SHIFT [<trc-list> <time> [<p1> <p2> ... <pN>]]
+=============
+
+key: shift traces in time
+
+Shifts traces by <time> seconds if <trc-list> and <time> are passed.
+If no parameters are passed, the graphic cursor appears and one trace
+can be shifted selecting the trace twice at different times.  The
+trace is then shifted by the difference of the two time picks.
+
+If <time> is one of the following keywords a special shift is applied
+to all traces of <trc-list>.
+
+ps_delay     Traces are shifted by the travel time difference of
+             P and converted S, where the S conversion is generated
+             at a depth of <p1> km.  If <p2> is the string "slowness"
+             the required slowness value is retrieved from the
+             "slowness" info entry on each trace.
+
+red_time     Reduced time display.  Traces are shifted by a
+             reduction velocity of <p1>.  Each trace distance is
+             retrieved from the "distance" info entry.
+
+time_al      Aligns traces in absolute time, that means the computed
+             time delays account for differences in the start times
+             ("start" info entry) of the traces.
+
+[sd_delay    not documented]
+
+
+All computed time shifts are added to already existing delays of the
+traces, i.e. they are relative time shifts.  If the same shift command
+is applied twice, the time shift is also twice as large.
+
+
+parameters:
+-----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be shifted by <time> seconds.  If omitted one
+   trace can be shifted by graphic cursor (see above).
+
+<time>  ---  parameter type: real
+   Time in seconds the traces in <trc-list> are to be shifted.  Only
+   valid if <trc-list> is specified.  <time> can also be a keyword
+   determining a shifting algorithm for the traces in <trc-list>.
+   A list of valid keywords if given above.
+
+
+qualifiers:
+-----------
+
+/nomark
+   Only valid if <trc-list> is omitted.  The selected time points
+   at the shift trace are not marked.
+
+
+examples
+--------
+
+   shift                       ! shift one trace by graphic cursor
+
+   shift all -10               ! shifts all traces by 10 sec to the left
+
+   shift all ps_delay 640 slowness   ! shift all traces to align a
+                                     ! conversion depth coming from
+                                     ! 640 km depth
+

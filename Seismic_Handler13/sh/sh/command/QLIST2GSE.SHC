@@ -1,0 +1,33 @@
+! file QLIST2GSE.SHC
+!      =============
+!
+! version 1, 17-Jan-97
+!
+! converts list of Q-files to GSE1.0
+! The list file should contain one Q-filename per line.
+! K. Stammler, 17-Jan-97
+
+default 1 ;;      list file
+default 2 1       first line
+default 3 %#1(0)  last line
+
+sdef cnt #2       ! counter
+sdef line         ! current line of list file
+sdef qfile        ! current q-file
+
+del all
+dtw
+
+loop_start:
+	if  "cnt gti #3  goto/forward loop_exit:
+	calc s &line = %#1("cnt)
+	calc s &qfile = "line parse 1
+	echo reading file "qfile number "cnt
+	read "qfile all
+	writegse;;
+   del all
+	calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

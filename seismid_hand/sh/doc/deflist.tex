@@ -1,0 +1,13 @@
+% file deflist.tex
+%      ===========
+%
+% another list type for latex
+%
+\newcommand{\deflabel}[1]{\bf #1\hfill}%    1
+\newenvironment{deflist}[1]%                2
+{\begin{list}{}%                            3
+{\settowidth{\labelwidth}{\bf #1}%          4
+\setlength{\leftmargin}{\labelwidth}%       5
+\addtolength{\leftmargin}{\labelsep}%       6
+\renewcommand{\makelabel}{\deflabel}}}%     7
+{\end{list}}%                               8

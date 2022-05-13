@@ -1,0 +1,14 @@
+! file ERR_4900.MSG
+!      ============
+!
+! version 2, 22-Aug-94
+!
+! error messages of module calibloc.c
+! K. Stammler, 23-Sep-93
+!
+*** CAL-01 string overflow ***
+*** CAL-02 error opening input file ***
+*** CAL-03 no calibration file defined ***
+*** CAL-04 error reading lookup file ***
+*** CAL-05 error reading calibration file ***
+*** CAL-06 empty calibration file ***

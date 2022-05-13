@@ -1,0 +1,31 @@
+command COPY <trc-list> [<wdw-lo> <wdw-hi>]
+============
+
+key: copy traces
+! version 3, 6-May-92
+
+Makes copies of all traces specified in <trc-list>.  The copies
+are added to the trace display.  If a time window (<wdw-lo>,<wdw-hi>)
+is set, only the samples within this window are copied.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be copied.
+
+<wdw-lo>, <wdw-hi>  ---  parameter type: real
+   Time window in sec.  If specified only samples within this window
+   are copied.
+
+
+examples
+--------
+
+   copy 1-3         ! adds copies of first three traces to the top of
+                    ! the display
+
+   copy 1-3 0. 10.  ! copies first three traces within time window
+                    ! from 0 to 10 sec
+

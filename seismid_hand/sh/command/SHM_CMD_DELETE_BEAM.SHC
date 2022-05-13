@@ -1,0 +1,16 @@
+! file SHM_CMD_DELETE_BEAM.SHC
+!      =======================
+!
+! version 1, 24-Jun-93
+!
+! deletes beam trace from display
+! K. Stammler, 24-Jun-93
+
+nr
+del _station(beam)
+del _station(align)
+set all t-origin 0.0
+shift all time_al
+rd
+
+return

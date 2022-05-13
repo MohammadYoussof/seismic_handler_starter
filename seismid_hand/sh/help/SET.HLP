@@ -1,0 +1,56 @@
+command SET <trc-list>;<info-entry>;<value>
+===========
+
+key: change value of info entry
+
+Changes the value of info entries of one or more traces in the
+memory.  This change of the value is not stored in the q-file
+of the trace and therefore the next seismhandler session uses
+the old value again.  To change the value permanently use the
+/FILE qualifier (see below).
+
+parameters:
+
+<trc-list>  ---  parameter type: trace list
+   List of traces, which info values are to be changed.
+
+<info-entry>  ---  parameter type: info entry
+   Name of info entry. See list of valid entry names by ENTRY LIST.
+
+<value>  ---  parameter type: depends on entry type
+   New value of info entry.
+
+
+qualifiers
+
+/FILE
+   The value of the info entry is set not only in the memory, but
+   in the source file of the trace as well (if there exists one).
+   Thus the new value is kept for all following sessions.
+
+/MOD
+   Valid only in combination with "/FILE" qualifier.  Permforms value
+   insertion to header of q-file even if the specified trace is not the
+   original trace read from the file but a modified one, maybe filtered
+   or resampled.
+   
+/DEFAULT
+   The given value of an info entry is used as a default value
+   for all new created traces.  The /DEFAULT qualifier is valid
+   only in combination with the following info entries:
+	ATTRIB, REDUCTION, NORM, ZOOM, WEIGHT
+
+/PRIV
+   Change the value of read-only entry.
+
+
+examples:
+
+   SET 1 COMMENT |DISTANCE|$BLANK|^DISTANCE|
+      ! set comment string of first trace to "DISTANCE " & distance
+      ! value
+
+   SET/FILE 1 SLOWNESS 5.234
+      ! set slowness value to 5.234 on file and in memory if the
+      ! value is stored in memory
+

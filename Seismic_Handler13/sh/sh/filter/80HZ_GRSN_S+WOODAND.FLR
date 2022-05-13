@@ -1,0 +1,30 @@
+! recursive filter file of a simulation filter (Wood-Anderson for GRSN input)
+! removes seismometer h0,T0 and applies transfer
+! function (h1,T1)
+! h0: 0.707000
+! T0: 120.900002
+! h1: 0.800000
+! T1: 0.800000
+!
+1357913578
+3
+1.250000e-02
+0.0028
+3
+1.000459e+00
+-2.000000e+00
+9.995408e-01
+3
+1.081016e+00
+-1.995173e+00
+9.238105e-01
+@
+3
+1.250000e-02
+6.25e-3
+2
+1.000000e+00
+1.000000e+00
+2
+1.000000e+00
+-1.000000e+00

@@ -1,0 +1,57 @@
+command SPECTROGRAM <trc> [<lo-t> <hi-t>] <spgwith> <spgstep> <outfile>
+===================
+
+key: Spectrogram
+
+Computes spectrogram of a trace and writes the result to a text file.  The
+result may be viewed with 'mapspec':
+
+setenv UIDPATH $SH_SOURCE/img/mapspec.uid
+$SH_SOURCE/img/mapspec <datafile> 30  # 30 is number of colours used
+
+The spectrogram is computed as follows: a subwindow of N samples of the
+selected trace window is transformed to frequency domain using the FFT
+algorithm (see Numerical Recipes, Press et al., Cambridge University Press,
+1988). N is determined by the configuration parameter spectrogram_width
+and must be a power of 2. Reasonable values are e.g. 512 or 1024. Before
+FFT the input trace is tapered in time domain using a cosine taper
+(2*cos(x)-1, -pi < x < pi). The squared frequency amplitudes are displayed
+in a colour-coded vertical bar/line in the output window. The next subwindow
+for FFT is found by shifting the last one by K samples to the right. K is
+determined by the configuration parameter spectrogram_step. The first
+subwindow starts with the first sample of the selected trace part, the last
+subwindow ends between 0 and K-1 samples before the end of the selected
+trace part. The output matrix contains frequency over time.  The header
+info of the output file contains DELTA (sample distance in time, s), START
+(absolute start time of trace), LENGTH (number of frequency samples on each
+time step), LINES (number of time steps), DF (frequency sample distance in Hz).
+Following are LENGTH*LINES numbers giving frequency amplitudes over the time
+steps.  The first LENGTH samples refer to time sample 1, the second LENGTH
+samples refer to time sample 2 and so on.
+
+
+parameters
+----------
+
+<trc>  ---  parameter type: trace
+   Trace to compute spectrogram.
+
+<lo-t>, <hi-t>  ---  parameter type: real
+   Time window on input trace.  If not specified the current
+   display window is used.  If <lo-t> is an astrisk ("*")
+   you can select the window by graphic cursor.
+
+<spgwidth>  ---  parameter type: integer
+   Width of an FFT window in samples.  Must be a power of 2. Is number N in
+   above description.
+
+<spgstep>   ---  parameter type: integer
+   Step size in samples.  Is number K in above description.
+
+
+example
+-------
+
+   spectrogram 3 ;;; 512 5 SPEC.DAT
+        ! computes spectrogram of trace number 3 on the total available
+        ! time window and writes the output to file SPEC.DAT.

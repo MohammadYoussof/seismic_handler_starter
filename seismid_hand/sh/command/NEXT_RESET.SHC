@@ -1,0 +1,4 @@
+echo_ch/new next_counter
+echo 0
+echo_ch
+return

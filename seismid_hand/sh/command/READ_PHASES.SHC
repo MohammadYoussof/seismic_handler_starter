@@ -1,0 +1,73 @@
+! file READ_PHASES.SHC
+!      ===============
+!
+! version 1, 1-Oct-2005
+!
+! Reads a phase window from many stations
+! K. Stammler, 1-Oct-2005
+
+default 1 statlist.stx    station list file
+default 2 paramfile.stx   parameter file
+default 3 ;;              override filter
+default 4 ;;              make ps file
+
+! local variables
+sdef spath   %#2(1)     ! miniseed path
+sdef orig    %#2(2)     ! origin time
+sdef epilat  %#2(3)     ! epicentre latitude
+sdef epilon  %#2(4)     ! epicentre longitude
+sdef depth   %#2(5)     ! source depth
+sdef phase   %#2(6)     ! phase name
+sdef comp    %#2(7)     ! component
+sdef wdwlth  %#2(8)     ! window length
+sdef offset  %#2(9)     ! time offset before phase
+sdef filter  %#2(10)    ! filter to apply
+sdef cutwdw  %#2(11)    ! time to cut after filtering
+sdef cnt     1          ! station counter
+sdef trcno              ! number of traces
+sdef fer                ! region name
+sdef hcfile             ! postscript file
+
+nr
+
+! read in traces
+loop_start:
+   if  "cnt gti %#1(0)  goto/forward loop_exit:
+   read_phase "spath "orig "epilat "epilon "depth %#1("cnt) "phase "comp "wdwlth "offset
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+! apply filter
+if  #3 eqs ;;  goto/forward filter_ok:
+   calc s &filter = #3
+filter_ok:
+calc i &trcno = $dsptrcs
+demean all
+fili f "filter
+filter f all
+del |1-|"trcno|
+cut all "cutwdw "wdwlth
+shift all |-|"offset|
+
+! sort by distance
+epi_dist_mem "epilat "epilon
+sort_by_distance
+
+! throw out strange traces
+rms_clean 6
+
+zoom all 8
+
+call fer "epilat "epilon &fer
+title 1 |"phase|$blank|"comp|$blank|"filter|
+title 2 |^start|$blank|"fer|
+
+rd
+
+if  #4 nes yes  goto/forward hcok:
+  hc ;; p &hcfile
+@ SYSTEM |psrename.csh|$BLANK|"HCFILE|$BLANK|"ORIG|$BLANK|"PHASE|$BLANK|"FILTER|
+hcok:
+
+return

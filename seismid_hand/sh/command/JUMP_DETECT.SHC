@@ -1,0 +1,36 @@
+! file JUMP_DETECT.SHC
+!      ===============
+!
+! version 1, 13-May-92
+!
+! detects jumps and spikes on traces
+! K. Stammler, 13-May-92
+
+default 1 dd1   input device
+default 2 ;;    start time
+default 3 ;;    number of hours
+default 4 all   stations
+default 5 10    detection factor
+
+sdef currtime #2   ! current time
+sdef timestep 3600 ! seconds per hour
+sdef readwdw 3610  ! input window = time step + overlap
+sdef step 1        ! step counter
+
+del all
+dtw
+nr
+
+loop_start:
+   if  "step gti #3  goto/forward loop_exit:
+   del all
+   echo processing time "currtime
+   readk #1 "currtime "readwdw #4
+   jump_detect_display ;; #5
+   calc t &currtime = "currtime tadd "timestep
+   calc i &step = "step + 1
+goto loop_start:
+loop_exit:
+
+rd
+return

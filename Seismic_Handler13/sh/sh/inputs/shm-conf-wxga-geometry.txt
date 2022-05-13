@@ -1,0 +1,45 @@
+! file shm-conf-wxga-geometry.txt
+!      ==========================
+!
+! version 1, 17-Jun-2006
+!
+! K. Stammler, 17-Jun-2006
+
+!                            position of parameter box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+parameter_box_x              148
+parameter_box_y              0 
+parameter_box_w              100
+parameter_box_h              720
+
+!                            position of phase dialog box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+phase_box_x                  0
+phase_box_y                  0
+phase_box_w                  140
+phase_box_h                  620
+
+!                            position of main window in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+window_main_x                256
+window_main_y                228
+window_main_w                1020
+window_main_h                516
+
+!                            position of single trace box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+single_trace_box_x           256
+single_trace_box_y           0
+single_trace_box_w           1060
+single_trace_box_h           203
+
+!                            size of drawing area in pixels
+!                            type: integer
+draw_area_width              1010
+draw_area_height             507
+
+

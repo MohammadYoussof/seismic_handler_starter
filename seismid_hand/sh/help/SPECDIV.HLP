@@ -1,0 +1,36 @@
+command specdiv <trc1> <trc2> <lowdw> <hiwdw> <wlevel> <gwidth> <offset>
+===============
+
+key: spectral division
+
+Performs division of two traces in frequency domain (<trc1>/<trc2>).
+The formula is:
+  res[i]= f1[i]*f2^[i]/phi[i] * G[i],  where
+  f1[i]   fourier transform of numerator trace <trc1>
+  f2[i]   fourier transform of denominator trace <trc2>
+  phi[i]= max{f2[i]*f2^[i], wlevel*max[f2[k]*f2^[k]]}
+  G[i] =  exp( -w[i]*w[i]/(4*gwidth*gwidth) )
+  w[i]:   circular frequency
+  ^:      complex conjugate
+  i:      counter of frequency gridpoints
+  k:      frequency gridpoint of maximum amplitude of denominator trace
+
+
+Parameters:
+
+<trc1>, <trc2> --- parameter type: trace number
+Trace numbers of input traces
+
+<lowdw>, <hiwdw> --- parameter type: real
+Time window in s.  The spectral division is restricted to this given
+time window.
+
+<wlevel> --- parameter type: real
+See above formula.
+
+<gwidth> --- parameter type: real
+See above formula
+
+<offset> --- parameter type: real
+time shift in s of output trace
+

@@ -1,0 +1,6 @@
+13-May-92
+   3.2b:    log file for despiking
+28-Aug-92
+   3.3a:    Prag version  "@"-Abkuerzung fuer lowercase commands, "doslash", GSE-input
+7-Sep-92
+   3.3b:    READG, FFT-Fehler gefunden, LOG-Kommando

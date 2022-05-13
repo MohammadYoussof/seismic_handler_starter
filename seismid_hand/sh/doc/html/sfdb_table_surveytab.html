@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table surveytab</H2>
+<P>
+<ul>
+	<li><b>survpath</b>  VARCHAR(255),
+	<li><b>defpri</b>    INTEGER,
+	<li><b>subdirlev</b> TINYINT,
+	<li>PRIMARY KEY(<b>survpath</b>)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>survpath</b>:  path to data files or subdirectories
+<li><b>defpri</b>:    default priority for new files found
+<li><b>subdirlev</b>: type of archive directory:
+           0: survpath is the data directory itself;
+           1: survpath contains data directories 1 directory level below;
+           other: not implemented
+</ul>
+</P>
+
+<P>This page last modified 27-Dec-2006</P>
+</BODY>
+</HTML>

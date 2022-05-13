@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+  <title>Use own stations</title>
+</head>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<h2>How to use own stations in SHM</h2>
+
+<ol>
+
+   <li>
+      <p>Insert station code and coordinates into <em>$SH_INPUTS/STATINF.DAT</em>
+      (see <a href="statloc.html">How to put station information into SH/SHM</a>)
+      </p>
+   </li>
+   <li>
+      <p>SHM version 2.4 and higher: edit your configuration file and modify/add
+      a <em>v$read_dialog_stations_??</em> variable to list your stations.  E.g.
+      if you have your stations ABC, XYZ, XXX then an appropriate line would be
+      <em>v$read_dialog_stations_01 ABC,XYZ,XXX</em>.<br>
+      SHM version prior to 2.4: Modify a <em>STATLIST</em>-file in
+      <em>$SH_GLOBALS</em> and include the new stations so that you get a
+      button to select for each. If you have only one <em>STATLIST</em>,
+      this is <em>$SH_GLOBALS/STATLIST_DEFAULT.STX</em>.&nbsp; Read about
+      <a href="menu_read.html">menu entry Read</a> on details.</p>
+   </li>
+   <li>
+      <p>SHM version 2.4 and higher: edit your sensitivitiy file (by default
+      this is $SH_INPUTS/sensitivities.txt and add appropriate lines for your
+      stations.  E.g. if you have a station xyz with channels bh and components
+      zne with a calibration of 1.2 (nm/s)/count this line should look
+      like <br><em>xyz-bh-? ... ... 1.2</em><br>
+      For details read the <a href="sensitivity_file.html">web page of the
+      sensitivity file</a>.<br>
+      SHM version prior to 2.4: create files
+      <em>$SEED_INPUTS/seedcalib_&lt;station&gt;-&lt;chan&gt;-&lt;comp&gt;</em>
+      (e.g. for a station <em>GRFO</em>
+      create one file for each channel in <em>$SEED_INPUTS</em>:
+      <em>seedcalib_grfo-bh-z</em>, <em>seedcalib_grfo-bh-n</em>,
+      <em>seedcalib_grf-bh-e</em>,
+      also for other channels like, <em>lh</em> or <em>hh</em> if necessary).
+      In this file you put
+      the time window where the calibration is valid and the calibration
+      value into one line, you can add several lines, one for each time
+      window. Have a look at the existing files as examples, a more elaborate
+      example is e.g. <em>$SEED_INPUTS/seedcalib_gra1-bh-z</em>.
+      </p>
+   </li>
+   <li>
+      <p>Add the streams of this stations to the file
+      <em>$SH_INPUTS/filter_lookup.txt</em>
+      or create appropriate filter files in <em>$SH_FILTER</em>. Read about <a
+      href="fil_simulation.html">working with simulation filters</a> for details.
+      </p>
+   </li>
+</ol>
+
+<small>This page last modified 2-Jan-2006</small>
+
+</body>
+</html>

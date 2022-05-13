@@ -1,0 +1,137 @@
+#
+# Makefile.prg
+# SccsId:  @(#)Makefile	44.3	10/7/91
+#
+SRCS		= mainloc.c getargs.c
+OBJS		= mainloc.o getargs.o
+HDRS		= params.h
+LIBS		= \
+		  $(LIBDIR1)/libloc.a \
+		  $(LIBDIR1)/librdwrt.a \
+	          $(LIBDIR1)/libinterp.a \
+	          $(LIBDIR1)/libgeog.a \
+		  $(LIBDIR1)/libxprt2.a \
+	          $(LIBDIR1)/libtime.a
+#		  $(LIBDIR1)/libloc.a \
+#		  $(LIBDIR1)/librdwrt.a \
+
+MAN1		=
+STDLIBS		= -lm
+PROGRAM		= LocSAT
+LIBRARY		=
+SUBDIRS		=
+
+O		= -O
+INCS		= ../../include
+INCLUDES	= -I$(INCS) -I$(INCS)/db3 -I$(INCS)/css
+CFLAGS		= $O $(INCLUDES) -DSCCSID
+FFLAGS		= $O
+LDFLAGS		= $O
+LFLAGS		= -bchu $(INCLUDES)
+
+LIBDIR1		= ../../lib
+LIBDIR2		= ../../libsrc
+DESTDIR		= ../../bin
+MAN1DIR		= ../../doc/man/man1
+
+LIBTAR		= \
+		  $(LIBDIR2)/libloc/SCCS/* \
+		  $(LIBDIR2)/librdwrt/SCCS/* \
+		  $(LIBDIR2)/libinterp/SCCS/* \
+		  $(LIBDIR2)/libgeog/SCCS/* \
+		  $(LIBDIR2)/libxprt2/SCCS/* \
+		  $(LIBDIR2)/libtime/SCCS/*
+INCTAR		= $(INCS)/aesir.h $(INCS)/loc_params.h $(INCS)/sysdefs.h \
+		  $(INCS)/db3/db_arrival.h $(INCS)/db3/db_assoc.h \
+		  $(INCS)/db3/db_origerr.h $(INCS)/db3/db_origin.h \
+		  $(INCS)/db3/db_site.h $(INCS)/css/trim.h \
+		  $(INCS)/css/csstime.h $(INCS)/css/pfile.h
+
+CC		= cc
+F77		= g77
+LD		= $(F77)
+LINT		= lint
+YACC		= yacc
+LEX		= lex
+
+LMODE		= 664
+PMODE		= 775
+GROUP		= aesir
+
+GET		= sccs get
+GFLAGS		=
+SCLEAN		= sccs clean
+
+RM		= rm
+INSTALL		= install
+MAKE		= make
+PRINT		= lpr -p
+DEPEND		= makedepend
+AR		= ar
+RANLIB		= ranlib
+FLAGS		= $(MFLAGS) "CC=$(CC)" "F77=$(F77)" "O=$O" "GET=$(GET)" \
+		  "GFLAGS=$(GFLAGS)" "SCLEAN=$(SCLEAN)" "LMODE=$(LMODE)" \
+		  "PMODE=$(PMODE)" "PRINT=$(PRINT)" "MAKE=$(MAKE)"
+
+all:		$(PROGRAM)
+
+$(PROGRAM):	$(HDRS) $(OBJS) $(LIBS)
+		$(LD) $(LDFLAGS) -o $(PROGRAM) $(OBJS) $(LIBS) $(STDLIBS)
+
+install:	all $(MAN1)
+		$(INSTALL) -m $(PMODE) $(PROGRAM) $(DESTDIR)
+#		for i in $(MAN1); do \
+#			$(INSTALL) -m $(LMODE) -g $(GROUP) $$i $(MAN1DIR);\
+#		done
+
+wtar:
+		mkdir ../../tables
+		cp /nmrd/top/data/tab.* ../../tables/.
+		tar cvf l.send SCCS/* tst/* ../PredSAT/SCCS/* ../PredSAT/tst/* \
+			$(LIBTAR) $(INCTAR) $(LIBS) $(DESTDIR)/LocSAT \
+			$(DESTDIR)/PredSAT ../../tables
+		rm -rf ../../tables
+		compress l.send
+
+clean:
+		-$(RM) -f $(OBJS) core
+
+xclean:
+		-$(RM) -f $(OBJS) core
+		-$(RM) -f $(PROGRAM) $(LIBRARY)
+		-$(SCLEAN)
+		
+lint:		$(SRCS) $(HDRS)
+		$(LINT) $(LFLAGS) $(SRCS)
+
+print:		$(SRCS) $(HDRS) Makefile
+		$(PRINT) $(SRCS) $(HDRS) Makefile
+
+sccs:
+		$(GET) $(GFLAGS) $(SRCS) $(HDRS) Makefile
+
+depend:		$(SRCS) $(HDRS) Makefile
+		$(DEPEND) $(INCLUDES) $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+mainloc.o: /usr/include/strings.h /usr/include/features.h
+mainloc.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+mainloc.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stddef.h
+mainloc.o: /usr/include/stdio.h
+mainloc.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stdarg.h
+mainloc.o: /usr/include/bits/types.h /usr/include/libio.h
+mainloc.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
+mainloc.o: /usr/include/ctype.h /usr/include/endian.h
+mainloc.o: /usr/include/bits/endian.h params.h ../../include/aesir.h
+mainloc.o: ../../include/loc_params.h ../../include/db3/db_arrival.h
+mainloc.o: ../../include/db3/db_assoc.h ../../include/db3/db_origerr.h
+mainloc.o: ../../include/db3/db_origin.h ../../include/db3/db_site.h
+mainloc.o: ../../include/css/csstime.h
+getargs.o: /usr/include/stdio.h /usr/include/features.h
+getargs.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+getargs.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stddef.h
+getargs.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stdarg.h
+getargs.o: /usr/include/bits/types.h /usr/include/libio.h
+getargs.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
+getargs.o: /usr/include/strings.h

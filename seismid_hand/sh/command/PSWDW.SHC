@@ -1,0 +1,27 @@
+! file PSWDW.SHC
+!      =========
+!
+! selects window for SP conversions
+! K. Stammler, 22-NOV-91
+
+sdef ltime        ! time of l-peak
+sdef stime        ! time of s-wave
+sdef difftime
+sdef wdw
+
+echo select l-peak
+time ;;&ltime
+echo select s-wave
+time ;;&stime
+
+calc r &difftime = "stime - "ltime
+
+nr
+copy 1
+shift _created "difftime
+calc r &wdw = 0 - "stime
+shift all "wdw
+stw -180 60
+rd
+
+return

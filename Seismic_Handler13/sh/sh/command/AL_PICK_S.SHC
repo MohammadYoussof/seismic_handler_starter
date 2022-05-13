@@ -1,0 +1,56 @@
+! file AL_PICK_S.SHC
+!      =============
+!
+! version 2, 27-Mar-2001
+!
+! Picks S waves using phase picker of Baer/Kradolfer
+! Writes a file S_STATION.STX with the name of a station with S pick
+! K. Stammler, 26-Mar-2001
+
+default 1 pick_s    output file
+default 2 ;;        hc file
+
+sdef cnt 1     ! trace counter
+sdef picktime  ! pick time
+sdef reftime   ! reference time
+sdef reltime   ! relative time
+sdef tmp       ! scratch
+sdef sstation  ! one station with pick
+
+echo try to pick s-phases
+
+echo_ch/new #1
+
+trc_loop_start:
+   if  "cnt gti $dsptrcs  goto/forward trc_loop_exit:
+   if  ^station("cnt) eqs ham   goto/forward no_pick:
+   if  ^station("cnt) eqs brnl  goto/forward no_pick:
+   if  ^station("cnt) eqs rgn   goto/forward no_pick:
+   if  ^station("cnt) eqs ibbn  goto/forward no_pick:
+      pick /duration=10 "cnt ;;; &picktime
+      if  "picktime eqs ;;  goto/forward no_pick:
+      if  "reftime nes ;;  goto/forward refok:
+         calc s &reftime = "picktime
+      refok:
+      calc t &reltime = "picktime tdiff "reftime
+      echo ^station("cnt) "reltime 0.0
+      calc s &sstation = ^station("cnt)
+   no_pick:
+   calc i &cnt = "cnt + 1
+goto trc_loop_start:
+trc_loop_exit:
+
+@ECHO $EXCLAMATION reftime "REFTIME
+
+echo_ch
+
+echo_ch/new s_station
+echo "sstation
+echo_ch
+
+if  #2 eqs ;;  return
+hc ;; p &tmp
+@CALC S &TMP = |mv|$BLANK|"TMP|$BLANK|#2|.ps|
+system "tmp
+
+return

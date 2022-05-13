@@ -1,0 +1,24 @@
+command RESAMPLE <trc-list> <new-dt>
+================
+
+key: resample traces
+
+Resamples traces specified in <trc-list> to <new-dt>.  New sample
+points are computed by linear interpolation.  The input traces
+are modified, no new traces are created.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be resampled.
+
+<new-dt>  ---  parameter type: real
+   New sample distance in sec.
+
+
+example:
+
+   RESAMPLE ALL .1        ! resamples all traces on display to a sample
+                          ! distance of 0.1 sec
+

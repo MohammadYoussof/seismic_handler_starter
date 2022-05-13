@@ -1,0 +1,96 @@
+! file shm_infosource_box.uil
+!      ======================
+!
+! version 2, 17-Jun-2006
+!
+! information source input box
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   infsource_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'source';
+         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard infsource_input_box;
+         XmRowColumn     infsource_main_button_box;
+      };
+   };
+
+object
+   infsource_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_infsource_main_buttons;
+         XmNy = k_pos_y_infsource_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_infsource_ok;
+      };
+   };
+
+object
+   button_infsource_ok: XmPushButton {
+      arguments {
+         XmNlabelString = ' OK ';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_infsource_ok );
+      };
+   };
+
+object
+   infsource_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'information source';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmLabel         infsource_name_label;
+         XmText          infsource_name_text;
+      };
+   };
+
+object
+   infsource_name_label: XmLabel {
+      arguments {
+         XmNlabelString = 'information source';
+      };
+   };
+
+object
+   infsource_name_text: XmText {
+      arguments {
+!         XmNx = k_pos_x_infsource_name_text;
+         XmNy = k_pos_y_infsource_name_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_infsource_name_text );
+!         XmNmodifyVerifyCallback =
+!            procedure xm_call_text_input( k_widget_infsource_name_text );
+      };
+   };
+

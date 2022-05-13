@@ -1,0 +1,20 @@
+! file markpicks.shc
+!      =============
+!
+! version 1, 25-Jan-93
+!
+! marks selected picks
+! K. Stammler, 25-Jan-93
+
+default 1 p-onset    phase name
+
+sdef cnt 1      ! trace counter
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   mark/abs "cnt ^#1("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

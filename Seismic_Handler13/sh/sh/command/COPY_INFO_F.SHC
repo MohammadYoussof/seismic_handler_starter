@@ -1,0 +1,19 @@
+! file COPY_INFO.SHC
+!      =============
+!
+! version 1, 31-OCT-91
+!
+! copies info value from one entry to another
+! K. Stammler, 31-OCT-91
+
+default 1 ;;     source entry
+default 2 ;;     destination entry
+
+sdef trccnt 1
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   set/file "trccnt #2 ^#1("trccnt)
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+return

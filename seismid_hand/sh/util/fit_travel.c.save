@@ -1,0 +1,372 @@
+
+/* file fit_travel.c
+ *      ============
+ *
+ * version 8, 6-Feb-2001
+ *
+ * Fits epicenter location to relative travel times at given depth
+ * Needs input file like:
+ *
+ BFO    0.00
+ BRG  -24.19
+BRNL  -28.93
+ BUG  -11.28
+ CLL  -23.90
+ CLZ  -19.53
+ FUR   -5.76
+GRFO  -11.82
+ HAM  -25.45
+ LID  -38.10
+ MOX  -17.43
+ TNS   -8.30
+ WET  -13.72
+! depth  471.00
+! latitude   43.40
+! longitude  134.76
+ *
+ * This tells relative travel times of stations in sec and hypocenter location
+ * K. Stammler, 8-Aug-96
+ */
+
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include "basecnst.h"
+#include "sysbase.h"
+#include "cpar.h"
+#include "ptusrdef.h"
+#include "earthloc.h"
+#include "glusrdef.h"
+#include "erusrdef.h"
+
+
+/* constants */
+#define cTfStatLth 5
+
+
+/* types */
+typedef struct {
+	char     station[cTfStatLth+1];     /* station code */
+	double   slat;                      /* station latitude in deg */
+	double   slon;                      /* station longitude in deg */
+	float    elev;                      /* station elevation */
+	float    resid;                     /* residual */
+	char     phase[cBcLineLth+1];       /* phase name */
+} TFtReltime;
+
+typedef struct {
+	TFtReltime     *res;                /* pointer to relative times */
+	int            relnum;              /* number of relative times */
+	double         elat;                /* epicenter latitude */
+	double         elon;                /* epicenter longitude */
+	float          depth;               /* depth of event */
+} TFtObservation;
+
+
+/* prototypes of local routines */
+static void TfReadObservation( char fname[], TFtObservation *obs );
+
+
+
+int main( int argc, char *argv[] )
+{
+	/* local variables */
+	char     residfile[cBcFileLth+1];     /* name of residual file */
+	TFtObservation obs;                   /* measured values */
+	char     *inputs;                     /* pointer to environment */
+	char     str[cBcLineLth+1];           /* scratch string */
+	int      i;                           /* counter */
+	TSyStatus status;                     /* return status */
+	double   lat1, lat2, dlat;            /* start, end, delta lat */
+	double   lon1, lon2, dlon;            /* start, end, delta lon */
+	double   wlat, wlon;                  /* window sizes in lat & lon */
+	double   clat, clon;                  /* center location */
+	double   lat, lon;                    /* running values */
+	double   dist, azim, bazim;           /* distance vector */
+	double   minlat, minlon;              /* best location */
+	float    travtime;                    /* absolute travel time in sec */
+	float    travoffset;                  /* offset to first value */
+	float    reltrav;                     /* relative travel time */
+	float    reldiff;                     /* difference in relative travel t. */
+	float    squerror;                    /* squared error */
+	float    minsquerror;                 /* minimum rms */
+	int      scnt;                        /* station counter */
+	float    tmp;                         /* scratch */
+	int      itmp;                        /* scratch */
+	TSyBoolean first_station;             /* first station used */
+	TSyBoolean xyz_output;                /* output for psxyz */
+	TSyBoolean loncorrect;                /* correct longitude dimensions */
+	TSyBoolean headerline;                /* print header line */
+	TSyBoolean nicenum;                   /* nice numbers (1/4 degrees) */
+
+	/* executable code */
+
+	pa_init( argc, argv );
+	if  (pa_pnumber() != 1)  {
+		fprintf( stderr, "Usage: %s <resid-file>\n",
+			pa_progname() );
+		fprintf( stderr, "   -wlat=<wlat>   width of latitude window\n" );
+		fprintf( stderr, "   -wlon=<wlon>   width of longitude window\n" );
+		fprintf( stderr, "   -dlat=<dlat>   step size in latitude\n" );
+		fprintf( stderr, "   -dlon=<dlon>   step size in longitude\n" );
+		fprintf( stderr, "   -clat=<clat>   center of latitude window\n" );
+		fprintf( stderr, "   -clon=<clon>   center of longitude window\n" );
+		fprintf( stderr, "   -loncorrect    correct longitude dimensions\n" );
+		fprintf( stderr, "   -infoline      print info lines with '!'\n" );
+		fprintf( stderr, "   -nicenum       use nice numbers (1/4 deg)\n" );
+		fprintf( stderr, "   -xyz           write xyz output\n" );
+		return 1;
+	} /*endif*/
+
+	/* defaults */
+	wlat = 5.0;
+	wlon = 5.0;
+	dlat = 1.0;
+	dlon = 1.0;
+	clat = 0.0;
+	clon = 0.0;
+
+	/* get parameters (overwrite defaults) */
+	strcpy( residfile, pa_pvalue(1) );
+	if  (pa_qspecified("-wlat"))
+		sscanf( pa_qvalue("-wlat"), "%lf", &wlat );
+	if  (pa_qspecified("-wlon"))
+		sscanf( pa_qvalue("-wlon"), "%lf", &wlon );
+	if  (pa_qspecified("-dlat"))
+		sscanf( pa_qvalue("-dlat"), "%lf", &dlat );
+	if  (pa_qspecified("-dlon"))
+		sscanf( pa_qvalue("-dlon"), "%lf", &dlon );
+	if  (pa_qspecified("-clat"))
+		sscanf( pa_qvalue("-clat"), "%lf", &clat );
+	if  (pa_qspecified("-clon"))
+		sscanf( pa_qvalue("-clon"), "%lf", &clon );
+	loncorrect = pa_qspecified( "-loncorrect" );
+	headerline = pa_qspecified( "-infoline" );
+	nicenum = pa_qspecified( "-nicenum" );
+
+	xyz_output = pa_qspecified( "-xyz" );
+
+	/* initialization of libraries */
+	inputs = (char *)getenv( "SH_INPUTS" );
+	if  (inputs == NULL)  {
+		fprintf( stderr, "%s: environment SH_INPUTS not set\n", pa_progname() );
+		return 1;
+	} /*endif*/
+	/* station location file */
+	strcpy( str, inputs );
+	strcat( str, "/" );
+	strcat( str, "STATINF.DAT" );
+	gl_locfile_name( str );
+	/* travel time tables */
+	strcpy( str, inputs );
+	strcat( str, "/" );
+	status = cBcNoError;
+	pt_settabledir( str, &status );
+	if  (SySevere(&status))  err_writemsg( status, "", TRUE );
+
+	TfReadObservation( residfile, &obs );
+
+#ifdef XXX
+	/* test output */
+	printf( "epicenter: %7.2lf %7.2lf %7.2f\n", obs.elat, obs.elon, obs.depth );
+	printf( "no of resid: %d\n", obs.relnum );
+	for  (i=0; i<obs.relnum; i++)
+		printf( "%4s (%7.2lf,%7.2lf) %7.2f\n", obs.res[i].station,
+			obs.res[i].slat, obs.res[i].slon, obs.res[i].resid );
+#endif
+
+	/* set bounds */
+	if  (clat == 0.0 && clon == 0.0)  {
+		clat = obs.elat;
+		clon = obs.elon;
+	} /*endif*/
+	if  (loncorrect)  {
+		wlon /= cos( clat / 180.0 * M_PI );
+		dlon /= cos( clat / 180.0 * M_PI );
+	} /*endif*/
+
+	if  (nicenum)  {
+		/* round to next quarter degrees */
+		clat = floor(4.0*clat+0.5) / 4.0;
+		clon = floor(4.0*clon+0.5) / 4.0;
+		dlat = floor(4.0*dlat+0.5) / 4.0;
+		dlon = floor(4.0*dlon+0.5) / 4.0;
+		itmp = Nint( wlat/dlat );
+		wlat = (double)itmp * dlat;
+		itmp = Nint( wlon/dlon );
+		wlon = (double)itmp * dlon;
+	} /*endif*/
+
+	lat1 = clat - wlat/2.0;
+	lat2 = clat + wlat/2.0;
+	lon1 = clon - wlon/2.0;
+	lon2 = clon + wlon/2.0;
+
+	if  (headerline)
+		printf( "! %8.3lf %8.3lf %8.3lf %8.3lf %8.3lf %8.3lf\n",
+			lat1, lat2, dlat, lon1, lon2, dlon );
+
+	/* loop on longitude */
+	minlat = lat1;
+	minlon = lon1;
+	minsquerror = -1.0;
+	for  (lon=lon1; lon<=(lon2+dlon/10.0); lon += dlon)  {
+
+		/* loop on latitude */
+		for  (lat=lat1; lat<=(lat2+dlat/10.0); lat += dlat)  {
+
+			/* loop on stations/residuals */
+			first_station = TRUE;
+			squerror = 0.0;
+			scnt = 0;
+			for  (i=0; i<obs.relnum; i++)  {
+
+				/* get distance from station to current grid point */
+				mb_locdiff( obs.res[i].slat, obs.res[i].slon, lat, lon,
+					&dist, &azim, &bazim );
+				/* travel time on this distance */
+				status = cBcNoError;
+				travtime = pt_travel( obs.phase, (float)dist, obs.depth, &status );
+				if  (SySevere(&status))  {
+					travtime = 1.0e5;
+					status = cBcNoError;
+				} /*endif*/
+				if  (first_station)  {
+					/* use this station as reference */
+					travoffset = obs.res[i].resid - travtime;
+					first_station = FALSE;
+				} else {
+					/* compute relative travel time and compare/add squares */
+					reltrav = travtime + travoffset;
+					reldiff = reltrav - obs.res[i].resid;
+					squerror += (reldiff*reldiff);
+					scnt++;
+				} /*endif*/
+
+			} /*endfor residuals*/
+			if  (scnt > 0)  squerror = sqrt( squerror / (float)scnt );
+
+ 			/* store best values */
+			if  (minsquerror < 0.0 || squerror < minsquerror)  {
+				minsquerror = squerror;
+				minlat = lat;
+				minlon = lon;
+			} /*endif*/
+
+			if  (xyz_output)  {
+#				ifdef XXX
+				if  (squerror < 1.0e-5)  squerror = 1.0e-5;
+				printf( "  %8.3lf %8.3lf %7.2f", lat, lon, 100.0/squerror );
+#				endif
+				printf( "  %8.3lf %8.3lf %7.3f", lat, lon, squerror );
+				/* mark reference location */
+				tmp = (clat-lat)*(clat-lat) + (clon-lon)*(clon-lon);
+				if  (tmp < 1.0e-8)  printf( "  ref" );
+				printf( "\n" );
+			} else {
+				printf( "  %7.2f", squerror );
+			} /*endif*/
+
+		} /*endfor latitude*/
+
+		if  (!xyz_output)
+			printf( "\n" );
+
+	} /*endfor longitude*/
+
+	if  (headerline)  printf( "! minsq: %7.3f  lat: %8.2lf  lon: %8.2lf\n",
+		minsquerror, minlat, minlon );
+
+	return 0;
+
+} /* end of main */
+
+
+
+/*----------------------------------------------------------------------------*/
+
+
+
+static void TfReadObservation( char fname[], TFtObservation *obs )
+
+/* Reads residuals from file
+ *
+ * parameters of routine
+ * char       fname[];          input; name of residual file
+ * TFtObservation *obs;         output; measured values read from file
+ */
+{
+	/* local variables */
+	FILE     *rf;                         /* pointer to residual file */
+	char     line[cBcLineLth+1];          /* current line of file */
+	int      i;                           /* counter */
+	GLT_STATINF statinf;                  /* station info */
+	TSyStatus status;                     /* return status */
+
+	/* executable code */
+
+	/* open file */
+	rf = fopen( fname, "r" );
+	if  (rf == NULL)  {
+		fprintf( stderr, "%s: cannot open input file %s\n",
+			pa_progname(), fname );
+		exit( 1 );
+	} /*endif*/
+
+	/* default depth */
+	obs->depth = 33.0;
+
+	/* first count number of residuals and find epicenter start location */
+	obs->relnum = 0;
+	while  (fgets(line,cBcLineLth,rf) != NULL)  {
+		if  (*line != '\n' && *line != '!')  (obs->relnum)++;
+		if  (strncmp(line,"! latitude ",11) == 0)
+			sscanf( line+11, "%lf", &(obs->elat) );
+		if  (strncmp(line,"! longitude ",12) == 0)
+			sscanf( line+12, "%lf", &(obs->elon) );
+		if  (strncmp(line,"! depth ",8) == 0)
+			sscanf( line+8, "%f", &(obs->depth) );
+		if  (strncmp(line,"! phase ",8) == 0)
+			sscanf( line+8, "%s", obs->phase );
+	} /*endwhile*/
+
+	/* allocate memory for residuals */
+	obs->res = (TFtReltime *)malloc( (obs->relnum)*sizeof(TFtReltime) );
+	if  (obs->res == NULL)  {
+		fprintf( stderr, "%s: memory allocation error\n", pa_progname() );
+		exit( 1 );
+	} /*endif*/
+
+	/* reread file and get residual */
+	i = 0;
+	rewind( rf );
+	while  (fgets(line,cBcLineLth,rf) != NULL)  {
+		if  (*line == '\n' || *line == '!')  continue;
+		sscanf( line, "%s %f", &(obs->res[i].station), &(obs->res[i].resid) );
+		i++;
+	} /*endwhile*/
+	if  (i != obs->relnum)  {
+		fprintf( stderr, "%s: program bug (1)\n", pa_progname() );
+		exit( 1 );
+	} /*endif*/
+
+	fclose( rf );
+
+	/* get station information */
+	status = cBcNoError;
+	for  (i=0; i<(obs->relnum); i++)  {
+		gl_statinf( obs->res[i].station, &statinf, &status );
+		if  (SySevere(&status))  err_writemsg( status, "", TRUE );
+		obs->res[i].slat = statinf.lat;
+		obs->res[i].slon = statinf.lon;
+		obs->res[i].elev = statinf.elevation;
+	} /*endfor*/
+
+} /* end of TfReadObservation */
+
+
+
+/*----------------------------------------------------------------------------*/
+
+

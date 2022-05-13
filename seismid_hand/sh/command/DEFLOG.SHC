@@ -1,0 +1,27 @@
+! file DEFLOG.SHC
+!      ==========
+!
+! version 3, 12-Jul-93
+!
+! defines logical names within SH
+! K. Stammler, 16-Sep-92
+
+@DEFAULT 1 ;;   logical name (no colon)
+switch capcnv off
+DEFAULT 2 ;;   value (including terminating slash)
+SWITCH CAPCNV ON
+
+sdef path
+sdef logname
+
+fct getpath userdir &path
+calc s &logname = #2 doslash
+
+echo_ch |"path|shlognames|
+echo #1 "logname
+echo_ch
+fct logicals |"path|shlognames.stx|
+
+return
+
+

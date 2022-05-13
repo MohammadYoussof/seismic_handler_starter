@@ -1,0 +1,17 @@
+! file ERR_4300.MSG
+!      ============
+!
+! version 2, 3-Nov-93
+!
+! error messages of module seismics.h
+! K. Stammler, 13-Aug-93
+!
+*** SI-01 no convergence ***
+*** SI-02 distance out of range ***
+*** SI-03 value out of range ***
+*** SI-04 illegal magnitude type ***
+*** SI-05 illegal event list specified ***
+*** SI-06 error opening input file ***
+*** SI-07 too many events in search window ***
+*** SI-08 more than 1 event matches phase ***
+*** SI-09 no event matches phase ***

@@ -1,0 +1,23 @@
+command PMCH [<wdw>]
+============
+
+key: select particle motion window
+
+Selects output window for particle motion diagrams.  If the parameter
+is omitted the current graphics window is used.
+
+
+parameters
+
+<wdw>  ---  parameter type: string
+   Window channel char and number to be used as particle motion output
+   window (example "XH1" for X-window number 1 with hardcopy option).
+   If the parameter is omitted the current graphics window is used.
+
+
+example:
+
+   PMCH V2H      ! uses VWS window number 2 for output of particle
+                 ! motion diagrams.  This window must be opened before
+                 ! by the WDW command
+

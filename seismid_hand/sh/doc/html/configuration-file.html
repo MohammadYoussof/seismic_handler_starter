@@ -1,0 +1,605 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>menu_fk</TITLE>
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+	<META NAME="CREATED" CONTENT="20060622;17340800">
+	<META NAME="CHANGED" CONTENT="20060625;19522100">
+</HEAD>
+<BODY LANG="en" BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Configuration file of SHM</H2>
+<P>This section applies to SHM versions 2.4 and higher. The
+configuration file controls all global parameters of the SHM program.
+Its default location is <I>$SH_INPUTS/shm-config.txt</I>. It is
+recommended create a private copy and define an environment variable
+<I>$SH_USER_PARAM</I> pointing to it (e.g.: <I>setenv SH_USER_PARAM
+$HOME/shm-myconfig.txt</I>).</P>
+<H3>Syntax description</H3>
+<P>Each line consists of two parts: <I>&lt;keyword</I>&gt; and
+<I>&lt;value&gt;</I>, separated by one or more blanks (or tabs).
+Neither <I>&lt;keyword&gt;</I> nor <I>&lt;value&gt;</I> may contain
+blanks. All lines starting with '!', '#' or blank lines are ignored.
+Empty string values must be entered as <I>&lt;NULL&gt;</I> or <I>NULL</I>.
+</P>
+<P>Variables beginning with <I>v$</I> are freely definable, all other
+names are fixed and hardwired in the program code. <I>v$</I>-variables
+appear in the definition of the MiniSEED read dialog boxes to be able
+to compose your own station subsets. Names of <I>v$</I> variables are
+not case sensitive, their values are case sensitive. 
+</P>
+<P><EM>include</EM> statements read prepared parameter subsets from
+files of the same syntax as this file. Default path of this parameter
+subset is <I>$SH_INPUTS</I>, prepended if the first character is not
+'/'. The parameters may be overwritten in later statements, e.g. in
+the main configuration file. 
+</P>
+<P>
+Since version 2.4g all text string and string glist parameters may
+contain environment variables or internal variables (<i>v$</i>-variables)
+which are translated accordingly.
+</P>
+<P>valid parameters:</P>
+<DL>
+	<DD><EM>file_version</EM></DD><DD>
+	Version of parameter file, e.g. <EM>1.0</EM>. This is the version
+	number of the parameter file, not related to version numbers of SH
+	or SHM. 
+	</DD><DD>
+	<BR>
+	</DD><DD>
+	<EM>texteditor</EM></DD><DD>
+	Type: text string. Editor used for displaying text files. Value
+	example: <EM>xedit</EM> 
+	</DD><DD>
+	<BR>
+	</DD><DD>
+	<EM>station_info_file</EM></DD><DD>
+	type: text string (up to 2.4e), string list (since 2.4g). Station info
+   file, <EM>default</EM> takes the value as defined in the SH startup file,
+   usually <EM>$SH_INPUTS/STATINF.DAT</EM>.  As a string list (separated
+   by blanks, commas or semicolons) it takes an arbitrary number of files
+   wich are searched for station information in the specified order.</DD><DD>
+	<BR>
+	</DD><DD>
+	<EM>filter_lookup_file</EM></DD><DD>
+	Type: text string (up to 2.4e), string list (since 2.4g). Filter lookup
+   table, <EM>default</EM> takes the value
+	<EM>$SH_INPUTS/filter_lookup.txt</EM>.  As a string list (separated by
+	blanks, commas or semicolons) it takes an arbitrary number of files
+	which are searched for filter entries in the specified order.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>sensitivity_file</I></DD><DD>
+	Type: text string (up to 2.4e), string list (since 2.4g). Sensitivity file
+	for data streams. <I>default</I> takes the value
+	<I>$SH_INPUTS/sensitivities.txt</I>. A value of <I>old-style</I> uses
+	separate <I>seedcalib_...</I> files in <I>$SEED_INPUTS</I> which have been
+	used before SHM version 2.4. For a syntax description of the file read the
+	<A HREF="sensitivity_file.html">sensitivity file manual</A>.  As a string
+	list (separated by blanks, commas or semicolons) it takes an arbitrary
+	number of files which are searched for sensitivity/gain information in
+	the specified order.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_filter</I> (since version 2.4g)</DD><DD>
+	Type: string list.  List of search paths for filters.  Default is
+	a value of ". $SH_FILTER" (current path and $SH_FILTER directory).
+	</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_command</I> (since version 2.4g)</DD><DD>
+	Type: string list.  List of search paths for command procedures.  Default is
+	a value of ". $SH_COMMAND" (current path and $SH_COMMAND directory).
+	</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>v$read_dialog_stations_??</I></DD><DD>
+	Type: text string. Stations in read dialog box for MiniSEED data.
+	Separate elements by commas, no blanks please. Elements 1 to 30 give
+	names to the 30 station buttons of the dialog box. Elements 31 and
+	32 ! give names to the two subgroup buttons. Empty names are
+	specified by 3 hyphens '---'. Subgroups (optional) are indicated by
+	brackets around the station list group (like [xyz,abc],[bbb,ccc]).
+	Maximum is two subgroups. Up to 99 (not useful!) different dialog
+	boxes may be defined. Switch them using the <I>Next</I> button of
+	the dialog box. List elements with a value starting with <I>$</I>
+	refer to a <I>v$</I>-variable defining a station subset. Example:</DD><DD>
+	<I>v$read_dialog_stations_01
+	[GRA1,GRA2,GRA3,GRA4,GRC1,GRC2],[RGN,RUE,FUR,MOX,CLL,BRG,WET],GRF,GRSN</I></DD><DD>
+	<I>v$read_dialog_stations_02
+	$NW,---,$SW,---,---,$N,$C,$S,---,---,---,$E</I></DD><DD>
+	<I>! station subsets for above button</I></DD><DD>
+	<I>v$nw bug,ibbn,tns,bseg,clz,wlf,nrdl,hlg</I></DD><DD>
+	<I>v$sw bfo,stu,tns,gra1,grfo,fur,wlf</I></DD><DD>
+	<I>v$n rgn,hlg,bseg,ibbn,rue,clz,nrdl,ubba</I></DD><DD>
+	<I>v$c mox,gra1,grfo,tns,bug,clz,brg,cll,wlf,nrdl,ubba</I></DD><DD>
+	<I>v$s bfo,brg,cll,clz,fur,gec2,gra1,mox,stu,tns,tann,wet,wlf</I></DD><DD>
+	<I>v$e
+	gec2,wet,werd,wern,tann,gunz,neub,manz,rotz,gra1,grfo,mox,cll,brg,fbe</I></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>v$read_dialog_channels_??</I></DD><DD>
+	Type: text string. Channel names for the Mini-SEED dialog boxes
+	defined above. If not specified it defaults to <I>LH,BH,HH</I>.
+	Example:</DD><DD>
+	<I>v$read_dialog_channels_01 LH,BH,HH</I></DD><DD>
+	<I>v$read_dialog_channels_02 LH,BH,SH</I></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>prompt_analyst</I></DD><DD>
+	Type: boolean (Values: <I>True</I>/<I>False</I>). Prompt for
+	analysts's initials at startup of SHM. Default is <I>False</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>analyst</I></DD><DD>
+	Type: text string. Analysts initals if not prompted (<I>prompt_analyst</I>
+	set to <I>False</I>). Default is <I>&lt;NULL&gt;</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>list_of_analysts</I></DD><DD>
+	Type: text string. List of valid analyst initials. Enter no blanks
+	in this comma-separated list! Example:</DD><DD>
+	<I>list_of_analysts sta,wh,ki,xx</I></DD><DD>
+	Default is <I>&lt;NULL&gt;.</I></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>minmax_format</I></DD><DD>
+	Type: text string. Output of minimum/maximum amplitudes in the
+	single trace window as numbers. Specify as C format string (e.g.
+	<I>%5.2f</I>) or enter <I>&lt;NULL&gt;</I> for no output. Default is
+	<I>&lt;NULL&gt;</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>filter_type</I></DD><DD>
+	Type: character. Default filter type for all filter operations.
+	Possible values: F = FFT filters, R = recursive filters.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_quality</I></DD><DD>
+	Type: integer. Default quality of phase picks. Possible values
+	between 1='bad' and 9='very good'. Default is 2.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_event_type</I></DD><DD>
+	Type: integer. Default type of event. Possible values are: 0 =
+	unknown, 1 = teleseismic earthquake, 2 = nuclear explosion, 3 =
+	regional earthquake, 4 = local earthqake, 5 = quarry blast, 6 =
+	mining induced 
+	</DD><DD>
+	Default is 0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_phase_flags</I></DD><DD>
+	Type: integer. Default flag values set on phases. Possible flags:
+	0x01 = calibration event, 0x02 = ignore event, 0x04 = telex phase.
+	Recommended: 0 Default is 0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_depth_type</I></DD><DD>
+	Type: integer. Default depth type. Possible values: 0 = undefined, 1
+	= preset, 2 = estimated, 3 = free depth, 4 = poor quality, 5 = less
+	well constrained, 6 = reliable, 7 = external depth source. Default
+	is 0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_loc_quality</I></DD><DD>
+	Type: integer. Default location quality. Possible values: 0 =
+	undefined, 1 = signal too weak, 2 = incoherent, 3 = no bearing
+	possible, 4 = region only, 5 = reliable. Default is 0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_depth</I></DD><DD>
+	Type: floating point. Default source depth in km. Default is 33.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>max_cursor_form</I></DD><DD>
+	Type: integer. Cursorform changes when clicking the middle mouse
+	button. The number of waveform shapes is given here. Possible
+	values: 2 = crosshair, 3 = waveform cursor, 4 = negative waveform, 5
+	= hilbert transformed waveform, 6 = negative hilbert transformed
+	waveform. Default is 5.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>depth_phase_list</I></DD><DD>
+	Type: text string. List of depth phases used for depth
+	determination. Default is <I>pP,sP,pS,sS</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>theo_phase_list</I></DD><DD>
+	Type: text string. List of preselected phases in the theoretical
+	phase arrival dialog box. Default is <I>P,S,pP,pS,sP,sS,ScS,PcP,PP,SS.</I></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>diff_phase_list</I></DD><DD>
+	Type: text string. Phase differences used for distance determination
+	in option <I>Phase Diff</I>. Default is <I>S-P,PP-P,Pg-Pn</I></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_filter</I></DD><DD>
+	Type: text string. Path to filter files, <I>default</I> takes the
+	value of <I>$SH_FILTER</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_events</I></DD><DD>
+	Type: text string. Path to detection lists, <I>default</I> takes the
+	value of <I>$HOME</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_gse</I></DD><DD>
+	Type: text string. Path to GSE files, <I>default</I> takes the value
+	of <I>$SH_ROOT/sh/data-examples/gse</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_ah</I></DD><DD>
+	Type: text string. Path to AH files. <I>default</I> takes the value
+	of <I>$HOME</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_q</I></DD><DD>
+	Type: text string. Path to q-files. <I>default</I> takes the value
+	of <I>$HOME</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_evid</I></DD><DD>
+	Type: text string. Path to evid directory (for event number
+	generation). <I>default</I> takes the value of <I>$SH_PRIVATE/evid</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_evtout</I></DD><DD>
+	Type: text string. Path to evtout directory where evt-files are
+	created. <I>default</I> takes the value of <I>$SH_PRIVATE/evtout</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>defpath_data</I></DD><DD>
+	Type: text string. Path to sfdfile for MiniSEED input.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>default_filter</I></DD><DD>
+	Type: text string. Default filter, applied after <I>Read New</I>.
+	Default is <I>&lt;NULL&gt;</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	default_source</DD><DD>
+	Type: text string. Default source (reporting agency) in your
+	evt-files. Default is <I>UNDEF</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>phase_ampl_diff</I></DD><DD>
+	Type: floating point. How far (in s) an amplitude measurement can be
+	away from the phase pick.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>refstation</I></DD><DD>
+	Type: text string. Reference station used in array operations.
+	Default is <I>CENTRE</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>list_of_refstations</I></DD><DD>
+	Type: text string. List of reference stations offered in the dialog
+	box (option <I>Ref. Station ...</I>), maximum 6 stations.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>double_click_time</I></DD><DD>
+	Type: integer. Maximum time difference between two mouse clicks (in
+	ms) to accept it as double click. Default is 200.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>min_drag_box_width</I></DD><DD>
+	Type: integer. Minimum size of trace magnification drag box (right
+	mouse button) in pixels. Default is 7.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>x_max_drawlth</I></DD><DD>
+	Type: integer. Seismograms are drawn in portions of this size (in
+	samples). Default is 4096.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>drag_box_rubber_val</I></DD><DD>
+	Type: integer. For changing the size of an existing drag box the
+	right mouse click must be that close to the right border of the box
+	(in pixels). Default is 10.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>top_margin</I></DD><DD>
+	Type: integer. Top margin of trace display in pixels. Default is 20.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>window_border</I></DD><DD>
+	Type: integer. Window border in pixels. Default is 3.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>close_phase_resol</I></DD><DD>
+	Type: floating point. How close to an existing phase a left mouse
+	click must be to grab it instead of creating a new phase. Unit is
+	pixels. Default is 8.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>trace_zoom_base</I></DD><DD>
+	Type: floating point. The trace amplitude zoom ruler has exponential
+	magnification steps. The formula is <I>&lt;zoom&gt; =
+	&lt;trace_zoom_base&gt; * exp( &lt;ruler&gt; / &lt;trace_zoom_exp&gt;
+	) </I>where <I>&lt;ruler&gt;</I> is the value read from the ruler.
+	Default is 10.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>trace_zoom_exp</I></DD><DD>
+	Type: floating point. Description see <I>trace_zoom_base</I>.
+	Default is 3.3333333.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>area_zoom_base</I></DD><DD>
+	Type: floating point. Exponential magnification of the drawing area
+	(ruler in the <I>Setup</I> dialog box). Parameter description
+	similar to <I>trace_zoom_base</I> above. Default is 10.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>area_zoom_exp</I></DD><DD>
+	Type: floating point. Description see <I>area_zoom_base</I>. Default
+	is 25.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>move_wdw_step</I></DD><DD>
+	Type: floating point. When moving time windows in the main display
+	window (options <I>Window</I> - <I>Move Right/Move Left</I>) the
+	following value is multiplied to the default step of 50% of the
+	width of the window. Default is 1.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>calib_wdw_width</I></DD><DD>
+	Type: floating point. Width of calibration window in s/deg (window
+	opening in <I>Calibration</I> option). Default is 2.5.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>calib_wdw_height</I></DD><DD>
+	Type: floating point. Height of calibration window in s/deg. Default
+	is 2.5.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>calib_azimuth_grid</I></DD><DD>
+	Type: floating point. Grid size for azimuth in the calibration
+	window. Default is 10.0.</DD><DD>
+	<BR>
+	</DD><DD>
+	calib_slowness_grid</DD><DD>
+	Type: floating point. Grid size for slowness in the calibration
+	window. Default is 0.5.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>auto_phase</I></DD><DD>
+	Type: text string. Name of dummy phases. Default is <I>beam</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>event_check_proc</I></DD><DD>
+	Type: text string. Event check procedure applied to evt-files
+	created with <I>Final Parameters</I>. Default is <I>&lt;NULL&gt;</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>screendump_proc</I></DD><DD>
+	Type: text string. Screendump procedure. Default is <I>screendump.csh</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>evtview_proc</I></DD><DD>
+	Type: text string. Reformatting of evt-files for quick viewing.
+	Default is <I>ev2view</I>. 
+	</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>reformat_proc</I></DD><DD>
+	Type: text string. Reformatting program to GSE used in <I>Read
+	Other</I>. Default is <I>undefined</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>final_proc</I></DD><DD>
+	Type: text string. Final processing of evt-files (after Final
+	Parameters). Default is <I>undefined</I>. (To be changed to &lt;NULL&gt;).</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>motif_log</I></DD><DD>
+	Type: text string. Log file of motif actions for debugging purposes.
+	Default is <I>&lt;NULL&gt;</I>.</DD><DD>
+	<I>top_down_order</I></DD><DD>
+	Type: boolean. Ordering of traces on display: first on top (True) or
+	on bottom (False). Default is <I>False</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>trace_normalisation</I></DD><DD>
+	Type: integer. Since SHM version 2.4c.  This value controls the normalisation
+   of the traces on the display.  It replaces the parameter
+   <I>auto_scaling</I>.  Possible values are: 0 = use old style
+   <I>auto_scaling</I> value (not recommended), 1 = use constant normalisation
+   for all traces (<I>norm c</I> in SH), 2 = scale traces with the same
+   magnification depending on the maximum value on screen (<I>norm aw</I> in SH),
+   3 = scale traces separately so that all traces show the same maximum
+   amplitude on display (<I>norm sw</I> in SH). Default is <I>0</I>.</DD><DD>
+	<BR>
+	<I>auto_scaling</I></DD><DD>
+	Type: boolean. Obsolete since SHM version 2.4c.  Scale traces separately
+   (True) or with the same
+	magnification (False). Default is <I>True</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>reverse_xors</I></DD><DD>
+	Type: boolean. Reverse XOR pixels, on some machines necessary for
+	correct colour display. Default is <I>False</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>full_phase_names</I></DD><DD>
+	Type: boolean. Use full phase names (with 'i'/'e' before phase name
+	and 'c'/'d' after it). Default is <I>False</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>own_accelerators</I></DD><DD>
+	Type: boolean. Use own accelerators for hotkeys, the motif hotkeys
+	have a problem on recent Linux versions. Default is <I>True</I>.</DD><DD>
+	<BR>
+	<I>recover_evid</I></DD><DD>
+	Type: boolean. Since SHM version 2.4c. Controls whether or not the
+   option <I>Recover from EVT-File</I> reads the event ID from the file.
+   If set to <I>True</I> then changes to the anaylsis made after recovering
+   will be saved under the same event ID.  If set to <I>False</I> a new
+   event ID is created.  Default is <I>False</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>sn_noise_start</I>, <I>sn_noise_end</I>, <I>sn_signal_start</I>,
+	<I>sn_signal_end</I></DD><DD>
+	Type: floating point. Time windows for determination of signal/noise
+	ratio for the phase in the phase dialog box. The four values give
+	the time in s for the start and end of the noise and signal window
+	relative to the phase onset time. Default values are -13.0, -3.0,
+	-1.0 and 9.0, respectively.</DD><DD>
+	<BR>
+	<I>idphases_tol_slow</I></DD><DD>
+	Type: floating point.  Available since SHM version 2.4c.
+   Used in <I>Identify Phase</I>.  Maximum slowness
+   tolerance in s/deg in a phase match using epicentres determined by
+   external sources (from Internet).  Default is <I>1.5</I>.</DD><DD>
+	<BR>
+	<I>idphases_tol_azim</I></DD><DD>
+	Type: floating point.  Available since SHM version 2.4c.
+   Used in <I>Identify Phase</I>.  Maximum azimuth
+   tolerance in deg in a phase match using epicentres determined by
+   external sources (from Internet).  Default is <I>20.0</I>.</DD><DD>
+	<BR>
+	<I>spectrogram_width</I></DD><DD>
+	Type: integer.  Available since SHM version 2.4d.
+   Must be a power of 2.  Used in <I>Spectrogram</I>.  Number of samples
+   in a time window for FFT.  See Spectrogram page for details.
+   Default is <I>1024</I>.</DD><DD>
+	<BR>
+	<I>spectrogram_step</I></DD><DD>
+	Type: integer.  Available since SHM version 2.4d.
+   Used in <I>Spectrogram</I>.  Number of samples by which the specrogram
+   time window is shifted in each step.  See Spectrogram page for details.
+   Default is <I>4</I>.</DD><DD>
+	<BR>
+	<I>exclusive_agency</I></DD><DD>
+	Type: text string.  Available since SHM version 2.4c.
+   Used in <I>Identify Phase</I>.  Restrict search for given epicentres to
+   a specific agency given here.  If set to <I>NULL</I> or not specified, all agencies
+   are accepted.  Default is <I>NULL</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>debug_level</I></DD><DD>
+	Type: integer. Debug level; 0 = no debug output, 1 = little debug
+	output, 2 = more debug output, ... Default is 0.</DD><DD>
+	<BR>
+	</DD><DD>
+	<B>The following parameters are usually set in one of the include
+	files.  Their value may be overwritten by specifying a new
+	definition after the include statement.</B></DD><DD>
+	<BR>
+	</DD><DD>
+	<I>parameter_box_x, parameter_box_y, parameter_box_w,
+	parameter_box_h</I></DD><DD>
+	Type: integer.  Position and size (width &amp; height) of the
+	parameter box in pixel units. Usually set in
+	<I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>phase_box_x, phase_box_y, phase_box_w, phase_box_h</I></DD><DD>
+	Type: integer, Position and size of phase dialog box.  Usually set
+	in <I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>window_main_x, window_main_y, window_main_w, window_main_h</I></DD><DD>
+	Type: integer.  Position and size of main trace display window. 
+	Usually set in <I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>single_trace_box_x, single_trace_box_y, single_trace_box_w,
+	single_trace_box_h</I></DD><DD>
+	Type: integer.  Position and size of the single trace window. 
+	Usually set in <I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>draw_area_width, draw_area_height</I></DD><DD>
+	Type: integer.  Size (width &amp; height) of the drawing area in the
+	main trace display window.  If its size is bigger than the frame of
+	the window (set in the window_main_? parameters) then scrollbars are
+	added to navigate on the drawing area.  Usually set in
+	<I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>small_menu_font</I></DD><DD>
+	Type: boolean.  Use a small font for the menu line to fit on smaller
+	displays with screen widths of 1024 pixels.  Usually set in
+	<I>shm-conf-*-geometry.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_bg_red, colour_bg_green, colour_bg_blue</I></DD><DD>
+	Type: floating point.  RGB colour of the main trace display
+	background.  Possible values for each of these three variables range
+	from 0.0 (dark) to 1.0 (full colour). Usually set in
+	<I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_fg_red, colour_fg_green, colour_fg_blue</I></DD><DD>
+	Type: floating point.  RGB colour of the seismogram traces.  Values
+	between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_mark_red, colour_mark_green, colour_mark_blue</I></DD><DD>
+	Type: floating point. RGB colour of manually picked phases.  Values
+	between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_theo_red, colour_theo_green, colour_theo_blue</I></DD><DD>
+	Type: floating point.  RGB colour of theoretical phases.  Values
+	between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_auto_red, colour_auto_green, colour_auto_blue</I></DD><DD>
+	Type: floating point.  RGB colour of automatically created phases. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_crsr_red, colour_crsr_green, colour_crsr_blue</I></DD><DD>
+	Type: floating point.  RGB colour of cursor and rubber window (right
+	mouse button).  Values between 0.0 and 1.0.  Usually set in
+	<I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_dialog_fg_red, colour_dialog_fg_green,
+	colour_dialog_fg_blue</I></DD><DD>
+	Type: floating point.  RGB colour of dialog box foreground (text). 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_dialog_bg0_red, colour_dialog_bg0_green,
+	colour_dialog_bg0_blue</I></DD><DD>
+	Type: floating point.  RGB colour of dialog box text background. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_dialog_bg1_red, colour_dialog_bg1_green,
+	colour_dialog_bg1_blue</I></DD><DD>
+	Type: floating point.  RGB colour of dialog box background 1. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_dialog_bg2_red, colour_dialog_bg2_green,
+	colour_dialog_bg2_blue</I></DD><DD>
+	Type: floating point.  RGB colour of dialog box text background 2. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_alert_red, colour_alert_green,
+	colour_alert_blue</I></DD><DD>
+	Type: floating point.  Since version 2.4e.  RGB colour of alert traces. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<I>colour_addfil_red, colour_addfil_green,
+	colour_addfil_blue</I></DD><DD>
+	Type: floating point.  Since version 2.4e.  RGB colour of traces with
+   additional Butterworth filter. 
+	Values between 0.0 and 1.0.  Usually set in <I>shm-conf-*-colours.txt</I>.</DD>
+</DL>
+
+<P><small>This page last modified 15-Oct-2006</small></P>
+</BODY>
+</HTML>

@@ -1,0 +1,19 @@
+! file UNIX_TIME.SHC
+!      =============
+!
+! version 1, 4-Aug-94
+!
+! returns system time in G1
+! K. Stammler, 4-Aug-94
+
+sdef cmd         ! UNIX shell command
+sdef tmpfile     ! scratch file
+
+fct getpath scratch &tmpfile
+calc s &tmpfile = |"tmpfile|$sh_id|clock.000|
+@CALC S &CMD = |date|$BLANK|+%d-%h-%y_%T|$BLANK|>|"TMPFILE|
+system "cmd
+calc s &g1 = %"tmpfile
+fct oscall fdelete "tmpfile
+
+return

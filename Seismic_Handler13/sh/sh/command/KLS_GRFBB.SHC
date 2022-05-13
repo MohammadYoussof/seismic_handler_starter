@@ -1,0 +1,38 @@
+! file KLS_NEXT_EVENT.SHC
+
+default 1 ;;      list file
+default 2 1       increment
+
+sdef line
+sdef cnt %sys$login:kls_counter
+sdef year
+sdef month
+sdef day
+sdef hour
+sdef min
+sdef sec
+
+calc i &cnt = "cnt + #2
+echo_ch/new sys$login:kls_counter
+echo "cnt
+echo_ch
+
+echo >>>>>> reading event of line "cnt in file #1 <<<<<<
+calc s &line = %#1("cnt)
+calc s &year = "line extract 2 2
+calc s &month = "line extract 6 2
+calc s &day = "line extract 9 2
+calc s &hour = "line extract 17 2
+calc s &min = "line extract 20 2
+calc s &sec = "line extract 23 2
+calc s &g1 = |"day|,|"month|,|"year|,|
+calc s &g1 = |"g1|"hour|,|"min|,|"sec|
+calc s &g2 = "line extract 54 5     ! distance
+calc s &g3 = "line extract 45 4     ! depth
+calc s &ret = "line extract 60 5    ! back azimuth
+
+!calc s &g1 = 21-aug-1989_01:09:05.700
+!calc r &g2 = 45.3
+!calc r &g3 = 10.0
+
+return

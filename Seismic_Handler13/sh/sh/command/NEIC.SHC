@@ -1,0 +1,12 @@
+
+! file NEIC.SHC
+!      ========
+!
+! version 1, 2-aug-91
+!
+! read command for NEIC ASCII files created by program SONIC1
+! K. Stammler, 2-aug-91
+
+default 1 ;;      NEIC file
+readf/fmt=1/entries=shc_inputs:neic_entries.txt #1 1
+return

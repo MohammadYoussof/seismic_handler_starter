@@ -1,0 +1,17 @@
+! file DELALOG.SHC
+!      ==========
+!
+! version 2, 12-Jul-93
+!
+! delete all logicals
+! K. Stammler, 16-Sep-92
+
+sdef path
+
+fct getpath userdir &path
+
+fct oscall fdelete |"path|shlognames.stx|
+
+return
+
+

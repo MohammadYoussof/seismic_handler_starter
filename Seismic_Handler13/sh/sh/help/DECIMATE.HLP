@@ -1,0 +1,30 @@
+command DECIMATE <trc-list> <factor>
+================
+
+key: decimate traces
+
+Decimates traces specified in <trc-list> to by a factor of <factor>.
+Each output sample is an average of <factor> input samples.
+The input traces are modified, no new traces are created.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be resampled.
+
+<factor>  ---  parameter type: integer
+   Decimation factor
+
+
+qualifiers
+
+/NOMEAN
+   Makes plain decimation, i.e. does not average samples, just
+   throws them away
+
+
+example:
+
+   DECIMATE ALL 4         ! decimates all traces on display by a factor of 4
+

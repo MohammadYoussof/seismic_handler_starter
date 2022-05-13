@@ -1,0 +1,9 @@
+! file ERR_4100.MSG
+!      ============
+!
+! version 1, 13-Aug-93
+!
+! error messages of module pixmaps.c
+! K. Stammler, 13-Aug-93
+!
+*** PIX-01 window already linked in ***

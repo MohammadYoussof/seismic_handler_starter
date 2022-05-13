@@ -1,0 +1,33 @@
+! file ERR_4600.MSG
+!      ============
+!
+! version 7, 22-Aug-94
+!
+! error messages of module cbutil.c
+! K. Stammler, 26-May-93
+!
+*** CU-01 no traces specified ***
+*** CU-02 error opening input file ***
+*** CU-03 too less traces in locate routine ***
+*** CU-04 no station info available ***
+*** CU-05 phase not found ***
+*** CU-06 no initiator found ***
+*** CU-07 no zeroes found in selected window ***
+*** CU-08 this cannot happen ***
+*** CU-09 no multiplication value ***
+*** CU-10 error converting float ***
+*** CU-11 no transfer function found ***
+*** CU-12 zero period input ***
+*** CU-13 zero transfer function ***
+*** CU-14 string overflow ***
+*** CU-15 no distance determined ***
+*** CU-16 beam station name found ***
+*** CU-17 reference station not in list ***
+*** CU-18 input error on file ***
+*** CU-19 update phase error ***
+*** CU-20 please first save/cancel parameters ***
+*** CU-21 no dummy phase allowed for this operation ***
+*** CU-22 use command Read New to read new traces ***
+*** CU-23 need Wood-Anderson seismograms ***
+*** CU-24 program bug ***
+*** CU-25 get_geo input file not found ***

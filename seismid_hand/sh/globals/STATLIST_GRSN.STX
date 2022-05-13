@@ -1,0 +1,41 @@
+! file STATLIST_GRSN.STX
+!      =================
+!
+! version 1, 18-Jan-2000
+!
+! setup of dialog box for GRSN stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 28 GRSN
+set2: 29 29 OLD
+
+* BFO
+* BRG
+* BSEG
+* BUG
+* CLL
+* CLZ
+* FUR
+* FBE
+* GEC2
+* GRFO
+* GTTN
+* GUNZ
+* HLG
+* IBBN
+* MANZ
+* MOX
+* NEUB
+* NOTT
+* NRDL
+* RGN
+* ROTZ
+* RUE
+* STU
+* TANN
+* TNS
+* UBBA
+* WET
+* WERD
+* WERN
+* WLF

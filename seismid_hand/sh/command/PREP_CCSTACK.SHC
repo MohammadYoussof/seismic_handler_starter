@@ -1,0 +1,9 @@
+! file PREP_CCSTACK.SHC
+nr
+shift all -30
+stw -20 90
+norm c
+zoom all -18
+trctxt ^comment(x)
+rd
+return

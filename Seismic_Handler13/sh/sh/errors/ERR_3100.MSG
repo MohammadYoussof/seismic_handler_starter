@@ -1,0 +1,16 @@
+! file ERR_3100.MSG
+!      ============
+!
+! version 2, 31-AUG-91
+!
+! error messages of module PSCH.C, PostScript interface
+! K. Stammler, 15-AUG-91
+!
+*** PS-01 illegal parameter ***
+*** PS-02 illegal style number ***
+*** PS-03 unknown style attribute ***
+*** PS-04 unknown value of attribute ***
+*** PS-05 error submitting job ***
+*** PS-06 error opening output file ***
+*** PS-07 unknown hardcopy item ***
+*** PS-08 string overflow ***

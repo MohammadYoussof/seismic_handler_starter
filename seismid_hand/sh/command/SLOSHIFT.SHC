@@ -1,0 +1,30 @@
+
+! file SLOSHIFT.SHC
+!      ============
+!
+! version 1, 3-SEP-1991
+!
+! shifts traces 1-#1 using the formula:
+!    dt = d_slowness * distance
+! K. Stammler, 3-SEP-91
+
+default 1 $dsptrcs     number of traces
+default 2 0.0          slowness difference
+default 3 65.5         reference distance (km)
+
+sdef trccnt 1   ! trace counter
+sdef dt         ! shift time
+sdef dist       ! distance minus reference distance
+
+nr
+loop_start:
+   if  "trccnt gti #1  goto/forward loop_exit:
+   calc r &dist = ^distance("trccnt) - #3
+   calc r &dt = #2 * "dist
+   shift "trccnt "dt
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

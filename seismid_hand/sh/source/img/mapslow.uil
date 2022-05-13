@@ -1,0 +1,569 @@
+
+! file mapslow.uil
+!      ===========
+!
+! version 3, 12-Dec-2003
+!
+! widget structure of module mapslow.c
+! K. Stammler, 9-Sep-2002
+
+
+module mapslow
+    version = 'v1.0'
+    names = case_sensitive
+
+procedure
+	call_create_widget( integer );
+	call_activate( integer );
+	call_expose( integer );
+
+value
+
+! texts
+	k_menutitle_file_text    : 'File';
+	k_menutitle_viewwave_text: 'View Waveforms';
+	k_menutitle_viewfk_text  : 'View FK Diagrams';
+	k_menutitle_detfct_text  : 'Detection Functions';
+	k_entry_quit_text        : 'Quit';
+!	k_entry_plot_text        : 'Plot';
+	k_entry_show_1_text      : 'Show 1 (SP-Z)';
+	k_entry_show_2_text      : 'Show 2 (KR-Z)';
+	k_entry_show_3_text      : 'Show 3 (KR-T)';
+	k_entry_show_4_text      : 'Show 4 (KR-R)';
+	k_entry_show_5_text      : 'Show 5 (LP-Z)';
+	k_entry_show_6_text      : 'Show 6 (LP-T)';
+	k_entry_show_7_text      : 'Show 7 (LP-R)';
+	k_entry_check_1_text     : 'DetFunction 1 (SP-Z)';
+	k_entry_check_2_text     : 'DetFunction 2 (KR-Z)';
+	k_entry_check_3_text     : 'DetFunction 3 (KR-T)';
+	k_entry_check_4_text     : 'DetFunction 4 (KR-R)';
+	k_entry_check_5_text     : 'DetFunction 5 (LP-Z)';
+	k_entry_check_6_text     : 'DetFunction 6 (LP-T)';
+	k_entry_check_7_text     : 'DetFunction 7 (LP-R)';
+	k_entry_fk_1_text        : 'FK Diagram 1 (SP-Z)';
+	k_entry_fk_2_text        : 'FK Diagram 2 (KR-Z)';
+	k_entry_fk_3_text        : 'FK Diagram 3 (KR-T)';
+	k_entry_fk_4_text        : 'FK Diagram 4 (KR-R)';
+	k_entry_fk_5_text        : 'FK Diagram 5 (LP-Z)';
+	k_entry_fk_6_text        : 'FK Diagram 6 (LP-T)';
+	k_entry_fk_7_text        : 'FK Diagram 7 (LP-R)';
+
+! widget numbers
+	w_draw                   : 2;
+	w_menu_main              : 5;
+	w_entry_quit             : 51;
+!	w_entry_plot             : 52;
+	w_entry_show_1           : 53;
+	w_entry_show_2           : 54;
+	w_entry_show_3           : 55;
+	w_entry_show_4           : 56;
+	w_entry_show_5           : 57;
+	w_entry_show_6           : 58;
+	w_entry_show_7           : 59;
+	w_entry_check_1          : 60;
+	w_entry_check_2          : 61;
+	w_entry_check_3          : 62;
+	w_entry_check_4          : 63;
+	w_entry_check_5          : 64;
+	w_entry_check_6          : 65;
+	w_entry_check_7          : 66;
+	w_entry_fk_1             : 67;
+	w_entry_fk_2             : 68;
+	w_entry_fk_3             : 69;
+	w_entry_fk_4             : 70;
+	w_entry_fk_5             : 71;
+	w_entry_fk_6             : 72;
+	w_entry_fk_7             : 73;
+
+! accelerators
+	k_acc_quit               : "<Key>q";
+	k_acct_quit              : "q";
+	k_acc_plot               : "<Key>p";
+	k_acct_plot              : "p";
+	k_acc_show_1             : "<Key>1";
+	k_acct_show_1            : "1";
+	k_acc_show_2             : "<Key>2";
+	k_acct_show_2            : "2";
+	k_acc_show_3             : "<Key>3";
+	k_acct_show_3            : "3";
+	k_acc_show_4             : "<Key>4";
+	k_acct_show_4            : "4";
+	k_acc_show_5             : "<Key>5";
+	k_acct_show_5            : "5";
+	k_acc_show_6             : "<Key>6";
+	k_acct_show_6            : "6";
+	k_acc_show_7             : "<Key>7";
+	k_acct_show_7            : "7";
+	k_acc_check_1            : "Ctrl<Key>1";
+	k_acct_check_1           : "Ctrl/1";
+	k_acc_check_2            : "Ctrl<Key>2";
+	k_acct_check_2           : "Ctrl/2";
+	k_acc_check_3            : "Ctrl<Key>3";
+	k_acct_check_3           : "Ctrl/3";
+	k_acc_check_4            : "Ctrl<Key>4";
+	k_acct_check_4           : "Ctrl/4";
+	k_acc_check_5            : "Ctrl<Key>5";
+	k_acct_check_5           : "Ctrl/5";
+	k_acc_check_6            : "Ctrl<Key>6";
+	k_acct_check_6           : "Ctrl/6";
+	k_acc_check_7            : "Ctrl<Key>7";
+	k_acct_check_7           : "Ctrl/7";
+	k_acc_fk_1               : "Shift<Key>1";
+	k_acct_fk_1              : "Shift/1";
+	k_acc_fk_2               : "Shift<Key>2";
+	k_acct_fk_2              : "Shift/2";
+	k_acc_fk_3               : "Shift<Key>3";
+	k_acct_fk_3              : "Shift/3";
+	k_acc_fk_4               : "Shift<Key>4";
+	k_acct_fk_4              : "Shift/4";
+	k_acc_fk_5               : "Shift<Key>5";
+	k_acct_fk_5              : "Shift/5";
+	k_acc_fk_6               : "Shift<Key>6";
+	k_acct_fk_6              : "Shift/6";
+	k_acc_fk_7               : "Shift<Key>7";
+	k_acct_fk_7              : "Shift/7";
+
+! fonts
+   k_menu_font                :
+      font('-ADOBE-Courier-Bold-R-Normal--13-*-*-*-*-*-ISO8859-1');
+!   k_menu_font         :
+!      font('-ADOBE-Courier-Bold-R-Normal--14-140-75-75-M-90-ISO8859-1');
+
+object
+	main_window: XmMainWindow {
+		arguments {
+!			XmNx = 100;
+!			XmNy = 100;
+			XmNwidth = 910;
+			XmNheight = 742;
+		};
+		controls {
+			XmMenuBar        menu_main;
+			XmDrawingArea    drawing_area;
+		};
+	};
+
+object
+	drawing_area: XmDrawingArea {
+		arguments {
+			XmNx = 0;
+			XmNy = 32;
+			XmNwidth = 910;
+			XmNheight = 710;
+			XmNbackground = color( 'white', background );
+			XmNforeground = color( 'black', foreground );
+		};
+		callbacks {
+			MrmNcreateCallback = procedure call_create_widget(w_draw);
+			XmNexposeCallback = procedure call_expose(w_draw);
+      };
+   };
+
+object
+	menu_main: XmMenuBar {
+		arguments {
+			XmNorientation = XmHORIZONTAL;
+			XmNspacing     = 15;  /* Pixels between items in menu */
+		};
+		controls {
+			XmCascadeButton menutitle_file;
+			XmCascadeButton menutitle_viewwave;
+			XmCascadeButton menutitle_viewfk;
+			XmCascadeButton menutitle_detfct;
+		};
+		callbacks {
+			MrmNcreateCallback =
+				procedure call_create_widget(w_menu_main);
+		};
+	};
+
+object
+	menutitle_file: XmCascadeButton {
+		arguments {
+			XmNlabelString = k_menutitle_file_text;
+			XmNfontList = k_menu_font;
+		};
+		controls {
+			XmPulldownMenu menu_file;
+		};
+	};
+
+object
+	menutitle_viewwave: XmCascadeButton {
+		arguments {
+			XmNlabelString = k_menutitle_viewwave_text;
+			XmNfontList = k_menu_font;
+		};
+		controls {
+			XmPulldownMenu menu_viewwave;
+		};
+	};
+
+object
+	menutitle_viewfk: XmCascadeButton {
+		arguments {
+			XmNlabelString = k_menutitle_viewfk_text;
+			XmNfontList = k_menu_font;
+		};
+		controls {
+			XmPulldownMenu menu_viewfk;
+		};
+	};
+
+object
+	menutitle_detfct: XmCascadeButton {
+		arguments {
+			XmNlabelString = k_menutitle_detfct_text;
+			XmNfontList = k_menu_font;
+		};
+		controls {
+			XmPulldownMenu menu_detfct;
+		};
+	};
+
+object
+	menu_file: XmPulldownMenu {
+		controls {
+			XmPushButton entry_quit;
+		};
+	};
+
+object
+	menu_viewwave: XmPulldownMenu {
+		controls {
+			XmPushButton entry_show_1;
+			XmPushButton entry_show_2;
+			XmPushButton entry_show_3;
+			XmPushButton entry_show_4;
+			XmPushButton entry_show_5;
+			XmPushButton entry_show_6;
+			XmPushButton entry_show_7;
+		};
+	};
+
+object
+	entry_quit: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_quit_text;
+			XmNaccelerator = k_acc_quit;
+			XmNacceleratorText = k_acct_quit;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_quit);
+		};
+	};
+
+!object
+!	entry_plot: XmPushButton {
+!		arguments {
+!			XmNlabelString = k_entry_plot_text;
+!			XmNaccelerator = k_acc_plot;
+!			XmNacceleratorText = k_acct_plot;
+!			XmNfontList = k_menu_font;
+!		};
+!		callbacks {
+!			XmNactivateCallback = procedure call_activate(w_entry_plot);
+!		};
+!	};
+
+object
+	entry_show_1: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_1_text;
+			XmNaccelerator = k_acc_show_1;
+			XmNacceleratorText = k_acct_show_1;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_1);
+		};
+	};
+
+object
+	entry_show_2: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_2_text;
+			XmNaccelerator = k_acc_show_2;
+			XmNacceleratorText = k_acct_show_2;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_2);
+		};
+	};
+
+object
+	entry_show_3: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_3_text;
+			XmNaccelerator = k_acc_show_3;
+			XmNacceleratorText = k_acct_show_3;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_3);
+		};
+	};
+
+object
+	entry_show_4: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_4_text;
+			XmNaccelerator = k_acc_show_4;
+			XmNacceleratorText = k_acct_show_4;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_4);
+		};
+	};
+
+object
+	entry_show_5: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_5_text;
+			XmNaccelerator = k_acc_show_5;
+			XmNacceleratorText = k_acct_show_5;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_5);
+		};
+	};
+
+object
+	entry_show_6: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_6_text;
+			XmNaccelerator = k_acc_show_6;
+			XmNacceleratorText = k_acct_show_6;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_6);
+		};
+	};
+
+object
+	entry_show_7: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_show_7_text;
+			XmNaccelerator = k_acc_show_7;
+			XmNacceleratorText = k_acct_show_7;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_show_7);
+		};
+	};
+
+object
+	menu_detfct: XmPulldownMenu {
+		controls {
+			XmPushButton entry_check_1;
+			XmPushButton entry_check_2;
+			XmPushButton entry_check_3;
+			XmPushButton entry_check_4;
+			XmPushButton entry_check_5;
+			XmPushButton entry_check_6;
+			XmPushButton entry_check_7;
+		};
+	};
+
+object
+	entry_check_1: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_1_text;
+			XmNaccelerator = k_acc_check_1;
+			XmNacceleratorText = k_acct_check_1;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_1);
+		};
+	};
+
+object
+	entry_check_2: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_2_text;
+			XmNaccelerator = k_acc_check_2;
+			XmNacceleratorText = k_acct_check_2;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_2);
+		};
+	};
+
+object
+	entry_check_3: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_3_text;
+			XmNaccelerator = k_acc_check_3;
+			XmNacceleratorText = k_acct_check_3;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_3);
+		};
+	};
+
+object
+	entry_check_4: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_4_text;
+			XmNaccelerator = k_acc_check_4;
+			XmNacceleratorText = k_acct_check_4;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_4);
+		};
+	};
+
+object
+	entry_check_5: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_5_text;
+			XmNaccelerator = k_acc_check_5;
+			XmNacceleratorText = k_acct_check_5;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_5);
+		};
+	};
+
+object
+	entry_check_6: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_6_text;
+			XmNaccelerator = k_acc_check_6;
+			XmNacceleratorText = k_acct_check_6;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_6);
+		};
+	};
+
+object
+	entry_check_7: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_check_7_text;
+			XmNaccelerator = k_acc_check_7;
+			XmNacceleratorText = k_acct_check_7;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_check_7);
+		};
+	};
+
+object
+	menu_viewfk: XmPulldownMenu {
+		controls {
+			XmPushButton entry_fk_1;
+			XmPushButton entry_fk_2;
+			XmPushButton entry_fk_3;
+			XmPushButton entry_fk_4;
+			XmPushButton entry_fk_5;
+			XmPushButton entry_fk_6;
+			XmPushButton entry_fk_7;
+		};
+	};
+
+object
+	entry_fk_1: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_1_text;
+			XmNaccelerator = k_acc_fk_1;
+			XmNacceleratorText = k_acct_fk_1;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_1);
+		};
+	};
+
+object
+	entry_fk_2: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_2_text;
+			XmNaccelerator = k_acc_fk_2;
+			XmNacceleratorText = k_acct_fk_2;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_2);
+		};
+	};
+
+object
+	entry_fk_3: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_3_text;
+			XmNaccelerator = k_acc_fk_3;
+			XmNacceleratorText = k_acct_fk_3;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_3);
+		};
+	};
+
+object
+	entry_fk_4: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_4_text;
+			XmNaccelerator = k_acc_fk_4;
+			XmNacceleratorText = k_acct_fk_4;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_4);
+		};
+	};
+
+object
+	entry_fk_5: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_5_text;
+			XmNaccelerator = k_acc_fk_5;
+			XmNacceleratorText = k_acct_fk_5;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_5);
+		};
+	};
+
+object
+	entry_fk_6: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_6_text;
+			XmNaccelerator = k_acc_fk_6;
+			XmNacceleratorText = k_acct_fk_6;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_6);
+		};
+	};
+
+object
+	entry_fk_7: XmPushButton {
+		arguments {
+			XmNlabelString = k_entry_fk_7_text;
+			XmNaccelerator = k_acc_fk_7;
+			XmNacceleratorText = k_acct_fk_7;
+			XmNfontList = k_menu_font;
+		};
+		callbacks {
+			XmNactivateCallback = procedure call_activate(w_entry_fk_7);
+		};
+	};
+
+end module;

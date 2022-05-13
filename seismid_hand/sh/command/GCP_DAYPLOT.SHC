@@ -1,0 +1,146 @@
+! file gcp_dayplot.shc
+!      ===============
+!
+! version 7, 16-Dec-98
+!
+! plots a day of longperiod data from a GRN station
+! K. Stammler, 13-Jan-93
+
+default 1 gcp_parameter    parameter file
+default 2 3600             trace length in sec
+default 3 1.0              default rel zoom
+default 4 ;;               default filter
+default 5 r                filter type
+default 6 800              amplicut
+
+sdef line            ! current line
+sdef linecnt 1       ! line counters
+sdef maxline %#1(0)  ! number of plots
+sdef station         ! station name
+sdef comp            ! component
+sdef date            ! start time
+sdef title           ! title text
+sdef zoom            ! zoom factor
+sdef zoomstr         ! zoom string
+sdef status          ! read status
+sdef tmp             ! scratch
+sdef newdelta        ! new delta
+sdef filter          ! filter used
+sdef relzoom         ! relative zoom factor
+sdef input           ! user input
+sdef acut            ! amplicut value
+
+! general setup
+calc s &filter = #4
+calc r &relzoom = #3
+calc r &acut = #6
+trctxt ^time($x)
+fct setstyle $trcinfostyle charsize 0.01
+fct setstyle $timeaxisstyle charsize 0.015
+fct margin b .25
+fct margin l .1
+!fct axis timeaxis tick_intv 60
+fct axis timeaxis tick_intv 1
+trctxtp -.06 0. 
+
+loop_start:
+
+   ! get next trace info
+   if  "linecnt gti "maxline  goto/forward loop_exit:
+	calc r &acut = #6
+   calc s &line = %#1("linecnt)
+   calc s &date = "line parse 1
+   calc s &station = "line parse 2
+   calc s &comp = "line parse 3
+   calc s &station = "station upper
+	switch cmderrstop off
+	switch noerrmsg on
+	calc s &tmp = "line parse 4
+	calc i &status = $status
+	calc s &zoom = "line parse 5
+	calc s &acut = "line parse 6
+	switch noerrmsg off
+	switch cmderrstop on
+	calc s &filter = #4
+	calc r &relzoom = #3
+	if  "status nei 0  goto/forward filter_is_ok:
+		calc s &filter = "tmp
+		calc r &relzoom = "zoom
+   filter_is_ok:
+
+   ! read next trace
+   nr
+   del all
+   dtw
+   fct amplicut "acut
+   switch cmderrstop off
+   reads sfd: "date 86400 "station "comp lh
+   calc i &status = $status
+   switch cmderrstop on
+!   if  "status eqi 0  goto/forward read_ok:
+   if  $dsptrcs nei 0  goto/forward read_ok:
+      echo couldn't read "date "station "comp
+      rd
+      goto/forward next_trace:
+   read_ok:
+   if  ^length gti 10  goto/forward length_ok:
+      echo Trace has length ^length date "date station "station
+      del all
+      rd
+      goto/forward next_trace:
+   length_ok:
+   demean 1
+
+   ! filtering
+   if  "filter eqs ;;  goto/forward no_filter:
+      fili #5 "filter
+      filter #5 1
+      del 1
+   no_filter:
+
+   ! setup display
+   split 1 #2
+   if  ^length($dsptrcs) gti 1  goto/forward last_ok:
+      del $dsptrcs
+   last_ok:
+   calc r &zoom = %|gcp_|"station|_zoom| * "relzoom
+   calc r &zoomstr = "zoom * 1000.0 /fmt=<%7.3@f>
+   calc s &title = |"station|$blank|"comp|$blank(3)|^date(2)|
+   calc s &title = |"title|$blank(5)|zoom:|"zoomstr|$slash|1000|
+   if  "filter eqs ;;  goto/forward no_filtertitle:
+      calc s &title = |"title|$blank(5)|filter:|$blank|"filter|
+   no_filtertitle:
+   title 3  "title
+   gcp_labels
+   reverse_traces
+	set all amplicut y
+   zoom all "zoom
+   norm c
+!   rd
+
+   ! change time scale
+   calc r &tmp = ^delta
+   calc r &newdelta = ^delta div 60.
+   set/priv all delta "newdelta
+   rd
+
+!@  SYSTEM |sleep|$BLANK|10|
+   if  #hc eqs _existsnot_  goto/forward make_no_hc:
+      ulhc;;a3
+!@     SYSTEM |sleep|$BLANK|1700|
+   make_no_hc:
+   if  #wait eqs _existsnot_  goto/forward no_wait:
+!@     SYSTEM |sleep|$BLANK|#WAIT|
+       time &input
+   no_wait:
+
+   set/priv all delta "tmp
+
+   next_trace:
+   calc i &linecnt = "linecnt + 1
+
+goto loop_start:
+loop_exit:
+
+return
+

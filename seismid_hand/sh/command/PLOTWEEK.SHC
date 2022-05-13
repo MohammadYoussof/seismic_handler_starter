@@ -1,0 +1,35 @@
+! file plotweek.shc
+!      ============
+!
+! version 1, 15-Aug-96
+!
+! reads in a week of data and splits data traces
+! K. Stammler, 29-Jul-96
+
+default 1 gsh           station
+default 2 grsn_lp_gsh:  path
+default 3 21-jul-96     day
+default 4 z             component
+default 5 none          filter
+
+del all_dh
+norm sf
+reads #2 #3 604800 #1 #4 lh
+if  #5 eqs none  goto/forward filter_done:
+   demean 1
+   fili r #5
+   filter r 1
+   del 1
+filter_done:
+split 1 86400
+set all reduction 10
+del 8
+zoom all 1e-2
+norm c
+demean all
+trctxt ^date($x)
+set/priv all delta 0.00027778
+title 1 |#1|-lh-|#4|$blank(4)|filter|$blank|#5|
+
+
+return

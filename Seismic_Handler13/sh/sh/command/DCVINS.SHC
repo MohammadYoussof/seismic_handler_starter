@@ -1,0 +1,19 @@
+default 1 1.0    regularisation
+! default 2 "ret   angle of incidence
+
+sdef endtime     ! end of p-wave
+sdef pwdw        ! length of p-wave train in sec
+
+mark/abs 1 ^p-onset
+echo select end of p-wave
+time &endtime
+calc t &pwdw = "endtime tdiff ^p-onset
+
+echo inserting pwdw "pwdw
+set/file/mod 1-3 pwdw "pwdw
+echo inserting dcvreg #1
+set/file/mod 1-3 dcvreg #1
+! echo inserting dcvinci #2
+! set/file/mod 1-3 dcvinci #2
+
+return

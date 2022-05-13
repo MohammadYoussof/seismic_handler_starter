@@ -1,0 +1,62 @@
+! file AL_MARKONSET.SHC
+!      ================
+!
+! version 1, 24-Mar-2001
+!
+! Marks times in relonset-file.
+! K. Stammler, 24-Mar-2001
+
+default 1 ;;     relonset file
+default 2 ;;     absolute time
+default 3 ;;     hc file
+default 4 140    stw start
+default 5 260    stw end
+
+sdef max %#1(0)  ! last line
+sdef cnt         ! counter
+sdef line        ! current line of file
+sdef station     ! station name
+sdef mtime       ! mark time
+sdef t           ! trace counter
+sdef tmp         ! scratch
+
+stw #4 #5
+
+! loop all stations in relonset file again
+calc i &cnt = 1
+mark_loop_start:
+   if  "cnt gti "max  goto/forward mark_loop_exit:
+   calc s &line = %#1("cnt)
+   switch cmderrstop off
+   switch noerrmsg on
+   calc s &station = "line parse 1
+   if  $status nei 0  goto/forward mark_loop_exit:
+   if  "station eqs $exclamation  goto mark_loop_exit:
+   switch noerrmsg off
+   switch cmderrstop on
+   calc s &mtime = "line parse 2
+   calc t &mtime = #2 tadd "mtime
+   calc i &t = 1
+   stat_loop_start:
+      if  "t gti $dsptrcs  goto/forward stat_loop_exit:
+      if  ^station("t) nes "station  goto/forward mark_ok:
+         mark/abs "t "mtime
+      mark_ok:
+      calc i &t = "t + 1
+   goto stat_loop_start:
+   stat_loop_exit:
+   calc i &cnt = "cnt + 1
+goto mark_loop_start:
+mark_loop_exit:
+
+if  #3 eqs ;;  return
+hc ;; p &tmp
+@CALC S &TMP = |mv|$BLANK|"TMP|$BLANK|#3|.ps|
+system "tmp
+
+
+term:
+switch noerrmsg off
+switch cmderrstop on
+
+return

@@ -1,0 +1,37 @@
+command HC [<wdw>] [<out>]
+==========
+
+key: hardcopy
+
+Makes hardcopy of <wdw> on channel <out>.  If no <wdw> parameter is
+passed the current graphics channel is hardcopied.  If the <out>
+parameter is omitted the default output channel is used.  The
+default output channel can be changed with the /DEFAULT qualifier.
+
+
+parameters
+
+<wdw>  ---  parameter type: string
+   Window number and channel (example "X1" for X-window number 1)
+
+<out>  ---  parameter type: string
+   Channel name of output channel (example "P" for PostScript or
+   "C" for Calcomp).
+
+
+qualifier
+
+/DEFAULT=<out>
+   Changes the default output channel which is used if no <out>
+   parameter is used.  If this qualifer is specified no hardcopy
+   will be produced.
+
+
+examples:
+
+   HC           ! makes hardcopy of your current graphic window on
+                ! the current default output channel
+
+   HC/DEFAULT=C ! Produces no hardcopy but changes the default output
+                ! channel to Calcomp.
+

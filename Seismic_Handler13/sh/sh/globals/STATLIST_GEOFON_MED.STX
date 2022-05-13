@@ -1,0 +1,41 @@
+! file STATLIST_GRF.STX
+!      ================
+!
+! version 1, 18-Jan-2000
+!
+! setup of dialog box for GRSN stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 14 MED
+set2: 15 29 ---
+
+* PSZ
+* MLR
+* ISP
+* SANT
+* SKOR
+* KRIS
+* CSS
+* MRNI
+* JER
+* EIL
+* MELI
+* CART
+* SFUC
+* MAHO
+* MTE
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---

@@ -1,0 +1,8 @@
+default 1 ;;   list file
+del all
+dtw
+next #1
+calc s &g1 = "g1 parse 1
+echo reading file "g1 ( number %next_counter ) ...
+read "g1 all
+return

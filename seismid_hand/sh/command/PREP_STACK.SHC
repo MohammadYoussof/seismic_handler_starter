@@ -1,0 +1,9 @@
+! file PREP_STACK.SHC
+nr
+shift all -15
+stw -20 90
+norm c
+zoom all -18
+trctxt ^comment(x)
+rd
+return

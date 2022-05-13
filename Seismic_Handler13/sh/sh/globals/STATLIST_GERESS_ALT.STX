@@ -1,0 +1,41 @@
+! file STATLIST_GERESS.STX
+!      ===================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for GERESS stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 29 GERESS
+set2: 0 0 ---
+
+* GERA0
+* GERA1
+* GERA2
+* GERA3
+* ---
+* GERB1
+* GERB2
+* GERB3
+* GERB4
+* GERB5
+* GERC1
+* GERC2
+* GERC3
+* GERC4
+* ---
+* GERC5
+* GERC6
+* GERC7
+* ---
+* ---
+* GERD1
+* GERD2
+* GERD3
+* GERD4
+* GERD5
+* GERD6
+* GERD7
+* GERD8
+* GERD9
+* ---

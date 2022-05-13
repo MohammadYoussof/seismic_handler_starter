@@ -1,0 +1,14 @@
+
+
+$SH_INPUTS/STATINF.DAT   station location information
+_____________________________________________________
+
+Lists station information, one station per line.  The format is:
+<stationcode> {<keyword>: <value> }
+Required keyword entries are 'lat', 'lon'.  Optional are 'elevation',
+'array', 'xrel', 'yrel' and 'name'.
+If a station is an element of an array, the entries 'array' (unique array
+number to indicate membership of this station to the array), 'xrel' and
+'yrel' (relative x and y-location in km) are required.
+SH/SHM consults only this file for retrieving station information.
+Possible entries in data input file (e.g. GSE) are ignored.

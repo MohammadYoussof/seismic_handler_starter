@@ -1,0 +1,28 @@
+! file EVALFLF.SHC
+!      ===========
+!
+! version 1, 4-Nov-99
+!
+! Returns filter value at given frequency
+! K. Stammler, 4-Nov-99
+
+default 1 ;;          filter name
+default 2 1.0         frequency in hz
+
+sdef tmppath          ! tmp path
+sdef utilpath         ! utility path
+sdef cmd              ! shell command
+
+fct getpath extprog &utilpath
+fct getpath scratch &tmppath
+
+@CALC S &TMPPATH = |"TMPPATH|$SH_ID|EVALFLF.000|
+@CALC S &CMD = |"UTILPATH|evalflf|$BLANK|#1|$BLANK|#2|$BLANK|>|"TMPPATH|
+
+!echo "cmd
+system "cmd
+
+calc s &ret = %"tmppath
+fct oscall fdelete "tmppath
+
+return

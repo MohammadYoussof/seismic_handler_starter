@@ -1,0 +1,10 @@
+! file ERR_2800.MSG
+!      ============
+!
+! version 2, 27-AUG-91
+!
+! error messages of module NUMRES.C
+! K. Stammler, 27-AUG-91
+!
+*** NR-01 gaussj: singular matrix (1) ***
+*** NR-02 gaussj: singular matrix (2) ***

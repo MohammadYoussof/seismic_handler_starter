@@ -1,0 +1,17 @@
+command MIRROR <trc-list>
+
+key: mirror traces
+
+Mirrors traces in time.
+
+
+parameter
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be mirrored.
+
+
+Example:
+
+   MIRROR 1-3      ! mirrors traces 1,2,3
+

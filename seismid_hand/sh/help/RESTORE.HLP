@@ -1,0 +1,25 @@
+command procedure RESTORE <entry> <file>
+=========================
+
+key: cp:restore info entry
+
+Restores the given info entry <entry> of all traces of the display
+from the input file <file>.  This file must have been created
+with the SAVE command procedure.
+
+
+parameters:
+
+<entry>  ---  parameter type: info entry
+   Name of info entry to be restored.
+
+<file>  --- parameter type: filename (without extension)
+   Name of the file which contains the entry values.  Must be
+   created by the SAVE command procedure.
+
+
+Example:
+
+   RESTORE T-ORIGIN TO_BJI    ! restores the time origins of all traces
+                              ! of the display from the file TO_BJI.STX
+

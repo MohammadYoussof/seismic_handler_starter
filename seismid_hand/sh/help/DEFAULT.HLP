@@ -1,0 +1,56 @@
+command DEFAULT <par-no> <value> [;<prompt1>[;<prompt2>[;...;<promptN>]]]
+===============
+
+key: assign default to cmd-par
+
+Assigns default value <value> to current command parameter number
+<par-no>, if it has been left empty in the procedure call.  If no
+parameters are passed at all, then all parameters are prompted from
+the local input level (see HELP PROC_CALL).  If the input level is
+the interactive level 0 then the concatenated (with blank separators)
+text strings <prompt1>, <prompt2>, ..., <promptN> are used as a
+prompt string.  The default value is displayed after the prompt string
+if it is not empty.  The user can accept the default hitting the
+Return key or enter a different value.
+
+
+parameters:
+
+<par-no>  ---  parameter type: integer
+   Number of parameter to be processed.
+
+<value>  ---  parameter type: same type as parameter
+   Value passed to parameter if left empty in procedure call or default
+   value when it's prompted.
+
+<prompt1>, <prompt2>, ..., <promptN>  ---  parameter type: string
+   Output text when parameter input is prompted.
+
+
+qualifiers
+
+/PARENT
+   The input is read from the parent command level, no regard is payed
+   to the local input level (see HELP PROC_CALL) passed.
+
+/INTERACTIVE
+   The input is read from the main input level (see HELP PROC_CALL),
+   no regard is payed to the local input level.
+
+
+examples:
+
+   DEFAULT 1 1   first file       ! if no parameters are passed to the
+                                  ! command procedure it prompts the
+                                  ! first parameter by
+                                  ! "FIRST FILE [default: 1]: ".
+
+   DEFAULT 4 $DSPTRCS LAST TRACE  ! if no parameters are passed the 4-th
+                                  ! parameter is prompted by
+                                  ! "LAST TRACE [default: 3]: ", if
+                                  ! there are currently 3 traces on display
+
+   DEFAULT 1 ;;  q-file           ! if no parameters are passed the first
+                                  ! parameter is prompted by
+                                  ! "Q-FILE : "
+

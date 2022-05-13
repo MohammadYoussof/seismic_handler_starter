@@ -1,0 +1,26 @@
+default 1 ;;     q-file list
+default 2 1      first file
+default 3 %#1(0) last file
+
+sdef cnt #2     ! file counter
+sdef trccnt 1   ! trace counter
+
+del all
+dtw
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   read %#1("cnt) all
+   echo read file ^file
+   calc i &trccnt = 1
+   trace_loop_start:
+      if  "trccnt gti $dsptrcs  goto/forward trace_loop_exit:
+      create_qname "trccnt
+      calc i &trccnt = "trccnt + 1
+   goto trace_loop_start:
+   trace_loop_exit:
+   del all
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

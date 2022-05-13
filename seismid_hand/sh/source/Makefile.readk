@@ -1,0 +1,408 @@
+
+# Makefile for SH
+# ===============
+#
+# version 1, 11-Feb-93
+#
+# K. Stammler, 11-Feb-93
+
+CFLAGS      = -g -vc -Xc -DBASECNST=\"/home/b3sn06/klaus/sh/source/basecnst.h\"
+CC          = acc
+LD          = acc
+LDFLAGS     = -L/usr/local/X11/lib
+LIBS        = /home/b3sn06/klaus/winfried/source/f77hankalib.a \
+		/home/b3sn06/klaus/winfried/source/ToolsLib.a -lm -lX -lF77
+
+PROGNAME    = ../shc
+
+MAKEFILE     = Makefile
+
+OBJDIR       = .
+READK_DIR    = /home/b3sn06/klaus/sh/source/foreign/readk
+
+G_BGICH      =
+G_CCCH       =
+G_DJCH       =
+G_GEMCH      =
+G_GEMEVENT   =
+G_GRAPHCH    =	newgraph/graphch.c
+G_HPCH       =	newgraph/hpch.c
+G_MEMCH      =	newgraph/memch.c
+G_MEMFILE    =	newgraph/memfile.c
+G_PSCH       =	newgraph/psch.c
+G_TKCH       =
+G_VWCH       =
+G_XWCH       =	newgraph/xwch.c
+
+G_BGICH_O    =
+G_CCCH_O     =
+G_DJCH_O     =
+G_GEMCH_O    =
+G_GEMEVENT_O =
+G_GRAPHCH_O  =	newgraph/graphch.o
+G_HPCH_O     =  newgraph/hpch.o
+G_MEMCH_O    =	newgraph/memch.o
+G_MEMFILE_O  =	newgraph/memfile.o
+G_PSCH_O     =	newgraph/psch.o
+G_TKCH_O     =
+G_VWCH_O     =
+G_XWCH_O     =	newgraph/xwch.o
+
+F_SH_AH      =
+F_SH_GSE     =	foreign/sh_gse.c
+F_SH_NEIC    =	foreign/sh_neic.c
+F_SHFRGN     =	foreign/shfrgn.c
+
+F_SH_AH_O    =
+F_SH_GSE_O   =	foreign/sh_gse.o
+F_SH_NEIC_O  =	foreign/sh_neic.o
+F_SHFRGN_O   =	foreign/shfrgn.o
+
+SOURCES      =	cmdargs.c \
+		cmdparse.c \
+		cpar.c \
+		earthloc.c \
+		errmsg.c \
+		fftfiltr.c \
+		fileopen.c \
+		incitheo.c \
+		logplot.c \
+		matrixhd.c \
+		numres.c \
+		polfiltr.c \
+		ptravtim.c \
+		qfileio.c \
+		qfintrfc.c \
+		readgrn.c \
+		recfiltr.c \
+		seismhan.c \
+		shcorr.c \
+		shcursor.c \
+		shdataba.c \
+		shdspmgr.c \
+		shexec.c \
+		shhelp.c \
+		shlib.c \
+		shmath.c \
+		shmenu0.c \
+		shmenu1.c \
+		shmenu2.c \
+		shmenu3.c \
+		shmenu4.c \
+		shmenu5.c \
+		shmenuio.c \
+		shmenux.c \
+		shmidlev.c \
+		shpm.c \
+		shsymbol.c \
+		shtransl.c \
+		statloc.c \
+		syscall.c \
+		timeconv.c \
+		travtime.c \
+		usrinpw.c \
+		utility.c \
+		G_BGICH \
+		G_CCCH \
+		G_DJCH \
+		G_GEMCH \
+		G_GEMEVENT \
+		G_GRAPHCH \
+		G_HPCH \
+		G_MEMCH \
+		G_MEMFILE \
+		G_PSCH \
+		G_TKCH \
+		G_VWCH \
+		G_XWCH \
+		F_SH_AH \
+		F_SH_GSE \
+		F_SH_NEIC \
+		F_SHFRGN
+
+OBJECTS      =	$(OBJDIR)/cmdargs.o \
+		$(OBJDIR)/cmdparse.o \
+		$(OBJDIR)/cpar.o \
+		$(OBJDIR)/earthloc.o \
+		$(OBJDIR)/errmsg.o \
+		$(OBJDIR)/fftfiltr.o \
+		$(OBJDIR)/fileopen.o \
+		$(OBJDIR)/incitheo.o \
+		$(OBJDIR)/logplot.o \
+		$(OBJDIR)/matrixhd.o \
+		$(OBJDIR)/numres.o \
+		$(OBJDIR)/polfiltr.o \
+		$(OBJDIR)/ptravtim.o \
+		$(OBJDIR)/qfileio.o \
+		$(OBJDIR)/qfintrfc.o \
+		$(OBJDIR)/readgrn.o \
+		$(OBJDIR)/recfiltr.o \
+		$(OBJDIR)/seismhan.o \
+		$(OBJDIR)/shcorr.o \
+		$(OBJDIR)/shcursor.o \
+		$(OBJDIR)/shdataba.o \
+		$(OBJDIR)/shdspmgr.o \
+		$(OBJDIR)/shexec.o \
+		$(OBJDIR)/shhelp.o \
+		$(OBJDIR)/shlib.o \
+		$(OBJDIR)/shmath.o \
+		$(OBJDIR)/shmenu0.o \
+		$(OBJDIR)/shmenu1.o \
+		$(OBJDIR)/shmenu2.o \
+		$(OBJDIR)/shmenu3.o \
+		$(OBJDIR)/shmenu4.o \
+		$(OBJDIR)/shmenu5.o \
+		$(OBJDIR)/shmenuio.o \
+		$(OBJDIR)/shmenux.o \
+		$(OBJDIR)/shmidlev.o \
+		$(OBJDIR)/shpm.o \
+		$(OBJDIR)/shsymbol.o \
+		$(OBJDIR)/shtransl.o \
+		$(OBJDIR)/statloc.o \
+		$(OBJDIR)/syscall.o \
+		$(OBJDIR)/timeconv.o \
+		$(OBJDIR)/travtime.o \
+		$(OBJDIR)/usrinpw.o \
+		$(OBJDIR)/utility.o \
+		$(G_BGICH_O) \
+		$(G_CCCH_O) \
+		$(G_DJCH_O) \
+		$(G_GEMCH_O) \
+		$(G_GEMEVENT_O) \
+		$(G_GRAPHCH_O) \
+		$(G_HPCH_O) \
+		$(G_MEMCH_O) \
+		$(G_MEMFILE_O) \
+		$(G_PSCH_O) \
+		$(G_TKCH_O) \
+		$(G_VWCH_O) \
+		$(G_XWCH_O) \
+		$(F_SH_AH_O) \
+		$(F_SH_GSE_O) \
+		$(F_SH_NEIC_O) \
+		$(F_SHFRGN_O) \
+		$(READK_DIR)/abszeit.o \
+		$(READK_DIR)/k_file_in.o \
+		$(READK_DIR)/readk.o \
+		$(READK_DIR)/time_cnv.o \
+		$(READK_DIR)/y_file_in.o
+
+ all:		$(PROGNAME)
+
+$(PROGNAME):	$(OBJECTS) $(MAKEFILE) util
+		@echo "Linking $(PROGNAME) ..."
+		@$(LD) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(PROGNAME)
+
+$(OBJDIR)/cmdargs.o: cmdargs.c \
+		basecnst.h sysbase.h
+
+$(OBJDIR)/cmdparse.o: cmdparse.c \
+		basecnst.h sysbase.h erusrdef.h cpusrdef.h cperrors.h \
+		uiusrdef.h newgraph/gcusrdef.h
+
+$(OBJDIR)/cpar.o: cpar.c \
+		basecnst.h sysbase.h cpar.h
+
+$(OBJDIR)/earthloc.o: earthloc.c \
+		basecnst.h sysbase.h earthloc.h
+
+$(OBJDIR)/errmsg.o: errmsg.c \
+		basecnst.h sysbase.h erusrdef.h
+
+$(OBJDIR)/fftfiltr.o: fftfiltr.c \
+		basecnst.h sysbase.h shconst.h shvars.h erusrdef.h \
+		ffusrdef.h fctxmt.h flerrors.h numres.h
+
+$(OBJDIR)/fileopen.o: fileopen.c \
+		basecnst.h sysbase.h fousrdef.h foerrors.h
+
+$(OBJDIR)/incitheo.o: incitheo.c \
+		basecnst.h sysbase.h erusrdef.h itusrdef.h
+
+$(OBJDIR)/logplot.o: logplot.c \
+		basecnst.h sysbase.h newgraph/gcusrdef.h shconst.h lgusrdef.h
+
+$(OBJDIR)/matrixhd.o: matrixhd.c \
+		basecnst.h sysbase.h shconst.h mxusrdef.h
+
+$(OBJDIR)/numres.o: numres.c \
+		basecnst.h sysbase.h numres.h
+
+$(OBJDIR)/polfiltr.o: polfiltr.c \
+		basecnst.h sysbase.h shconst.h
+
+$(OBJDIR)/ptravtim.o: ptravtim.c \
+		basecnst.h sysbase.h erusrdef.h ptusrdef.h pterrors.h
+
+$(OBJDIR)/qfileio.o: qfileio.c \
+		basecnst.h sysbase.h qferrors.h qfusrdef.h
+
+$(OBJDIR)/qfintrfc.o: qfintrfc.c \
+		basecnst.h sysbase.h qfusrdef.h qiusrdef.h tcusrdef.h \
+		infoidx.h qierrors.h
+
+$(OBJDIR)/readgrn.o: readgrn.c \
+		basecnst.h sysbase.h tcusrdef.h utusrdef.h readgrn.h \
+		station_no.h
+
+$(OBJDIR)/recfiltr.o: recfiltr.c \
+		basecnst.h sysbase.h shconst.h shvars.h erusrdef.h \
+		rfusrdef.h flerrors.h
+
+$(OBJDIR)/seismhan.o: seismhan.c \
+		basecnst.h sysbase.h seusrdef.h shconst.h sherrors.h \
+		uierrors.h cpusrdef.h uiusrdef.h trusrdef.h \
+		newgraph/gcusrdef.h erusrdef.h fctxmn0.h fctxdm.h
+
+$(OBJDIR)/shcorr.o: shcorr.c \
+		basecnst.h sysbase.h shconst.h mxusrdef.h scusrdef.h scerrors.h
+
+$(OBJDIR)/shcursor.o: shcursor.c \
+		basecnst.h sysbase.h shvars.h newgraph/gcusrdef.h uiusrdef.h \
+		tcusrdef.h infoidx.h fctxcr.h fctxdm.h sherrors.h
+
+$(OBJDIR)/shdataba.o: shdataba.c \
+		basecnst.h sysbase.h shconst.h shvars.h qfusrdef.h qiusrdef.h \
+		tcusrdef.h newgraph/gcusrdef.h infoidx.h sherrors.h
+
+$(OBJDIR)/shdspmgr.o: shdspmgr.c \
+		basecnst.h sysbase.h shconst.h shvars.h newgraph/gcusrdef.h \
+		cpusrdef.h trusrdef.h tcusrdef.h infoidx.h fctxdm.h \
+		fctxsl.h sherrors.h
+
+$(OBJDIR)/shexec.o: shexec.c \
+		basecnst.h sysbase.h seusrdef.h cpusrdef.h fctxmn0.h fctxmn1.h \
+		fctxmn2.h fctxmn3.h fctxmn4.h fctxmn5.h fctxmni.h fctxmnx.h \
+		fctxdm.h fctxmt.h shvars.h erusrdef.h ssusrdef.h uiusrdef.h \
+		causrdef.h qiusrdef.h qfusrdef.h earthloc.h sherrors.h
+
+$(OBJDIR)/shhelp.o: shhelp.c \
+		basecnst.h sysbase.h ascii.h shconst.h newgraph/gcusrdef.h \
+		fctxhl.h fctxsl.h utusrdef.h sherrors.h
+
+$(OBJDIR)/shlib.o: shlib.c \
+		basecnst.h sysbase.h shconst.h utusrdef.h cpusrdef.h \
+		ssusrdef.h erusrdef.h trusrdef.h tcusrdef.h \
+		newgraph/gcusrdef.h fctxsl.h sserrors.h sherrors.h
+
+$(OBJDIR)/shmath.o: shmath.c \
+		basecnst.h sysbase.h shconst.h shvars.h glusrdef.h fctxmt.h \
+		numres.h sherrors.h
+
+$(OBJDIR)/shmenu0.o: shmenu0.c \
+		basecnst.h sysbase.h newgraph/gcusrdef.h shconst.h shvars.h \
+		cpusrdef.h uiusrdef.h utusrdef.h scusrdef.h ssusrdef.h \
+		glusrdef.h qfusrdef.h ttusrdef.h ptusrdef.h itusrdef.h \
+		erusrdef.h tcusrdef.h infoidx.h fctxmn0.h fctxhl.h fctxsl.h \
+		fctxdm.h sherrors.h sserrors.h earthloc.h
+
+$(OBJDIR)/shmenu1.o: shmenu1.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h uiusrdef.h \
+		newgraph/gcusrdef.h qfusrdef.h qiusrdef.h ssusrdef.h \
+		erusrdef.h tcusrdef.h infoidx.h fctxml.h fctxsl.h fctxdm.h \
+		fctxmt.h fctxcr.h sherrors.h qferrors.h
+
+$(OBJDIR)/shmenu2.o: shmenu2.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h rfusrdef.h \
+		ffusrdef.h scusrdef.h ssusrdef.h erusrdef.h qiusrdef.h \
+		qfusrdef.h uiusrdef.h newgraph/gcusrdef.h tcusrdef.h infoidx.h \
+		fctxcr.h fctxdm.h fctxsl.h fctxml.h fctxmn2.h sherrors.h
+
+$(OBJDIR)/shmenu3.o: shmenu3.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h ttusrdef.h \
+		ptusrdef.h itusrdef.h utusrdef.h erusrdef.h glusrdef.h \
+		newgraph/gcusrdef.h infoidx.h fctxml.h fctxmt.h fctxsl.h \
+		fctxdm.h fctxmn3.h sherrors.h earthloc.h
+
+$(OBJDIR)/shmenu4.o: shmenu4.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h pfusrdef.h \
+		erusrdef.h ssusrdef.h uiusrdef.h newgraph/gcusrdef.h \
+		infoidx.h fctxml.h fctxmt.h fctxsl.h fctxdm.h fctxmn4.h \
+		numres.h sherrors.h
+
+$(OBJDIR)/shmenu5.o: shmenu5.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h utusrdef.h \
+		ffusrdef.h erusrdef.h newgraph/gcusrdef.h infoidx.h \
+		fctxml.h fctxsl.h fctxdm.h fctxmn5.h numres.h lgusrdef.h \
+		sherrors.h readgrn.h
+
+$(OBJDIR)/shmenuio.o: shmenuio.c \
+		basecnst.h sysbase.h newgraph/gcusrdef.h shconst.h shvars.h \
+		cpusrdef.h qfusrdef.h qiusrdef.h utusrdef.h erusrdef.h \
+		tcusrdef.h infoidx.h fctxml.h fctxsl.h foreign/shfrgn.h \
+		sherrors.h
+
+$(OBJDIR)/shmenux.o: shmenux.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h glusrdef.h \
+		uiusrdef.h ssusrdef.h newgraph/gcusrdef.h ttusrdef.h \
+		tcusrdef.h infoidx.h fctxsl.h fctxdm.h fctxml.h fctxcr.h \
+		fctxmt.h fctxpm.h sherrors.h
+
+$(OBJDIR)/shmidlev.o: shmidlev.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h utusrdef.h \
+		tcusrdef.h infoidx.h fctxsl.h fctxcr.h fctxml.h fctxdm.h \
+		sherrors.h
+
+$(OBJDIR)/shpm.o: shpm.c \
+		basecnst.h sysbase.h shconst.h newgraph/gcusrdef.h fctxsl.h \
+		fctxcr.h fctxpm.h sherrors.h
+
+$(OBJDIR)/shsymbol.o: shsymbol.c \
+		basecnst.h sysbase.h shconst.h shvars.h erusrdef.h cpusrdef.h \
+		sserrors.h ssusrdef.h
+
+$(OBJDIR)/shtransl.o: shtransl.c \
+		basecnst.h sysbase.h shconst.h shvars.h cpusrdef.h erusrdef.h \
+		trusrdef.h ssusrdef.h tcusrdef.h infoidx.h fctxsl.h fctxml.h \
+		fctxdm.h trerrors.h utusrdef.h sserrors.h sherrors.h
+
+$(OBJDIR)/statloc.o: statloc.c \
+		basecnst.h sysbase.h erusrdef.h glusrdef.h
+
+$(OBJDIR)/syscall.o: syscall.c \
+		sysbase.h syerrors.h readgrn.h
+
+$(OBJDIR)/timeconv.o: timeconv.c \
+		basecnst.h sysbase.h tcusrdef.h utusrdef.h tcerrors.h
+
+$(OBJDIR)/travtime.o: travtime.c \
+		basecnst.h sysbase.h numres.h erusrdef.h ttusrdef.h tterrors.h
+
+$(OBJDIR)/usrinpw.o: usrinpw.c \
+		basecnst.h sysbase.h newgraph/gcusrdef.h erusrdef.h \
+		utusrdef.h uiusrdef.h uierrors.h
+
+$(OBJDIR)/utility.o: utility.c \
+		basecnst.h sysbase.h uterrors.h utusrdef.h
+
+$(G_GRAPHCH_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(G_HPCH_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(G_MEMCH_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(G_MEMFILE_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(G_PSCH_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(G_XWCH_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(F_SH_GSE_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(F_SH_NEIC_O):	FORCE
+		cd $(@D); make $(@F)
+
+$(F_SHFRGN_O):	FORCE
+		cd $(@D); make $(@F)
+
+FORCE:
+
+util:
+		cd ../util; make

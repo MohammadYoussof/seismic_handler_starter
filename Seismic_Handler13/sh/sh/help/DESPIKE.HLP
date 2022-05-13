@@ -1,0 +1,45 @@
+command DESPIKE <trc-list> <detec> [<lo-t> <hi-t>] [<nsp>] [<ndc>]
+===============
+
+key: despikes traces
+
+Removes spikes from one or more traces specified by <trc-list>.
+If a time window <lo-t>, <hi-t> is entered the despiking
+is restricted to this window, otherwise the whole trace is used.
+A spike is recognized if the difference between two samples is
+larger than <detec> times the mean difference on the
+whole trace.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be despiked.
+
+<detec>  ---  parameter type: real
+   A spike is detected if the difference between two samples is
+   larger than <detec> times the mean difference.
+
+<lo-t>, <hi-t>  ---  parameter type: real
+   If specified the spike detection is restricted to this time
+   window given in seconds.
+
+<nsp>  ---  parameter type: symbol address
+   Receives total number of removed spikes on all input traces.
+
+<ndc>  ---  parameter type: symbol address
+   Receives total number of detected discontinuties on all input
+   traces.
+
+
+Examples:
+
+   DESPIKE 1-3 100.          ! despikes the whole traces 1,2,3 with a
+                             ! factor of 100.
+
+   DESPIKE 1 1000. 10. 15.   ! despikes traces 1 between 10 sec and
+                             ! 15 sec on time axis
+
+   DESPIKE 1 1000. *         ! despikes trace 1 within a window which
+                             ! must be selected by graphic cursor
+

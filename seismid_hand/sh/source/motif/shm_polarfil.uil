@@ -1,0 +1,177 @@
+! file shm_polarfil.uil
+!      ================
+!
+! version 3, 21-May-2006
+!
+! polarisation filter window
+! K. Stammler, 29-Oct-2005
+
+
+object
+   polarfil_window_box: XmFormDialog {
+      arguments {
+         XmNwidth = 500;
+         XmNheight = 533;
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmMenuBar       menu_pol;
+         XmDrawingArea   polar_window_area;
+      };
+   };
+
+object
+   polar_window_label: XmLabel {
+      arguments {
+         XmNlabelString = 'polarisation filter window';
+      };
+   };
+
+object
+   polar_window_area: XmDrawingArea {
+      arguments {
+         XmNy = 33;
+         XmNwidth = 500;
+         XmNheight = 500;
+         XmNtopAttachment = XmATTACH_WIDGET;
+			XmNtopWidget = menu_pmotion;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_polwdw );
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback =
+            procedure xm_call_resize_object(k_widget_polwdw);
+      };
+   };
+
+object
+   menu_pol: XmMenuBar {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing     = 15;  /* Pixels between items in menu */
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmCascadeButton menutitle_polar;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_menu_polar);
+      };
+   };
+
+object
+   menutitle_polar: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_polar_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_polar;
+      };
+   };
+
+object
+   menu_polar: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_pol_screendump;
+         XmPushButton   entry_pol_inc_cohlth;
+         XmPushButton   entry_pol_dec_cohlth;
+         XmPushButton   entry_pol_inc_pow_linearity;
+         XmPushButton   entry_pol_dec_pow_linearity;
+         XmPushButton   entry_pol_quit;
+      };
+   };
+
+object
+   entry_pol_quit: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_quit_text;
+         XmNaccelerator = k_acc_pol_quit;
+         XmNacceleratorText = k_acct_pol_quit;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_quit);
+      };
+   };
+
+object
+   entry_pol_screendump: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_screendump_text;
+         XmNaccelerator = k_acc_pol_screendump;
+         XmNacceleratorText = k_acct_pol_screendump;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_screendump);
+      };
+   };
+
+object
+   entry_pol_inc_cohlth: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_inc_cohlth_text;
+         XmNaccelerator = k_acc_pol_inc_cohlth;
+         XmNacceleratorText = k_acct_pol_inc_cohlth;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_inc_cohlth);
+      };
+   };
+
+object
+   entry_pol_dec_cohlth: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_dec_cohlth_text;
+         XmNaccelerator = k_acc_pol_dec_cohlth;
+         XmNacceleratorText = k_acct_pol_dec_cohlth;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_dec_cohlth);
+      };
+   };
+
+object
+   entry_pol_inc_pow_linearity: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_inc_pow_linfil_text;
+         XmNaccelerator = k_acc_pol_inc_pow_linfil;
+         XmNacceleratorText = k_acct_pol_inc_pow_linfil;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_inc_pow_linfil);
+      };
+   };
+
+object
+   entry_pol_dec_pow_linearity: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pol_dec_pow_linfil_text;
+         XmNaccelerator = k_acc_pol_dec_pow_linfil;
+         XmNacceleratorText = k_acct_pol_dec_pow_linfil;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pol_dec_pow_linfil);
+      };
+   };

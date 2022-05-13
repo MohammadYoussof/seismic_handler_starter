@@ -1,0 +1,36 @@
+command MAXIMUM <trc-list> <info-entry>
+===============
+
+key: trace of maximum values
+
+Takes the traces given in <trc-list> as input and computes two new
+output traces.  The first output trace contains in each sample the
+maximum amplitude of all input traces for the sample time.  The
+second trace contains in each sample the value of the info entry
+<info-entry> of that trace which provided the maximum amplitude
+for the sample time.  The specified info entry must be real-valued.
+If <info-entry> is set to "NUMBER" then the second output trace
+holds just the trace numbers instead of an info entry value.
+
+The computation of the output traces is restricted to the time
+window where samples are available for each input trace.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of input traces.
+
+<info-entry>  ---  parameter type: info entry
+   Name of real valued info entry or "NUMBER".
+
+
+examples
+--------
+
+MAXIMUM ALL SLOWNESS
+
+MAXIMUM 1-3 NUMBER
+
+

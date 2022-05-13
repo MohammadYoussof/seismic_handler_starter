@@ -1,0 +1,44 @@
+! file SHM_CMD_STARTUP.SHC
+!      ===================
+!
+! version 8, 16-Jun-2006
+!
+! shm startup file
+! K. Stammler, 25-Jun-93
+
+sdef tmp    ! scratch
+sdef home   ! home directory
+sdef path   ! local scratch directory
+
+!echo
+!@ECHO Motif version startup
+!@ECHO =====================
+!echo
+
+norm c
+zoom/default all 5.0e-4
+
+entry define shm_view   f 00 10
+entry define shm_hide   f 01 11
+entry define shm_filter f 02 12
+entry define shm_rot    f 03 13
+
+!shm_cmd_read_dialog;;
+
+! try to find (and execute) user startup
+switch sherrstop off
+switch cmderrstop off
+switch noerrmsg on
+fct getpath userdir &path
+|"path|shm_user_startup|
+if  $status eqi 0  goto/forward user_startup_ok:
+!   echo $blank
+!@  ECHO no SHM private startup available
+!   echo $blank
+user_startup_ok:
+switch noerrmsg off
+switch cmderrstop on
+switch sherrstop on
+
+
+return

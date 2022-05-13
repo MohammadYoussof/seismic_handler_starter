@@ -1,0 +1,17 @@
+! file ERR_4000.MSG
+!      ============
+!
+! version 1, 24-May-92
+!
+! error messages of module DJCH.C
+! K. Stammler, 24-May-92
+!
+*** DJ-01 illegal parameter ***
+*** DJ-02 illegal style number ***
+*** DJ-03 unknown style attribute ***
+*** DJ-04 illegal attribute value ***
+*** DJ-05 error submitting job ***
+*** DJ-06 error opening output file ***
+*** DJ-07 unknown HC item ***
+*** DJ-08 string overflow ***
+*** DJ-09 not initialized ***

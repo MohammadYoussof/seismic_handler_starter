@@ -1,0 +1,33 @@
+! file AUTOLOC_DISPLAY_LOOP.SHC
+!      ========================
+!
+! version 1, 24-Feb-2005
+!
+! Display of latest automatic detections
+! K. Stammler, 24-Feb-2005
+
+loop_start:
+
+   ! test whether to continue or stop
+	nop %autoloc_alive
+
+   ! lock command file
+   echo_ch AUDISP_LOCK
+   echo lock
+   echo_ch
+
+   ! redisplay event
+   ! this SHC script is rewritten automatically, it may not be readable
+   switch cmderrstop off
+   autoloc_display
+   switch cmderrstop on
+
+   ! unlock command file
+   fct oscall fdelete audisp_lock.stx
+
+@  SYSTEM |sleep|$BLANK|20|
+   goto loop_start:
+
+loop_exit:
+
+return

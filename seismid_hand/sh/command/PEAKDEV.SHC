@@ -1,0 +1,57 @@
+! file PEAKDEV.SHC
+!      ===========
+!
+! version 1, 9-JUL-91
+!
+! user selects peaks by graphic cursor -> procure display mean value
+! and standard deviation of peak positions
+! K. Stammler, 9-JUL-91
+
+sdef pos        ! current position selected
+sdef n 0        ! number of selections
+sdef key        ! key pressed
+sdef i 0        ! counter
+sdef dev 0.0    ! deviation
+sdef mean 0.0   ! mean value
+sdef tmp        ! scratch
+sdef outfile sys$login:peakpos
+
+echo select peaks by graphic cursor (exit with e-key)
+
+! create new output file
+echo_ch/new "outfile
+echo_ch
+
+sel_loop_start:
+   time ;;&pos;;;&key
+   if  "key eqs e  goto/forward sel_loop_exit:
+   calc i &n = "n + 1
+   calc r &mean = "mean + "pos
+   echo |"n|:| position "pos
+   echo_ch "outfile
+   echo "pos
+   echo_ch
+goto sel_loop_start:
+sel_loop_exit:
+echo_ch
+
+if  "n lei 1  return
+calc r &mean = "mean div "n
+echo mean value "mean
+
+calc i &i = 1
+pos_loop_start:
+   if  "i gti "n  goto/forward pos_loop_exit:
+   calc r &tmp = %"outfile("i) - "mean
+   calc r &tmp = "tmp * "tmp
+   calc r &dev = "dev + "tmp
+   calc i &i = "i + 1
+goto pos_loop_start:
+pos_loop_exit:
+
+calc i &n = "n - 1
+calc r &dev = "dev div "n
+calc r &dev = "dev sqrt
+echo standard deviation "dev
+
+return

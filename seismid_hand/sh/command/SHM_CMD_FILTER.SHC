@@ -1,0 +1,102 @@
+! file shm_cmd_filter.shc
+!      ==================
+!
+! version 11, 02-Aug-95
+!
+! applies filter to traces
+! K. Stammler, 19-May-93
+
+default 1 r     filter type
+default 2 ;;    filter prefix
+default 3 ;;    filter name
+default 4 0.0   auto cut
+default 5 1     use automatic magnification
+
+sdef hiwdw      ! upper bound of time window
+sdef mag        ! default magnification
+sdef status     ! execution status
+sdef fname      ! filter name
+
+!switch verify on
+
+if  #3 eqs none  goto/forward restore_unfiltered:
+
+calc s &fname = #3
+!if  #1 eqs f  goto/forward filname_ok:
+calc s &fname = |#2|#3|
+!filname_ok:
+
+nr
+display h:all
+del _shm_filter(y)
+if  $dsptrcs gti 0  goto/forward continue_filtering:
+   rd r
+   return
+continue_filtering:
+demean all $dsp_x $dsp_xmax
+!external_routine phase_check
+switch cmderrstop off
+switch noerrmsg on
+fili #1 "fname
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status eqi 0 goto/forward fili_is_ok:
+   echo filter "fname not found, use dummy filter
+   fili #1 dummy
+fili_is_ok:
+external_routine save_dsp_phases
+filter #1 all
+!external_routine phase_check
+set _created comment |flt:|#3|
+set _created shm_filter y
+!if  #3 nes woodand  goto/forward no_mean:
+!   demean _created $dsp_x $dsp_xmax
+!no_mean:
+hide _shm_filter(n)
+external_routine restore_dsp_phases
+!external_routine phase_check
+if  #4 eqr 0.0  goto/forward no_cut:
+!   calc r &hiwdw = $dsp_x + $dsp_w
+   calc r &hiwdw = 1.0e6
+   cut all #4 "hiwdw
+   set all t-origin 0
+   shift all time_al
+no_cut:
+demean _created $dsp_x $dsp_xmax
+
+! set magnification
+if  #5 eqi 0  goto/forward magnification_done:
+   switch cmderrstop off
+   switch noerrmsg on
+   calc r &mag = %|shm_mag_|#3|
+   calc i &status = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "status eqi 0  goto/forward mag_ok:
+      echo take default magnification
+      calc r &mag = %shm_mag_default
+   mag_ok:
+   set _created zoom "mag
+magnification_done:
+
+external_routine prepare_display
+hide all
+display _shm_view(y)
+rd r
+return
+
+restore_unfiltered:
+
+nr
+display h:all
+del _shm_filter(y)
+if  #5 eqi 0  goto/forward magnification_done2:
+   set/default all zoom %shm_mag_default
+magnification_done2:
+external_routine prepare_display
+hide all
+display _shm_view(y)
+rd r
+
+return

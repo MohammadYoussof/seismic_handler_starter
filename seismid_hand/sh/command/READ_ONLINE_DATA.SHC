@@ -1,0 +1,58 @@
+
+! file READ_ONLINE_DATA.SHC
+!      ====================
+!
+! version 3, 04-Jan-2001
+!
+! reads last possible data of station
+! K. Stammler, 28-Jul-2000
+
+default 1 grfo      station
+default 2 bh        channel
+default 3 zne       component list
+default 4 300       length backward in sec
+
+sdef tmp            ! scratch
+sdef exec_path      ! path to update-executable
+sdef cmd            ! command line
+sdef sfdfile |SFD_|$SH_ID|.SFD|        ! name of sfdfile
+sdef reqtime        ! request time
+
+!switch verify on
+
+! is it GRF of GRSN ?
+calc s &tmp = #1 extract 1 3
+if  "tmp eqs gra  goto/forward read_grf:
+if  "tmp eqs grb  goto/forward read_grf:
+if  "tmp eqs grc  goto/forward read_grf:
+
+
+! read GRSN station, update sfdfile
+
+calc i &reqtime = #4 ! + 1
+
+fct local getenv:dprog &exec_path
+@CALC S &EXEC_PATH = |"EXEC_PATH|\| DOSLASH
+@CALC S &CMD = |"EXEC_PATH|make_online_sfd.csh|$BLANK|"SFDFILE|$BLANK|#1|
+system "cmd
+
+nr
+switch cmderrstop on
+reads /sfd="sfdfile %here online #4 #1 #3 #2
+demean all
+switch cmderrstop off
+rd
+
+fct oscall fdelete "sfdfile
+
+return
+
+
+read_grf:
+
+! read GRF station, no need to update sfd
+switch cmderrstop on
+reads arch: online #4 #1 #3 #2
+switch cmderrstop off
+
+return

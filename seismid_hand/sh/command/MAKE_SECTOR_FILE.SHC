@@ -1,0 +1,61 @@
+
+! file MAKE_SECTOR_FILE.SHC
+!      ====================
+!
+! version 1, 6-AUG-91
+!
+! creates file containing sector traces
+! K. Stammler, 6-AUG-91
+
+default 1 gra1    station
+default 2 640     conversion depth
+
+sdef losec |$blank(2)|0|
+sdef hisec 180
+sdef secinc 30
+sdef trcno
+sdef depth
+sdef outfile
+
+calc i &depth = #2
+calc s &outfile = |q_sector_|#1|_|"depth|
+
+nr
+del all
+dtw
+echo creating total trace
+display h:all
+set all t-origin 0
+rd
+calc i &trcno = $dsptrcs
+nr
+shift all ps_delay #2 slowness
+sum all
+hide |1-|"trcno|
+set 1 comment |total,|"trcno|
+set 1 station #1
+set 1 start %default_time
+stw -20 90
+shift 1 -15
+trcfct 1 spower 4
+rd
+write/save_origin "outfile 1
+
+loop_start:
+   if  "losec ger 360.  goto/forward loop_exit:
+   echo processing sector "losec to "hisec
+   peak_sector #2 "losec "hisec
+   set 1 station #1
+   set 1 start %default_time
+   write/save_origin "outfile 1
+   calc/fmt=<%3.0@f> r &losec = "losec + "secinc
+   calc/fmt=<%3.0@f> r &hisec = "hisec + "secinc
+   if  "hisec ler 360.0  goto/forward hisec_ok:
+      calc/fmt=<%3.0@f> r &hisec = "hisec - 360.0
+   hisec_ok:
+goto loop_start:
+loop_exit:
+
+echo created file "outfile
+
+return

@@ -1,0 +1,14 @@
+
+! file GSE.SHC
+!      =======
+!
+! version 2, 15-Jan-93
+!
+! reads GSE format
+! K. Stammler, 27-Aug-92
+
+default 1 ;;     GSE file
+default 2 1      trace number in file
+
+readf/fmt=2 #1 #2
+return

@@ -1,0 +1,3 @@
+set/file all comment data-error
+echo inserted comment data-error
+return

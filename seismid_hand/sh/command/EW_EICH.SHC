@@ -1,0 +1,27 @@
+! file EW_EICH.SHC
+!      ===========
+!
+! version 1, 14-Oct-2005
+!
+! Eichung von GRF-Seismometern mit E. Wetzig-Programm
+! K. Stammler, 14-Oct-2005
+
+sdef dprog     ! prog path
+sdef cmd       ! shell command
+
+if  $dsptrcs eqi 1  goto/forward num_ok:
+   echo only one trace allowed on display
+   return
+num_ok:
+
+echo_ch/new grfcal.asc
+echo_ch
+writea/npl=1 grfcal.asc 1
+
+fct local getenv:dprog &dprog
+
+@CALC S &CMD = |"DPROG|$SLASH|ew_eich.csh|$BLANK|GRFCAL.ASC|$BLANK|^STATION|$BLANK|^COMP|
+echo calling "cmd
+system "cmd
+
+return

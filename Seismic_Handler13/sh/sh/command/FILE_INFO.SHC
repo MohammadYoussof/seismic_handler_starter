@@ -1,0 +1,67 @@
+! create info file
+
+default 1 ;;     q-file list
+default 2 ;;     output file
+
+sdef filcnt 1
+sdef trccnt 1
+sdef lastfile %#1(0)
+sdef qfile
+sdef lasttrace
+sdef info
+sdef line
+sdef status
+
+echo last file is number "lastfile
+
+echo_ch #2
+
+file_loop:
+   if  "filcnt gti "lastfile  goto/forward file_loop_exit:
+   echo_ch
+   echo processing file "filcnt ( number "filcnt )
+   echo_ch #2
+   calc s &qfile = %#1("filcnt) parse 1
+   extract "qfile 1 no_of_recs &lasttrace
+   calc i &trccnt = 1
+   trc_loop:
+      if  "trccnt gti "lasttrace  goto/forward trc_loop_exit:
+      calc i &info = "trccnt /fmt=<%2@d>
+      calc s &line = |"qfile|$blank|"info|
+      extract "qfile "trccnt station &info
+      calc s &line = |"line|$blank|"info|
+!      extract "qfile "trccnt start &info
+!      calc s &line = |"line|$blank|"info|
+      calc s &info = ****
+      switch cmderrstop off
+      extract "qfile "trccnt pwdw &info
+      switch cmderrstop on
+      calc s &line = |"line|$blank|"info|
+      switch cmderrstop off
+      extract "qfile "trccnt distance &info
+      calc i &status = $status
+      switch cmderrstop on
+      if  "status nei 0  goto/forward no_info:
+         calc r &info = "info /fmt=<%5.1@f>
+         calc s &line = |"line|$blank|"info|
+         extract "qfile "trccnt depth &info
+         calc r &info = "info /fmt=<%5.1@f>
+         calc s &line = |"line|$blank|"info|
+         extract "qfile "trccnt azimuth &info
+         calc r &info = "info /fmt=<%6.1@f>
+         calc s &line = |"line|$blank|"info|
+!         extract "qfile "trccnt eventno &info
+!         calc i &info = "info /fmt=<%3@d>
+!         calc s &line = |"line|$blank|"info|
+      no_info:
+      echo "line
+      calc i &trccnt = "trccnt + 3
+   goto trc_loop:
+   trc_loop_exit:
+   calc i &filcnt = "filcnt + 1
+goto file_loop:
+file_loop_exit:
+
+echo_ch
+
+return

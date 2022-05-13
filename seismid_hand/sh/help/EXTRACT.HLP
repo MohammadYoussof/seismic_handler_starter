@@ -1,0 +1,35 @@
+command EXTRACT <q-file> <trcno> <info> <symbol>
+===============
+
+key: extract info from q-file
+
+Extracts information from given q-file and stores it in specified
+symbol.
+
+
+parameters
+
+<q-file>  ---  parameter type: filename (without extension)
+   Name of q-file, where the information should be extracted.
+
+<trcno>  ---  parameter type: integer
+   Number of trace in the q-file to read the information from.  If
+   <info> equals to "NO_OF_RECS" this parameter is ignored.
+
+<info>  ---  parameter type: info entry
+   Name of info entry to be extracted from specified trace or keyword
+   "NO_OF_RECS" to get total number of traces in the q-file.
+
+<symbol>  ---  parameter type: symbol address
+   Name of symbol where the information value is to be stored.
+
+
+examples:
+
+   EXTRACT MYQFILE 3 SLOWNESS &SLO  ! extracts slowness value from 3 trace
+                                    ! in file "MYQFILE" and stores it
+                                    ! in symbol "SLO".
+
+   EXTRACT MYQFILE 1 NO_OF_RECS &NO ! returns number of traces in q-file
+                                    ! "MYQFILE" in symbol "NO".
+

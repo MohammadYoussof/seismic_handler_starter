@@ -1,0 +1,2 @@
+
+   readk:  Zeitfenster 0 sec fuehrt zum Absturz

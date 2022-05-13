@@ -1,0 +1,31 @@
+! file RSASCII.SHC
+!      ===========
+!
+! version 1, 3-Dec-1991
+!
+! reads stack traces from ASCII files
+! K. Stammler, 3-Dec-1991
+
+default 1 ;;      input file(s) (without extension)
+default 2 21      number of input traces
+
+sdef cnt 01    ! counter
+sdef infile    ! input file
+
+del all
+dtw
+nr
+loop_start:
+	if  "cnt gti #2  goto/forward loop_exit:
+	calc s &infile = |#1|.a|"cnt|
+	echo reading trace "cnt from file "infile
+	reada "infile
+	calc/fmt=<%02@d> i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+echo restoring t-origin
+restore t-origin #1
+rd
+
+return

@@ -1,0 +1,12 @@
+! file ERR_5900.MSG
+!      ============
+!
+! version 2, 24-Aug-94
+!
+! error messages of module cblib4.h
+! K. Stammler, 22-Aug-94
+!
+*** CL4-01 no traces on display ***
+*** CL4-02 beam/align not allowed ***
+*** CL4-03 negative phase difference ***
+*** CL4-04 no phase pairs found ***

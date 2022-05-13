@@ -1,0 +1,229 @@
+
+! file shm_simfilters.txt
+!      ==================
+!
+! version 1, 12-Jul-96
+!
+! K. Stammler, 12-Jul-96
+
+
+
+
+Simulation filters used by SHM
+------------------------------
+
+
+
+Application of simulation filters to traces read by SHM need preinstalled
+filter files located either in $PWD or in $SH_FILTER.  The filter files
+cannot be created automatically at runtime, because information about
+transfer function of the recording instrument must be supplied somehow.
+Looking for the filter files SHM assumes file names of a defined format:
+
+
+FFT-files: '<rec-instr>_S+<sim-filter>.FLF'
+
+	where    <rec-instr>     Descriptor of the recording instrument.  By default
+                            this is '<station>:<channel>:<comp>'
+            <station>       Station name (examples: 'BFO', 'GEC2')
+            <channel>       2-character SEED channel code (examples: 'BH', 'HH')
+            <comp>          Component (examples: 'Z', 'N')
+            <sim-filter>    Descriptor of simulated instrument.
+                            (examples: 'WOODAND', "G_WWSSN_SP')
+
+recursive files: '<smprate>HZ_<rec-instr>_S+<sim-filter>.FLR'
+
+   where    <smprate>       Integer sample rate in Hz (examples: '20', '40')
+            <rec-instr>     See above
+            <sim-filter>    See above
+
+
+All filenames must have uppercase letter only !  Hyphens in filter filenames
+are not supported by SHM.  As an example, a legal filename for an FFT
+simulation filter for WWSSN-LP recorded at station RAR-BH-Z would be
+'RAR:BH:Z_S+WWSSN_LP.FLF'.
+
+Since it is rather inconvenient to have separate filter files for each stream,
+it is possible to combine several streams to a single class name within a
+lookup table.  Class names found in the lookup table replace the individual
+stream names within the filenames.  SHM searches two lookup tables: an internal
+table (implemented in the source code) and an external table in the file
+'$SH_INPUTS/filter_lookup.txt'.  The internal table maps all GRF-BH-streams
+(e.g. GRA1-BH-Z, GRB1-BH-N) to the name 'GRF', all GRSN-BH-streams
+(e.g. BFO-BH-Z, CLZ-BH-E) to the name 'GRSN' and all GERESS-HH-streams
+(e.g. GEA0-HH-Z) to the name 'GERESS'.  The complete internal lookup
+table (status of 12-Jul-1996) is appended to this text.  Due to this lookup
+table the simulation filter for WWSSN_LP on stream BFO-BH-Z is
+'GRSN_S+WWSSN_LP.FLF' instead of 'BFO:BH:Z_S+WWSSN_LP.FLF'.  In the external
+lookup table arbitrary mappings of additional stations can be added.  For
+example if you have two stations XYZ and XXX, both with an instrument MKII
+which has the same transfer function for all three components then you should
+add the lines
+
+XYZ-BH-Z MKII
+XYZ-BH-N MKII
+XYZ-BH-E MKII
+XXX-BH-Z MKII
+XXX-BH-N MKII
+XXX-BH-E MKII
+
+to the external table.  Then the appropriate simulation filter for WWSSN-LP
+would be 'MKII_S+WWSSN_LP.FLF'.
+
+
+
+
+complete internal lookup table from 12-Jul-1996
+-----------------------------------------------
+
+GRA1-BH-Z GRF
+GRA1-BH-E GRF
+GRA1-BH-N GRF
+GRA2-BH-Z GRF
+GRA3-BH-Z GRF
+GRA4-BH-Z GRF
+GRB1-BH-Z GRF
+GRB1-BH-N GRF
+GRB1-BH-E GRF
+GRB2-BH-Z GRF
+GRB3-BH-Z GRF
+GRB4-BH-Z GRF
+GRB5-BH-Z GRF
+GRC1-BH-Z GRF
+GRC1-BH-N GRF
+GRC1-BH-E GRF
+GRC2-BH-Z GRF
+GRC3-BH-Z GRF
+GRC4-BH-Z GRF
+GEA0-HH-Z GERESS
+GEA0-HH-N GERESS
+GEA0-HH-E GERESS
+GEA1-HH-Z GERESS
+GEA1-HH-N GERESS
+GEA1-HH-E GERESS
+GEA2-HH-Z GERESS
+GEA2-HH-N GERESS
+GEA2-HH-E GERESS
+GEA3-HH-Z GERESS
+GEA3-HH-N GERESS
+GEA3-HH-E GERESS
+GEB1-HH-Z GERESS
+GEB1-HH-N GERESS
+GEB1-HH-E GERESS
+GEB2-HH-Z GERESS
+GEB2-HH-N GERESS
+GEB2-HH-E GERESS
+GEB3-HH-Z GERESS
+GEB3-HH-N GERESS
+GEB3-HH-E GERESS
+GEB4-HH-Z GERESS
+GEB4-HH-N GERESS
+GEB4-HH-E GERESS
+GEB5-HH-Z GERESS
+GEB5-HH-N GERESS
+GEB5-HH-E GERESS
+GEC1-HH-Z GERESS
+GEC1-HH-N GERESS
+GEC1-HH-E GERESS
+GEC2-HH-Z GERESS
+GEC2-HH-N GERESS
+GEC2-HH-E GERESS
+GEC3-HH-Z GERESS
+GEC3-HH-N GERESS
+GEC3-HH-E GERESS
+GEC4-HH-Z GERESS
+GEC4-HH-N GERESS
+GEC4-HH-E GERESS
+GEC5-HH-Z GERESS
+GEC5-HH-N GERESS
+GEC5-HH-E GERESS
+GEC6-HH-Z GERESS
+GEC6-HH-N GERESS
+GEC6-HH-E GERESS
+GEC7-HH-Z GERESS
+GEC7-HH-N GERESS
+GEC7-HH-E GERESS
+GED1-HH-Z GERESS
+GED1-HH-N GERESS
+GED1-HH-E GERESS
+GED2-HH-Z GERESS
+GED2-HH-N GERESS
+GED2-HH-E GERESS
+GED3-HH-Z GERESS
+GED3-HH-N GERESS
+GED3-HH-E GERESS
+GED4-HH-Z GERESS
+GED4-HH-N GERESS
+GED4-HH-E GERESS
+GED5-HH-Z GERESS
+GED5-HH-N GERESS
+GED5-HH-E GERESS
+GED6-HH-Z GERESS
+GED6-HH-N GERESS
+GED6-HH-E GERESS
+GED7-HH-Z GERESS
+GED7-HH-N GERESS
+GED7-HH-E GERESS
+GED8-HH-Z GERESS
+GED8-HH-N GERESS
+GED8-HH-E GERESS
+GED9-HH-Z GERESS
+GED9-HH-N GERESS
+GED9-HH-E GERESS
+BFO-BH-Z GRSN
+BFO-BH-N GRSN
+BFO-BH-E GRSN
+BRG-BH-Z GRSN
+BRG-BH-N GRSN
+BRG-BH-E GRSN
+BRNL-BH-Z GRSN
+BRNL-BH-N GRSN
+BRNL-BH-E GRSN
+BSEG-BH-Z GRSN
+BSEG-BH-N GRSN
+BSEG-BH-E GRSN
+BUG-BH-Z GRSN
+BUG-BH-N GRSN
+BUG-BH-E GRSN
+CLL-BH-Z GRSN
+CLL-BH-N GRSN
+CLL-BH-E GRSN
+CLZ-BH-Z GRSN
+CLZ-BH-N GRSN
+CLZ-BH-E GRSN
+FUR-BH-Z GRSN
+FUR-BH-N GRSN
+FUR-BH-E GRSN
+GSH-BH-Z GRSN
+GSH-BH-N GRSN
+GSH-BH-E GRSN
+HAM-BH-Z GRSN
+HAM-BH-N GRSN
+HAM-BH-E GRSN
+IBB-BH-Z GRSN
+IBB-BH-N GRSN
+IBB-BH-E GRSN
+IBBN-BH-Z GRSN
+IBBN-BH-N GRSN
+IBBN-BH-E GRSN
+LID-BH-Z GRSN
+LID-BH-N GRSN
+LID-BH-E GRSN
+MOX-BH-Z GRSN
+MOX-BH-N GRSN
+MOX-BH-E GRSN
+TNS-BH-Z GRSN
+TNS-BH-N GRSN
+TNS-BH-E GRSN
+RGN-BH-Z GRSN
+RGN-BH-N GRSN
+RGN-BH-E GRSN
+STU-BH-Z GRSN
+STU-BH-N GRSN
+STU-BH-E GRSN
+WET-BH-Z GRSN
+WET-BH-N GRSN
+WET-BH-E GRSN
+GRFO-BH-Z GRFO
+GRFO-BH-N GRFO
+GRFO-BH-E GRFO

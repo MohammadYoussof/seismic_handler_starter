@@ -1,0 +1,14 @@
+default 1 sz2od0:                device
+default 2 1-jan-91_20:30:20      time
+default 3 180                    length in sec
+
+nr
+del all 
+dtw
+readk #1 #2 #3 all
+norm c
+zoom all .3
+title 1 ^start
+rd r
+
+return

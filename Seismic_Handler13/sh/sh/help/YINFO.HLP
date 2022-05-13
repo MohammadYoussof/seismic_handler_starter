@@ -1,0 +1,33 @@
+command YINFO <info>
+=============
+
+key: arrange y-position of traces
+
+Use a real-valued info entry for determining the y-position of traces.
+For instance "yinfo distance" switches to a distance proportional
+display.  Default yinfo is "none".  To reset display to initial state
+enter command "yinfo none".  To set y-windows see "syw" command.
+
+
+parameters
+----------
+
+<info>  ---  parameter type: info entry
+   Real-valued info entry to be used to compute y-position of traces.
+
+
+examples
+--------
+
+   yinfo distance         ! switch to distance proportional display
+
+   yinfo none             ! switch back to original state
+
+
+   A typical command sequence to switch to distance proportional
+   display is:
+
+   yinfo distance           ! switch to distance proportional display
+   trctxt                   ! switch off trace info text
+   fct axis y-axis plot on  ! switch on y-axis
+

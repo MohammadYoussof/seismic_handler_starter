@@ -1,0 +1,51 @@
+
+ATTENTION !
+-----------
+
+This is a VERY old file describing how the installation of SH used to be
+on a VAX some time.  Since we changed our equipment to Sun/UNIX I never
+tried it again to install the system on a VAX.  So this is definitely out
+of date and VAX/VMS is not supported at all any more.
+
+Klaus Stammler
+20-Feb-1996
+
+
+
+
+
+Installing SH
+=============
+
+
+   i)  copy all files of disk 1 into a separate directory (called main
+       directory)
+
+  ii)  copy all directories including their files of disk 2 into this main
+       directory
+
+ iii)  edit file SHSETUP.COM in the main directory and change the logical
+       names to your actual pathnames.  The directories SHC_CURVES,
+       SHC_QPROG, SHC_QLIST, SHC_LIB and SHC_VELOC are not important,
+       so you can remove the definitions.
+
+  iv)  edit the file BASECNST.H and remove the definition of BC_GRFVAX.
+
+   v)  compile the source in the different directories.  There are command
+       files in the directories SHC_MAIN (CC_SH.COM), SHC_GRAPHICS
+       (CC_SHGRAPHICS.COM) and SHC_LOCAL (CC_SHLOCAL.COM).
+
+  vi)  edit the link file SHLINK.COM in the main directory and remove the
+       files SHMENU_GRF,DPET2,OFILEIN,K_FILE_IN,Y_FILE_IN,O_FILE_IO,TIMECNV,
+       ABSZEIT,ERROR_MESSAGE,SYS_INPUT,IN_VLP_NEW from the link list.
+
+ vii)  link SH using SHLINK.COM
+
+viii)  run command file SHWORLD.COM
+
+  ix)  try to start SH with the SHC command
+
+   x)  open an X-Window using command XOPEN;; or an UIS-Window using VOPEN;;.
+       THis window is used for graphic output.
+
+  xi)  ...

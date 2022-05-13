@@ -1,0 +1,199 @@
+! file shm_event_attribs.uil
+!      =====================
+!
+! version 2, 17-Jun-2006
+!
+! event attributes extension box
+! K. Stammler, 11-Oct-95
+
+object
+   event_attrib_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'phase attribs';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard attrib_selection_box;
+         XmRowColumn     attrib_main_button_box;
+      };
+   };
+
+object
+   attrib_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+!         XmNspacing = 30;
+         XmNx = k_pos_x_attrib_main_buttons;
+         XmNy = k_pos_y_attrib_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_attrib_ok;
+      };
+   };
+
+object
+   button_attrib_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_attrib_ok );
+      };
+   };
+
+object
+   attrib_selection_box:  XmBulletinBoard {
+      arguments {
+         XmNx = k_pos_x_attrib_selection;
+         XmNy = k_pos_y_attrib_selection;
+         XmNdialogTitle = 'Attrib Selection';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu phase_acc_option;
+         XmOptionMenu event_public_option;
+      };
+   };
+
+object
+   phase_acc_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_phase_acc;
+         XmNy = k_pos_y_phase_acc;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Onset Accuracy';
+         XmNmenuHistory = XmPushButton button_phase_acc_none;
+      };
+      controls {
+         XmPulldownMenu phase_acc_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_acc_option );
+      };
+   };
+
+object
+   phase_acc_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_phase_acc_none;
+         XmPushButton   button_phase_acc_query;
+         XmPushButton   button_phase_acc_display;
+      };
+   };
+
+object
+   button_phase_acc_none: XmPushButton {
+      arguments {
+         XmNlabelString = 'None';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_acc_none );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_acc_none );
+      };
+   };
+
+object
+   button_phase_acc_query: XmPushButton {
+      arguments {
+         XmNlabelString = 'Qery';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_acc_query );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_acc_query );
+      };
+   };
+
+object
+   button_phase_acc_display: XmPushButton {
+      arguments {
+         XmNlabelString = 'Display';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_phase_acc_display );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_phase_acc_display );
+      };
+   };
+
+object
+   event_public_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_event_public_option;
+         XmNy = k_pos_y_event_public_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Event Publication';
+         XmNmenuHistory = XmPushButton button_evpublic_telex1;
+      };
+      controls {
+         XmPulldownMenu event_public_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_event_public_option );
+      };
+   };
+
+object
+   event_public_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_evpublic_ignore;
+         XmPushButton   button_evpublic_telex1;
+         XmPushButton   button_evpublic_telexall;
+      };
+   };
+
+object
+   button_evpublic_ignore: XmPushButton {
+      arguments {
+         XmNlabelString = 'Ignore';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_evpublic_ignore );
+      };
+   };
+
+object
+   button_evpublic_telex1: XmPushButton {
+      arguments {
+         XmNlabelString = 'Telex Ref-Station';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_evpublic_telex1 );
+      };
+   };
+
+object
+   button_evpublic_telexall: XmPushButton {
+      arguments {
+         XmNlabelString = 'Telex All';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_evpublic_telexall );
+      };
+   };
+

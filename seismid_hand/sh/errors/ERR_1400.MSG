@@ -1,0 +1,11 @@
+! file ERR_1400.MSG
+!      ============
+!
+! version 1, 21-Dec-2006
+!
+! error messages of module sqliface.c
+! K. Stammler, 21-Dec-2006
+!
+*** SQL-01 error creating unique scratch file ***
+*** SQL-02 string oveflow ***
+

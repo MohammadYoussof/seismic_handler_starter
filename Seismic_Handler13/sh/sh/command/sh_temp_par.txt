@@ -1,0 +1,20 @@
+Station code           : GRA1
+Onset time             : 18-AUG-1994_00:55:47.318
+Onset type             : emergent
+Phase name             : P
+Event Type             : teleseismic quake
+Applied filter         : G_WWSSN_SP
+Component              : Z
+Quality number         : 1
+Weight                 : 4
+Beam-Slowness (sec/deg):  7.1
+Beam-Azimuth (deg)     :  150.8
+Depth (km)             :  33.0
+Depth type             : (n) preset
+Location quality       : reliable
+No. of Stations used   : 13
+Reference Location Name: GRA1
+Source of Information  : SZGRF
+--- End of Phase ---
+
+

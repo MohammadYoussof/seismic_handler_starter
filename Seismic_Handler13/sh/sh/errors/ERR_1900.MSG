@@ -1,0 +1,22 @@
+! file ERR_1900.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module TIMECONV.C
+! K. Stammler, 8-JUL-91
+!
+*** TC-01 illegal terminator ***
+*** TC-02 illegal month name ***
+*** TC-03 int conversion error ***
+*** TC-04 additional chars at end of text ***
+*** TC-05 too many fraction digits ***
+*** TC-06 year value out of range ***
+*** TC-07 month value out of range ***
+*** TC-08 day value out of range ***
+*** TC-09 hour value out of range ***
+*** TC-10 minute value out of range ***
+*** TC-11 second value out of range ***
+*** TC-12 millisecond value out of range ***
+*** TC-13 too many integers in list ***
+*** TC-14 no separator found ***

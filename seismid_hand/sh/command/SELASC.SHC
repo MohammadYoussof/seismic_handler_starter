@@ -1,0 +1,16 @@
+
+! file selasc.shc
+
+default 1 ;;    input q-file
+
+del all
+read |sel:|#1| all
+
+echo write z
+writea/npl=4 |#1|.z 1 station comp start depth distance slowness azimuth origin p-onset pwdw lat lon magnitude
+echo write n
+writea/npl=4 |#1|.n 2 station comp start depth distance slowness azimuth origin p-onset pwdw lat lon magnitude
+echo write e
+writea/npl=4 |#1|.e 3 station comp start depth distance slowness azimuth origin p-onset pwdw lat lon magnitude
+
+return

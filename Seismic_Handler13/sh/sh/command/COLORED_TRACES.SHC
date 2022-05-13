@@ -1,0 +1,29 @@
+! file COLORED_TRACES.SHC
+!      ==================
+!
+! version 1, 24-Feb-2005
+!
+! Makes colored traces, needs defcolors before
+! K. Stammler, 24-Feb-2005
+
+default 1 1  start attrib block
+default 2 5  number of colors
+
+sdef blk #1
+sdef cnt 1
+sdef trc 1
+
+loop_start:
+   if  "trc gti $dsptrcs  goto/forward loop_exit:
+   set "trc attrib "blk
+   calc i &trc = "trc + 1
+   calc i &cnt = "cnt + 1
+   calc i &blk = "blk + 1
+   if  "cnt lei #2  goto/forward cnt_ok:
+      calc i &blk = #1
+      calc i &cnt = 1
+   cnt_ok:
+goto loop_start:
+loop_exit:
+
+return

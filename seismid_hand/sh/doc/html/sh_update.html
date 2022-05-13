@@ -1,0 +1,51 @@
+<HTML LANG="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SH update</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<FORM METHOD="GET" ACTION="/cgi-bin/sh_update.csh">
+<P><IMG SRC="../grfheading.gif" WIDTH="583" HEIGHT="128" ALIGN="BOTTOM"
+BORDER="0" NATURALSIZEFLAG="3"></P>
+
+<H3>Update the source code of SH/SHM to the most recent version</H3>
+
+<P>The procedure described here let you update the source code
+of your existing SH installation to the the most recent version.
+It uses the version numbers in the beginning of every file in
+the SH/SHM distribution. You get a copy of my currently used source
+files if a newer version is available here. Please note that you
+need an already existing installation which is going to be upgraded.
+Perform the following steps:</P>
+
+<UL>
+  <LI>Make a version list of your own source files using <FONT
+   FACE="Courier New"><A HREF="ftp://ftp.szgrf.bgr.de/pub/software/vrs_list.csh">vrs_list.csh</A></FONT>.
+  Call it with the SH-root directory as argument and save the output
+  into a file:<FONT COLOR="#009999" FACE="Courier New"><BR CLEAR="ALL">chmod
+  a+x vrs_list.csh<BR CLEAR="ALL">vrs_list.csh $SH_ROOT &gt;$HOME/myvrslist.txt<BR
+  CLEAR="ALL"></FONT>Please choose descriptive names for your files
+  to avoid interfering with files of other users. Do not create
+  the version list file in <FONT COLOR="#009999" FACE="Courier New">$SH_ROOT</FONT>
+  or one of its subdirectories in order to avoid recursive version
+  lists.
+  <LI>Upload your result file (in this example: <FONT COLOR="#009999"
+   FACE="Courier New">myvrslist.txt</FONT>) to our ftp server:
+  <A HREF="ftp://ftp.szgrf.bgr.de/pub/incoming/shupd">ftp://ftp.szgrf.bgr.de/pub/incoming/shupd</A>.
+  <LI>Request file updates for your version file <INPUT NAME="vrsname"
+  TYPE="text" SIZE="10">Please enter the name of your version file
+  here and then click on this button:<INPUT NAME="submit" TYPE="submit"
+  VALUE="Request Update">.
+  <LI>Copy the update tarfile to <FONT COLOR="#009999" FACE="Courier New">$SH_ROOT</FONT>
+  and call <FONT FACE="Courier New"><A HREF="ftp://ftp.szgrf.bgr.de/pub/software/install_ftp_update.csh">install_ftp_update.csh</A></FONT>
+  from there:<BR CLEAR="ALL"><FONT COLOR="#009999" FACE="Courier New">cp
+  myvrslist.tar.gz $SH_ROOT<BR CLEAR="ALL">cd $SH_ROOT<BR CLEAR="ALL">install_ftp_update.csh
+  myvrslist.tar.gz</FONT>
+</UL>
+
+<P><small>This page last modified 3-Aug-2000</small></FORM>
+
+</BODY>
+</HTML>

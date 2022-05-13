@@ -1,0 +1,16 @@
+! file TF_VEL_CMG3T.FLF
+!      =================
+!
+! version 1, 4-Jun-97
+!
+! Guralp CMG-3T transfer function (velocity input)
+! K. Stammler, 4-Jun-97
+  1357913578
+           1
+1.0
+2
+(0.0,0.0)
+(0.0,0.0)
+           2
+(-7.07e-3,1.963e-3)
+(-7.07e-3,-1.963e-3)

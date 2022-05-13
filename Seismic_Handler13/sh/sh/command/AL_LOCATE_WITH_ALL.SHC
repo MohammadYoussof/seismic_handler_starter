@@ -1,0 +1,19 @@
+! file LOCATE_WITH_ALL.SHC
+!      ===================
+!
+! version 1, 26-Mar-2001
+!
+! Locates with P- and S-onsets.
+! K. Stammler, 24-Mar-2001
+
+default 1 corrpick.stx       raw p-picks
+default 2 corrpick-corr.stx  corrected p-picks
+default 3 s_picks.stx        s-picks
+
+sdef cmd
+
+fct getpath extprog &cmd
+@CALC S &CMD = |"CMD|al_analyze_s_picks.csh|$BLANK|#1|$BLANK|#2|$BLANK|#3|
+system "cmd
+
+return

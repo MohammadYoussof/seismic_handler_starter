@@ -1,0 +1,19 @@
+! file CHECK_SIGN.SHC
+! checks REVERSE-flag of all traces on display
+
+sdef trccnt 1      ! trace counter
+
+nr
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   if  ^reverse("trccnt) eqs N  goto/forward noreverse:
+      trcfct "trccnt mul -1
+      echo ---> trace "trccnt reversed
+      set "trccnt reverse n
+   noreverse:
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

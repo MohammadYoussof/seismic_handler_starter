@@ -1,0 +1,12 @@
+! file COPY_INFO.SHC
+default 1 ;;     source entry
+default 2 ;;     destination entry
+
+sdef trccnt 1
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   set "trccnt #2 ^#1("trccnt)
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+return

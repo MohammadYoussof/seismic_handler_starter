@@ -1,0 +1,26 @@
+! file readgse_list.shc
+!      ================
+!
+! version 1, 30-Mar-2000
+!
+! reads list of ASCII files
+! K. Stammler, 30-Mar-2000
+
+default 1 ;;       name of list file
+
+sdef cfile      ! current gse file
+sdef cnt 1      ! file counter
+sdef max %#1(0) ! last file in list
+
+nr
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   calc s &cfile = %#1("cnt)
+   echo reading file "cfile
+   readgse "cfile all
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

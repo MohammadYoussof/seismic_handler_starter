@@ -1,0 +1,73 @@
+! file CREATE_SHARP.SHC
+
+default 1 1.          yield (in kt)
+default 2 hardrock    rock type [hardrock,salt,tuff]
+default 3 5.0         p-velocity
+default 4 2.85        s-velocity
+default 5 2.7         density
+default 6 0.05        sample distance in sec
+default 7 10.0        length in sec
+default 8 1.0         offset
+
+sdef w0
+sdef w1
+sdef r0
+sdef p0
+sdef y
+sdef am
+sdef vs2
+sdef vs
+sdef vp
+sdef rho
+
+calc r &y = #1 * 4.18e12
+calc r &vp = #3 * 1000.
+calc r &vs = #4 * 1000.
+calc r &rho = #5 * 1000.
+
+! set p0
+if  #2 nes hardrock  goto/forward p0set1:
+   calc r &p0 = 20000000.
+   goto/forward p0cont:
+p0set1:
+if  #2 nes salt  goto/forward p0set2:
+   calc r &p0 = 44000000.
+   goto/forward p0cont:
+p0set2:
+if  #2 nes tuff  goto/forward p0set2:
+   calc r &p0 = 13000000.
+   goto/forward p0cont:
+echo illegal rock type #2
+return
+p0cont:
+
+! set r0
+calc r &r0 = 9.4 * "y
+calc r &r0 = "r0 div "p0
+calc r &r0 = "r0 power .333333333
+
+! set w0
+calc r &vs2 = "vs * "vs
+calc r &w0 = "vs2 * 2.0
+calc r &w0 = "w0 div "r0
+calc r &w0 = "w0 div "vp
+
+! set w1
+calc r &w1 = "vp * "vp
+calc r &w1 = "w1 div "vs2
+calc r &w1 = "w1 - 1
+calc r &w1 = "w1 sqrt
+calc r &w1 = "w1 * "w0
+
+! set am
+calc r &am = "r0 * "p0
+calc r &am = "am div "rho
+calc r &am = "am div "vp
+
+! create trace
+echo am "am
+echo w0 "w0
+echo w1 "w1
+create sharp #6 #7 "am #8 "w0 "w1
+
+return

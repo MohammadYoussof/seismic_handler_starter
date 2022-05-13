@@ -1,0 +1,26 @@
+! file envelope_all.shc
+!      ================
+!
+! version 1, 13-Dec-91
+!
+! computes envelope of all traces on display
+! K. Stammler, 13-Dec-91
+
+sdef trcno $dsptrcs
+sdef cnt 1
+
+switch chatty off
+nr
+loop_start:
+   if  "cnt gti "trcno  goto/forward loop_exit:
+   echo/no_crlf computing at trace "cnt
+   envelope "cnt
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+echo
+
+del |1-|"trcno|
+rd
+
+return

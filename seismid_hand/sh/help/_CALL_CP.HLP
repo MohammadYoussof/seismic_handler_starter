@@ -1,0 +1,123 @@
+
+call command procedures
+=======================
+
+key: * calling cmd proc's
+
+
+A command procedure is called typing the name of the command file
+without extension.  There can be parameters passed to the command
+procedure which can be referenced from within the procedure by
+"#<parno>", where <parno> is the position number of the parameter.
+Valued or non-valued qualifers can be passed as well.  They can be
+referenced by "#<qualname>", where <qualname> is the name of the
+qualifier.  In the command procedure "#<qualname>" is replaced by
+its value, by "_NOVALUE_" if no value is passed or by "_EXISTSNOT_"
+if the qualifier is not specified.
+
+Example for passing parameters and qualifiers:
+Assume the call of a command procedure CMDPROC as:
+   "CMDPROC/NAME=PETER/TEST LISTFILE TESTPAR"
+Inside the command procedure the following expressions are replaced by:
+   Expression           replaced by
+      #1                LISTFILE
+      #2                TESTPAR
+      #NAME             PETER
+      #TEST             _NOVALUE_
+      #MYQUAL           _EXISTSNOT_
+
+
+
+program control qualifiers
+--------------------------
+
+There are some qualifiers defined which can be passed to
+any command procedure which are interpreted in the following way:
+
+/PARENT
+   Interactive input for the command procedure is read from the
+   parent command level and not from the main input level (main
+   input level is usually the interactive level 0, unless a command
+   procedure is run with the /PLAYBACK qualifier passed).
+
+/CHECK
+   If the command file is not found then no error is produced, the
+   command call is ignored.
+
+/PLAYBACK
+   While this command procedure is active all interactive input is
+   read from this command file (the main input level is set to this
+   command level).  This qualifier is useful if a protocol file is
+   to be run, then all interactive input is recovered from the
+   protocol file and is not prompted again from the user.
+
+/DC=<channels> /IC=<channels> /GC=<channels>
+   Set dialog ("/DC"), info ("/IC") or graphic ("/GC") channels to
+   new values.  <channels> is a character string containing valid
+   channel characters (see below).  These settings are local to
+   the command procedure unless the /GLOBAL or the /MAIN qualifier
+   is specified too.
+
+/DC+=<channels> /IC+=<channels> /GC+=<channels>
+   Add channels to the existing dialog ("/DC+"), info ("/IC+") or
+   graphic ("/GC+") channels.  <channels> is a character string
+   containing valid channel characters (see below).  These settings
+   are local to the command procedure unless the /GLOBAL or the
+   /MAIN qualifier is specified too.
+
+/DC-=<channels> /IC-=<channels> /GC-=<channels>
+   Close channels of the existing dialog ("/DC+"), info ("/IC+") or
+   graphic ("/GC+") channels.  <channels> is a character string
+   containing valid channel characters (see below).  These settings
+   are local to the command procedure unless the /GLOBAL or the
+   /MAIN qualifier is specified too.
+
+/FLAGS=<flags>
+   Set the control flags to new values.  <flags> is a character string
+   containing valid control flag characters (see below).  These
+   settings are local to the command procedure unless the /GLOBAL
+   qualifier is specified too.
+
+/FLAGS+=<flags>
+   Add control flags to the existing ones.  <flags> is a character
+   string containing valid control flag characters (see below).  These
+   settings are local to the command procedure unless the /GLOBAL
+   qualifier is specified too.
+
+/FLAGS-=<flags>
+   Remove control flags from the existing ones.  <flags> is a character
+   string containing valid control flag characters (see below).  These
+   settings are local to the command procedure unless the /GLOBAL
+   qualifier is specified too.
+
+/GLOBAL
+   New settings of the dialog, info and graphic channels and the
+   settings of the control flags are not local to the command
+   procedure but are used for any new created command level.
+
+/MAIN
+   The settings of the dialog, info and graphic channels are changed
+   in the main input level (the current command level is not affected).
+
+
+
+valid channel characters
+------------------------
+
+   "1".."7"   window number (only one window per stream permitted)
+   "H"        hardcopy channel
+   "S"        standard text channel
+   "F"        file
+   "0"        all channels closed
+
+valid control flag characters
+-----------------------------
+
+   "E"        echo all inputs
+   "T"        trace option (prompt after each command)
+   "P"        protocol flag (all inputs are protocolled)
+   "C"        cap conversion (lowercase is converted to uppercase)
+   "V"        verify command (all translated commands are displayed)
+   "X"        abort command procedure on error
+   "A"        abort seismhandler on error
+

@@ -1,0 +1,53 @@
+! file FILNOISE.SHC
+!      ============
+!
+! version 3, 30-AUG-91
+!
+! creates filtered noise
+! K. Stammler, 7-AUG-91
+
+default 1 20       number of traces
+default 2 bp08s4s  rec filter
+default 3 40.      length of each trace
+
+sdef cnt 1
+sdef totlth       ! total length of noise trace
+sdef offset 30.   ! offset for filter
+sdef lowdw        ! lo bound
+sdef hiwdw        ! hi bound
+
+nr
+!echo delete all traces
+del all
+dtw
+
+calc r &totlth = #3 * #1
+calc r &totlth = "totlth + "offset
+!echo creating total trace of length "totlth
+create random .1 "totlth 1.
+!echo filtering total trace
+fili r #2
+filter r all
+del 1
+
+!echo cutting trace
+calc r &lowdw = "offset
+calc r &hiwdw = "lowdw + #3
+
+loop_start:
+   if  "cnt gti #1  goto/forward loop_exit:
+   !echo/no_lf creating trace "cnt
+   copy 1 "lowdw "hiwdw
+   calc r &lowdw = "lowdw + #3
+   calc r &hiwdw = "hiwdw + #3
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+del 1
+set all t-origin 0.
+!echo normalising traces $blank(10)
+unit_all;;
+rd
+
+return

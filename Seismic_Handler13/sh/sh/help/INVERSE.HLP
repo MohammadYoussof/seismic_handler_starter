@@ -1,0 +1,5 @@
+command INVERSE <trc> <t-start> <t-end> <fillth> <reg>
+===============
+
+key: compute inverse filter
+

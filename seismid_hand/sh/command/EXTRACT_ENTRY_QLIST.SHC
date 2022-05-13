@@ -1,0 +1,43 @@
+! file EXTRACT_ENTRY_QLIST.SHC
+!      =======================
+!
+! version 2, 28-OCT-91
+!
+! extracts all names (incl entry) from a q-file list whose first trace has a
+! specified
+! info entry set to any value (which is not empty)
+! K. Stammler, 16-JUL-91
+
+default 1 ;;         list file
+default 2 1          first line
+default 3 %#1(0)     last line
+default 4 p-onset    info entry
+default 5 ;;         output file
+
+sdef filecnt #2
+sdef qfile
+sdef info
+sdef status
+
+echo_ch #5
+
+loop_start:
+   if  "filecnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filecnt) parse 1
+   switch noerrmsg on
+   switch cmderrstop off
+   extract "qfile 1 #4 &info
+   calc i &status = $status
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "status nei 0  goto/forward notfound:
+      echo "qfile "info
+   notfound:
+   calc i &filecnt = "filecnt + 1
+   goto loop_start:
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

@@ -1,0 +1,44 @@
+! file TT_ALIGN.SHC
+!      ============
+!
+! version 1, 10-Mar-2005
+!
+! Shift traces according to a given epicenter and travel time of a phase
+! K. Stammler, 10-Mar-2005
+
+default 1 0.0   epilat
+default 2 0.0   epilon
+default 3 10.0  depth
+default 4 p     phase
+
+sdef cnt 1   ! counter
+sdef slat    ! station latitute
+sdef slon    ! station longitude
+sdef ttime   ! travel time
+sdef dist    ! distance in deg
+sdef bazim   ! back azimuth
+
+nr
+switch chatty off
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   call statloc ^station("cnt) &slat &slon
+	call locdiff #1 #2 "slat "slon &dist &bazim
+   calc s &ttime = ;;
+   switch cmderrstop off
+   switch noerrmsg on
+	call travel #4 "dist #3 &ttime
+	switch noerrmsg off
+   switch cmderrstop on
+   if  "ttime nes ;;  goto/forward ttime_ok:
+      calc i &ttime = 0
+   ttime_ok:
+	calc r &ttime = 0 - "ttime
+	!echo ^station("cnt) "slat "slon "ttime
+	shift "cnt "ttime
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

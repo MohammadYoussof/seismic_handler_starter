@@ -1,0 +1,47 @@
+! file FK_LIST.SHC
+!      ===========
+!
+! version 1, 9-Sep-94
+!
+! Computes FK for a list of times given in a file.  Output FK-files are
+! sequentially numbered.
+! K. Stammler, 9-Sep-94
+
+default 1 ;;     fk parameters
+default 2 ;;     time list file
+default 3 0      compress output=1
+
+sdef cnt 001        ! line counter
+sdef maxcnt %#2(0)  ! last line
+sdef line           ! current line
+sdef time           ! current time
+sdef statlist       ! current statlist
+sdef status         ! return status
+sdef fk_name        ! name of FK file
+sdef cmd            ! system command
+
+loop_start:
+	if  "cnt gti "maxcnt  goto/forward loop_exit:
+	calc s &line = %#2("cnt)
+	calc s &time = "line parse 1
+	switch cmderrstop off
+	switch noerrmsg on
+	calc s &statlist = "line parse 2
+	calc i &status = $status
+	switch noerrmsg off
+	switch cmderrstop on
+	if  "status eqi 0  goto/forward statlist_ok:
+		calc s &statlist = 
+	statlist_ok:
+	read_and_fk #1 "time "statlist
+	calc s &fk_name = |#2|_|"cnt|.fk|
+@	FCT OSCALL FRENAME fk_signal.out "FK_NAME
+	if  #3 eqi 0  goto/forward compress_ok:
+@		CALC S &CMD = |compress|$BLANK|"FK_NAME|
+		system "cmd
+   compress_ok:
+	calc i &cnt = "cnt + 1 /fmt=<%03@d>
+goto loop_start:
+loop_exit:
+
+return

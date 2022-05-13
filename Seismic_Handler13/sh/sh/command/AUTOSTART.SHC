@@ -1,0 +1,9 @@
+# test commands
+
+echo in autostart
+
+reads/noswap/invhdr jk: 1-jan-6_8:0 300 mox z bh
+reads/noswap/invhdr jk: 1-jan-6_8:1 300 brg z bh
+reads/noswap/invhdr jk: 1-jan-6_8:2 300 cll z bh
+
+return

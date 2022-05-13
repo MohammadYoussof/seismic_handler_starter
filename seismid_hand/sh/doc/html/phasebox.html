@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>phasebox</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;14500000">
+	<META NAME="CHANGED" CONTENT="20050910;15001800">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>The phase dialog box</H2>
+<P>This dialog box contains the elements phase name, sign and type of
+onset, reliability of phase identification, type of event, quality
+scaling and additional parameters. It is used for selecting
+properties of a phase before picking it on a trace (using the left
+mouse button). Once a phase has been picked, its properties cannot be
+changed any more. The phase must be deleted (by double-clicking on
+it) and defined again with changed properties. Clicking on a phase
+copies all of its property settings into the phase dialog box. Phases
+may be shifted in time just by dragging it with the left mouse
+button.</P>
+<H3>Phase name</H3>
+<P>The phase name is defined by the editable text field in the upper
+part of the dialog box. The name may be edited directly, any phase
+name may be used, it is not checked by the program. For conveniency
+the most common phases are available also in two option menus above
+the text field, one for local phases and one for teleseismic phases.
+The selected phase name from this option menus is copied into the
+text field. The phase <em>beam</em>
+is a special (pseudo-)phase which is used for array techniques<!--NOEDIT--><!--/NOEDIT-->.</P>
+<H3>Sign of phase</H3>
+<P>Three radio buttons below the phase name field select the sign of
+the picked phase. <em>+</em>
+is positive onset, <em>-</em>
+is negative onset and <em>0</em>
+is undefined onset (this is default).</P>
+<H3>Onset Spec</H3>
+<P>The type of onset is selected with this two radio buttons. <em>e</em>
+stands for emergent onset (default), <em>i</em>
+for impulsive.</P>
+<H3>Reliability</H3>
+<P>Here you can indicate how reliable your phase identification is. <em>y</em>
+means the phase is identified reliably, <em>n</em>
+means the phase name is a guess. In the second case the phase name
+will be put in parantheses on all text output.</P>
+<H3>Event type</H3>
+<P>Selects type of source. Possible choices are <em>other</em>
+(default), <em>mining</em>
+(mining event), <em>blast</em>
+(quarry blast), <em>nucl</em>
+(nuclear explosion), <em>tele</em>
+(teleseismic event), <em>regio</em>
+(regional event), <em>local</em>
+(local event).</P>
+<H3>Quality factor</H3>
+<P>This is an integer number between 1 and 9. Quality factor 1 means
+very poor quality of phase, 9 means very good quality. Phases with
+quality factor of 1 are not used for location processes.</P>
+<H3>More - Onset Accuracy</H3>
+<P>By default a phase selection just marks a time point on the trace,
+there is no information about possible reading errors. This option
+enables display or definition of available accuracy information. If
+switched to <em>Query</em>
+after each phase pick a time interval around this pick must be
+indicated (also by left mouse click). A value of <em>Display</em>
+just displays already available accuracy information.</P>
+<H3>More - Event Publication</H3>
+<P>Selects wether a phase should be marked for bulletin publication.
+<em>Ignore</em>
+means no phases are marked, <em>Telex
+Ref-Station</em> means only phases of the reference station
+are marked, <em>Telex All</em>
+means all phases are marked.</P>
+<H3>Button <em>Rename</em></H3>
+<P>Used for renaming already picked phases.  The phase renaming has
+to be done in two steps.  Put the name of the phases you want to
+rename into the text edit field of the phase dialog box and click the
+<em>Rename</em>
+button.  All phases of the given name will change to <em>???</em>.
+ Then put the new name of the phases into the text field and again
+click <em>Rename</em>.
+ All <em>???</em>
+will change to the new name.  Please note that all phases having the
+new name already before the renaming action will be deleted.</P>
+<H3>Button <em>Del</em></H3>
+<P>Deletes all phases with name given in the phase name text field.</P>
+<P><small>This page last modified 10-Sep-2005</small></P>
+</BODY>
+</HTML>

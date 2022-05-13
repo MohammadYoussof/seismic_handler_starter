@@ -1,0 +1,88 @@
+command CALL <subfunction> <p1> <p2> ... <pN>
+============
+
+key: special utilities
+! version 3, 18-May-2006
+
+Special utilities for the user.  The action depends on the <subfunction>
+keyword.
+
+
+parameters
+----------
+
+<subfunction>  ---  parameter type: string
+   Subfunction of utility.  Possible values are:
+
+   slowness    computes slowness in sec/deg for an event at <p2> deg
+      distance and depth <p3> km.  Uses travel time table set with
+      command FCT TT_TABLE <table-file>.
+      <p1> -- string:          phase (valid P or S)
+      <p2> -- real:            distance station -- event in degrees
+      <p3> -- real:            depth of event in km
+      <p4> -- symbol address:  output variable (slowness)
+
+   travel      computes travel time in sec for an event at <p2> deg
+      distance and depth <p3> km.  Uses travel time table set with
+      command "fct tt_table <table-file>".
+      <p1> -- string:          phase (valid P or S)
+      <p2> -- real:            distance station -- event in degrees
+      <p3> -- real:            depth of event in km
+      <p4> -- symbol address:  output variable (travel time in sec)
+
+   locdiff     computes difference of two locations given in latitude
+      and longitude (in deg).
+      <p1> -- real:            latitude of first location (in deg)
+      <p2> -- real:            longitude of first location (in deg)
+      <p3> -- real:            latitude of second location (in deg)
+      <p4> -- real:            longitude of second location (in deg)
+      <p5> -- symbol address:  output variable (distance in deg)
+      <p6> -- symbol address:  output variable (azimuth)
+
+   locadd      adds a distance vector of a specified length and direction
+      to a given location
+      <p1> -- real:            latitude of input location (in deg)
+      <p2> -- real:            longitude of input location (in deg)
+      <p3> -- real:            length of distance vector (in deg)
+      <p4> -- real:            direction of distance vector (in deg)
+      <p5> -- symbol address:  output variable (new latitude in deg)
+      <p6> -- symbol address:  output variable (new longitude in deg)
+
+   statloc     returns station information
+      <p1> -- string:          station name
+      <p2> -- symbol address:  station latitude
+      <p3> -- symbol address:  station longitude
+      <p4> -- symbol address:  station relative x location
+      <p5> -- symbol address:  station relative y location
+      <p6> -- symbol address:  station leveation in km
+
+   phasediff   computes difference travel times of various phases
+      generated at a discontinuity.
+      <p1> -- string:          phase; valid: S-P, Ppp-P, Pps-p, XS-P
+      <p2> -- real:            conversion depth in km
+      <p3> -- real:            slowness in (sec/deg)
+      <p4> -- symbol address:  output variable (time in sec)
+
+   inci        computes theoretical angle of incidence of P
+      <p1> -- real:            distance in deg
+      <p2> -- real:            depth in km
+      <p3> -- symbol address   output variable (angle in deg)
+
+   random      generates uniform random number within a given interval.
+      <p1> -- real:            lo bound of interval
+      <p2> -- real:            hi bound of interval
+      <p3> -- symbol address:  output variable (random number)
+
+   grandom     generates normally distributed random number.
+      <p1> -- real:            center of gaussian
+      <p2> -- real:            half-width of gaussian
+      <p3> -- symbol address:  output variable (random number)
+
+   
+example
+-------
+
+   call slowness p ^distance(2) ^depth(2) &slo
+      computes P-slowness of second trace on display and stores result
+      in variable "slo".
+

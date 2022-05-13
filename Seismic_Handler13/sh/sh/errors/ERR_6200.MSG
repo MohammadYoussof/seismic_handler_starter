@@ -1,0 +1,15 @@
+! file ERR_6200.MSG
+!      ============
+!
+! version 1, 5-Dec-2001
+!
+! error messages of module sh_ah
+! K. Stammler, 5-Dec-2001
+!
+*** AHE-01 error opening input file ***
+*** AHE-02 no more header ***
+*** AHE-03 skip error ***
+*** AHE-04 memory overflow ***
+*** AHE-05 read error of AH file ***
+*** AHE-06 illegal AH type ***
+*** AHE-07 unknown AH type ***

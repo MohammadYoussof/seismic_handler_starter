@@ -1,0 +1,30 @@
+! file LIST_CALIB.SHC
+!      ==============
+!
+! version 1, 10-Aug-94
+!
+! lists calibration values of traces in counts.
+! K. Stammler, 10-Aug-94
+
+default 1 ;;     output file
+
+sdef cnt 01      ! trace counter
+sdef calib       ! trace calibration (counts -> nm/sec)
+
+if  #1 eqs ;;  goto/forward echo_ok:
+   echo_ch #1
+echo_ok:
+
+loop_start:
+	if  "cnt gti $dsptrcs  goto/forward loop_exit:
+	calc r &calib = ^calib("cnt) /fmt=<%6.3@f>
+@  ECHO trace "CNT , ^STATION("CNT) ^COMP("CNT) calib "CALIB
+	calc i &cnt = "cnt + 1 /fmt=<%02@d>
+goto loop_start:
+loop_exit:
+
+if  #1 eqs ;;  goto/forward echo_ok2:
+   echo_ch
+echo_ok2:
+
+return

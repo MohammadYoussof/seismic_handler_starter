@@ -1,0 +1,218 @@
+/* file BASECNST.H
+ *      ==========
+ *
+ * version 30, 16-Mar-93
+ *
+ * basic constants for all my programs
+ * K. Stammler, 22-MAY-91
+ */
+
+
+#ifndef __BASECNST
+#define __BASECNST
+
+
+/* some constants */
+#define BC_LINELTH 132
+#define BC_SHORTSTRLTH 30
+#define BC_LONGSTRLTH 255
+#define BC_VERYLONGSTRLTH 512
+#define BC_TIMELTH 30
+#define BC_FILELTH 80
+#define BC_NOERROR 0
+#define BC_PI 3.14159265358979323846
+
+
+/******************************************************************
+ ***                  computer type and graphics                ***
+ ******************************************************************/
+
+
+
+/* select computer type */
+/* #define BC_VAX */
+#define BC_SUN
+/* #define BC_IBM */
+/* #define BC_ATARI */
+
+/* select graphics */
+/* #define BC_G_GEM */
+#define BC_G_MEM
+/* #define BC_G_BGI */
+#define BC_G_POSTSCRIPT
+/* #define BC_G_DESKJET */
+#define BC_G_XWINDOW
+/* #define BC_G_CALCOMP */
+#define BC_G_HPGL
+/* #define BC_G_VWS */
+/* #define BC_G_TEK */
+
+/* general flags */
+#define BC_MAINARGS
+#define BC_STDLIB_EX
+
+/* special settings */
+/* #define BC_GRFVAX */
+	/* special GRF version, only valid on VAX/VMS version */
+#define BC_REVERSECROSS
+	/* crosshair cursor colours reversed (background and foreground) */
+#define BC_DEFINE_TRUE_FALSE
+	/* define TRUE and FALSE */
+/* #define BC_CLOCK_T_AVAILABLE */
+	/* type clock_t is available */
+
+
+
+
+/******************************************************************
+ ***                        ATARI version                       ***
+ ******************************************************************/
+
+
+
+#ifdef BC_ATARI
+
+#define BC_KS_PRIVATE
+	/* K.S. private ATARI TT030/8 MultiGEM version */
+
+/* #define BC_SHARE_CPU */
+	/* share CPU time by calling AES routine evnt_timer */
+	/* only in combination with BC_KS_PRIVATE ! */
+	/* only together with DEBUG_SHARE_CPU in module syscall.c, */
+   /* because also used in module gemevent.c */
+
+/* include files */
+#define BC_SYSBASE ":::ATARI-SHROOT:::\source\SYSBASE.H"
+#define BC_SYERRORS ":::ATARI-SHROOT:::\source\SYERRORS.H"
+#define BC_GCUSRDEF ":::ATARI-SHROOT:::\source\newgraph\GCUSRDEF.H"
+#define BC_FOREIGN ":::ATARI-SHROOT:::\source\SHFRGN.H"
+#define BC_SHDIRS ":::ATARI-SHROOT:::\source\SHDIRS.H"
+#define BC_ASCII ":::ATARI-SHROOT:::\source\ASCII.H"
+#define BC_GRAPHBAS ":::ATARI-SHROOT:::\source\newgraph\GRAPHBAS.H"
+#define BC_SHCONST ":::ATARI-SHROOT:::\source\SHCONST.H"
+#define BC_FOUSRDEF ":::ATARI-SHROOT:::\source\fousrdef.h"
+#define BC_QFUSRDEF ":::ATARI-SHROOT:::\source\qfusrdef.h"
+#define BC_QFERRORS ":::ATARI-SHROOT:::\source\qferrors.h"
+#define BC_CPAR ":::ATARI-SHROOT:::\source\cpar.h"
+#define BC_EARTHLOC ":::ATARI-SHROOT:::\source\earthloc.h"
+#define BC_UTUSRDEF ":::ATARI-SHROOT:::\source\utusrdef.h"
+#define BC_GLUSRDEF ":::ATARI-SHROOT:::\source\glusrdef.h"
+#define BC_TCUSRDEF ":::ATARI-SHROOT:::\source\tcusrdef.h"
+#define BC_INPFILES ":::ATARI-SHROOT:::\util\inpfiles.h"
+#define BC_DFQENTRY ":::ATARI-SHROOT:::\source\dfqentry.h"
+#define BC_ERUSRDEF ":::ATARI-SHROOT:::\source\erusrdef.h"
+
+
+#endif /* BC_ATARI */
+
+
+
+/******************************************************************
+ ***                        IBM PC version                      ***
+ ******************************************************************/
+
+
+
+#ifdef BC_IBM
+
+/* include files */
+#define BC_SYSBASE ":::DOS-PATH:::SYSBASE.H"
+#define BC_SYERRORS ":::DOS-PATH:::SYERRORS.H"
+#define BC_GCUSRDEF ":::DOS-PATH:::GCUSRDEF.H"
+#define BC_FOREIGN ":::DOS-PATH:::SHFRGN.H"
+#define BC_SHDIRS ":::DOS-PATH:::SHDIRS.H"
+#define BC_ASCII ":::DOS-PATH:::ASCII.H"
+#define BC_GRAPHBAS ":::DOS-PATH:::GRAPHBAS.H"
+#define BC_SHCONST ":::DOS-PATH:::SHCONST.H"
+#define BC_QFUSRDEF ":::DOS-PATH:::qfusrdef.h"
+#define BC_QFERRORS ":::DOS-PATH:::qferrors.h"
+#define BC_CPAR ":::DOS-PATH:::cpar.h"
+#define BC_EARTHLOC ":::DOS-PATH:::earthloc.h"
+#define BC_UTUSRDEF ":::DOS-PATH:::utusrdef.h"
+#define BC_GLUSRDEF ":::DOS-PATH:::glusrdef.h"
+#define BC_INPFILES ":::DOS-PATH:::inpfiles.h"
+#define BC_DFQENTRY ":::DOS-PATH:::dfqentry.h"
+#define BC_ERUSRDEF ":::DOS-PATH:::erusrdef.h"
+
+
+#endif /* BC_IBM */
+
+
+
+/******************************************************************
+ ***                         VAX version                        ***
+ ******************************************************************/
+
+
+
+#ifdef BC_VAX
+
+
+#define BC_SYSBASE "SHC_MAIN:SYSBASE.H"
+#define BC_SYERRORS "SHC_MAIN:SYERRORS.H"
+#define BC_GCUSRDEF "SHC_newgraph:GCUSRDEF.H"
+#define BC_FOREIGN "SHC_FOREIGN:SHFRGN.H"
+#define BC_SHDIRS "SHC_MAIN:SHDIRS.H"
+#define BC_ASCII "SHC_MAIN:ASCII.H"
+#define BC_GRAPHBAS "shc_newgraph:GRAPHBAS.H"
+#define BC_SHCONST "SHC_MAIN:SHCONST.H"
+#define BC_CPAR "shc_main:cpar.h"
+#define BC_EARTHLOC "shc_main:earthloc.h"
+#define BC_UTUSRDEF "shc_main:utusrdef.h"
+#define BC_GLUSRDEF "shc_main:glusrdef.h"
+#define BC_INPFILES "shc_utilsrc:inpfiles.h"
+#define BC_TCUSRDEF "shc_main:tcusrdef.h"
+#define BC_QFUSRDEF "shc_main:qfusrdef.h"
+#define BC_QFERRORS "shc_main:qferrors.h"
+#define BC_DFQENTRY "shc_main:dfqentry.h"
+#define BC_ERUSRDEF "shc_main:erusrdef.h"
+
+
+#endif /* BC_VAX */
+
+
+/******************************************************************
+ ***                         SUN version                        ***
+ ******************************************************************/
+
+
+#ifdef BC_SUN
+
+
+#define BC_SYSBASE ":::UNIX-SHROOT:::/source/sysbase.h"
+#define BC_SYERRORS ":::UNIX-SHROOT:::/source/syerrors.h"
+#define BC_GCUSRDEF ":::UNIX-SHROOT:::/source/newgraph/gcusrdef.h"
+#define BC_GCERRORS ":::UNIX-SHROOT:::/source/newgraph/gcerrors.h"
+#define BC_SHDIRS ":::UNIX-SHROOT:::/source/shdirs.h"
+#define BC_ASCII ":::UNIX-SHROOT:::/source/ascii.h"
+#define BC_GRAPHBAS ":::UNIX-SHROOT:::/source/newgraph/graphbas.h"
+#define BC_SHCONST ":::UNIX-SHROOT:::/source/shconst.h"
+#define BC_QFUSRDEF ":::UNIX-SHROOT:::/source/qfusrdef.h"
+#define BC_QFERRORS ":::UNIX-SHROOT:::/source/qferrors.h"
+#define BC_CPAR ":::UNIX-SHROOT:::/source/cpar.h"
+#define BC_EARTHLOC ":::UNIX-SHROOT:::/source/earthloc.h"
+#define BC_UTUSRDEF ":::UNIX-SHROOT:::/source/utusrdef.h"
+#define BC_GLUSRDEF ":::UNIX-SHROOT:::/source/glusrdef.h"
+#define BC_INPFILES ":::UNIX-SHROOT:::/util/inpfiles.h"
+#define BC_TCUSRDEF ":::UNIX-SHROOT:::/source/tcusrdef.h"
+#define BC_DFQENTRY ":::UNIX-SHROOT:::/source/dfqentry.h"
+#define BC_FOUSRDEF ":::UNIX-SHROOT:::/source/fousrdef.h"
+#define BC_ERUSRDEF ":::UNIX-SHROOT:::/source/erusrdef.h"
+
+/* if no foreign formats are used: */
+/* #define BC_FOREIGN ":::UNIX-SHROOT:::/source/shfrgn.h" */
+/* otherwise: */
+#define BC_FOREIGN ":::UNIX-SHROOT:::/source/foreign/shfrgn.h"
+
+
+#endif /* BC_SUN */
+
+
+/******************************************************************
+ ***                              END                           ***
+ ******************************************************************/
+
+
+#endif /* __BASECNST */
+
+

@@ -1,0 +1,16 @@
+! file ERR_3900.MSG
+!      ============
+!
+! version 1, 24-May-92
+!
+! error messages of module MEMFILE.C
+! K. Stammler, 24-May-92
+!
+*** MF-01 illegal file ID ***
+*** MF-02 file ID already used ***
+*** MF-03 string overflow ***
+*** MF-04 error opening output file ***
+*** MF-05 attempt to delete opened file ***
+*** MF-06 buffer overflow ***
+*** MF-07 file not opened ***
+*** MF-08 end of memfile during read ***

@@ -1,0 +1,22 @@
+! file VGET1.SHC
+
+default 1 -20.0    left offset
+default 2 100.0    right offset
+
+sdef abspos       ! absolute position
+sdef trace        ! trace address
+sdef start
+sdef end
+
+echo select position
+time/interactive &abspos;;;&trace
+
+wdw/gc=x4h/global/attribs=fmsn create x4h 7 5 15 15
+nr
+copy "trace
+calc t &start = "abspos tdiff ^start("trace)
+calc r &end = "start + #2
+calc r &start = "start + #1
+stw "start "end
+rd
+return

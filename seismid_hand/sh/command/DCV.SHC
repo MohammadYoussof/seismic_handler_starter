@@ -1,0 +1,65 @@
+default 1 ;;           q-file list
+default 2 1            first file
+default 3 %#1(0)       last file
+default 4 -20          window start
+default 5 200          window end
+default 6 rest_05_3    filter
+default 7 dcvout       output file prefix
+default 8 ;;           ???
+default 9 1.0          regularisation
+
+sdef qfile        ! current q-file
+sdef filcnt #2    ! file counter
+sdef start
+sdef end
+sdef recs
+sdef rece
+
+loop_start:
+   if  "filcnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filcnt)
+   switch cmderrstop off
+   calc s &recs = "qfile parse 2
+   if  $status eqi 0  goto/forward recno_ok:
+      calc i &recs = 1
+   recno_ok:
+   switch cmderrstop on
+   calc s &qfile = "qfile parse 1
+   calc i &rece = "recs + 2
+   echo processing file "qfile ( number "filcnt )
+   del all
+   dtw
+   read "qfile |"recs|-|"rece|
+   remav all
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #5
+   calc r &start = "start + #4
+   if  "start ger 0.0  goto/forward start_ok:
+      calc r &start = 0.0
+   start_ok:
+   if  #6 eqs ;;  goto/forward no_filter:
+      fili f #6
+      filter f 1-3 "start "end
+      del 1-3
+   no_filter:
+   resample all .1
+   set all t-origin 0.0
+!   rot 1-3 ^azimuth ^dcvinci
+   rot 1-3 ^azimuth ^inci
+   del 1-3
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + ^pwdw
+   mark 1 "start
+   mark 1 "end
+   unit 1-3 "start "end
+   spiking 1 "start "end #9
+   fold 1-3 ;;; 4
+   unit 5-7 "start "end
+   write |#7|_l| 5
+   write |#7|_q| 6
+   write |#7|_t| 7
+   calc i &filcnt = "filcnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,14 @@
+! file ERR_3400.MSG
+!      ============
+!
+! version 1, 29-OCT-91
+!
+! error messages of module INCITHEO.C
+! K. Stammler, 29-OCT-91
+!
+*** IT-01 string overflow ***
+*** IT-02 distance out of range ***
+*** IT-03 depth out of range ***
+*** IT-04 error opening input file ***
+*** IT-05 error reading file ***
+*** IT-06 error converting float string ***

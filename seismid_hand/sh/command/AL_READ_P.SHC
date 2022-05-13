@@ -1,0 +1,20 @@
+! file AL_READ_P.SHC
+!      =============
+!
+! version 1, 23-Mar-2001
+!
+! Reads P signal
+! K. Stammler, 23-Mar-2001
+
+default 1 ;;   onset time
+default 2 sfd: input path
+
+sdef rtime
+
+echo reading p signal
+
+calc t &rtime = #1 tadd -180
+
+reads #2 "rtime 360 grsn z bh
+
+return

@@ -1,0 +1,11 @@
+if  $dsptrcs eqi 3  goto/forward ok:
+   echo only three traces
+   return
+ok:
+
+sdef qfile
+calc s &qfile = ^station qname ^start
+echo writing all traces to "qfile
+write "qfile all
+
+return

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+	<title>knownproblems</title>
+	<meta name="GENERATOR" content="OpenOffice.org 1.1.1  (Linux)">
+	<meta name="CREATED" content="20051122;8004100">
+	<meta name="CHANGED" content="20051122;12111200">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</head>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<h2>Known Problems</h2>
+<p><b>Versions up to SH-5.0a/SHM-2.4c on 64bit systems:</b>
+Reading of compressed GSE files does not work due to an 64bit incompatibility
+in the decompressing algorithm of GSE files.  Uncompressed GSE files are ok.
+(17-Aug-2006)</p>
+<p><b>Suse 10.0 and 64bit systems</b>: versions prior to
+SH-4.1a_SHM-2.3a will not compile on Suse10.0. Small changes in the
+source code (insertion of ';' characters at some places) will make it
+compile, but older version will compile only on 32bit systems (but not run,
+see below).  For 64bit systems you need SH-4.1a_SHM-2.3a. This version was
+tested on a 64bit Pentium4 running Suse10.0.</p>
+<p><b>Suse 10.0 and 32bit systems</b>: even with version SH-4.1a_SHM-2.3a
+SHM will not run with the Suse default system!  The command line version SH
+is ok.  Compilation of SHM works without problem (with SHM-2.3a) but after
+starting SHM an error message <em>buffer overflow detected</em> appears and
+SHM aborts.  This error is produced while reading the uid-file.  As a remedy
+install openmotif 2.2.4 instead of the version 2.2.3 (thanks to Ludek Vecsey):
+<pre>
+wget http://ftp.motifzone.net/om2.2.4/suse-9.1/openmotif-libs-2.2.4-0.1.i586.rpm
+wget http://ftp.motifzone.net/om2.2.4/suse-9.1/openmotif-libs-devel-2.2.4-0.1.i586.rpm
+</pre>
+Now use Yast to additionally install these packages or overwrite the existing
+2.2.3 files (as root user)
+<pre>
+rpm -i -force $PWD/openmotif-libs-2.2.4-0.1.i586.rpm
+rpm -i -force $PWD/openmotif-libs-devel-2.2.4-0.1.i586.rpm
+</pre>
+This may affect other programs on your system, I did not check for any
+of such effects! Alternatively first deinstall all depending packages
+which is pretty tedious.  On a default installation of Suse 10.0
+<em>rpm -e</em> all of the following
+packages: openmotif-demo-2.2.3-13 openmotif-2.2.3-13 openmotif-devel-2.2.3-13
+openmotif-libs-2.2.3-13 gcc-java-4.0.2_20050901-3 libgcj-devel-4.0.2_20050901-3
+gtk2-devel-2.8.3-4.3 pango-devel-1.10.0-3 cairo-devel-1.0.0-7.2
+glitz-devel-0.4.4-4 xorg-x11-Mesa-devel-6.8.2-100 xorg-x11-devel-6.8.2-100
+lyx-1.3.6-3.1 latex2html-2002.2.1-367 xmlto-0.0.18-29 passivetex-2004.3.10-6
+xmltex-2002.6.26-233 te_ptex-3.0-20 te_omega-3.0-20 docbook-utils-0.6.14-69
+docbook-toys-1.51.0-269 jadetex-3.13-223 te_web-3.0-20 te_mpost-3.0-20
+te_eplai-3.0-20 te_dvilj-3.0-20 te_cont-3.0-20 te_ams-3.0-20
+te_latex-3.0-20 latex-ucs-20041017-2 musictex-T.99-838 emacs-auctex-11.14-72
+dviutils-94.3.19-1007 tetex-3.0-20 xslide-0.2.2-5 psgml-1.3.2-3
+nxml-mode-20041004-6 emacs-x11-21.3-206 xaw3d-1.5E-226 xtermset-0.5.2-122.
+After removing these packages you may omit the <em>-force</em>-qualifier
+on the <em>rpm -i</em> commands.
+</p>
+<p><b>Debian distribution</b>: Debian (tested here: kernel 2.4.20)
+uses a different uil-Compiler compared to the Suse distribution. A
+currently unsolved problem is that this Debian uil-Compiler does not
+correctly compile the large shm.uil file (with include files). There
+are no error messages, but the resulting shm.uid file is obviously
+too small (about 20kB) instead of more than 400 kB as the correct
+file. When running SHM with this corrupted shm.uid file you get a
+core dump, newer versions will complain about missing dialog boxes
+and abort. Solution: take the precompiled uid-File (shm.uid) from a
+Suse distribution and copy it to
+$SH_SOURCE/motif/shm.uid and $SH_SOURCE/motif/shm_world.uid. Look at
+<a href="ftp://ftp.szgrf.bgr.de/pub/software">ftp://ftp.szgrf.bgr.de/pub/software</a>
+for available precompiled files (e.g. shm.uid.SHM-2.3a.gz).&nbsp;
+Uncompress the files with 'gzip -d' before use.<br>
+</p>
+<p>If you encounter other incompatibilities please send a description
+to be included in this page (if it cannot be solved quickly).</p>
+<p><small>This page last modified 17-Aug-2006</small></p>
+</body>
+</html>

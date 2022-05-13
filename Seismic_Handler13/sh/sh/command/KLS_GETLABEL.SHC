@@ -1,0 +1,26 @@
+! file KLS_GETLABEL.SHC
+
+default 1 ;;    start time
+
+sdef month   ! month
+sdef year
+sdef number
+
+calc s &month = #1 extract 4 3
+calc s &year = #1 extract 10 2
+calc s &number = #1 extract 1 2
+
+if  "number gti 10  goto/forward g10:
+   calc s &number = 01
+   goto/forward ready:
+g10:
+if  "number gti 20  goto/forward g20:
+   calc s &number = 02
+   goto/forward ready:
+g20:
+   calc s &number = 03
+ready:
+
+calc s &g1 = |"month|"year|"number|
+
+return

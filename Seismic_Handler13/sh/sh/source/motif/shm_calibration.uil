@@ -1,0 +1,174 @@
+! file shm_calibration.uil
+!      ===================
+!
+! version 2, 20-Jul-95
+!
+! calibration window
+! K. Stammler, 15-Jul-94
+
+
+object
+   calibration_window_box: XmFormDialog {
+      arguments {
+         XmNwidth = 800;
+         XmNheight = 833;
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      controls {
+!         XmLabel         calibration_window_label;
+         XmMenuBar       menu_calibration;
+         XmDrawingArea   calibration_window_area;
+      };
+   };
+
+object
+   calibration_window_label: XmLabel {
+      arguments {
+         XmNlabelString = 'calibration window';
+      };
+   };
+
+object
+   calibration_window_area: XmDrawingArea {
+      arguments {
+         XmNy = 33;
+         XmNwidth = 800;
+         XmNheight = 800;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_calibwdw );
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback =
+            procedure xm_call_resize_object(k_widget_calibwdw);
+      };
+   };
+
+object
+   menu_calibration: XmMenuBar {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing     = 15;  /* Pixels between items in menu */
+      };
+      controls {
+         XmCascadeButton menutitle_calib;
+         XmCascadeButton menutitle_flags;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_menu_calib);
+      };
+   };
+
+object
+   menutitle_calib: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_calib_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_calib;
+      };
+   };
+
+object
+   menu_calib: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_calib_accept;
+         XmPushButton   entry_calib_quit;
+         XmPushButton   entry_calib_screendump;
+      };
+   };
+
+object
+   entry_calib_accept: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_calib_accept_text;
+         XmNaccelerator = k_acc_calib_accept;
+         XmNacceleratorText = k_acct_calib_accept;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_calib_accept);
+      };
+   };
+
+object
+   entry_calib_quit: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_calib_quit_text;
+         XmNaccelerator = k_acc_calib_quit;
+         XmNacceleratorText = k_acct_calib_quit;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_calib_quit);
+      };
+   };
+
+object
+   entry_calib_screendump: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_calib_screendump_text;
+         XmNaccelerator = k_acc_calib_screendump;
+         XmNacceleratorText = k_acct_calib_screendump;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_calib_screendump);
+      };
+   };
+
+object
+   menutitle_flags: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_flags_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_flags;
+      };
+   };
+
+object
+   menu_flags: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_flags_setcalib;
+         XmPushButton   entry_flags_unsetcalib;
+      };
+   };
+
+object
+   entry_flags_setcalib: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_flags_setcalib_text;
+         XmNaccelerator = k_acc_flags_setcalib;
+         XmNacceleratorText = k_acct_flags_setcalib;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_flags_setcalib);
+      };
+   };
+
+object
+   entry_flags_unsetcalib: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_flags_unsetcalib_text;
+         XmNaccelerator = k_acc_flags_unsetcalib;
+         XmNacceleratorText = k_acct_flags_unsetcalib;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_flags_unsetcalib);
+      };
+   };
+

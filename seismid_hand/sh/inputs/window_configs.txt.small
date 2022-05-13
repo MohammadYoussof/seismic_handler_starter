@@ -1,0 +1,14 @@
+! file window_configs.txt
+!      ==================
+!
+! version 1, 12-Oct-95
+!
+! window configuration file
+! K. Stammler, 12-Oct-95
+!
+! drawing area: 760x450      wm: 765x548
+
+parameter_box     93   0 125 700 3
+phase_box        -38   0 155 720 3
+window_main      224 220 800 516 3
+single_trace_box 224   0 800 203 3

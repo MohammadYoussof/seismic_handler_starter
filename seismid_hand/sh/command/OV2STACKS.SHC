@@ -1,0 +1,18 @@
+! file OV2STACKS.SHC
+
+default 1 21     number of traces
+
+sdef c1 1
+sdef c2 #1
+calc i &c2 = "c2 + 1
+
+overlay/del
+loop_start:
+   if  "c1 gti #1  goto/forward loop_exit:
+   overlay |"c1|,|"c2|
+   calc i &c1 = "c1 + 1
+   calc i &c2 = "c2 + 1
+goto loop_start:
+loop_exit:
+
+return

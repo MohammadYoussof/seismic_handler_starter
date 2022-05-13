@@ -1,0 +1,60 @@
+command SPIKING <trc> <lo-bound> <hi-bound> <reg>
+===============
+
+key: compute spiking filter
+
+Creates spiking filter (inverse wavelet) of a trace window given by
+<trc>, <lo-bound> and <hi-bound>.  The time response function of the
+filter is added to the display.  You can use the "fold" command to
+apply this filter to other traces.
+
+
+parameters
+----------
+
+<trc>  ---  parameter type: trace
+   Trace to compute spiking filter
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time window on trace <trc> for computation of spiking filter
+
+<reg>  ---  parameter type: real
+   Control parameter of spiking.  The computation is done in time
+   domain using the toeplitz matrix made from the autocorrelation
+   of the specified window.  Before evaluation the diagonal
+   elements of the toeplitz matrix are multiplied by <reg>+1.
+   <reg>=0 means ordinary inversion.  <reg> > 0 means low-frequent
+   inversion (prewhitening).
+
+
+qualifiers
+----------
+
+/pos=<spike-pos>
+   Specifies the spike position of the desired trace in seconds
+   relative to the start of the time window <lo-bound>.  As a
+   default, the spike is positioned at the center of the signal
+   <spike-pos> = sum_i{i*dt*a[i]} / sum_i{a[i]*a[i]},
+   where a[i] are the amplitude values in the window.
+   You also can specify "/pos=max", then the spike is positioned
+   at the maximum amplitude inside the window.
+
+/lth=<lth-fac>
+   Determines the length of the filter trace in units of the
+   length of the specified window.  Default is 0.5, i.e. the
+   filter has half the length of the signal window.
+
+
+examples
+--------
+
+   spiking 1 5.0 50.0 1.0    ! computes spiking filter of trace 1
+                             ! in window from 5.0 sec to 50.0 sec.
+                             ! A control parameter of 1.0 is used
+
+   spiking/lth=1.0 2 *;;0.0  ! computes spiking filter of trace 2;
+                             ! the time window must be selected by
+                             ! graphic cursor.  The output trace
+                             ! has the same length as the selected
+                             ! window.  Control parameter is 0.0.
+

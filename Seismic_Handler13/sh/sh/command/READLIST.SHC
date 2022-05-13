@@ -1,0 +1,23 @@
+! READLIST.SHC
+! reads all traces of the files specified in a list file.
+
+default 1 list               file-list
+default 2 1                  first file
+default 3 %#1(0)             last file
+
+sdef cnt #2
+sdef file
+
+del all
+nr
+
+loop_start:
+if  "cnt gti #3    goto/forward loop_exit:
+calc s &file = %#1("cnt)
+read "file all
+calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+rd
+return

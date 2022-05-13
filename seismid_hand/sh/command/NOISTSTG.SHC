@@ -1,0 +1,88 @@
+! file NOISTSTG.SHC
+!      ============
+!
+! version 2, 30-AUG-91
+!
+! creates sum trace of synthetic noise and normal distributed
+! gauss peaks, computes difference trace of noise trace with
+! and without signal, computes plain sum
+! Assumes that the noise trace are already on display
+! K. Stammler, 7-AUG-91
+
+default 1 0.3     amplitude of gauss
+default 2 0.5     half-width of distribution
+default 3 ;;      file name of plain sum
+default 4 ;;      file name of difference files
+
+sdef trcno $dsptrcs
+sdef sumtrc
+sdef trccnt 1
+sdef delay
+
+!switch chatty off
+
+nr
+
+! create 4-th-root sum of noise
+if  #4 eqs ;;  goto/forward no_diff:
+   copy |1-|"trcno|               ! copy noise traces
+   hide _created                  ! hide copied traces
+   echo take 4-th root of noise
+   trcfct |1-|"trcno| spower .25  ! take 4-th root of noise
+   echo summing all
+   sum |1-|"trcno|                ! sum noise traces
+   trcfct _created spower 4.0     ! take 4-th of of sum trace
+   del |1-|"trcno|                ! delete 4-th root of noise traces
+   display h:all 2                ! display original noise traces
+   hide 1                         ! hide sum trace
+no_diff:
+
+!echo/no_lf creating gauss
+create gauss .1 50 #1 25 .4       ! create gauss (10 sec longer)
+calc i &sumtrc = "trcno + 1
+shift "sumtrc -5.0                ! center gauss trace
+
+loop_start:
+   if  "trccnt gti "trcno  goto/forward loop_exit:
+   call grandom 0. #2 &delay
+   calc/fmt=<%5.2@f> r &delay = "delay
+!   echo/no_lf summing trace "trccnt delay "delay
+   shift "sumtrc "delay
+   sum/nonorm |"trccnt|,|"sumtrc|
+   calc r &delay = 0. - "delay
+   shift "sumtrc "delay
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+del |1-|"sumtrc|            ! delete noise traces and gauss
+
+if  #3 eqs ;;  goto/forward no_plain:
+   echo creating plain sum
+   sum |1-|"trcno|          ! sum up signal traces
+   write #3 _created        ! write plain sum to file
+   del _created             ! delete plain sum
+no_plain:
+
+rd
+nr
+!! copy all
+!! hide _created
+echo take 4-th root of signals $blank(30)
+trcfct all spower .25
+echo summing all
+sum all
+del |1-|"trcno|
+trcfct 1 spower 4.0
+!! display h:all
+
+if  #4 eqs ;;  goto/forward no_diff2:
+   display h:all 2          ! display noise sum
+   set 2 weight -1.0
+   sum/nonorm 1,2           ! compute difference trace
+   write #4 _created        ! write difference to file
+no_diff2:
+rd
+
+return
+

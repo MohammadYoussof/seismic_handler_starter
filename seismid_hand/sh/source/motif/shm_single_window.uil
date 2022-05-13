@@ -1,0 +1,34 @@
+! file shm_single_window.uil
+!      =====================
+!
+! version 3, 21-May-2006
+!
+! single trace window for SHM
+! K. Stammler, 15-Jul-94
+
+
+object
+   single_trace_box: XmFormDialog {
+      arguments {
+         XmNwidth = 900;
+         XmNheight = 200;
+      };
+      controls {
+          XmDrawingArea   single_trace_area;
+      };
+   };
+
+object
+   single_trace_area: XmDrawingArea {
+      arguments {
+         XmNwidth = 900;
+         XmNheight = 200;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_single_draw);
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback =
+            procedure xm_call_resize_object(k_widget_single_draw);
+      };
+   };

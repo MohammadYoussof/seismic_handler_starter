@@ -1,0 +1,26 @@
+! file shm_user_param_sxga.txt
+!      =======================
+!
+! version 1, 13-Oct-2005
+!
+! User parameters for SHM, SXGA resolution 1280x1024
+! K. Stammler, 13-Oct-2005
+
+parameter_box_x    115
+parameter_box_y      0
+parameter_box_w    125
+parameter_box_h    700
+phase_box_x        -30
+phase_box_y          0
+phase_box_w        155
+phase_box_h        720
+window_main_x      247
+window_main_y      232
+window_main_w       -1
+window_main_h       -1
+single_trace_box_x 247
+single_trace_box_y   0
+single_trace_box_w  -1
+single_trace_box_h  -1
+draw_area_width    1035
+draw_area_height    593

@@ -1,0 +1,53 @@
+command ZOOM [<trc-list>];<factor>
+============
+
+key: zoom amplitudes
+
+Changes the amplitudes of the traces in the display.  The
+amplitudes of the specified traces are multiplied by <factor>.
+The trace data are not changed, the "zoom" command affects
+the display only.  The zoom parameter is not accumulative, that
+means if you specify the command "zoom all 2" twice, then the
+second command doesn't change anything.  To reset the amplitudes
+to initial values enter the command "zoom all 1.0".
+
+
+parameters:
+-----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be zoomed.  If omitted, all traces are zoomed.
+
+<factor>  ---  parameter type: real
+   Factor by which the trace amplitudes are multiplied.
+
+
+qualifiers
+----------
+
+/default
+   The given value of <factor> as a zoom factor is used for all
+   new created traces as a default value.
+
+/rel
+   The specified zoom factor <zoom> is multiplied to the already
+   existing zoom factor of each trace, i.e. <zoom> is a relative
+   zoom factor.
+
+
+examples:
+
+  zoom all 2.0          ! doubles amplitudes of all traces on display
+                        ! of not yet zoomed
+
+  zoom 1-3 1.0          ! resets amplitudes of first three traces
+                        ! to initial values
+
+  zoom/default all 3.0  ! displays amplitudes of all traces on display
+                        ! three times larger than on initial display.
+                        ! Also all traces created after this command
+                        ! will be displayed with this magnified amplitude.
+
+  zoom/rel all 2        ! Amplifies all amplitudes by a factor of 2,
+                        ! no matter what the current zoom factor is
+

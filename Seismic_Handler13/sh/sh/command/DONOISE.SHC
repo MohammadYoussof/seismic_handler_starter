@@ -1,0 +1,80 @@
+! file DONOISE.SHC
+!      ===========
+!
+! version 1, 9-Mar-92
+!
+! creates sum trace of synthetic noise and normal distributed
+! sine peaks, computes difference trace of noise trace with
+! and without signal
+! Assumes that the noise traces are already on display
+! K. Stammler, 9-Mar-92
+
+default 1 0.3     amplitude of sine
+default 2 0.5     half-width of distribution
+default 3 1.0     period of sine (sec)
+default 4 ;;      name of output file
+
+sdef trcno $dsptrcs
+sdef sumtrc
+sdef trccnt 1
+sdef delay
+sdef max
+sdef maxpos
+
+!switch chatty off
+
+nr
+
+! create 4-th-root sum of noise
+copy |1-|"trcno|               ! copy noise traces
+hide _created                  ! hide copied traces
+!echo take 4-th root of noise
+trcfct |1-|"trcno| spower .25  ! take 4-th root of noise
+!echo summing all
+sum |1-|"trcno|                ! sum noise traces
+trcfct _created spower 4.0     ! take 4-th of of sum trace
+del |1-|"trcno|                ! delete 4-th root of noise traces
+display h:all 2                ! display original noise traces
+hide 1                         ! hide sum trace
+
+!echo/no_lf creating sine
+cresin1 #3                        ! create centered (co)sine
+calc i &sumtrc = "trcno + 1       ! get number of sine trace
+trcfct "sumtrc mul #1              ! adjust amplitude
+
+loop_start:
+   if  "trccnt gti "trcno  goto/forward loop_exit:
+   call grandom 0. #2 &delay      ! compute random shift
+	calc/fmt=<%5.2@f> r &delay = "delay
+   !echo/no_lf summing trace "trccnt delay "delay
+	shift "sumtrc "delay           ! apply shift to sine trace
+   sum/nonorm |"trccnt|,|"sumtrc| ! add sine and noise
+	calc r &delay = 0. - "delay    ! 
+	shift "sumtrc "delay           ! reset sine trace
+   calc i &trccnt = "trccnt + 1   ! next noise trace
+goto loop_start:
+loop_exit:
+
+del |1-|"sumtrc|            ! delete noise traces and sine
+
+rd
+nr
+!echo take 4-th root of signals $blank(30)
+trcfct all spower .25
+!echo summing all
+sum all
+del |1-|"trcno|                   ! delete input traces
+trcfct 1 spower 4.0               ! take 4-th power of sum
+
+display h:all 2                   ! display noise sum
+set 2 weight -1.0                 ! weight noise
+sum/nonorm 1,2                    ! subtract noise
+am 3 -10 10 ;;&max;;&maxpos       ! get position and value of maximum
+calc/fmt=<%5.2@f> r &max = "max
+calc/fmt=<%5.2@f> r &maxpos = "maxpos
+echo_ch #4
+echo "max "maxpos a: #1 d: #2 p: #3 n: "trcno
+echo_ch
+rd
+
+return

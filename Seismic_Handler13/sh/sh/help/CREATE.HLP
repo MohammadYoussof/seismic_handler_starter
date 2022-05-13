@@ -1,0 +1,33 @@
+command CREATE <type>;<dt>;<length>;<amplitude>[;<p1>[;...;<pN>]]
+==============
+
+key: create synthetics
+
+Creates a synthetic trace.  There exist different types of traces
+which can be created (see parameter <type>).
+
+parameters:
+
+<type>  ---  parameter type: string
+   Type of synthetic trace to be created.  Valid parameters are:
+   SPIKE   spike trace, spike is positioned at <p1> seconds (time axis)
+   GAUSS   gauss peak at position <p1> seconds, <p2> specifies width
+   EXP     (one sided) exponential peak at <p1> seconds, <p2> = decay
+   SHARP   explosive point source at position <p1>, formula is
+           g(t) = exp( -<p2>*(t-<p1>) * sin(<p3>*(t-<p1>))/<p3>
+   RANDOM  random trace
+
+<dt>  ---  parameter type: real
+   Sample distance of trace.
+
+<length>  ---  parameter type: real
+   Length of trace in seconds.
+
+<amplitude>  ---  parameter type: real
+   Maximum amplitude of trace.
+
+
+example
+
+   CREATE SPIKE .05 30 1 10     ! create spike
+

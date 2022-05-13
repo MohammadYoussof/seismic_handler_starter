@@ -1,0 +1,332 @@
+! file shm_fk_interface.uil
+!      ====================
+!
+! version 6, 17-Jun-2006
+!
+! interface to external program FK
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   fk_input_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'fk input';
+!         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard fk_input_frame;
+         XmRowColumn     fk_main_button_box;
+      };
+   };
+
+object
+   fk_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_fk_main_buttons;
+         XmNy = k_pos_y_fk_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_fk_ok;
+         XmPushButton     button_fk_okauto;
+         XmPushButton     button_fk_get_values;
+         XmPushButton     button_fk_cancel;
+      };
+   };
+
+object
+   button_fk_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_ok );
+      };
+   };
+
+object
+   button_fk_okauto: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK & Get Values';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_okauto );
+      };
+   };
+
+object
+   button_fk_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_cancel );
+      };
+   };
+
+object
+   button_fk_get_values: XmPushButton {
+      arguments {
+         XmNlabelString = 'Get Values';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_get_values );
+      };
+   };
+
+object
+   fk_input_frame:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'fk input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+			XmNx = 90;
+      };
+      controls {
+         XmLabel         fk_frqlo_label;
+         XmText          fk_frqlo_text;
+         XmLabel         fk_frqhi_label;
+         XmText          fk_frqhi_text;
+         XmLabel         fk_slowness_label;
+         XmText          fk_slowness_text;
+         XmLabel         fk_resol_label;
+         XmText          fk_resol_text;
+         XmLabel         fk_colnum_label;
+         XmText          fk_colnum_text;
+         XmLabel         fk_decim_label;
+         XmText          fk_decim_text;
+			XmOptionMenu    fk_unit_option;
+      };
+   };
+
+object
+   fk_frqlo_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_frqlo_label;
+         XmNy = k_pos_y_fk_frqlo_label;
+         XmNlabelString = 'lo frq: ';
+      };
+   };
+
+object
+   fk_frqlo_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_frqlo_text;
+         XmNy = k_pos_y_fk_frqlo_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+!         XmNvalue = '0.4';     ! set by resource file
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_frqlo_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_frqlo_text );
+      };
+   };
+
+object
+   fk_frqhi_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_frqhi_label;
+         XmNy = k_pos_y_fk_frqhi_label;
+         XmNlabelString = 'hi frq: ';
+      };
+   };
+
+object
+   fk_frqhi_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_frqhi_text;
+         XmNy = k_pos_y_fk_frqhi_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+!         XmNvalue = '3.0';       ! set by resource file
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_frqhi_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_frqhi_text );
+      };
+   };
+
+object
+   fk_slowness_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_slowness_label;
+         XmNy = k_pos_y_fk_slowness_label;
+         XmNlabelString = 'max slow: ';
+      };
+   };
+
+object
+   fk_slowness_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_slowness_text;
+         XmNy = k_pos_y_fk_slowness_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+!         XmNvalue = '15';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_slowness_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_slowness_text );
+      };
+   };
+
+object
+   fk_resol_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_resol_label;
+         XmNy = k_pos_y_fk_resol_label;
+         XmNlabelString = 'resolution: ';
+      };
+   };
+
+object
+   fk_resol_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_resol_text;
+         XmNy = k_pos_y_fk_resol_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+!         XmNvalue = '51';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_resol_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_resol_text );
+      };
+   };
+
+object
+   fk_colnum_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_colnum_label;
+         XmNy = k_pos_y_fk_colnum_label;
+         XmNlabelString = 'num colors: ';
+      };
+   };
+
+object
+   fk_colnum_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_colnum_text;
+         XmNy = k_pos_y_fk_colnum_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+!         XmNvalue = '10';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_colnum_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_colnum_text );
+      };
+   };
+
+object
+   fk_decim_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_fk_decim_label;
+         XmNy = k_pos_y_fk_decim_label;
+         XmNlabelString = 'decimation: ';
+      };
+   };
+
+object
+   fk_decim_text: XmText {
+      arguments {
+         XmNx = k_pos_x_fk_decim_text;
+         XmNy = k_pos_y_fk_decim_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+         XmNvalue = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_decim_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_fk_decim_text );
+      };
+   };
+
+object
+   fk_unit_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_fk_unit_option;
+         XmNy = k_pos_y_fk_unit_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Unit';
+         XmNmenuHistory = XmPushButton button_fk_unit_deg;
+      };
+      controls {
+         XmPulldownMenu fk_unit_menu;
+      };
+   };
+
+object
+   fk_unit_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_fk_unit_deg;
+         XmPushButton   button_fk_unit_km;
+      };
+   };
+
+object
+   button_fk_unit_deg: XmPushButton {
+      arguments {
+         XmNlabelString = 'deg';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_unit_deg );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_unit_deg );
+      };
+   };
+
+object
+   button_fk_unit_km: XmPushButton {
+      arguments {
+         XmNlabelString = 'km';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_fk_unit_km );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_fk_unit_km );
+      };
+   };
+

@@ -1,0 +1,47 @@
+! file PEAKTEST.SHC
+
+default 1 ;;      window center
+default 2 ;;      window width
+
+sdef wstart       ! window start
+sdef wend         ! window end
+sdef ww2          ! half of window width
+sdef trccnt 1     ! trace counter
+sdef max_n 0      ! number of maxima
+sdef min_n 0      ! number of minima
+sdef sum_n 0      ! max_n - min_n
+sdef max_a 0.     ! amplitude sum of maxima
+sdef min_a 0.     ! amplitude sum of minima
+sdef sum_a 0.     ! total amplitude sum
+sdef min          ! current minimum
+sdef max          ! current maximum
+
+calc r &ww2 = #2 div 2
+calc r &wstart = #1 - "ww2
+calc r &wend = #1 + "ww2
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   am "trccnt "wstart "wend &min &max
+   calc r &min = "min abs
+   if  "min gtr "max  goto/forward ismini:
+      calc i &max_n = "max_n + 1
+      calc r &max_a = "max_a + "max
+      goto/forward endif_mini:
+   ismini:
+      calc i &min_n = "min_n + 1
+      calc r &min_a = "min_a - "min
+      mark "trccnt #1   ! mark trace
+   endif_mini:
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+calc i &sum_n = "max_n - "min_n
+calc r &sum_a = "max_a + "min_a
+
+echo "min_n "max_n "sum_n "min_a "max_a "sum_a
+calc r &sum_n = "sum_n div $dsptrcs
+echo res: "sum_n
+
+return

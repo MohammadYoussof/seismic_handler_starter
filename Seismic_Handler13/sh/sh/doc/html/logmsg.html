@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Logmsg Main Page</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>Automatic status check processes at SZGRF</H2>
+
+<p>
+The core of the automatic status check is the logmsg database.  It holds
+status messages created by various processes which are usually running as
+cron jobs.  The messages have different severity which is characterised
+as an alert level.  The levels implemented so far are:
+<ul>
+	<li><i>Alive</i> (numeric value 10): alive messages of cron jobs, created when exiting
+	the process in a normal way.  The messages are used to check whether
+	all processes are running regularly (done by program <i>ProcessCheck.py</i>). 
+	<li><i>Informational</i> (numeric value 20): informational messages
+	of cron jobs, e.g. about a newly created data directory (of type C) or
+	an ISO file or a DVD has been written.  These messages are for operators
+	of the data centre.
+	<li><i>Operational</i> (numeric value 25): messages about exceptional
+   conditions during data processing in the data centre.  Mainly for
+	debugging and code optmisation purposes.
+	<li><i>Warning</i> (numeric value 30): messages about conditions which are
+	outside the tolerance limits but not severe, e.g. a small time delay in the
+	data reception or a moderately low time quality at a station.
+	<li><i>Error</i> (numeric value 40): error conditions like a large time lag
+	in online data streams or detected timing errors.
+</ul>
+The messages are collected in a mysql database, named <i>logmsg</i>.  It
+contains two tables, <a href="logmsg_table_msgtab.html">msgtab</a> and
+<a href="logmsg_table_txttab.html">txttab</a>.  The status of a station
+is then determined by the occurrence of a message of a specific alert level
+within a given time.  The program <i>MsgDisplay.py</i> evalutes the status
+of all stations and displays it visually in window.  As parameter it takes
+the (integer) number of hours back in time from now.  Within this time window
+it retrieves messages
+from the logmsg database.  If warning or error messages are present within this
+window it marks the station in yellow or red colour, respectively.
+Once a minute it updates the status information.  Possible status changes
+are notified by colour changes and optionally by emails sent out to an
+address list specified as second parameter.
+</p>
+
+<p>
+List of modules:
+<ul>
+	<li> <i>logmsg/CreateMessage.py</i>: utility program to insert a message
+        into the message database logmsg (used only in C-shell-scripts and
+        interactively for testing).
+	<li> <i>logmsg/MsgDisplay.py</i>: main program to display the station
+        states and view the corresponding messages.  Is able to send
+        emails to specified addresses on status changes.
+	<li> <i>logmsg/MsgUtil.py</i>: library of routines necessary for managing
+        the logmsg database.
+	<li> <i>qualcheck/ProcessCheck.py</i>: program to check alive messages
+        of cron jobs.  Is itself used as a cron job and creates messages
+        in logmsg when alive messages are missing.
+	<li> <i>qualcheck/QualCheck.py</i>: library of quality check procedures
+        for waveforms.
+	<li> <i>qualcheck/UptimeStatistics.py</i>: executable for creating
+        uptime statistics of stations using the sfdb database.
+	<li> <i>qualcheck/WaveformQuality.py</i>: program to check the quality
+        of the waveforms.  Runs as cron job and creates messages in the
+        logmsg database when problems are found.  A more detailed description
+        follows.
+</ul>
+</p>
+
+<p>
+<h3>Program MsgDisplay.py</h3>
+Interface program to the <i>logmsg</i> database.  Call is
+<i>$DPROG/logmsg/MsgDisplay.py &lt;backhours&gt; [&lt;maillist&gt;]</i>.
+&lt;backhours&gt; specifies how far back in time (in hours) the messages
+should be read out of the database.  A reasonable value would be 12.
+&lt;maillist&gt; is a list of mail addresses, separated by comma, to send
+notification mails on status changes.  The display shows a button for each
+station and one for the data centre (GRF).  On warning or error conditions
+the colour is set to yellow or red, respectively.  Clicking on a station
+button will show the messages of the last &lt;backhours&gt; hours for this
+station.
+</p>
+
+<p>
+<h3>Program WaveformQuality.py</h3>
+This is the main routine of the quality check procedure for the station data.
+Each station is assigned an instance of a parameter class and an array of
+quality check procedures.  For both default values are used if no other
+specifications are made.  To override the default values for each station
+a dictionary of parameter keywords and values can be defined.  This has
+to be added to the <i>sparam</i> dictionary.  Legal
+parameter names are so far:
+<ul>
+	<li> <i>chanlist</i>: tuple of channels like <i>('bh',)</i> or
+		<i>('bh','hh')</i>.  Channels to checked within the quality procedures.
+		Default is <i>('bh',)</i>.
+	<li> <i>complist</i>: list of components to be checked.  Default is
+		<i>"zne"</i>.
+	<li> <i>max_small_online_lag</i>: threshold in time delay (s) for raising
+		a warning condition.  Default is <i>1800</i>.
+	<li> <i>max_large_online_lag</i>: threshold in time delay (s) for raising
+		an error condition.  Default is <i>86400</i>.
+	<li> <i>low_timequal</i>: lower threshold in time quality for raising a
+		warning condition.  Deafult is <i>65</i>.
+	<li> <i>bad_timequal</i>: lower threshold in time quality for raising an
+		error condition.  Deafult is <i>50</i>.
+	<li> <i>mingapsize</i>: minimum size of a time gap to be detected in s.
+		Default is <i>0.001</i>.
+	<li> <i>maxgapnum</i>: maximum number of data gaps to be ignored.  Default
+		is <i>0</i>.
+</ul>
+Using the above parameter set a number of quality procedures is executed.  These
+procedures are defined in an array.  By default all available procedures are
+executed.  To override the default to exclude some or all procedures a
+dictionary of station - procedure array has to be defined and inserted
+in the <i>sqlist</i> dictionary.
+</p>
+
+
+
+<P><small>This page last modified 14-Nov-2007</small></P>
+</BODY>
+</HTML>

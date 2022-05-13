@@ -1,0 +1,94 @@
+! file W.SHC
+!      =====
+!
+! version 1, 25-Jan-93
+!
+! writes traces and prompts for output format
+! K. Stammler, 25-Jan-93
+
+default 1 ;;    output file
+default 2 all   trace list
+default 3 q     format (q,gse,ascii)
+
+sdef cmd        ! command line
+sdef tmp        ! scratch
+
+if  #3 eqs q  goto/forward write_q:
+if  #3 eqs gse  goto/forward write_gse:
+if  #3 eqs ascii  goto/forward write_ascii:
+
+!-----------------------------------------------------------------------------
+
+write_q:
+
+write #1 #2
+
+return
+
+!-----------------------------------------------------------------------------
+
+write_gse:
+
+default 4 intv     GSE subformat (intv,int8,cmp6,...)
+default 5 0        differences (0,1,2)
+default 6 ;;       calibration (a,number)
+
+sdef call_reformat      ! call reformat program
+sdef locdiff            ! differences
+
+! check whether from k-file
+calc i &tmp = 0
+if  ^file nes from-k-file  goto/forward no_k:
+   calc i &tmp = 1
+no_k:
+echo writing scratch q-file gse_input
+fct oscall fdelete gse_input.*
+write gse_input #2
+if  "tmp nei 1  goto/forward no_info_copy:
+   echo save calibration constants to q-header
+   copy_info_f opinfo calib
+no_info_copy:
+calc s &tmp = #4 extract 1 3
+calc i &call_reformat = 0
+calc s &tmp = #4
+calc i &locdiff = #5
+if  "tmp eqs cmp  goto/forward do_reformat:
+if  #5 nei 0  goto/forward do_reformat:
+goto/forward no_reformat:
+do_reformat:
+   calc i &call_reformat = 1
+   calc s &tmp = intv
+   calc i &locdiff = 0
+no_reformat:
+@CALC S &CMD = |Q2GSE|$BLANK|-l|$BLANK|-f=|$QUOTES|"TMP|$QUOTES|$BLANK|
+if  #6 nes a  goto/forward no_auto_calib:
+@  CALC S &CMD = |"CMD|-a|$BLANK|
+no_auto_calib:
+if  #6 eqs ;;  goto/forward no_extern_calib:
+@  CALC S &CMD = |"CMD|-e=|#6|$BLANK|
+no_extern_calib:
+calc s &tmp = gse_output.gse
+if  "call_reformat eqi 1  goto/forward use_scratch_name:
+   calc s &tmp = #1
+use_scratch_name:
+calc s &cmd = |"cmd|gse_input|$blank|"tmp|
+echo creating gse file "tmp
+system "cmd
+fct oscall fdelete gse_input.*
+
+if  "call_reformat eqi 0  return
+
+echo reformatting GSE file "tmp to #1
+system |reformat_gse|$blank|"tmp|$blank|#1|$blank|#4|$blank|#5|
+fct oscall fdelete gse_output.gse
+
+return
+
+!-----------------------------------------------------------------------------
+
+write_ascii:
+
+echo writing ascii file #1
+writea #1 #2 station comp start
+
+return

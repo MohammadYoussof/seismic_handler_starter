@@ -1,0 +1,37 @@
+      subroutine geog (x,radius, alat,alon,z)
+c
+c Convert geocentric cartesian coordinates to a geographical location,
+c  assuming a spherical earth.
+c
+c The cartesian axis are such that
+c     - Axis 1 intersects equator at 90 deg longitude (east)
+c     - Axis 2 intersects north pole
+c     - Axis 3 intersects equator at  0 deg longitude
+c
+c Input
+c
+c   X(1:3)  =  vector of geocentric cartesian coordinates
+c   RADIUS  =  radius of the earth
+c
+c Output
+c
+c   ALAT  =  latitude (degrees)
+c   ALON  =  longitude (degrees)
+c   Z     =  depth
+c
+	common /sccsgeog/ sccsid
+	character*80 sccsid
+
+      parameter (rtod = 57.2957795)
+      dimension x(3)
+	data sccsid /'@(#)geog.f	43.1	9/9/91'/
+c
+      r13sq = x(3)**2 + x(1)**2
+      r13 = sqrt(r13sq)
+      r123 = sqrt(r13sq + x(2)**2)
+      alon = rtod * atan2 (x(1),x(3))
+      alat = rtod * atan2 (x(2),r13)
+      z = radius - r123
+c
+      return
+      end

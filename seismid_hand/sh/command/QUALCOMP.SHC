@@ -1,0 +1,62 @@
+! file QUALCOMP.SHC
+!      ============
+!
+! version 1, 24-Feb-2007
+!
+! Quality number computation for sfdb
+! K. Stammler
+
+default 1 ;; station
+default 2 bh chan
+default 3 z  comp
+default 4 ;; starttime
+default 5 600.0 readlength
+default 6 ;; outfile
+
+sdef val   ! quality values
+sdef rdlth ! read length
+sdef rms   ! rms value of trace
+
+calc r &rdlth = #5 - 1.0
+
+echo_ch #6
+
+reads/noswap/invhdr db: #4 "rdlth #1 #3 #2
+demean 1
+echo ^opinfo
+rms 1 ;;; &rms
+
+fft 1 ;;; 10
+! cut off spike at the bginning
+cut 2 0.001 10000.0
+! smooth trace
+mean 2 10
+! delete original spectrum
+del 2
+
+! get spectrum amplitudes
+am 2 0.01 0.01 ;; &val
+echo "val
+am 2 0.05 0.05 ;; &val
+echo "val
+am 2 0.166667 0.166667 ;; &val
+echo "val
+am 2 1.0 1.0 ;; &val
+echo "val
+am 2 3.5 3.5 ;; &val
+echo "val
+del 2
+
+derive 1 3
+del 1
+trcfct 1 mul ^delta
+trcfct 1 square
+demean 1
+calc r &val = ^opinfo sqrt
+echo "val
+del 1
+
+echo "rms
+echo_ch
+
+return

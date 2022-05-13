@@ -1,0 +1,184 @@
+.\" @(#)LocSAT.1	44.2	10/4/91
+.TH LocSAT 1 "September 1991"
+.SH NAME
+.I LocSAT
+\- Event locator
+.SH SYNOPSIS
+.I LocSAT 
+[
+.I -i
+]  [
+.I -s
+] STATION file  [
+.I -d
+] phase DATA file  [
+.I -c
+] CONTROL file  [
+.I -o
+] OUTPUT file
+.SH DESCRIPTION
+.I LocSAT
+computes event locations, confidence bounds, residuals and data importances
+using arrival times, azimuths, and slownesses from stations at local,
+regional and teleseismic distances.  Event locations are determined via 
+an iterative non-linear inverse technique.  
+.I LocSAT
+takes a set of flat ASCII files, typically from output of ARS(1), and 
+reruns the data without requiring the Locator GUI or IPC connections.    
+.I LocSAT
+runs in either single event or batch mode with multiple event data 
+separated by blank lines.
+.SH OPTIONS
+.TP
+.I -s
+STATION file	Specify STATION file name.
+.TP
+.I -d
+DATA file 	Specify observed phase DATA file name.
+.TP
+.I -c
+CONTROL file	Specify CONTROL file name.
+.TP
+.I -o
+OUTPUT file	Specify OUTPUT file name.
+.SH EXAMPLE
+A typical call to
+.I LocSAT
+might be,
+.sp 0.5
+	LocSAT \fI-s\fR ars.sta \fI-d\fR 9999.dat \fI-c\fR ars.cntrl \fI-o\fR 9999.out
+.sp 0.5
+.SH CONTROL FILE ARGUMENTS
+The user may run
+.I LocSAT
+with varying CONTROL file arguments in order to test solution sensitivity, 
+convergence and uniqueness.  Below is a list of of control agruments for 
+common event location purposes, a description of each, and a few suggested 
+"seismologically reasonable" range of values (italicized and backeted).
+.sp 0.5
+.TP
+\fBtt_dir\fR (char)
+Specify directory containing travel-time tables 
+(\fIe.g.\fR, "../../tables").
+.TP
+\fBtt_prefix\fR (char)
+Specify prefix for travel-time tables 
+(\fIe.g.\fR, "tab").
+.TP
+\fBcorr_dir\fR (char)
+Specify directory containing source-specific station 
+corrections (\fIe.g.\fR, "../../tables/CorrTab").
+.TP
+\fBcorr_type\fR (char)
+Type of source-specific station correction desired (\fIe.g.\fR, TT, AZ,
+AMP).  These are the prefixes searched for in the correction directory 
+(\fIe.g.\fR, "../../tables/CorrTab/TT/TT.ARA0.reg")
+.TP
+\fBuse_location\fR (char)
+If "y", use the current location on the first (summary) line of the DATA
+file; else, let
+.I LocSAT
+determined its own best initial location, internally.
+.TP
+\fBfix_depth\fR (char)
+If "y", fix hypocentral depth to that specified on the first (summary) line
+of the DATA file; else, free depth as an independent solution parameter.
+.TP
+\fBverbose\fR (char)
+If "y", print all output to the file following the \fI-o\fR option; else, 
+do not even open this file.  [\fIy\fR]
+.TP
+\fBconf_level\fR (float)
+Confidence level for computing f-statistics (under current implementation,
+\fBconf_level\fR must be 0.90).  [\fI0.90\fR]
+.TP
+\fBdamp\fR (float)
+Percentage damping to apply to diagonal elements of the sensitivity matrix.
+That is, damping as a percentage of the largest singular value.  A value
+of -1.0 means, let
+.I LocSAT
+determine its own degree of damping based on the condition number of the 
+matrix.  This is the prefered mode.  Any other number greater than or 
+equal to zero is accepted, but probably should not exceed 
+100%.  [\fI-1.0 to 100.0\fR]
+.TP
+\fBest_std_err\fR (float)
+\fIA priori\fR variance scale factor as defined by Bratt and Bache (1988).
+This can be interpreted as the mean ratio between the actual and assumed
+data variances.  Therefore, the better one can estimate both the 
+\fIa priori\fR and \fIa posteriori\fR information about data uncertainties, 
+the closer \fBest_std_error\fR will approach 1.0, and the more reliable and
+meaningful will be the confidence ellipsoids.  This is especialy important 
+when only a few data are used.  Also see \fBnum_dof\fR.  Bratt and Bache (1988)
+use \fBest_std_err\fR = 2.4.  [\fI1.0 to 4.0\fR]
+.TP
+\fBnum_dof\fR (int)
+Number of degrees of freedom.  If the variance scale factor is assumed 
+to be perfectly known \fIa priori\fR, then the number of degrees of freedom 
+should approach infinity.  If nothing is known \fIa priori\fR, then the 
+number of degrees of freedom are zero.  Therefore, as more and more information
+is obtained about the data uncertainties, the larger and larger \fBnum_dof\fR
+will become.  Bratt and Bache (1988) use \fBnum_dof\fR = 8.  [\fI8 to 9999\fR]
+.TP
+\fBmax_iterations\fR (int)
+Maximum number of iterations allowed in the location loop.  [\fI10 to 40\fR]
+.SH DATA FILE ARGUMENTS
+There are only three variable DATA file arguments that the user can change
+to control the direction of the solution.  All three are related to
+selecting an initial hypocentral location.
+.TP
+\fBlat_init\fR (float)
+Latitude component of the initial epicentral location.  A value < abs(90.0),
+represents the latitudinal starting point in the location loop.  Any value 
+outside this range will result in
+.I LocSAT
+determining its own initial location, internally.  Also note the function of 
+\fBuse_location\fR above.  Latitudes are positive north of the equator.
+.TP
+\fBlon_init\fR (float)
+Longitude component of the initial epicentral location.  A value < abs(180.0),
+represents the longitudinal starting point in the location loop.  Any value 
+outside this range will result in
+.I LocSAT
+determining its own initial location, internally.  Also note the function of 
+\fBuse_location\fR above.  Longitudes are positive east of the Greenwich 
+meridian.
+.TP
+\fBdepth_init\fR (float)
+Depth component of the initial hypocentral location.  If \fBfix_depth\fR = "y",
+then fix the hypocentral depth by this value.  Depths are positive below a
+datum of sea level.
+.SH DIAGNOSTICS
+.I LocSAT
+complains when input data are incorrectly formatted or missing.
+.SH FILES
+Two file are written by
+.I LocSAT.
+The first contains a complete description of how the solution progressed, 
+iteration by iteration, as well as, the final hypocentral location and 
+related statistics.  The second file, 'new.out', contains the new location
+along with its associated phase data, time adjusted to reflect the new 
+hypocentral location.  This output can be used as new input to
+.I LocSAT
+which is especially valuable when running in batch mode.  If the user has
+no \fIa priori\fR knowledge of the location, then just set the origin time
+equal to the earliest arrival time and 
+.I LocSAT will work properly.
+.SH NOTES
+Format statements for the various input files are declared in the main 
+prologue to
+.I LocSAT. 
+The least-squares inversion is performed via a Singular Value Decomposition 
+method, replacing an earlier (and inferior) technique, the "escalator 
+method".  The addition of source-specific station corrections is currently 
+under development, and not implemented in the present version.  Therefore, 
+the \fBcorr_dir\fR and \fBcorr_types\fR variables don't really do anything 
+right now.  A set of test files is provided in directory, tst, found within
+the main
+.I LocSAT
+source code directory.
+.SH SEE ALSO
+ARS(1), and the Locator(1). 
+.fi
+.SH AUTHORS
+Steve Bratt & Walter Nagy, September 1991.

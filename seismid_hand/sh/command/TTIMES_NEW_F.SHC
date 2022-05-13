@@ -1,0 +1,16 @@
+! file TTIMES_NEW_F.SHC
+!      ================
+!
+! version 1, 6-Dec-91
+!
+! marks all phases on specified trace
+! takes information values from q-file
+! needs origin, distance and depth
+! K. Stammler, 6-Dec-91
+
+default 1 1                      trace
+default 2 0.0                    label step
+
+ttimes_new #1 #2 ^origin(#1) ^distance(#1) ^depth(#1)
+
+return

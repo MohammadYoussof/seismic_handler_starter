@@ -1,0 +1,53 @@
+
+! file fittime.shc
+!      ============
+!
+! version 1, 24-May-92
+!
+! determines distance (deg) from difference time between two phases
+! return value given in "g1
+! K. Stammler, 24-May-92
+
+default 1 0.    depth
+default 2 ;;    difference time (sec)
+switch capcnv off
+DEFAULT 3 P     first phase
+DEFAULT 4 S     second phase
+SWITCH CAPCNV ON
+default 5 2.    minimum distance (deg)
+default 6 105.  maximum distance (deg)
+default 7 0.1   distance accuracy (deg)
+
+sdef mindist #5      ! minimum distance
+sdef maxdist #6      ! maximum distance
+sdef loopcnt 1       ! loop counter
+sdef t1              ! phase 1 travel time
+sdef t2              ! phase 2 travel time
+sdef dist            ! current distance
+
+loop_start:
+   if  "loopcnt gti 20  goto/forward loop_exit:
+   calc r &dist = "mindist + "maxdist
+   calc/fmt=<%4.2@f> r &dist = "dist div 2.0
+   call travel #3 "dist #1 &t1
+   call travel #4 "dist #1 &t2
+   calc/fmt=<%5.3@f> r &t1 = "t2 - "t1
+   if  "t1 ltr #2  goto/forward lowbound:
+      calc r &maxdist = "dist
+      goto/forward bound_ok:
+   lowbound:
+      calc r &mindist = "dist
+   bound_ok:
+   echo time approx: "t1 --- #2 $blank(4) dist: "dist
+   calc r &dist = "maxdist - "mindist
+   if  "dist gtr #7  goto/forward continue:
+      calc r &g1 = "mindist + "maxdist
+      calc r &g1 = "g1 div 2.0
+      echo found distance "g1
+      return
+   continue:
+   calc i &loopcnt = "loopcnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,68 @@
+! file DCVTH_AI.SHC
+! deconvolution of theoretical traces with automatic determination of angle
+! of incidence using MDIR command
+default 1 ;;           z-components
+default 2 ;;           r-components
+default 3 -20          window start:
+default 4 200          window end:
+default 5 ;;           filter:
+default 6 dcvout       output file prefix:
+default 7 2.0          auto-inci time window width:
+
+sdef trccnt 1        ! trace counter
+sdef lasttrc         ! number of last trace
+sdef start
+sdef end
+sdef fillth          ! length of filter
+sdef inci            ! computed angle of incidence
+
+extract #1 1 no_of_recs &lasttrc
+
+loop_start:
+   if  "trccnt gti "lasttrc  goto/forward loop_exit:
+   del all
+   dtw
+   read #1 "trccnt
+   read #2 "trccnt
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #4
+   calc r &start = "start + #3
+   if  "start ger 0.0  goto/forward start_ok:
+      calc r &start = 0.0
+   start_ok:
+   if  #5 eqs ;;  goto/forward no_filter:
+      fili f #5
+      demean 1-2
+      filter f 1-2 "start "end
+      del 1-2
+   no_filter:
+   if  ^delta gtr 0.1  goto/forward delta_ok:
+      resample all .1
+   delta_ok:
+   set all t-origin 0.0
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #7
+   mdir 1,2 "start "end &inci
+   calc r &inci = 0 - "inci
+   rotinci 1,2 "inci
+   echo inci "inci
+   del 1-2
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + ^pwdw
+   mark 1 "start
+   mark 1 "end
+   calc r &fillth = "end - "start
+   calc r &fillth = "fillth div 2
+   unit 1,2 "start "end
+   spiking/lth=1. 1 "start "end 1.0
+   unit 3
+   fold 1-2 ;;; 3
+   unit 4-5 "start "end
+   write |#6|_l| 4
+   write |#6|_q| 5
+   set/file 4,5 inci "inci
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

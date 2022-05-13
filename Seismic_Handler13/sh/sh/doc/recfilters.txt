@@ -1,0 +1,59 @@
+
+
+Recursive filters from poles and zeros files using MATLAB:
+
+- type the FFT filter file (e.g. GRSN_S+G_WWSSN_SP.FLF)
+! file GRSN_S+G_WWSSN_SP.FLF
+!      =====================
+!
+! version 1, 25-Nov-94
+!
+! simulation filter for
+! seismometer  h1 (0.670000), T1 (1.250000)
+! galvanometer h2 (0.840000), T2 (0.750000)
+! recorded at instrument
+! seismometer  h0 (0.707000), T0 (120.900002)
+! K. Stammler, 25-Nov-94
+1357913578
+1
+7.018386e+01
+2
+(-3.674286e-02,-3.675396e-02)
+(-3.674286e-02,3.675396e-02)
+4
+(-3.367788e+00,-3.731514e+00)
+(-3.367788e+00,3.731514e+00)
+(-7.037168e+00,-4.545562e+00)
+(-7.037168e+00,4.545562e+00)
+
+- call MATLAB and define column vectors with complex zeros and poles:
+>> Z = [
+-0.0367 - 0.0368i
+-0.0367 + 0.0368i
+]
+>> P = [
+-3.3678 - 3.7315i
+-3.3678 + 3.7315i
+-7.0372 - 4.5456i
+-7.0372 + 4.5456i
+]
+
+- define gain K and sample frequency Fs
+K = 7.018386e+01
+Fs = 20
+
+- compute transfer function using zp2tf:
+[num,den] = zp2tf( Z, P, K )
+
+- compute recursive coefficients using bilinear
+[NUMd,DENd] = bilinear( num, den, Fs )
+
+- create FLR-file:
+1. line '1357913578'
+2. line '3'
+3. line sample distance in s
+4. line gain factor
+5. line number of NUMd elements
+from 6. line: list NUMd elements
+N. line: number of DENd elements
+from N+1. line: list DENd elements

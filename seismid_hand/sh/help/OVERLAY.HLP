@@ -1,0 +1,38 @@
+command OVERLAY <trc-list>
+===============
+
+key: overlay traces
+
+Overlays traces specified in <trc-list>, that means all traces in
+<trc-list> are plotted at the same y-position.  The length of the
+trace list must not exceed 5 elements and there are up to 15 overlay
+lists definable.  The lists remain active until they are deleted
+all by the OVERLAY/DEL command.
+
+
+parameters:
+-----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be overlayed (see above).
+
+
+qualifiers:
+-----------
+
+/DEL
+   Deletes all defines overlay lists.  If the /DEL qualifier is
+   entered the trace list parameter can be omitted.  If the parameter
+   is specified, first all existing overlay lists are deleted and
+   then the specified list is installed.
+
+
+examples:
+
+   OVERLAY 1,3,5           ! overlays traces 1, 3 and 5
+
+   OVERLAY/DEL             ! deletes all overlay lists
+
+   OVERLAY/DEL 1,2         ! deletes all overlay lists and creates
+                           ! new overlay of traces 1 and 2.
+

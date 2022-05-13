@@ -1,0 +1,774 @@
+
+file params.doc
+     ==========
+
+version 1, 22-Feb-94
+
+K. Stammler, 22-Feb-94
+
+
+
+Dokumentation der Auswerteparameter
+-----------------------------------
+
+
+
+Stufe 1:  Arbeitsparameter waehrend der Auswertung
+
+
+
+Struktur CUT_PARAMS:
+
+Dieser Satz von Parameter wird in nur einer Ausfuehrung (d.h. ohne Kopie)
+im Programm gehalten und waehrend der Auswertung eines Ereignisses
+Schritt fuer Schritt ausgefuellt.
+
+
+int <state>:
+	moegliche Werte:  initial, process, final, cancelled
+	Merkt sich den aktuellen Zustand der Auswertung.
+	Wird momentan nur mit 'Read New', 'Final Parameters' und 'Cancel Parameters'
+	veraendert.
+
+float <distance>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Enthaelt den Epizentralabstand des aktuellen Events in Grad oder km, je
+	Einstellung von dist_unit (naechster Eintrag).  Dieser Wert wird im
+	Dialog 'Parameter Box' angezeigt und ist dort editierbar.  Ausserdem wird
+	der Wert durch folgende Aktionen veraendert:
+	- 'Accept' im Calibration Window
+	- 'Read New' setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'External Loc' bei Eingabe von Breite & Laenge aus externer Quelle
+	- 'Phase Diff' Abstandsbestimmung aus Phasendifferenzlaufzeiten
+
+int <dist_unit>:
+	moegliche Werte: unit_deg, unit_km
+	Legt fest, ob der gegebene Abstand in Grad oder km angegeben ist.
+	Wird immer zusammen mit <distance> gesetzt.
+
+float <b_slowness>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt die mit einem Array bestimmte Beam-Slowness in sec/deg an.  Dieser
+	Wert wird im Dialog 'Parameter Box' angezeigt und ist dort editierbar.
+	Sonstige Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'External Loc' bei Eingabe von Breite & Laenge aus externer Quelle
+
+float <b_slowness_err>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt die Genauigkeit von <b_slowness> an.  Wird immer zusammen mit
+	<b_slowness> gesetzt.
+
+float <b_azimuth>:
+	moegliche Werte: alle
+	leerer Wert: 0 bei <b_slowness>
+	Gibt die mit einem Array bestimmte Herdrichtung in Grad an.  Dieser
+	Wert wird im Dialog 'Parameter Box' angezeigt und ist dort editierbar.
+	Sonstige Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'External Loc' bei Eingabe von Breite & Laenge aus externer Quelle
+
+float <b_azimuth_err>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt die Genauigkeit von <b_azimuth> an.  Wird immer zusammen mit
+	<b_azimuth> gesetzt.
+
+float <l_slowness>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt die korrigierte Slowness in sec/deg an.  Wertveraenderungen durch
+	- 'Accept' im Calibration Window
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit Phase, setzt <l_slowness> auf 0
+
+float <l_azimuth>:
+	moegliche Werte: alle
+	leerer Wert: 0 in <l_slowness>
+	Gibt das korrigierte Azimuth in deg an.  Wertveraenderungen durch
+	- 'Accept' im Calibration Window
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit Phase, setzt <l_azimuth> auf 0
+
+float <depth>:
+	moegliche Werte: alle
+	leerer Wert: keiner
+	Gibt Event-Tiefe in km an.  Dieser Wert wird im Dialog 'Parameter Box'
+	angezeigt und ist dort editierbar.  Andere Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Hypoellipse' zur Berechnung lokaler Events
+	- 'Depth' zur Bestimmung der Herdtiefe aus Tiefenphasen
+
+float <depth_err>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt Genauigkeit von <depth> an.  Wird immer zusammen mit <depth> gesetzt.
+
+int <depth_type>:
+	moegliche Werte: undefined, preset, estimated, free, poor, less-well,
+		reliable, external
+	leerer Wert: undefined
+	Gibt an, auf welche Art die Teifenbestimmung vorgenommen wurde.  Wird
+	zusammen mit <depth> gesetzt.  Wenn in 'Parameter Box' die Tiefe editiert
+	wird, wird <depth_type> auf 'estimated' gesetzt.
+
+string <origin>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Enthaelt die absolute Herdzeit (Datum und Uhrzeit).  Dieser Wert wird im
+	Dialog 'Parameter Box' angezeigt und ist dort editierbar.  Die Herdzeit
+	ist auf zwei Editierfelder fuer Datum und Uhrzeit verteilt.  Andere
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'Hypoellipse' zur Berechnung lokaler Events
+
+float <source_lat>:
+	moegliche Werte: alle
+	leerer Wert: 0 und <source_lon> gleich 0
+	Enthaelt den Breitengrad der Herdlokation.  Dieser Wert wird im Dialog
+	'Parameter Box' angezeigt und ist dort editierbar.  Andere
+	Wertveraenderungen durch:
+	- 'Accept' im Calibration Window
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'Hypoellipse' zur Berechnung lokaler Events
+
+float <source_lon>:
+	Wird genau wie <source_lat> behandelt.
+
+float <center_lat>:
+	moegliche Werte: alle
+	leerer Wert: 0 und <center_lon> gleich 0
+	Enthaelt Lokation (Breite) des Schwerpunkts des Arrays.
+	Geht ein bei Magnitudenbestimmung.  Wird auch verwendet, wenn als
+	Referenzstation "CENTER" eingetragen ist und bei 'Locate' mehr als
+	eine Phase selektiert ist.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate', berechnet Schwerpunkt aus allen (!) Spuren des Displays,
+		wenn mehr als zwei Phasen zur Lokation selektiert wurden.
+
+float <center_lon>:
+	Wird genau wie <center_lat> behandelt.
+
+float <ref_lat>:
+	moegliche Werte: alle
+	leerer Wert: 0 und <ref_lon> gleich 0
+	Enthaelt Lokation (Breite) des Referenzpunkts des Arrays, d.h. entweder
+	die Lokation der eingestellten Referenzstation oder <center_lat> bei
+	"CENTER" als Referenzpunkt.
+	- 'Locate' setzt <ref_lat> jeweils neu
+	- 'Read New', setzt alle Parameter zurueck
+
+float <ref_lon>:
+	Wird genau wie <ref_lat> behandelt.
+
+int <fer_id>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Enthaelt Nummer der Herdregion der Flinn-Engdahl Tabelle.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'Hypoellipse' zur Berechnung lokaler Events
+
+string <fername>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Enthaelt Namen der Herdregion nach Flinn-Engdahl.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'Hypoellipse' zur Berechnung lokaler Events
+
+int <loc_meth>:
+	moegliche Werte: undefined, beam-corrected, beam-uncorrected, hypoellipse
+	leerer Wert: undefined
+	Gibt an, auf welche Weise eine Lokation bestimmt wurde.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+	- 'Hypoellipse' zur Berechnung lokaler Events
+
+int <loc_quality>:
+	moegliche Werte: undefined, too-weak, incoherent,
+		no-bearing, region, reliable
+	leerer Wert: undefined
+	Gibt die Zuverlaessigkeit einer Lokation an.  Dieser Wert wird im
+	Dialog 'Parameter Box' angezeigt und ist dort editierbar.  
+	Andere Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+
+int <stations_used>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Gibt an, wieviele Stationen zu einer Lokation beigetragen haben.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	Wird bei Hypoellipse momentan noch nicht gesetzt.
+
+string <phase>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Gibt an, mit welcher Phase eine Lokalisierung durchgefuehrt wurde.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Locate' Option zum Lokalisieren mit einer gepickten Phase
+
+int <evid>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Enthaelt eindeutige Event-ID Nummer fuer ein ausgewertetes Ereignis.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Final Parameters' zum Abschliessen eines Ereignisses
+
+string <comment>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Enthaelt Kommentar zu einem ausgewerteten Ereignis.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- 'Comment' zum Eintragen und Aendern von Kommentaren
+
+string <source>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Gibt die Informationsquelle fuer eine Lokalisierung an.
+	Wertveraenderungen durch:
+	- 'Read New', setzt alle Parameter zurueck
+	- Beim Editieren von 'Parameter Box' wird eine Informationsquelle abgefragt,
+		wenn noch keine angegeben wurde.
+
+boolean <soft_change>:
+	moegliche Werte: true, false
+	Nur fuer internen Gebrauch.
+
+
+
+
+Struktur PIT_PHASE
+------------------
+
+Dieser Satz von Parametern wird fuer jede erzeugte Phase im Programm
+gehalten.
+
+
+string <name>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Name der Phase.  Wird aus dem Editierfenster 'Phase Dialog' bei Erzeugung
+	neuer Phasen kopiert.  Ein Umbenennen ist nicht moeglich.
+
+string <onset>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Einsatzzeit (und -datum) der Phase.  Diese wird durch die Positionierung
+	der Phase auf einer dargestellten Spur bestimmt.  Durch Verschieben der
+	Phase kann die Einsatzzeit veraendert werden.
+
+char <spec>:
+	moegliche Werte: weak, emergent, impulsive
+	leerer Wert: keiner
+	Einsatzart der Phase.  Dieser Wert wird beim Erzeugen der Phase aus
+	dem Phasendialog kopiert.  Die dort einstellbaren Werte sind
+	'emergent' und 'impulsive'.
+	Durch Anwaehlen von 'Fix' wird dieser Wert (mit allen anderen) auf alle
+	Phasen des im Dialogfenster eingestellten Namens eingetragen.
+
+int <trcno>:
+	moegliche Werte: 1 bis maximale Spurnummer auf Display
+	leerer Wert: 0
+	Enthaelt die Nummer der Spur, auf der die Phase angebracht ist.
+	Ist fuer die Auswertung ohne Bedeutung.
+
+int <sign>:
+	moegliche Werte: -1, 0, 1
+	Vorzeichen des Einsatzes.
+	Dieser Wert wird beim Erzeugen der Phase aus dem Phasendialog kopiert.
+	Durch Anwaehlen von 'Fix' wird dieser Wert (mit allen anderen) auf alle
+	Phasen des im Dialogfenster eingestellten Namens eingetragen.
+
+boolean <use>:
+	nicht mehr benutzt.
+
+int <source>:
+	moegliche Werte: undefined, manually, theo, auto
+	leerer Wert: undefined
+	Gibt an, auf welche Weise die Phase erzeugt wurde.  Mit der Maus neu erzeugte
+	sowie veraenderte Phasen erhalten imer den Wert 'manually'.  'AutoPick'
+	erzeugt 'auto'-Phasen und theoretisch berechnete Phasen 'theo'.  Jeder
+	Typ wird durch eine eigene Farbe gekennzeichnet.  Die Default-Einstellungen
+	sind: 'manually' - rot, 'auto' - orange, 'theo' - gruen
+
+int <type>:
+	moegliche Werte: other, tele-quake, nuclear, regio-quake, local-quake,
+		blast, mining
+	leerer Wert: keiner
+	Art des Ereignisherds.
+	Dieser Wert wird beim Erzeugen der Phase aus dem Phasendialog kopiert.
+	Durch Anwaehlen von 'Fix' wird dieser Wert (mit allen anderen) auf alle
+	Phasen des im Dialogfenster eingestellten Namens eingetragen.
+
+int <weight>:
+	moegliche Werte: 0, 1, 2, 3, 4
+	leerer Wert: keiner
+	Gewichtung fuer Hypoellipse.  Wird aus <quality> bestimmt:
+	<weight> = 4 - (<quality>-1)/2
+
+int <quality>:
+	moegliche Werte: 1 - 9
+	leerer Wert: keiner
+	Qualitaet des Einsatzes.
+	Dieser Wert wird beim Erzeugen der Phase aus dem Phasendialog kopiert.
+	Durch Anwaehlen von 'Fix' wird dieser Wert (mit allen anderen) auf alle
+	Phasen des im Dialogfenster eingestellten Namens eingetragen.
+
+float <ampl>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Unstandardisierte Amplitude der Phase, angewandte Filter bleiben
+	unberuecksichtigt.  Der Wert wird durch Anwaehlen einer der
+	Amplituden-Optionen bestimmt.
+
+float <ampl_time>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Differenzzeit in sec der Zeit an der die Amplitude abgelesen wurde zur
+	Einsatzzeit der Phase.  Der Wert wird durch Anwaehlen einer der
+	Amplituden-Optionen bestimmt.
+
+float <ampl_veloc>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Geschwindigkeits-Amplitude in nm/sec der Phase.  Der Wert wird durch
+	Anwaehlen einer der Amplituden-Optionen bestimmt.  Die Uebertragungsfunktion
+	eines eventuell gewaehlten Filters wird dabei mit eingerechnet.
+
+float <ampl_displ>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Displacement-Amplitude in nm der Phase.  Der Wert wird durch Anwaehlen
+	einer der Amplituden-Optionen bestimmt.  Die Uebertragungsfunktion eines
+	eventuell gewaehlten Filters wird dabei mit eingerechnet.
+
+float <period>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	Haupt-Periode der Phase.  Der Wert wird durch Anwaehlen einer der
+	Amplituden-Optionen oder der Option fuer manuelle Periodenmessung bestimmt.
+
+float <magnitude>:
+	moegliche Werte: alle
+	leerer Wert: 0
+	An der Phase <phase> bestimmte Magnitude.  Die Art der Magnitude
+	haengt von <magn_source> ab.   Der Wert wird durch Anwaehlen
+	einer der Magnituden-Optionen bestimmt.
+
+int <magn_source>:
+	moegliche Werte: undefined, mb, MS-plain, MS-c-na, MS-c-eu, MS-c-o, MS-o, ml
+	leerer Wert: undefined
+	Typ der Magnitude <magnitude>.  Wird immer zusammen mit <magnitude>
+	bestimmt.
+
+int <ap_source>:
+	moegliche Werte: undefined, direct, beam, align
+	leerer Wert: undefined
+	Art der Amplitudemessung.  Gibt an, ob die Amplitudenwerte (<ampl>,
+	<ampl_time>, <ampl_veloc>, <ampl_displ>, <period> und fuer
+	<magn_source> ungleich 'ml' auch <magnitude>) an der anliegenden Spur
+	direkt gemessen wurde oder ob die entsprechende Phase auf einer Beam-
+	oder Align-Spur ausgemessen wurde.
+
+string <filter>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Enthaelt zunaechst den Filter, der bei Erzeugung der Phase auf die
+	Spur angewendet wurde.  Wird dann bei Amplitudenmessung aktualisiert.
+
+string <comment>:
+	moegliche Werte: alle
+	leerer Wert: Nullstring
+	Wird zur Zeit noch nicht benutzt.
+
+
+
+
+
+Stufe 2: in Ausgabefiles festgehaltene Parameter
+
+
+Struktur EvEventT:
+------------------
+
+Fuer jede handgepickte und automatisch erzeugte Phase, die nicht mit
+'b' beginnt, wird eine Auswahl folgender Parameter in ein File geschrieben.
+Leere Werte werden nicht ausgegeben.  Die mit (*) gekennzeichneten Eintraege
+werden fuer jedes Ereignis nur einmal (zusammen mit der Hauptphase) ausgegeben
+und nicht in jeder Phase wiederholt.  Mit (**) gekennzeichnete Eintraege
+sind Spezialfaelle und entsprechend erklaert.
+
+
+string <array>:
+	Name des Arrays.  Wird momentan nicht benutzt.
+
+string <station>:
+	Stationsname.  Wird aus PIT_PHASE-<station> kopiert.
+
+string <onset_time>:
+	Einsatzzeit.  Wird aus PIT_PHASE-<onset> kopiert.
+
+int <onset_type>:
+	Einsatzart.  Wird aus PIT_PHASE-<spec> kopiert.
+
+int <onset_acc>:
+	Genauigkeit des Einsatzes.  Wird momentan nicht benutzt.
+
+int <onset_count>:
+	Anzahl der Folgeeinsaetze.  Wird momentan nicht benutzt.
+
+string <phase>:
+	Name der Phase.  Wird aus PIT_PHASE-<name> kopiert.
+
+int <sign>:
+	Vorzeichen der Phase.  Wird aus PIT_PHASE-<sign> kopiert.
+
+char <component>:
+	Komponente des Seismogramms.  Wird aus der Seismogrammspur bestimmt,
+	auf der die Phase selektiert ist.
+
+float <period>:
+	Periode der Phase.  Wird aus PIT_PHASE-<period> kopiert.
+
+float <amplitude>:
+	Displacement-Amplitude.  Wird aus PIT_PHASE-<ampl_displ> kopiert.
+
+float <amplitude_time>:
+	Zeit der Amplitudenbestimmung.  Wird aus PIT_PHASE-<ampl_time> kopiert.
+
+float <amplitude_vel>:
+	Geschwindigkeitsamplitude.  Wird aus PIT_PHASE-<ampl_veloc> kopiert.
+
+char <lp_component>:
+	Wird nicht mehr benutzt.
+
+float <lp_period>:
+	Wird nicht mehr benutzt.
+
+float <lp_amplitude>:
+	Wird nicht mehr benutzt.
+
+float <b_slowness>: (*)
+	Beam-Slowness.  Wird aus CUT_PARAMS-<b_slowness> kopiert.
+
+float <b_azimuth>: (*)
+	Beam-Azimuth.  Wird aus CUT_PARAMS-<b_azimuth> kopiert.
+
+float <l_slowness>: (*)
+	Kalibrierte Slowness.  Wird aus CUT_PARAMS-<l_slowness> kopiert.
+
+float <l_azimuth>: (*)
+	Kalibriertes Azimuth.  Wird aus CUT_PARAMS-<l_azimuth> kopiert.
+
+float <distance_deg>: (*)
+	Epizentralabstand in deg.  Wird aus CUT_PARAMS-<distance> kopiert,
+	wenn CUT_PARAMS-<dist_unit> 'deg' ist.
+
+float <distance_km>: (*)
+	Epizentralabstand in deg.  Wird aus CUT_PARAMS-<distance> kopiert,
+	wenn CUT_PARAMS-<dist_unit> 'km' ist.
+
+int <quality>:
+	Qualitaet der Phase.  Wird aus PIT_PHASE-<quality> kopiert.
+
+float <ms>:
+	MS-Magnitude.  Wird aus PIT_PHASE-<magnitude> kopiert, wenn
+	PIT_PHASE-<magn_source> 'MS-plain', 'MS-c-na', 'MS-c-eu',
+	'MS-c-o' oder 'MS-o' ist.
+
+float <mb>:
+	mb-Magnitude.  Wird aus PIT_PHASE-<magnitude> kopiert, wenn
+	PIT_PHASE-<magn_source> 'mb' ist.
+
+float <ml>:
+	mb-Magnitude.  Wird aus PIT_PHASE-<magnitude> kopiert, wenn
+	PIT_PHASE-<magn_source> 'ml' ist.
+
+int <region_table>: (*)
+	Kennung der verwendeten Tabelle der Regionsnamen.  Ist momentan immer
+	Flinn-Engdahl.
+
+int <region_id>: (*)
+	Index der Herdregion.  Wird aus CUT_PARAMS-<fer_id> kopiert.
+
+string <region>: (*)
+	Name der Herdregion.  Wird aus CUT_PARAMS-<fername> kopiert.
+
+string <comment>: (**)
+	Kommentar.  Wird aus CUT_PARAMS-<comment> kopiert.  Wird in einer
+	separaten EvEvent-Struktur ("Kommentar-Phase") ausgegeben.
+
+float <latitude>: (*)
+	Herdlokation (Breite).  Wird aus CUT_PARAMS-<source_lat> kopiert.
+
+float <longitude>: (*)
+	Herdlokation (Laenge).  Wird aus CUT_PARAMS-<source_lon> kopiert.
+
+float <depth>: (*)
+	Herdtiefe in km.  Wird aus CUT_PARAMS-<depth> kopiert.
+
+int <depth_type>: (*)
+	Art der Tiefenbestimmung.  Wird aus CUT_PARAMS-<depth_type> kopiert.
+
+string <origin_time>: (*)
+	Herdzeit.  Wird aus CUT_PARAMS-<origin> kopiert.
+
+int <loc_method>: (*)
+	Methode der Lokation.  Wird aus CUT_PARAMS-<loc_meth> kopiert.
+
+int <loc_quality>: (*)
+	Qualitaet der Lokation.  Wird aus CUT_PARAMS-<loc_quality> kopiert.
+
+int <weight>:
+	Gewichtung fuer Hypoellipse.  Wird aus PIT_PHASE-<weight> kopiert.
+
+string <filter>:
+	Angewendetes Filter.  Wird aus PIT_PHASE-<filter> kopiert.
+
+int <evid>:
+	Event-ID.  Wird aus CUT_PARAMS-<evid> kopiert.
+
+float <ref_latitude>: (*)
+	Referenzlokation (Breite).  Wird aus CUT_PARAMS-<ref_lat> kopiert.
+
+float <ref_longitude>: (*)
+	Referenzlokation (Laenge).  Wird aus CUT_PARAMS-<ref_lon> kopiert.
+
+string <ref_name>: (*)
+	Name der Referenzlokation.  Wird aus interner Vaiablen kopiert.
+
+string <analyst>:
+	Kuerzel fuer Auswerter.  Wird aus interner Vaiablen kopiert.
+
+int <stations_used>: (*)
+	Anzahl der verwendeten Stationen.  Wird aus CUT_PARAMS-<stations_used>
+	kopiert.
+
+int <event_type>: (*)
+	Type des Ereignisses.  Wird aus PIT_PHASE-<type> kopiert.
+
+string <source>: (*)
+	Informationsquelle.  Wird aus CUT_PARAMS-<source> kopiert.
+
+int <ap_source>:
+	Art der Amplitudenbestimmung.  Wird aus PIT_PHASE-<ap_source> kopiert.
+
+
+
+Stufe 3:  Datenbank
+
+Die Ausgabefiles mit den EvEventT-Strukturen werden eingelesen und die
+Informationen auf die entsprechenden Tabellen in der sdb Datanbank verteilt.
+
+
+Tabelle phase
+-------------
+
+int {ev_id}:
+	Event-ID.  Wird aus <evid> kopiert.
+
+string {sta}:
+	Stationsname.  Wird aus <station> kopiert.
+
+string {channel}:
+	Datenkanal.  Wird aus <filter> erzeugt.
+
+Einsatzzeit {ph_date}, {ph_time}, {date_min}, {time_sec}:
+	Diese Eintraege werden aus <onset_time> erzeugt.
+
+string {onset}:
+	Art des Einsatzes.  Wird aus <onset_type> erzeugt.
+
+string {phase}:
+	Name der Phase.  Wird aus <phase> kopiert.
+
+string {fm}:
+	Vorzeichen des Einsatzes.  Wird aus <sign> erzeugt.
+
+string {compon}:
+	Seismometer-Komonente.  Wird aus <component> kopiert.
+
+string {quality}:
+	Qualitaetsfaktor.  Wird aus <quality> kopiert.
+
+float {per}:
+	Periode der Phase.  Wird aus <period> erzeugt.  Wenn <ap_source> ungleich
+	'direct' ist, dann wird eine separate 'phase'-Tabelle angelegt, die
+	die Amplitudeninformation aufnimmt und als Stationsnamen entweder
+	"BEAM" oder "ALIGN" erhaelt.
+
+float {amp}:
+	Displacement-Amplitude.  Wird aus <amplitude> kopiert,
+	bzgl. <ap_source> siehe Eintrag {per}.
+
+int {dig_cnt}:
+	Counts.  Wird nicht benutzt.
+
+float {vel_amp}:
+	Geschwindigkeitsamplitude.  Wird aus <amplitude_vel> kopiert,
+	bzgl. <ap_source> siehe Eintrag {per}.
+
+float {amp_time}:
+	Zeit der Amplitudenablesung.  Wird aus <amplitude_time> kopiert,
+	bzgl. <ap_source> siehe Eintrag {per}.
+
+string {ph_comm}:
+	Phasen-Kommentar.  Enthaelt als erstes Zeichen 'd', 'b', 'a' oder 'u',
+	je nach Wert von <ap_source>, danach folgt Semicolon.  Anschliessend
+	wird der Phasenkommentar <comment> einkopiert, falls <comment> nicht
+	der einzige Eintrag in EvEventT ist.
+
+string {analyst}:
+	Kuerzel fuer Auswerter.  Wird aus <analyst> kopiert.
+
+int {param_id}:
+	Parameter-ID.  Wird vom Kopierprogramm erzeugt.
+
+
+
+Tabelle event_par
+-----------------
+
+int {param_id}:
+	Parameter-ID.  Wird vom Kopierprogramm erzeugt.
+
+float {b_slo}:
+	Beam-Slowness.  Wird aus <b_slowness> kopiert.
+
+float {b_az}:
+	Beam-Azimuth.  Wird aus <b_azimuth> kopiert.
+
+float {slo}:
+	Kalibrierte Slowness.  Wird aus <l_slowness> kopiert.
+
+float {az}:
+	Kalibriertes Azimuth.  Wird aus <l_azimuth> kopiert.
+
+float {ang_inc}:
+	Auftauchwinkel.  Wird nicht benutzt.
+
+float {rect}:
+	Linearitaet.  Wird nicht benutzt.
+
+float {sta_mb}:
+	Stationsmagnitude mb.  Wird aus <mb> kopiert.
+
+float {sta_ms}:
+	Stationsmagnitude ms.  Wird aus <ms> kopiert.
+
+float {sta_ml}:
+	Stationsmagnitude ml.  Wird aus <ml> kopiert.
+
+float {sta_m}:
+	lokale Stationsmagnitude.  Wird nicht benutzt.
+
+float {dist_km}:
+	Epizentralabstand in Grad.  Wird aus <distance_deg> kopiert.
+
+float {dist_deg}:
+	Epizentralabstand in km.  Wird aus <distance_km> kopiert.
+
+
+
+Tabelle epicenter
+-----------------
+
+int {ev_id}:
+	Event-ID.  Wird aus <evid> kopiert.
+
+int {ev_prior}:
+	Priority.  Wird immer auf 0 gesetzt.
+
+string {source}:
+	Informationsquelle.  Wird aus <source> kopiert.
+
+Herdzeit {ev_date}, {ev_time}, {date_min}, {time_sec}
+	Diese Eintrage werden aus <origin_time> erzeugt.
+
+float {lat}:
+	Herdlokation (Breite).  Wird aus <latitude> kopiert, wenn <loc_quality>
+	gleich 'reliable' ist.
+
+float {lon}:
+	Herdlokation (Laenge).  Wird aus <longitude> kopiert, wenn <loc_quality>
+	gleich 'reliable' ist.
+
+float {depth}:
+	Herdtiefe.  Wird aus <depth> kopiert.
+
+string {dep_comm}:
+	Art der Tiefenbestimmung.  Wird aus <depth_type> erzeugt.
+
+float {mb_av}:
+	Mittelwert mb.  Wird aus dem Mittelwert von <mb> ueber alle Phasen
+	erzeugt.
+
+string {mb_nr}:
+	Anzahl der Stationen bei Mittelwertbildung fuer {mb_av}.
+
+float {ms_av}:
+	Mittelwert MS.  Wird aus dem Mittelwert von <ms> ueber alle Phasen
+	erzeugt.
+
+string {ms_nr}:
+	Anzahl der Stationen bei Mittelwertbildung fuer {ms_av}.
+
+float {ml}:
+	Mittelwert ml.  Wird aus dem Mittelwert von <ml> ueber alle Phasen
+	erzeugt.
+
+string {ml_ref}:
+	Wird nicht benutzt.
+
+int {nr_sta}:
+	Anzahl der Stationen, die zur Lokation verwendet wurden.
+	Wird aus <stations_used> kopiert.
+
+string {ev_type}:
+	Art des Ereignisses.  Wird aus <event_type> erzeugt (Werte: "T", "N",
+	"R", "L", "B", "I").  Bei deutschen Ereignissen wird ein "G"
+	angehaengt.
+
+string {ev_comm}:
+	Kommentar zu Event.  Enthaelt <comment> ("Kommentar-Phase") und/oder
+	Name der Herdregion.
+
+string {author}:
+	Auswerter.  Wird aus <analyst> kopiert.
+
+
+
+Tabelle region
+--------------
+
+int {ev_id}:
+	Event-ID.  Wird aus <evid> kopiert.
+
+string {reg_tbl}:
+	Verwendete Tabelle der Regionen.  Wird aus <reg_table> erzeugt.
+
+int {reg_id}:
+	Index der Herdregion.  Wird aus <reg_id> kopiert.
+
+
+
+
+

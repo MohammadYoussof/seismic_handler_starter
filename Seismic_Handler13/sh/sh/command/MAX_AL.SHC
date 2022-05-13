@@ -1,0 +1,26 @@
+
+! file MAX_AL.SHC
+!      ==========
+!
+! version 1, 30-JUL-91
+!
+! aligns all traces on display to maximum value in given time window
+! K. Stammler, 30-JUL-91
+
+default 1 0      time window start:
+default 2 100    time window end:
+
+sdef trccnt 1    ! trace counter
+sdef max         ! time of maximum
+sdef torig       ! t-origin
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   am "trccnt #1 #2;;;;&max
+   calc r &torig = ^t-origin("trccnt) - "max
+   set "trccnt t-origin "torig
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

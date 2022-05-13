@@ -1,0 +1,21 @@
+! file WRITEA_all.SHC
+!      ==============
+!
+! version 1, 24-oct-91
+!
+! writes ASCII file of traces in integer format
+! K. Stammler, 24-oct-91
+
+default 1 ;;   output file
+default 2 1    trace list
+
+sdef cnt 1
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   writea #1 #2 start station comp
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

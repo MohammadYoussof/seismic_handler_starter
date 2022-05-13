@@ -1,0 +1,60 @@
+
+command WDW <keyword>[;<p1>[;<p2>[;...<pN>]]]
+===========
+
+key: window commands
+
+Window control commands.  Action depends on keyword.  Valid keywords
+are:
+
+
+size     Change size of window
+         <p1> = window number (integer)
+         <p2> = x-position of lower left corner in cm (real)
+         <p3> = y-position of lower left corner in cm (real)
+         <p4> = width in cm (real)
+         <p5> = height in cm (real)
+
+top      Put window on top of display
+         <p1> = window number (integer)
+
+create   Create new window
+         <p1> = window number (integer)
+         <p2> = x-position of lower left corner in cm (real)
+         <p3> = y-position of lower left corner in cm (real)
+         <p4> = width in cm (real)
+         <p5> = height in cm (real)
+         For GEM implementations only:
+         qualifier /ATTRIBS=<attribs>, <attribs> contains item characters
+         "N"    window name
+         "I"    info line (not supported)
+         "M"    mover
+         "S"    sizer
+         "F"    fuller
+         "C"    closer
+
+delate   delete window
+         <p1> = window number (integer)
+
+
+qualifiers
+----------
+
+   /dc /ic /gc /dc+ /ic+ /gc+ /dc- /ic- /gc- /flags /flags+ /flags-
+   /global /main
+   Description see "help _call_proc".
+
+
+examples
+--------
+
+   wdw/gc=xh3 create xh3 0.0 4.5 20.0 10.0
+        opens X-window number 1 and assigns graphic channel to it
+
+   wdw/ic=vh1/dc=vh1 create vh1 0.0 0.0 20.0 5.0
+        opens VWS window number 1 and assigns information and dialog
+        channels to it
+
+   wdw size p 0. 0. 10. 15.
+        Changes size of PostScript window (hardcopy) to 10cm x 15cm.
+

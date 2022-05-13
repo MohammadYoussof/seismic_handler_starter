@@ -1,0 +1,110 @@
+! file update.txt
+!      ==========
+!
+! version 3, 7-Jan-97
+!
+! Docu for SH-update via FTP
+! K. Stammler, 27-Dec-96
+
+
+
+SH source code updates are available via ftp.  More recent versions of SH
+(versions SH-4.0h and higher)
+contain three script files in $SH_UTIL for requesting, transferring and
+installing of SH updates.  Before calling these scripts make sure that
+you have setup a proper ~/.netrc file for our anonymous ftp server which
+enables you to log on without entering your (e-mail)-password
+interactively.  You may check this by entering
+
+   ftp ftp.szgrf.uni-erlangen.de
+
+If you are prompted for a password your .netrc is not set up properly
+(Terminate ftp with 'bye' after this check).  To configure your .netrc file
+create one on your home-directory ($HOME/.netrc) or append to an already
+existing one.  The following line must be inserted/appended to a new/existing
+.netrc file:
+
+   machine ftp.szgrf.uni-erlangen.de  login ftp  password <your-email-address>
+
+The keyword and parameters are separated by one or more blanks.  The last
+expression in the line is your e-mail address which you would have to enter
+as password when using anonymous ftp.  If you have created a new .netrc file
+change the access mode to 600:
+
+  chmod 600 $HOME/.netrc
+
+After your .netrc file is correctly setup you may call the update-scripts.
+Please use a unique filename for your updates since all requests are
+processed in the same directory at the SZGRF.  If you are using this ftp-option
+the first time contact me (klaus@szgrf.uni-erlangen.de) and ask for a name
+to use.  The three shell scripts to use are:
+
+
+$SH_UTIL/ftp_request_update.csh $SH_ROOT <your-name>.vrs
+-------------------------------
+This script extracts all version numbers out of the source codes in your
+SH-tree and transmits them to the SZGRF server.  This may take 10-20 min.
+
+At the SZGRF server all *.vrs files are processed once a day and compared
+with the most recent version.  The *.vrs files are replaced by 'gzip'ped
+tar-files with updated source codes if any available.  The update
+process at SZGRF runs currently at 22:59 Central European (Summer-)Time
+(this is 21:59 GMT in winter and 20:59 GMT in summer).
+
+
+$SH_UTIL/ftp_get_update.csh <your-name>.tar.gz
+---------------------------
+After the update-process at SZGRF has processed your <your-name>.vrs file
+you transmit with this script the resulting update-file <your-name>.tar.gz
+to your computer.
+
+
+$SH_UTIL/install_ftp_update.csh <your-name>.tar.gz
+-------------------------------
+This unzips and untars the updated software and compiles it.  It assumes that
+the file $SH_ROOT/setup/shsetup is properly configured to compile
+SH on your system.  If you are updating an older version of SH, please
+check the '$SH_ROOT/setup/shsetup'-file.  This file is not updated
+automatically, because it is usually different on every machine.  The
+most recent version of the shsetup file at SZGRF is separately available
+on '/pub/software/shsetup.sample'.  If you have problems with your
+setup use this sample file and change the settings to match your environment.
+
+
+
+
+
+
+There are always two pairs of executables in an installation, (SH,SHM) and
+(SH_N,SHM_N).  On older versions of SH 'SH_N' has been named 'SHN'.  This
+can be changed in the shsetup-file.  The install_ftp_update.csh script only
+changes the '*_N' programs.  After an SH-update installation you should use
+SH_N or SHM_N in order to run the updated programs.  With SH or SHM you get
+the old and unchanged versions.  These backup executables are installed just
+in case a new version contains a severe bug or malfunction.  Once you have
+tested the new versions and want to use them as backup executables in future
+(i.e. copy SH_N,SHM_N to SH,SHM, respectively) enter:
+
+  cd $SH_ROOT
+  make world
+
+
+
+
+
+PLEASE NOTE !
+-------------
+
+
+
+Be aware that frequent updates of this software also increases the possibility
+of creating and using an executable with an undetected severe malfunction or
+with manipulations of maleficent system intruders.  Of course, I try to
+keep this possibility small, but nobody's perfect.  I won't be responsible
+for damage or loss of your files in any case.  So, MAKE BACKUP's !!!
+
+
+
+Klaus Stammler
+7-Jan-97
+

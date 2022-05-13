@@ -1,0 +1,10 @@
+sequence number:        1
+station:                GRA1
+channel:                BHZ
+start time:             31-jul-94_2:0
+sample rate factor:     20
+sample rate multiplier: 1
+activity flags:         0
+IO flags:               0
+quality flags:          0
+time correction:        0

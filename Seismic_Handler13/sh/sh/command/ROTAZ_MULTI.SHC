@@ -1,0 +1,23 @@
+! file ROTAZ_MULTI.SHC
+default 1 2,3         trace list (N,E)
+default 2 0.0         azimuth
+default 3 5.0         step size (degrees)
+default 4 3           number of steps
+
+sdef curraz
+sdef cnt
+
+calc r &curraz = #4 * #3
+calc r &curraz = #2 - "curraz
+calc i &cnt = 0 - #4
+
+nr
+loop_start:
+   if  "cnt gti #4  goto/forward loop_exit:
+   rotaz #1 "curraz
+   calc i &cnt = "cnt + 1
+   calc r &curraz = "curraz + #3
+goto loop_start:
+loop_exit:
+rd
+return

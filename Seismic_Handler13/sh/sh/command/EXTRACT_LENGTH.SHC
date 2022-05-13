@@ -1,0 +1,43 @@
+! file EXTRACT_ENTRY_QLIST.SHC
+!      =======================
+!
+! version 1, 28-OCT-91
+!
+! extracts all names and lengths of each first trace in file
+! K. Stammler, 28-OCT-91
+
+default 1 ;;         list file
+default 2 1          first line
+default 3 %#1(0)     last line
+default 4 ;;         output file
+
+sdef filecnt #2
+sdef qfile
+sdef length
+sdef dt
+sdef status
+
+echo_ch #4
+
+loop_start:
+   if  "filecnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filecnt) parse 1
+   switch noerrmsg on
+   switch cmderrstop off
+   extract "qfile 1 length &length
+   extract "qfile 1 delta &dt
+   calc i &status = $status
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "status nei 0  goto/forward notfound:
+      calc/fmt=<%@f> r &length = "length * "dt
+      echo "qfile "length
+   notfound:
+   calc i &filecnt = "filecnt + 1
+   goto loop_start:
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

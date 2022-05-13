@@ -1,0 +1,394 @@
+! file shm_spectrum.uil
+!      ================
+!
+! version 4, 17-Jun-2004
+!
+! spectrum window
+! K. Stammler, 1-Sep-98
+
+
+object
+   spectrum_window_box: XmFormDialog {
+      arguments {
+         XmNwidth = 500;
+         XmNheight = 533;
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmMenuBar       menu_spectrum;
+         XmDrawingArea   spectrum_window_area;
+      };
+   };
+
+object
+   spectrum_window_label: XmLabel {
+      arguments {
+         XmNlabelString = 'spectrum window';
+      };
+   };
+
+object
+   spectrum_window_area: XmDrawingArea {
+      arguments {
+         XmNy = 33;
+         XmNwidth = 500;
+         XmNheight = 500;
+         XmNtopAttachment = XmATTACH_WIDGET;
+			XmNtopWidget = menu_spectrum;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_spctwdw );
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback =
+            procedure xm_call_resize_object(k_widget_spctwdw);
+      };
+   };
+
+object
+   menu_spectrum: XmMenuBar {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing     = 15;  /* Pixels between items in menu */
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmCascadeButton menutitle_spct;
+         XmCascadeButton menutitle_spcdispl;
+         XmCascadeButton menutitle_spcmode;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_menu_spct);
+      };
+   };
+
+object
+   menutitle_spct: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_spct_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_spct;
+      };
+   };
+
+object
+   menu_spct: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_spct_insert;
+!         XmPushButton   entry_spct_clear;
+         XmPushButton   entry_spct_setup;
+         XmPushButton   entry_spct_fitline;
+         XmPushButton   entry_spct_screendump;
+         XmPushButton   entry_spct_quit;
+      };
+   };
+
+object
+   entry_spct_insert: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_insert_text;
+         XmNaccelerator = k_acc_spct_insert;
+         XmNacceleratorText = k_acct_spct_insert;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_insert);
+      };
+   };
+
+object
+   entry_spct_clear: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_clear_text;
+         XmNaccelerator = k_acc_spct_clear;
+         XmNacceleratorText = k_acct_spct_clear;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_clear);
+      };
+   };
+
+object
+   entry_spct_setup: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_setup_text;
+         XmNaccelerator = k_acc_spct_setup;
+         XmNacceleratorText = k_acct_spct_setup;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_setup);
+      };
+   };
+
+object
+   entry_spct_quit: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_quit_text;
+         XmNaccelerator = k_acc_spct_quit;
+         XmNacceleratorText = k_acct_spct_quit;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_quit);
+      };
+   };
+
+object
+   entry_spct_screendump: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_screendump_text;
+         XmNaccelerator = k_acc_spct_screendump;
+         XmNacceleratorText = k_acct_spct_screendump;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_screendump);
+      };
+   };
+
+object
+   entry_spct_fitline: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_fitline_text;
+         XmNaccelerator = k_acc_spct_fitline;
+         XmNacceleratorText = k_acct_spct_fitline;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_fitline);
+      };
+   };
+
+object
+   menutitle_spcdispl: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_spcdispl_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_spcdispl;
+      };
+   };
+
+object
+   menu_spcdispl: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_spct_autoscale;
+         XmPushButton   entry_spct_frqlo_up;
+         XmPushButton   entry_spct_frqlo_down;
+         XmPushButton   entry_spct_frqhi_up;
+         XmPushButton   entry_spct_frqhi_down;
+         XmPushButton   entry_spct_amplo_up;
+         XmPushButton   entry_spct_amplo_down;
+         XmPushButton   entry_spct_amphi_up;
+         XmPushButton   entry_spct_amphi_down;
+      };
+   };
+
+object
+   entry_spct_autoscale: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_autoscale_text;
+         XmNaccelerator = k_acc_spct_autoscale;
+         XmNacceleratorText = k_acct_spct_autoscale;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_autoscale);
+      };
+   };
+
+object
+   entry_spct_frqlo_up: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_frqlo_up_text;
+         XmNaccelerator = k_acc_spct_frqlo_up;
+         XmNacceleratorText = k_acct_spct_frqlo_up;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_frqlo_up);
+      };
+   };
+
+object
+   entry_spct_frqlo_down: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_frqlo_down_text;
+         XmNaccelerator = k_acc_spct_frqlo_down;
+         XmNacceleratorText = k_acct_spct_frqlo_down;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_frqlo_down);
+      };
+   };
+
+object
+   entry_spct_frqhi_up: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_frqhi_up_text;
+         XmNaccelerator = k_acc_spct_frqhi_up;
+         XmNacceleratorText = k_acct_spct_frqhi_up;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_frqhi_up);
+      };
+   };
+
+object
+   entry_spct_frqhi_down: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_frqhi_down_text;
+         XmNaccelerator = k_acc_spct_frqhi_down;
+         XmNacceleratorText = k_acct_spct_frqhi_down;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_frqhi_down);
+      };
+   };
+
+object
+   entry_spct_amplo_up: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_amplo_up_text;
+         XmNaccelerator = k_acc_spct_amplo_up;
+         XmNacceleratorText = k_acct_spct_amplo_up;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_amplo_up);
+      };
+   };
+
+object
+   entry_spct_amplo_down: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_amplo_down_text;
+         XmNaccelerator = k_acc_spct_amplo_down;
+         XmNacceleratorText = k_acct_spct_amplo_down;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_amplo_down);
+      };
+   };
+
+object
+   entry_spct_amphi_up: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_amphi_up_text;
+         XmNaccelerator = k_acc_spct_amphi_up;
+         XmNacceleratorText = k_acct_spct_amphi_up;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_amphi_up);
+      };
+   };
+
+object
+   entry_spct_amphi_down: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_amphi_down_text;
+         XmNaccelerator = k_acc_spct_amphi_down;
+         XmNacceleratorText = k_acct_spct_amphi_down;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_amphi_down);
+      };
+   };
+
+object
+   menutitle_spcmode: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_spcmode_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_spcmode;
+      };
+   };
+
+object
+   menu_spcmode: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_spct_mode_powspc;
+         XmPushButton   entry_spct_mode_fft;
+         XmPushButton   entry_spct_mode_fft2;
+      };
+   };
+
+object
+   entry_spct_mode_powspc: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_mode_powspc_text;
+         XmNaccelerator = k_acc_spct_mode_powspc;
+         XmNacceleratorText = k_acct_spct_mode_powspc;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_mode_powspc);
+      };
+   };
+
+object
+   entry_spct_mode_fft: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_mode_fft_text;
+         XmNaccelerator = k_acc_spct_mode_fft;
+         XmNacceleratorText = k_acct_spct_mode_fft;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_mode_fft);
+      };
+   };
+
+object
+   entry_spct_mode_fft2: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spct_mode_fft2_text;
+         XmNaccelerator = k_acc_spct_mode_fft2;
+         XmNacceleratorText = k_acct_spct_mode_fft2;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_spct_mode_fft2);
+      };
+   };
+

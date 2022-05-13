@@ -1,0 +1,18 @@
+! file LOCATE_WITH_P.SHC
+!      =================
+!
+! version 2, 27-Mar-2001
+!
+! Locates with P-onsets.  Assumes picks in file CORRPICK.STX
+! K. Stammler, 24-Mar-2001
+
+default 1 corrpick.stx  raw p-picks
+default 2 MOX           reference station
+
+sdef cmd
+
+fct getpath extprog &cmd
+@CALC S &CMD = |"CMD|al_analyze_p_picks.csh|$BLANK|#1|$BLANK|#2|
+system "cmd
+
+return

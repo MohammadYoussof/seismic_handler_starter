@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Plane Wave</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Plane Wave</em></H2>
+
+<P>Computes slowness and back azimuth from coherent phase picks.
+It uses all phases of the name given in the <A HREF="phasebox.html">phase
+dialog box</A>. It assumes that the incoming wavefront of that
+phase is a plane wave. This algorithm is therefore applicable
+only if the epicentral distance is much larger than the aperture
+of the recording array and if the dominating frequencies of the
+picked signal are in a range where coherency is still possible
+(i.e. similar waveforms on the recording array). To check the
+validity of this assumption is in the responsibility of the user.
+Violation of these presuppositions may lead to nonsense results.
+The algorithm determines the best fitting orientation of the wave
+plane and parameterizes it by slowness and back-azimuth. The resulting
+values are written to the <A HREF="parambox.html">analysis parameter
+box</A>. Check the results with command <A HREF="menu_beam.html">Beam</A>.</P>
+
+<P>This command needs the location of your recording stations
+in the station information file (see <A HREF="statloc.html">How
+to put station information into SH/SHM</A>). Required entries
+are <em>lat</em> and <em>lon</em>, recommended is
+<em>xrel</em>, <em>yrel</em> and <em>array</em>.
+If the relative locations are not found in the file, SHM computes
+it from the latitude and longitude. The algorithm used is very
+simple might not be accurate enough.</P>
+
+<P><small>This page last modified 6-Jul-2000</small></P>
+
+</BODY>
+</HTML>

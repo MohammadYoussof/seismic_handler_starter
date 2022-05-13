@@ -1,0 +1,30 @@
+! file shm_command.uil
+!      ===============
+!
+! version 1, 15-Jul-94
+!
+! command box
+! K. Stammler, 15-Jul-94
+
+
+object
+   command_box: XmBulletinBoardDialog {
+      controls {
+         XmLabel     command_label;
+         XmCommand   command;
+      };
+   };
+
+object
+   command_label: XmLabel {
+      arguments {
+         XmNlabelString = k_command_box_title;
+      };
+   };
+
+object
+   command: XmCommand {
+      callbacks {
+         XmNcommandEnteredCallback = procedure xm_call_cmdexec();
+      };
+   };

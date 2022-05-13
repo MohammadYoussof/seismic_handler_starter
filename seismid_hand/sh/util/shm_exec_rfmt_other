@@ -1,0 +1,35 @@
+#! /bin/csh
+#
+# file shm_exec_rfmt_other
+#      ===================
+#
+# version 2, 30-Aug-99
+#
+# Reformats other formats to GSE using an external routine
+# K. Stammler, 12-Jul-98
+
+if  ("$3" == "")  then
+	echo "Usage: $0 <rfmtproc> <inputfile> <outputfile>"
+	exit
+endif
+
+# get parameters
+set rfmtproc=$1
+set inpfile=$2
+set outfile=$3
+
+if  (! -x $rfmtproc)  then
+	set rfmtproc=$SH_UTIL/$rfmtproc
+endif
+if  (! -x $rfmtproc)  then
+	echo "$0 : reformatting routine $rfmtproc not found or not executable.  Abort."
+	exit
+endif
+if  (! -e $inpfile)  then
+	echo "$0 : input file $inpfile not found.  Abort."
+	exit
+endif
+
+if  (-e $outfile)  \rm $outfile
+$rfmtproc $inpfile >$outfile
+

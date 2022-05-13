@@ -1,0 +1,178 @@
+
+ LocSAT LOCATION RESULTS
+ ============================================================================== 
+
+  First arrival detected at:  0: 0: 0.00 (GMT) on: Jan.  1, 1970
+
+ ============================================================================== 
+
+BUGKLB   51.4419    7.2703    0.0850
+BUGSHA   51.4482    7.2453    0.1480
+BUGTEZ   51.4506    7.2797    0.1120
+BUGNA    51.4455    7.2643    0.1350
+BUGKLS   51.4419    7.2703    0.0850
+BUGHRH   51.6235    7.7527   -0.8880
+BUGRPM   51.4723    6.6343   -0.4120
+
+ Ariv ID Statn  Phase    Type Atype  Observed    S.D. Err
+   66817 BUGKLS P        t    d         6.300   1.000   0
+   66817 BUGKLS P        a    d        52.000   4.000   0
+   66817 BUGKLS P        s    d        16.123   1.000   0
+   66818 BUGKLS S        t    d        12.200   1.000   0
+   66817 BUGHRH P        t    d         0.000   1.000   0
+   66817 BUGHRH P        a    d       333.000   5.000   0
+   66817 BUGHRH P        s    n        16.123   1.000   0
+   67616 BUGHRH S        t    d         0.800   1.000   0
+ ============================================================================== 
+
+ hypcut0: General initial location information :
+ ===============================================
+    Method: S-P time w/ azimuth at 1 station
+   Station: BUGHRH 
+  S-P time:    0.80 sec.
+  Distance:    0.07 deg.
+   Azimuth:  333.00 deg.
+  Latitude:   51.69 deg. N
+ Longitude:    7.70 deg. E
+ ===============================================
+
+ 
+ 
+- Iteration #  0   Number of Obs. (Data):  7
+- Lat:  51.686   Lon:    7.701   Depth:    0.500   To:    -0.839
+- Unwt. RMS Res.:  1.9173   Wt. RMS Res.:  0.9929   CNVGTST: 0.20971E-01
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+BUGKLS P        t         6.30        5.93      0.37        0.37      0.36
+BUGKLS P        a        52.00       47.52      4.48        1.12      0.36
+BUGKLS P        s        16.12       18.01     -1.88       -1.88      0.36
+BUGKLS S        t        12.20       11.20      1.00        1.00      0.36
+BUGHRH P        t         0.00        0.56     -0.56       -0.56      0.07
+BUGHRH P        a       333.00      333.00      0.00        0.00      0.07
+BUGHRH S        t         0.80        1.61     -0.81       -0.81      0.07
+
+> Sighat:  1.000   NSSD:  1.313   dLat:   -3.460   dLon:    1.866   dZ:    0.000
+> True Cond. Num.:   3.49       Effective Cond. Num.:   3.49    
+ 
+ 
+- Iteration #  1   Number of Obs. (Data):  7
+- Lat:  51.655   Lon:    7.728   Depth:    0.500   To:    -0.278
+- Unwt. RMS Res.:  1.0111   Wt. RMS Res.:  0.7945   CNVGTST: 0.61202E-02
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+BUGKLS P        t         6.30        6.37     -0.07       -0.07      0.36
+BUGKLS P        a        52.00       53.06     -1.06       -0.26      0.36
+BUGKLS P        s        16.12       18.01     -1.89       -1.89      0.36
+BUGKLS S        t        12.20       11.54      0.66        0.66      0.36
+BUGHRH P        t         0.00        0.47     -0.47       -0.47      0.03
+BUGHRH P        a       333.00      334.33     -1.33       -0.27      0.03
+BUGHRH S        t         0.80        1.01     -0.21       -0.21      0.03
+
+> Sighat:  1.000   NSSD:  1.051   dLat:   -0.028   dLon:   -0.061   dZ:    0.000
+> True Cond. Num.:   5.86       Effective Cond. Num.:   5.86    
+ 
+ 
+- Iteration #  2   Number of Obs. (Data):  7
+- Lat:  51.654   Lon:    7.728   Depth:    0.500   To:    -0.292
+- Unwt. RMS Res.:  0.8857   Wt. RMS Res.:  0.7907   CNVGTST: 0.26526E-06
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+BUGKLS P        t         6.30        6.34     -0.04       -0.04      0.36
+BUGKLS P        a        52.00       53.04     -1.04       -0.26      0.36
+BUGKLS P        s        16.12       18.01     -1.89       -1.89      0.36
+BUGKLS S        t        12.20       11.50      0.70        0.70      0.36
+BUGHRH P        t         0.00        0.46     -0.46       -0.46      0.03
+BUGHRH P        a       333.00      333.33     -0.33       -0.07      0.03
+BUGHRH S        t         0.80        1.00     -0.20       -0.20      0.03
+
+> Sighat:  1.000   NSSD:  1.046   dLat:   -0.017   dLon:    0.008   dZ:    0.000
+> True Cond. Num.:   5.95       Effective Cond. Num.:   5.95    
+ 
+ 
+- Iteration #  3   Number of Obs. (Data):  7
+- Lat:  51.654   Lon:    7.728   Depth:    0.500   To:    -0.290
+- Unwt. RMS Res.:  0.8900   Wt. RMS Res.:  0.7907   CNVGTST: 0.12950E-07
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+BUGKLS P        t         6.30        6.35     -0.05       -0.05      0.36
+BUGKLS P        a        52.00       53.07     -1.07       -0.27      0.36
+BUGKLS P        s        16.12       18.01     -1.89       -1.89      0.36
+BUGKLS S        t        12.20       11.51      0.69        0.69      0.36
+BUGHRH P        t         0.00        0.46     -0.46       -0.46      0.03
+BUGHRH P        a       333.00      333.33     -0.33       -0.07      0.03
+BUGHRH S        t         0.80        0.99     -0.19       -0.19      0.03
+
+> Sighat:  1.000   NSSD:  1.046   dLat:    0.000   dLon:    0.000   dZ:    0.000
+> True Cond. Num.:   5.98       Effective Cond. Num.:   5.98    
+ 
+ 
+- Iteration #  4   Number of Obs. (Data):  7
+- Lat:  51.654   Lon:    7.728   Depth:    0.500   To:    -0.290
+- Unwt. RMS Res.:  0.8900   Wt. RMS Res.:  0.7907   CNVGTST: 0.86949E-11
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+BUGKLS P        t         6.30        6.35     -0.05       -0.05      0.36
+BUGKLS P        a        52.00       53.07     -1.07       -0.27      0.36
+BUGKLS P        s        16.12       18.01     -1.89       -1.89      0.36
+BUGKLS S        t        12.20       11.51      0.69        0.69      0.36
+BUGHRH P        t         0.00        0.46     -0.46       -0.46      0.03
+BUGHRH P        a       333.00      333.33     -0.33       -0.07      0.03
+BUGHRH S        t         0.80        0.99     -0.19       -0.19      0.03
+
+> Sighat:  1.000   NSSD:  1.046   dLat:    0.000   dLon:    0.000   dZ:    0.000
+> True Cond. Num.:   5.98       Effective Cond. Num.:   5.98    
+
+ Location ran for  4 iterations ... Converged!
+
+ ============================================================================== 
+
+
+ Final location estimate (+/- S.D.):
+      Latitude:   51.654 deg. N +/-     2.165 km.
+     Longitude:    7.728 deg. E +/-     1.108 km.
+         Depth:    0.500  km.   +/-     0.000 km. (Fixed)
+ Relative O.T.:   -0.290 sec.   +/-     0.599 sec.
+ Absolute O.T.:   -0.290 sec.   +/-     0.599 sec.
+
+ Confidence region at 0.90 level:
+   Semi-major axis:     5.2  km. =  0.05 deg.
+   Semi-minor axis:     0.7  km. =  0.01 deg.
+ Major-axis strike:   153.7 deg. clockwise from North
+  Orig. time error:     1.0 sec.
+
+ Standard errors (sigma):
+              Prior:  1.00 (  9999 deg. of freedom)
+          Posterior:  1.00 ( 10003 deg. of freedom)
+          Posterior:  1.05 (Normalized sample S.D.)
+
+      Azimuthal weighting:  1.00
+ Effective rank of matrix:  3.00
+    Maximum azimuthal GAP:  280 deg.
+
+ ============================================================================== 
+                       Data           Residuals    Distance Azimuth   Data
+ Ariv ID Statn  Phase  Type at     True Normalized   (deg.)  (deg.)  Import Err
+ ============================================================================== 
+   66817 BUGHRH P      t     d   -0.456     -0.456    0.035  153.31   0.257   0
+      Slowness Vector Residual:   2.222
+   66817 BUGHRH P      s     n   -2.220     -2.220    0.035  153.31  -1.000   0
+   66817 BUGHRH P      a     d   -0.327     -0.065    0.035  153.31   0.996   0
+   67616 BUGHRH S      t     d   -0.192     -0.192    0.035  153.31   0.399   0
+   66817 BUGKLS P      t     d   -0.046     -0.046    0.355  233.42   0.316   0
+      Slowness Vector Residual:   1.916
+   66817 BUGKLS P      s     d   -1.890     -1.890    0.355  233.42   0.000   0
+   66817 BUGKLS P      a     d   -1.066     -0.266    0.355  233.42   0.740   0
+   66818 BUGKLS S      t     d    0.694      0.694    0.355  233.42   0.293   0
+ ============================================================================== 
+
+ =  0, No problem, normal interpolation

@@ -1,0 +1,19 @@
+! file ERR_2200.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module SHTRANSL.C
+! K. Stammler, 8-JUL-91
+!
+*** TR-01 illegal index string ***
+*** TR-02 additional characters ***
+*** TR-03 index conversion error ***
+*** TR-04 input file open error ***
+*** TR-05 error reading file (or EOF) ***
+*** TR-06 illegal entry type ***
+*** TR-07 string overflow ***
+*** TR-08 unknown internal variable ***
+*** TR-09 too many concatenations ***
+*** TR-10 illegal HEXCHAR expression ***
+*** TR-11 illegal window number ***

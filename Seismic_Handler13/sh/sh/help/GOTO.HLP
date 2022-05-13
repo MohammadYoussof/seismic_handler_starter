@@ -1,0 +1,31 @@
+command GOTO <label>
+============
+
+key: jump to label
+
+Jumps within the current command level to the label <label> and continues
+execution with the statement in the next line after the label.
+
+Label names must end with a colon ":".
+
+
+parameters
+
+<label>  ---  parameter type: string
+   Name of the label, where to jump to.  The label must be in the current
+   command level.  Label names must end with a colon ":".
+
+
+qualifiers
+
+/FORWARD
+   The label search is restricted to the statements after the GOTO command.
+   This qualifier isn't necessary on forward jumps but it increases
+   execution time.
+
+examples:
+
+   GOTO LOOP_START:          ! jumps to label LOOP_START:
+
+   GOTO/FORWARD LOOP_EXIT:   ! jumps forward to label LOOP_EXIT:
+

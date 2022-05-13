@@ -1,0 +1,25 @@
+command MERGE_PAIR <&var1> <&var2>
+==================
+
+key: search for traces to be merged
+! version 1, 26-Jul-2006
+
+Searches all traces currently displayed and returns the first pair (two
+trace numbers) which have the same station name, component and channel
+identifiers (CHAN1 and CHAN2).  If no such pair is found, to zeroes
+are returned.  Called in a loop, using commands MERGE and DEL all traces
+with the same stream identification may be merged.
+
+parameters
+----------
+
+<&var1>, <&var2>  ---  parameter type: trace
+   Variables to store the trace numbers found.
+
+
+example
+-------
+
+   merge_pair &t1 &t2     ! find next two traces to be merged and store
+                          ! the results in "t1 and "t2 (to be defined before)
+

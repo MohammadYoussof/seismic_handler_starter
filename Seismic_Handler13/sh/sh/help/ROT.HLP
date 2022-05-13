@@ -1,0 +1,59 @@
+command ROT <trc-list>;<azim>;[<p1>[;<p2>[;<p3>]]]
+===========
+
+key: rotate traces
+
+Rotates traces in two or three dimensions, depending on the length
+of the <trc-list> parameter (two or three traces).  The 2-dim
+rotation is described by the usual 2-dim rotation matrix
+(determinant +1)
+
+          /  cos<azim>  -sin<azim>  \
+   R  =   |                         | ,
+          \  sin<azim>   cos<azim>  /
+
+
+the 3-dim rotation is a rotation from the left-handed coordinate
+system (Z,N,E) to the right-handed system (L,Q,T) and has a
+determinant of -1
+
+         /  cos<inci>  -cos<azim>*sin<inci>  -sin<azim>*sin<inci>  \
+         |                                                         |
+   R  =  |  sin<inci>   cos<azim>*cos<inci>   sin<azim>*cos<inci>  |
+         |                                                         |
+         \  0           sin<azim>            -cos<azim>            /
+
+parameters:
+
+<trc-list>  ---  parameter type: trace list
+   Specifies the traces to be rotated (length of list may be two
+   or three).
+
+<azim>  ---  parameter type: real
+   Azimuth of rotation (in degrees).
+
+if two traces specified:
+
+<p1>, <p2>  ---  parameter type: real
+   Time window of rotation.  If no time window is passed the
+   current display window is used.
+
+if three traces specified
+
+<p1>  ---  parameter type: real
+   Angle of incidence of rotation (in degrees).
+
+<p2>, <p3>  ---  parameter type: real
+   Time window of rotation.  If no time window is passed the
+   current display window is used.
+
+
+examples:
+
+   ROT 1,2 30.0           ! rotates the first two traces by an azimuth
+                          ! of 30 degrees
+
+   ROT 1-3 30.0 10.0      ! rotates the first three traces by an azimuth
+                          ! of 30 degrees an an angle of incidence of
+                          ! 10 degrees
+

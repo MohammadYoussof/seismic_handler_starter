@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Read GSE</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Read GSE</em></H2>
+
+<P>Reads in GSE formatted data files. A file selection box pops
+up to let the user select the data file. The default path in the
+selection box may be changed in <A HREF="menu_configure.html">Configure</A>
+(parameter number 9, number 8 is obsolete). After selecting the
+file, all traces of the file are read in. By default all previously
+read traces are deleted before reading a new GSE file. To keep
+traces when reading new ones switch on the <em>Keep Traces</em>
+button in the <A HREF="menu_read.html">Read</A>
+dialog box (this is not straightforward, I admit). This
+<em>Read GSE</em> command reads
+both formats, GSE1 and GSE2.</P>
+
+<P>Please note that only a part of the header information is read
+into SHM (start time, number of samples, station name, channel
+name, component, sample rate, calibration gain). All other information
+(in particular station location and transfer function) is ignored
+and must be supplied separately via SH input files
+(<A HREF="statloc.html">station
+location file</A>, <A HREF="fil_amplitudes.html">filter files</A>).</P>
+
+<P>The relevant header entries in GSE files are in the lines starting
+with WID1 and the following line in GSE1 or the line starting
+with WID2 in GSE2. A brief listing of the content of these lines
+is appended at the end of this page. A complete description of
+the GSE2 format is found in
+<A HREF="http://orfeus.knmi.nl/manuals">http://orfeus.knmi.nl/manuals</A>.</P>
+
+<P>SHM reads the calibration information and multiplies a velocity
+calibration gain, given in (nm/s)/Count, to the samples. If the
+calibration gain is given as displacement constant in nm/Count,
+as it is required in GSE2 and possible in GSE1, it is rescaled
+to velocity using the calibration period information of the header:<BR
+CLEAR="ALL"><em>cv = cd *
+2 * pi / T</em><BR CLEAR="ALL">where <em>cv</em>
+= velocity calibration, <em>cd</em>
+= displacement calibration, <em>T</em>
+= calibration period. The advantage of multiplying <em>cv</em> to
+the data is, that when using
+broadband data the amplitude is given in nm/s in the passband,
+since broadband data are usually proportional to velocity. For
+narrowband data the above operation is meaningless, it just has
+to be taken into account for computation of absolut amplitudes.</P>
+
+<P>Kown bug: Open/read errors on the file are not notified, just
+nothing is read in.</P>
+
+<H3>Format entries of the GSE1 header lines WID1 (* = used by
+SH/SHM):</H3>
+
+<PRE>*line 1 pos 01-04: must be WID1
+*line 1 pos 06-13: start date yyyyddd, yyyy = year, ddd = julian date
+*line 1 pos 15-16: start hour, format %2d (C-syntax) or i2 (Fortran)
+*line 1 pos 18-19: start minute, format %2d (C-syntax) or i2 (Fortran)
+*line 1 pos 21-22: start second, format %2d (C) or i2 (Fortran)
+*line 1 pos 24-26: start millisecond, format %3d (C) or i3 (Fortran)
+*line 1 pos 28-35: number of samples, format %8d (C) or i8 (Fortran)
+*line 1 pos 37-42: station name, maximum 6 characters, unused must be blank
+ line 1 pos 44-51: channel ID, maximum 8 characters, unused must be blank
+*line 1 pos 53-54: channel name, 2 chars, e.g. SZ, LZ, LN, LE, ...
+*line 1 pos 56-66: sample rate, format %11.7f (C) or f11.7 (Fortran)
+ line 1 pos 68-73: system type, max. 6 chars, unused must be blank
+*line 1 pos 75-78: data format type, 4 chars, e.g. INTV, CMP6, ...
+*line 1 pos 80   : differencing flag, values 0,1 or 2, no of differences
+*line 2 pos 01-09: calibration gain, format %9.6f (C) or f9.6 (Fortran)
+*line 2 pos 10   : units of motion for cal. gain, 0=displ, 1=veloc, 2=accel
+*line 2 pos 11-17: calibration period, format %7.4f (C) or f7.4 (Fortran)
+ line 2 pos 19-27: station latitude, format %9.4f (C) or f9.4 (Fortran)
+ line 2 pos 29-37: station longitude, format %9.4f (C) or f9.4 (Fortran)
+ line 2 pos 39-47: station elevation, format %9.4f (C) or f9.4 (Fortran)
+ line 2 pos 49-57: depth of sensor, format %9.4f or f9.4, -999 = unknown
+ line 2 pos 59-65: beam azimuth, format %7.2f or f7.2, deg, -1 = unknown
+ line 2 pos 67-73: beam slowness, format %7.2f, f7.2, s/deg, -1 = unknown
+ line 2 pos 75-80: horizontal orientation, format %6.1f, 6.1f, -1 = unkown</PRE>
+
+<H4>Format entries of the GSE2 header line WID2 (* = used by SH/SHM):</H4>
+
+<PRE>*pos 001-004: must be WID2
+*pos 006-015: start date yyyy/mm/dd
+*pos 017-028: start time hh:mm:ss.sss
+*pos 030-034: station name, max. 5 chars, unused must be blank
+*pos 036-038: FDSN channel name, e.g. BHZ, BHN, LHZ, ...
+ pos 040-043: auxiliary id code, max. 4 chars, unused must be blank
+*pos 045-047: data type, INT, CMn, n=compression bits
+*pos 049-056: number of samples, format %8d or i8
+*pos 058-068: sampling rate (Hz), format %11.6f or f11.6
+*pos 070-079: calibration gain in nm/count at cal. period, format %10.2e, e10.2
+*pos 081-087: calibration period, format %7.3f, f7.3
+ pos 089-094: instrument type, max. 6 chars, unused must be blank
+ pos 096-100: horizontal orientation, %5.1f or f5.1, -1 if vertical
+ pos 102-105: vertical orientation, %4.1f or f4.1, 90 if horizontal</PRE>
+
+<P><small>This page last modfied 14-Jul-2000</small></P>
+
+</BODY>
+</HTML>

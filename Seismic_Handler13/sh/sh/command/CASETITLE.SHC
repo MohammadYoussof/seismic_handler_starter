@@ -1,0 +1,12 @@
+! file casetitle.shc
+!      =============
+!
+
+default 1 1   title line
+switch capcnv off
+DEFAULT 2 ;;  text
+SWITCH CAPCNV ON
+
+title #1 #2
+
+return

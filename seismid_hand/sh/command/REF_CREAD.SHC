@@ -1,0 +1,48 @@
+! file REF_CREAD.SHC
+!      =============
+!
+! version 2, 13-Dec-95
+!
+! copies and reads from reftek file
+! K. Stammler, 11-Dec-95
+
+default 1 ;;      reftek-file on CD
+default 2 a01     station name
+default 3 ;;      time
+default 4 600     read length (sec)
+
+sdef reffile      ! reftek file
+sdef copexec      ! copy executable
+sdef cmd          ! shell command line
+sdef comps        ! component list
+sdef station      ! station name
+sdef readlth      ! read length
+sdef channel      ! channel name
+
+fct local getenv:dprog &copexec
+calc s &copexec = |"copexec|\reftek2mseed.csh| doslash
+calc s &copexec = "copexec lowercase
+
+calc s &reffile = |$slash|cdrom|$slash|#1|
+if  #sol2 eqs _existsnot_  goto/forward cdrom_ok:
+   calc s &reffile = |$slash|cdrom|$slash|cdrom0|$slash|#1|
+cdrom_ok:
+calc s &reffile = "reffile lowercase
+
+calc r &readlth = #4 + 1800.0 /fmt=<%@f>
+
+calc s &cmd = |"copexec|$blank|"reffile|$blank|#3|$blank|"readlth|
+echo "cmd
+system "cmd
+
+calc s &station = #2 lowercase
+calc s &comps = zne lowercase
+calc s &channel = bh lowercase
+
+reads %here #3 #4 "station "comps "channel
+
+@CALC S &CMD = |\rm|$BLANK|*.[1-3]|$BLANK|sfdfile.sfd|
+echo "cmd
+system "cmd
+
+return

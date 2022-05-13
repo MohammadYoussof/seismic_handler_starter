@@ -1,0 +1,25 @@
+! file SHM_CMD_ONSETPICK.SHC
+!      =====================
+!
+! version 2, 28-Apr-97
+!
+! Picks all traces on display on full length
+! K. Stammler, 28-Apr-97
+
+default 1 ;;          start time
+default 2 ;;          end time
+default 3 1.0         duration
+default 4 0.2         break
+default 5 10.0        threshold
+
+sdef cnt 1            ! trace counter
+sdef maxcnt $dsptrcs  ! number of traces
+
+loop_start:
+   if  "cnt gti "maxcnt  goto/forward loop_exit:
+   pick /duration=#3 /breaklth=#4 /threshold=#5 "cnt #1 #2
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

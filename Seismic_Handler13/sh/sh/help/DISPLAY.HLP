@@ -1,0 +1,27 @@
+command DISPLAY <trc-list> <pos>
+===============
+
+key: redisplay traces
+
+Rearranges display and/or redisplays hidden traces (HIDE command).
+The traces specified by <trc-list> are displayed at positions
+<pos>, <pos+1>, ..., <pos>+N (N = length of trace list).
+The traces in <trc-list> may be traces from the display (then
+the traces can be rearranged) or hidden traces (then they are
+redisplayed).  Hidden traces can be accessed by the "ALL_H"
+trace list parameter, using global lists or by info value
+expressions (example "_DISTANCE(50:80)").
+
+parameters:
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be rearranged or redisplayed.
+
+<pos>  ---  parameter type: integer
+   Position number of first trace in <rec-list>.
+
+
+example:
+
+   DISPLAY H:ALL 1       ! display all hidden traces
+

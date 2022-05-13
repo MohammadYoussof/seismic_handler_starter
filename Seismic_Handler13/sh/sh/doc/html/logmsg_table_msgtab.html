@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>mogmsg table msgtab</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>logmsg Table msgtab</H2>
+<P>
+<ul>
+   <li><b>msgid</b>         INTEGER,
+	<li><b>msgnum</b>        INTEGER,
+	<li><b>level</b>         INTEGER,
+	<li><b>addtext</b>       VARCHAR(255),
+	<li><b>location</b>      VARCHAR(50),
+	<li><b>process</b>       VARCHAR(50),
+   <li><b>author</b>        VARCHAR(50),
+	<li><b>flags</b>         INTEGER,
+   <li>PRIMARY KEY(<b>msgid</b>)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+	<li><b>msgid</b>:      message ID; unique number for message entry in msgtab
+	<li><b>msgnum</b>:     message number; a code number for a specific text
+                          message.  The corresponding text message can be
+                          found in the txttab table.
+	<li><b>level</b>:      numeric value of the alert level of the message
+	<li><b>addtext</b>:    additional text to be added to the message
+	<li><b>location</b>:   a text describing the location of the error,
+                          usually a station name
+	<li><b>process</b>:    a text entry identifying the process which created
+                          the message
+	<li><b>author</b>:     a text entry identifying the author of the message
+	<li><b>flags</b>:      flags to be set on the message entry.  Defined
+                          so far is: 0x01 <i>Ack</i>  (Acknowledged)
+</ul>
+</P>
+
+<P><small>This page last modified 14-Nov-2007</small></P>
+</BODY>
+</HTML>

@@ -1,0 +1,30 @@
+! file ERR_4500.MSG
+!      ============
+!
+! version 5, 27-Sep-94
+!
+! error messages of module seismics.h
+! K. Stammler, 3-Nov-93
+!
+*** CL2-01 no epicenter location ***
+*** CL2-02 no magnitude determined ***
+*** CL2-03 program bug ***
+*** CL2-04 wrong component selected ***
+*** CL2-05 need N and E components for ml ***
+*** CL2-06 different sample rates ***
+*** CL2-07 zero window selected ***
+*** CL2-08 illegal value ***
+*** CL2-09 error opening output file ***
+*** CL2-10 error opening input file ***
+*** CL2-11 amplitude measurement too far from phase ***
+*** CL2-12 read error on file ***
+*** CL2-13 write error on file ***
+*** CL2-14 string overflow ***
+*** CL2-15 illegal phase difference ***
+*** CL2-16 no phases found ***
+*** CL2-17 wrong version ID (cannot restore) ***
+*** CL2-18 no phase for magnitude found ***
+*** CL2-19 no traces on display ***
+*** CL2-20 reference station not found ***
+*** CL2-21 illegal index in L selection ***
+*** CL2-22 no L waveform found in frq window ***

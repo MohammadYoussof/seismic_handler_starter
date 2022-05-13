@@ -1,0 +1,63 @@
+command READS <path> <time> <seclength> <stations> <comps> <chan>
+=============
+
+key: read from Mini-SEED
+
+Reads traces from Mini-SEED files via a special directory file (sfd-file).
+The traces read are added to the display list.
+
+
+parameters:
+
+<path>  ---  parameter type: string
+   Specifies the path to the sfd-file.  Usually this is the name of an
+   environment variable which points to this path followed by a colon
+   (like "sfd:").
+
+<time>  ---  parameter type: time
+   Absolute time to be read from file (string containing no blanks
+   like "25,2,96,3,27" or "25-feb-96_3:27").
+   [At SZGRF only: <time> == "ONLINE" reads online data.]
+
+<seclength>  ---  parameter type: real
+   Time window in seconds read in.
+
+<stations>  ---  parameter type: string
+   Comma separated list of stations (no blanks !) or abbreviations "grf"
+   (all GRF stations) or "all" (all GRSN stations).
+
+<comps>  ---  parameter type: string
+   List of components like "zne" or "z".
+
+<chan>  ---  parameter type: string
+   2-character channel specifier (SEED naming conventions) like "bh", "lh"
+   and others.
+
+
+qualifiers
+
+/CLOSE
+   Does not read but closes all previously opened SEED files.
+
+/FORCE
+	Creates zero traces if specified time and channel is not available for
+   a station.
+
+/SFD=<sfdfile>
+   Name of sfd-file used in directory <path>.  Necessary only if the name
+   is different from "sfdfile.sfd".
+
+/[NO]SWAP
+   Requests/Prevents byte-swapping of data when reading SEED data.
+   Default is /SWAP.
+
+
+examples:
+
+   READS SFD: 23-feb-96_8:23 600 GRF ZNE BH
+                               ! reads 10min of GRF data from sfd-path SFD
+
+   READS %HERE 23,2,96,8,23 600 GRA1,GRB1,GRC1 Z BH
+                               ! reads 10min of 3 stations GRA1,GRB1,GRC1
+                               ! from sfd-file which is on current working
+                               ! directory.

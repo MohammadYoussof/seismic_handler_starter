@@ -1,0 +1,28 @@
+! file TAPER.SHC
+!      =========
+!
+! version 1, 8-Feb-2006
+!
+! Creates sine tape of specified length
+! K. Stammler 8-Feb-2006
+
+default 1 100    length in sec
+default 2 0.1    sample rate in sec
+default 3 1      rising
+
+sdef frq      ! frequency of sine
+sdef phase    ! phase of sine
+
+if  #3 eqi 1  goto/forward rising:
+   calc i &phase = 90
+   goto/forward phase_ok:
+rising:
+   calc i &phase = 270
+phase_ok:
+
+calc r &frq = 2.0 * #1
+calc r &frq = 1.0 div "frq
+
+create sin #2 #1 1 "frq "phase
+
+return

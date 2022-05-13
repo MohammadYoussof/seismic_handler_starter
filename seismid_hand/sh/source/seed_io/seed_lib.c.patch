@@ -1,0 +1,289 @@
+--- seed_lib.c.before-steim2	Tue Jul 11 15:19:17 2000
++++ seed_lib.c	Sun Sep  2 20:41:51 2001
+@@ -46,6 +46,7 @@
+ #include BC_UTUSRDEF
+ #include "seedcfg.h"
+ #include "seed_lib.h"
++#include "qlib2.h"
+ 
+ #define ANSI_EXTENSIONS
+ #include "steim1.h"
+@@ -65,7 +66,7 @@
+ #define PREV_XN_INVALID 0x7fffffffL
+ #define ROOTDIR "$ROOT"
+ #define ROOTDIRLTH 5
+-#define MAX_SMP_PER_REC 5000
++#define MAX_SMP_PER_REC 10000
+ #define TIMECORRUNIT 1000.0
+ #define DEFAULT_RECLTH 4096
+ 
+@@ -116,8 +117,6 @@
+  * ----------------------------
+  */
+ 
+-static void SeedDecodeSteim1Frame( SeedSbyteT frame[], BOOLEAN swap,
+-	long diff[], int *lth );
+ static void SeedAdjustFilename( SeedFileDescrT *dsc, STATUS *status );
+ static void SeedLibWarning( char text[] );
+ static void SeedSwapLinuxRecord( SeedSbyteT *rec );
+@@ -171,189 +170,59 @@
+  * long       *smplth;        output; number of output samples
+  */
+ {
+-	/* local variables */
+-	static long prev_xn=PREV_XN_INVALID;      /* previous xn */
+-	static int err_cnt=0;          /* error count for diff[0]==x0 */
+-	SeedSbyteT *frame;             /* byte pointer */
+-	int        frames_per_rec;     /* number of frames/record (incl. header) */
+-	int        framecnt;           /* frame counter */
+-	int        framecnt_start;     /* frame count start value */
+-	long       x0, xn;             /* integration constants */
+-	long       diffs[Seed_C_MAXFRAMESMP];  /* differences of one frame */
+-	int        declth;             /* number of differences in a frame */
+-	char       str[BC_LINELTH+1];  /* scratch string */
+-	long       cursmp;             /* current sample */
+-	long       fsampleno;          /* number of samples in frame */
+-	SeedDataHeaderT *rec_h;        /* data header structure */
+-	long       rsampleno;          /* number of samples in record */
+-	int        reclth;             /* record length */
+-
+-	/* executable code */
+-
+-	if  (rec == NULL)  {
+-		prev_xn = PREV_XN_INVALID;
+-		return;
+-	} /*endif*/
+-
+-	rec_h = (SeedDataHeaderT *)rec;
+-	rsampleno = (long)(rec_h->no_of_samples);
+-	if  (maxsmplth < rsampleno)  {
+-		sprintf( str,
+-			"SeedDecodeSteim1: passed array is too short by %ld samples\n",
+-			rsampleno-maxsmplth );
+-		SeedLibWarning( str );
+-		rsampleno = maxsmplth;
+-	} /*endif*/
+-	/* printf( "--> databegin: %d\n", (int)rec_h->databegin ); */
+-
+-	reclth = SeedGetReclth( rec_h, FALSE );
+-	frames_per_rec = reclth / Seed_C_FRAMELTH;
+-	*smplth = 0;
+-	frame = rec;
+-	if  (rsampleno <= 0)  return;
+-
+-	/* skip all frames wich are not data frames (minus one which is */
+-	/* incremented inside the following loop)                       */
+-	if  ((int)(rec_h->databegin) % Seed_C_FRAMELTH != 0)  {
+-		/* illegal value of databegin, print warning and assume it as 64 */
+-		sprintf( str, "SeedDecodeSteim1: illegal databegin %d\n",
+-			(int)(rec_h->databegin) );
+-		SeedLibWarning( str );
+-		/* increase databegin over the next 64er border, will be rounded off */
+-		rec_h->databegin += Seed_C_FRAMELTH;
+-	} /*endif*/
+-	framecnt_start = 1;
+-	/* a value of 0 is corrected to 64 */
+-	/* values of 128 and more cause a increment of data start frame */
+-	if  (rec_h->databegin > Seed_C_FRAMELTH)  {
+-		/*printf( "--> found databegin of %d\n", (int)(rec_h->databegin) );*/
+-		framecnt_start = (int)(rec_h->databegin) / Seed_C_FRAMELTH;
+-		frame += (framecnt_start-1)*Seed_C_FRAMELTH;
+-	} /*endif*/
+-
+-	/* loop over all frames in record (first frame is header) */
+-	for  (framecnt=framecnt_start; framecnt<frames_per_rec; framecnt++)  {
+-
+-		frame += Seed_C_FRAMELTH;
+-
+-		/* get integration constants */
+-		if  (framecnt == framecnt_start)  {
+-			x0 = SeedGet4Bytes( frame+4, swap );
+-			xn = SeedGet4Bytes( frame+8, swap );
+-		} /*endif*/
+-
+-		/* get all differences of this frame */
+-		SeedDecodeSteim1Frame( frame, swap, diffs, &declth );
+-		if  (declth > Seed_C_MAXFRAMESMP)  {printf("*****1*****\n"); exit(111);}
+-
+-		/* check difference to last record */
+-		if  (framecnt == framecnt_start)  {
+-			if  (prev_xn+diffs[0] != x0 && prev_xn != PREV_XN_INVALID)  {
+-				if  (diffs[0] == x0)  {
+-					/* this is probably a common error in compression */
+-					if  (err_cnt++ % 100 == 0)  {
+-						sprintf( str,
+-							"\n--- Steim1: diff[0] is always equal to x0\n" );
+-						SeedLibWarning( str );
+-					} /*endif*/
+-				} else {
+-					sprintf( str, "\n--- first sample in record: wrong diff\n" );
+-					SeedLibWarning( str );
+-					sprintf( str,
+-					"    should be (x[-1]+diff[0]) %d, x[0] is %d, diff[0] is %ld\n",
+-						prev_xn+diffs[0], x0, diffs[0] );
+-					SeedLibWarning( str );
+-					/* grn_printhdr( &hdr ); */
+-				} /*endif*/
+-			} /*endif*/
+-			cursmp = x0 - diffs[0];  /* is undone in following loop */
+-		} /*endif*/
+-
+-		/* integrate samples and copy to output array */
+-		for  (fsampleno=0; fsampleno<declth; fsampleno++)  {
+-			cursmp += diffs[fsampleno];
+-			*smp++ = cursmp;
+-			if  (++(*smplth) == rsampleno)  break;
+-		} /*endfor*/
+-
+-		if  (*smplth == rsampleno)  break;
+-
+-	} /*endfor*/
+-
+-	if  (cursmp != xn)  {
+-		sprintf( str, "*** checksum not ok in record\n" );
+-		SeedLibWarning( str );
+-	} /*endif*/
+-
+-	prev_xn = xn;
+-
+-} /* end of SeedDecodeSteim1 */
+-
+-
+-
+-/*----------------------------------------------------------------------------*/
+-
+-
+-
+-static void SeedDecodeSteim1Frame( SeedSbyteT frame[], BOOLEAN swap,
+-	long diff[], int *lth )
+-
+-/* Decodes differences of a single frame.
+- *
+- * parameters of routine
+- * SeedSbyteT *frame;     input; byte stream
+- * BOOLEAN    swap;       input; swap bytes
+- * long       diff[];     output; decoded differences
+- * int        *lth;       output; number of differences
+- */
+-{
+-	/* local variables */
+-	unsigned long   nibbles;    /* 2-bit nibbles */
+-	int             diffcnt;    /* difference counter */
+-	int             shift;      /* bit shift length */
+-	int             diff_id;    /* difference 2-bit ID (0,1,2,3) */
+-	short int       si;         /* scratch */
+-	unsigned long   ultmp;      /* scratch */
+-	SeedSbyteT      sbyte;      /* scratch */
+-
+-	/* executable code */
+-
+-	nibbles = SeedGet4Bytes( frame, swap );
+-	*lth = 0;
+-	for  (diffcnt=0; diffcnt<Seed_C_FRAMEDIFFS; diffcnt++)  {
+-		shift = 30 - diffcnt*2;
+-		diff_id = (int)((nibbles >> shift) & 3);
+-		switch  (diff_id)  {
+-		case 1:
+-			ultmp = SeedGet4Bytes( frame, swap );
+-			frame += 4;
+-			sbyte = (SeedSbyteT)((ultmp & 0xff000000L) >> 24);
+-			diff[(*lth)++] = sbyte;
+-			sbyte = (SeedSbyteT)((ultmp & 0x00ff0000L) >> 16);
+-			diff[(*lth)++] = sbyte;
+-			sbyte = (SeedSbyteT)((ultmp & 0x0000ff00L) >>  8);
+-			diff[(*lth)++] = sbyte;
+-			sbyte = (SeedSbyteT)(ultmp & 0x000000ffL);
+-			diff[(*lth)++] = sbyte;
+-			break;
+-		case 2:
+-			ultmp = SeedGet4Bytes( frame, swap );
+-			frame += 4;
+-			si = (short int)((ultmp & 0xffff0000L) >> 16);
+-			diff[(*lth)++] = si;
+-			si = (short int)(ultmp & 0x0000ffffL);
+-			diff[(*lth)++] = si;
+-			break;
+-		case 3:
+-			diff[(*lth)++] = (long)SeedGet4Bytes( frame, swap );
+-			frame += 4;
+-			break;
+-		default:
+-			frame += 4;  /* no data */
+-		} /*endswitch*/
+-	} /*endfor*/
+-
+-} /* end of SeedDecodeSteim1Frame */
++    DATA_HDR *hdr;
++    BLOCKETTE_HDR *bh;
++    BS *bs;
++    int nsamples;
++    char tmprec[Seed_C_MAX_RECLTH];
++    char str[BC_LINELTH+1];
++
++    if(rec == NULL) return;
++    
++    /* Restore big-endian byteorder for Qlib */
++    memcpy(tmprec, rec, Seed_C_MAX_RECLTH);
++    if(swap) SeedSwapHeader((SeedDataHeaderT *)tmprec);
++
++    if((hdr = decode_hdr_sdr((SDR_HDR *)tmprec, Seed_C_MAX_RECLTH)) == NULL)
++      {
++        sprintf(str, "SeedDecodeSteim1: error reading SEED header\n");
++        SeedLibWarning(str);
++        *smplth = 0;
++        return;
++      }
++    
++    for(bs = hdr->pblockettes; bs != (BS *)NULL; bs = bs->next)
++      {
++        if(bs->wordorder != my_wordorder &&
++          swab_blockette(bs->type, bs->pb, bs->len) == 0)
++            bs->wordorder = my_wordorder;
++
++        bh = (BLOCKETTE_HDR *) bs->pb;
++        
++        if(bh->type == 1000 && ((BLOCKETTE_1000 *)bh)->format == 0)
++          {
++            sprintf(str, "SeedDecodeSteim1: non-data record\n");
++            SeedLibWarning(str);
++            *smplth = 0;
++            free_data_hdr(hdr);
++            return;
++          }
++      }
++    
++    nsamples = ms_unpack(hdr, maxsmplth, tmprec, smp);
++    free_data_hdr(hdr);
++    
++    if(nsamples < 0)
++      {
++        sprintf(str, "SeedDecodeSteim1: error decoding data\n");
++        SeedLibWarning(str);
++        *smplth = 0;
++      }
++    else
++      {
++        *smplth = nsamples;
++      }
++}
+ 
+ 
+ 
+@@ -1245,7 +1114,7 @@
+ 
+ /* #ifdef XXX */
+ 
+-#define BUFLTH 4096
++#define BUFLTH MAX_SMP_PER_REC
+ /* should be enough for decoding one record */
+ 
+ #define FREE_AND_RETURN		sy_deallocmem( smp ); \
+@@ -1581,7 +1450,7 @@
+ 	} /*endif*/
+ 	if  (Severe(status))  return;
+ 
+-	maxrecsmp = 5000;   /* !!! */
++	maxrecsmp = MAX_SMP_PER_REC;   /* !!! */
+ 	*smplth = 0;
+ 	*ldat = NULL;
+ 	recsmp = NULL;

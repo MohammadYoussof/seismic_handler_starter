@@ -1,0 +1,48 @@
+command FFT <trc-list> <lo-time> <hi-time> <k> [<m>]
+===========
+
+key: FFT power spectrum
+
+Computes power spectrum of input traces (given by <trc-list>)
+using the FFT.  For the computation only the time window
+between <lo-time> and <hi-time> on the input traces is used.
+<k> specifies the number of partitions on the input traces.
+The resulting power spectrum is the sum of the power spectra
+of the separate partitions.  <m> is the length of a partition
+in samples.  <m> must be a power of 2.  If not specified it
+is determined automatically as large as possible.
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to compute power spectum.
+
+<lo-time>, <hi-time>  ---  parameter type: real
+   Time window on input traces (sec.).  If not entered the
+   current display window is used.
+
+<k>  ---  parameter type: integer
+   Number of partintions on each trace
+
+<m>  ---  parameter type: integer
+   Length of each partition in samples.  Must be a power of 2.
+   If not entered it is determined automatically as large as possible.
+
+
+qualifiers
+
+/OVERLAP
+   If specified the partitions overlap by 50%.
+
+
+Examples:
+
+   FFT/OVERLAP 1-3 0. 50. 3
+      ! computes power spectrum of traces 1-3 within a time window
+      ! from 0. to 50. sec.  Number of partitions is three.  The
+      ! partitions are overlapping.   <m> is determined automatically.
+
+   FFT 1;;;3 512
+      ! computes power spectrum of trace 1 within the current display
+      ! window.
+

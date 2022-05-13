@@ -1,0 +1,19 @@
+
+sdef trccnt 1
+sdef start
+sdef end
+sdef pwdw
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   time &start
+   time &end
+   calc t &pwdw = "end tdiff "start
+   echo inserting "trccnt p-onset "start pwdw "pwdw
+   set/file "trccnt p-onset "start
+   set/file "trccnt pwdw "pwdw
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

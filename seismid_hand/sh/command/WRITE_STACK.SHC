@@ -1,0 +1,7 @@
+! file WRITE_STACK.SHC
+
+default 1 ;;     file name
+set all start %default_time
+write/save_origin #1 all
+
+return

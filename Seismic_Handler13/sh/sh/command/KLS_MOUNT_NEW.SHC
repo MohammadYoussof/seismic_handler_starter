@@ -1,0 +1,40 @@
+! file KLS_MOUNT.SHC
+
+default 1 ;;                             ! label
+sdef device %sys$login:kls_setup(2)      ! device name
+sdef currlabel                           ! current label
+sdef xx                                  ! user input
+sdef newlabel                            ! new label
+
+! get current label
+fct local |get_volname:|"device| &currlabel
+if  "currlabel eqs #1  return
+
+echo $blank
+echo current label is "currlabel
+echo dismounting "device
+echo ignore the following error messages
+echo -----------------------------------
+echo $blank
+echo $blank
+cm:kls_dismount
+
+echo $blank
+echo $blank
+echo >>>>>>**********************************<<<<<<
+echo >>>>>> need disk #1 in drive "device <<<<<<
+echo >>>>>>**********************************<<<<<<
+echo $blank
+echo $blank
+enter/interactive &xx >>>>>> press return when disk inserted (or enter label)
+calc s &newlabel = #1
+if  "xx eqs ;;  goto/forward label_ok:
+   if  "xx eqs abort  xxxx   ! create error
+   calc s &newlabel = "xx
+label_ok:
+
+echo >>>>>> mounting disk "newlabel on drive "device <<<<<<
+
+system |mount|%slash|nowrite|$blank|"device|$blank|"newlabel|
+
+return

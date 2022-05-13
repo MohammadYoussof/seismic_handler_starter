@@ -1,0 +1,40 @@
+Station code           : FBE
+Onset time             : 10-JAN-2007_09:05:27.445
+Onset type             : emergent
+Phase name             : P
+Component              : Z
+Quality number         : 2
+Weight                 : 4
+--- End of Phase ---
+
+
+Station code           : GEC2
+Onset time             : 10-JAN-2007_09:05:46.973
+Onset type             : emergent
+Phase name             : P
+Component              : Z
+Weight                 : 4
+--- End of Phase ---
+
+
+Station code           : GRFO
+Onset time             : 10-JAN-2007_09:06:03.246
+Onset type             : emergent
+Phase name             : P
+Component              : Z
+Weight                 : 4
+--- End of Phase ---
+
+
+Station code           : GTTN
+Onset time             : 10-JAN-2007_09:06:25.622
+Onset type             : emergent
+Phase name             : P
+Component              : Z
+Quality number         : 1
+Weight                 : 4
+Reference Location Name: CENTRE
+Source of Information  : SZGRF
+--- End of Phase ---
+
+

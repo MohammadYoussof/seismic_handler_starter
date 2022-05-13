@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Migrating to version 2.4</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+	<META NAME="CREATED" CONTENT="20060621;8534500">
+	<META NAME="CHANGED" CONTENT="20060622;18025200">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Migrating to SHM version 2.4</H2>
+<P>SHM version 2.4 reveals significant differences in program
+configuration. The reason for the changes were simplification and
+homogenisation of program control. A number of separate parameter
+files (like <I>window_configs.txt</I>, <I>list_of_analysts.txt</I> or
+the <I>STATLIST_</I>...-files) together with the more or less cryptic
+startup files containing parameter definitions have been replaced by
+a text file of simple structure. This configuration text file may be
+modified with any text editor. Subsets of parameters may be grouped
+into separate files and may be referenced by the main parameter file.
+Predefined parameter sets like colour or window geometry definitions
+are provided and help to keep the parameter file more concise and
+clear. The syntax of the parameter file is described in the
+<A HREF="configuration-file.html">configuration file documentation</A>.
+The station info file <I>$SH_INPUTS/STATINF.DAT</I> and the filter
+lookup table <I>$SH_INPUTS/filter_lookup.txt</I> remain unchanged in
+version 2.4, however the location of these files may be changed via
+the configuration file so that each user can make SHM use his private
+copies of them. The zoo of calibration files for MiniSEED formatted
+files (<I>seedcalib_</I>... files) have been replaced by a single
+text file, but SHM still supports the old style <I>seedcalib_</I>...-files
+if desired.</P>
+<P>The default parameter file is <I>$SH_INPUTS/shm-config.txt</I>,
+but it is strongly recommended to create a private copy at a
+different location (e.g. your home directory) and point to it with an
+environment variable <I>SH_USER_PARAM</I> (<I>setenv SH_USER_PARAM
+$HOME/my-shm-config.txt</I>). A later update of SHM will overwrite
+all $SH_INPUTS/shm-conf* files and undo all the changes in the
+default configuration file you may have done before. The private
+configuration files provide the possibility for every user of SHM to
+keep his personal preferences saved while working with the same SHM
+installation as all other users of the system.</P>
+<P>Further developments in version 2.4 are:</P>
+<UL>
+	<LI><P>Freely definable colours of windows (foreground and
+	background) and dialog boxes.</P>
+	<LI><P>Seismogram traces which have incomplete amplitude information
+	or quality defects (documented in miniSEED quality flags) are marked
+	with red alert colour</P>
+	<LI><P>Automatic plugin download from the SZGRF web page</P>
+	<LI><P>Plugin available for SHM source code update (automated source
+	code download and compilation)</P>
+</UL>
+<P><BR><BR>
+</P>
+<P>To migrate from your version of SHM to version 2.4 please perform
+the following steps:</P>
+<OL>
+	<LI><P>Install version 2.4 using the installation script. Preferably
+	install on a new directory to keep your current version as a backup.</P>
+	<LI><P>Copy the configuration file <I>$SH_INPUTS/shm-config.txt</I>
+	to a place of your choice, e.g. your home directory and point the
+	environment variable <I>SH_USER_PARAM</I> to it (<I>cp
+	$SH_INPUTS/shm-config.txt $HOME/my-shm-config.txt; setenv
+	SH_USER_PARAM $HOME/my-shm-config.txt</I>).  Put this <I>setenv</I>
+   definition to your .cshrc file to make it permanent.</P>
+	<LI><P>Edit your configuration file <I>$SH_USER_PARAM</I>. It should
+	find some introductory comment lines, a <I>file_version</I> entry
+	and then two include statements to specify colours and geometry
+	(e.g. <I>include shm-conf-brown-colours.txt</I> and <I>include
+	shm-conf-sxga-geometry.txt</I>). The geometry is determined by the
+	installation program automatically. Look for existing alternatives
+	in <I>$SH_INPUTS/shm-conf-*.txt</I> if the geometry is not
+	recognised properly or if you don't like the colours. Provided are
+	geometry setups at least for the resolutions xga (1024x768 pixels),
+	wxga (1280x800), sxga (1280x1024).</P>
+	<LI><P>Put your <I>STATINF.DAT</I> and <I>filter_looup.txt</I> files from your
+	previous version to version 2.4: either copy the files to the new
+	<I>$SH_INPUTS</I> directory or change the parameters <I>station_info_file</I>
+	and <I>filter_lookup_table</I> in your configuration file to have
+	SHM find your files in other locations.</P>
+	<LI><P>If you are working with MiniSEED files put your station names
+	to the configuration file.  Use the <I>v$read_dialog_stations_??</I>
+	variables to define an arbitrary number of dialog boxes.  If you
+	have e.g. the stations ABC, XYZ and XXX then change the existing
+	definition of <I>v$read_dialog_stations_01</I> to the value
+	<I>ABC,XYZ,XXX</I>.  For a complete description of the possibilities
+	of station definitions read the <A HREF="configuration-file.html">manual
+	of the configuration file</A>.</P>
+	<LI><P>If you are working with MiniSEED files, provide the
+	calibration information for the new SHM version. First copy all
+	<I>seedcalib_*</I> files from your old <I>$SEED_INPUTS</I> directory
+	to your new (if you are using different installation trees). Then
+	you have two choices: (1) just set the <I>sensitivity_file</I>
+	parameter in your configuration file to <I>old-style</I> and
+	continue working with your <I>seedcalib_*</I> files or, preferably,
+	(2) call <I>$SH_UTIL/sensitivity_from_old_style.csh
+	&gt;$SH_INPUTS/sensitivities.txt</I> and leave the <I>sensitivity_file</I>
+	parameter unchanged on <I>default</I> or set it to the location of
+	your new <I>sensitivities.txt</I> file.  Please read the syntax
+	<A HREF="sensitivity_file.html">description of the
+	sensitivities-file</A>.</P>
+	<LI><P>If you have created own filter filter on <I>$SH_FILTER</I>,
+	copy them from your old to your new filter directory, or simply copy
+	all your filter files to the new filter directory (there was no
+	change in filter design and naming conventions).</P>
+	<LI><P>Set all other parameters of the configuration file according
+	to your needs. Please read the <A HREF="configuration-file.html">configuration
+	file documentation</A>.</P>
+</OL>
+<P><small>This page last modified 25-Jun-2006</small></P>
+</BODY>
+</HTML>

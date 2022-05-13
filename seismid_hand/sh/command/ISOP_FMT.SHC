@@ -1,0 +1,15 @@
+! file isop_fmt
+!      ========
+!
+! plot formatting for ISOP plots
+
+nr
+fct setstyle $trcinfostyle charsize 0.03
+fct setstyle $timeaxisstyle charsize 0.03
+fct setstyle $titlestyle charsize 0.04
+trctxtp 0. -0.1
+fct axis timeaxis labshift -0.04
+trctxt ^station(x) ^comp(x)
+rd
+
+return

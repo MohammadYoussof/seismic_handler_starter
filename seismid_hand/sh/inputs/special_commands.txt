@@ -1,0 +1,15 @@
+! file special_commands.txt
+!      ====================
+!
+! version 1, 9-Aug-94
+!
+! special commands for shm
+! K. Stammler 9-Aug-94
+
+shm_cmd_read_dialog statlist_grf.stx
+shm_cmd_read_dialog statlist_grf_old.stx
+shm_cmd_read_dialog statlist_geress.stx
+shm_cmd_read_dialog statlist_aniso.stx
+shm_cmd_read_dialog statlist_neic.stx
+shm_cmd_read_dialog statlist_whole_grsn.stx
+shm_cmd_read_dialog statlist_nets.stx

@@ -1,0 +1,19 @@
+! file psfile2tmp.shc
+!      ==============
+!
+! version 1, 26-May-2000
+!
+! PostScript hardcopy in /tmp
+! K. Stammler, 26-May-2000
+
+default 1 psfile.ps    name of output file
+
+sdef hcfile     ! name of hardcopy file
+sdef cmd        ! command line
+
+hc ;; p &hcfile
+
+@CALC S &CMD = |mv|$BLANK|"HCFILE|$BLANK|%SLASH|tmp|%SLASH|#1|
+system "cmd
+
+return

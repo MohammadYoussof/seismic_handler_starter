@@ -1,0 +1,59 @@
+! file READHORIZ.SHC
+!      =============
+!
+! version 1, 13-Mar-2003
+!
+! Reads horizontal component (R or T) of a station set
+! K. Stammler, 13-Mar-2003
+
+default 1 sfd:     path
+default 2 ;;       read time
+default 3 ;;       read length
+default 4 ;;       station list
+default 5 ;;       component
+default 6 ;;       channel
+default 7 ;;       azimuth
+
+sdef ncnt 1           ! n counter
+sdef ecnt 2           ! e counter
+sdef maxtrc           ! number of traces
+
+nr
+
+reads #1 #2 #3 #4 ne #6
+if  $dsptrcs eqi 0  return
+demean all
+
+calc i &maxtrc = $dsptrcs
+
+loop_start:
+
+   if  "ecnt gti "maxtrc  goto/forward loop_exit:
+   if  ^comp("ncnt) eqs n  goto/forward n_ok:
+      del "ncnt
+      goto loop_start:
+   n_ok:
+   if  ^comp("ecnt) eqs e  goto/forward e_ok:
+      del "ecnt
+      goto loop_start:
+   e_ok:
+
+   rotaz |"ncnt|,|"ecnt| #7
+
+   calc i &ncnt = "ncnt + 2
+   calc i &ecnt = "ecnt + 2
+
+goto loop_start:
+loop_exit:
+
+del |1-|"maxtrc|
+if  #5 eqs t  goto/forward del_r:
+   del _comp(t)
+   goto/forward del_ok:
+del_r:
+   del _comp(r)
+del_ok:
+
+rd
+
+return

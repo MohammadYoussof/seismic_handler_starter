@@ -1,0 +1,35 @@
+command INT <trc-list>
+===========
+
+key: integrate traces
+
+Integrates all traces specified in <trc-list>.  The input traces
+remain unchanged, the INT command creates new traces containing
+the integration output.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be integrated.
+
+
+qualifiers
+
+/MODE=<mode>
+   Specifies integration mode.  Possible values are SUM (this is
+   default; the output trace is not normalized, are the sums of all
+   previous samples of the input trace), MEAN (the output trace is
+   normalized    by the number of samples 1/N) and INT (the output
+   trace is normalized by the sample distance).
+
+
+Examples:
+
+   INT 1            ! integrates first trace on display
+
+   INT ALL          ! integrates all traces on display
+
+   INT/MODE=MEAN 1  ! integrates 1 trace on display and normalizes
+                    ! the output trace by the sample distance
+

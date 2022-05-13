@@ -1,0 +1,229 @@
+! file seedset.txt
+!      ===========
+!
+! version 5, 12-Feb-97
+!
+! SEED parameters setup file
+! K. Stammler, 25-Dec-93
+
+
+! maximum number of streams
+#max_no_of_streams 200
+
+
+! maximum number of time lists used
+#max_no_of_twl 10
+
+
+! maximum length of each time list
+#max_lth_of_twl 90
+
+
+! physical record size in Bytes
+#phys_rec_size 512
+
+
+! SEED record size in Bytes
+#seed_rec_size 4096
+
+
+
+! stream list
+#stream_list_begin
+bfo-vsp-z  grsn
+bfo-vsp-n  grsn
+bfo-vsp-e  grsn
+bfo-vbb-z  grsn
+bfo-vbb-n  grsn
+bfo-vbb-e  grsn
+bfo-lp-z   grsn
+bfo-lp-n   grsn
+bfo-lp-e   grsn
+brg-vsp-z  grsn
+brg-vsp-n  grsn
+brg-vsp-e  grsn
+brg-vbb-z  grsn
+brg-vbb-n  grsn
+brg-vbb-e  grsn
+brg-lp-z   grsn
+brg-lp-n   grsn
+brg-lp-e   grsn
+brnl-vbb-z  grsn
+brnl-vbb-n  grsn
+brnl-vbb-e  grsn
+brnl-lp-z   grsn
+brnl-lp-n   grsn
+brnl-lp-e   grsn
+bseg-vsp-z  grsn
+bseg-vsp-n  grsn
+bseg-vsp-e  grsn
+bseg-vbb-z  grsn
+bseg-vbb-n  grsn
+bseg-vbb-e  grsn
+bseg-lp-z   grsn
+bseg-lp-n   grsn
+bseg-lp-e   grsn
+bug-vsp-z  grsn
+bug-vsp-n  grsn
+bug-vsp-e  grsn
+bug-vbb-z  grsn
+bug-vbb-n  grsn
+bug-vbb-e  grsn
+bug-lp-z   grsn
+bug-lp-n   grsn
+bug-lp-e   grsn
+cll-vsp-z  grsn
+cll-vsp-n  grsn
+cll-vsp-e  grsn
+cll-vbb-z  grsn
+cll-vbb-n  grsn
+cll-vbb-e  grsn
+cll-lp-z   grsn
+cll-lp-n   grsn
+cll-lp-e   grsn
+clz-vsp-z  grsn
+clz-vsp-n  grsn
+clz-vsp-e  grsn
+clz-vbb-z  grsn
+clz-vbb-n  grsn
+clz-vbb-e  grsn
+clz-lp-z   grsn
+clz-lp-n   grsn
+clz-lp-e   grsn
+fur-vsp-z  grsn
+fur-vsp-n  grsn
+fur-vsp-e  grsn
+fur-vbb-z  grsn
+fur-vbb-n  grsn
+fur-vbb-e  grsn
+fur-lp-z   grsn
+fur-lp-n   grsn
+fur-lp-e   grsn
+gec2-vsp-z  grsn
+gec2-vsp-n  grsn
+gec2-vsp-e  grsn
+gec2-vbb-z  grsn
+gec2-vbb-n  grsn
+gec2-vbb-e  grsn
+gec2-lp-z   grsn
+gec2-lp-n   grsn
+gec2-lp-e   grsn
+grfo-vsp-z grsn
+grfo-vsp-n grsn
+grfo-vsp-e grsn
+grfo-vbb-z grsn
+grfo-vbb-n grsn
+grfo-vbb-e grsn
+grfo-lp-z  grsn
+grfo-lp-n  grsn
+grfo-lp-e  grsn
+grfo-vlp-z  grsn
+grfo-vlp-n  grsn
+grfo-vlp-e  grsn
+gsh-vsp-z  grsn
+gsh-vsp-n  grsn
+gsh-vsp-e  grsn
+gsh-vbb-z  grsn
+gsh-vbb-n  grsn
+gsh-vbb-e  grsn
+gsh-lp-z   grsn
+gsh-lp-n   grsn
+gsh-lp-e   grsn
+ham-vbb-z  grsn
+ham-vbb-n  grsn
+ham-vbb-e  grsn
+ham-lp-z   grsn
+ham-lp-n   grsn
+ham-lp-e   grsn
+ibbn-vsp-z  grsn
+ibbn-vsp-n  grsn
+ibbn-vsp-e  grsn
+ibbn-vbb-z  grsn
+ibbn-vbb-n  grsn
+ibbn-vbb-e  grsn
+ibbn-lp-z   grsn
+ibbn-lp-n   grsn
+ibbn-lp-e   grsn
+ibb-vsp-z  grsn
+ibb-vsp-n  grsn
+ibb-vsp-e  grsn
+ibb-vbb-z  grsn
+ibb-vbb-n  grsn
+ibb-vbb-e  grsn
+ibb-lp-z   grsn
+ibb-lp-n   grsn
+ibb-lp-e   grsn
+lid-vbb-z  grsn
+lid-vbb-n  grsn
+lid-vbb-e  grsn
+lid-lp-z   grsn
+lid-lp-n   grsn
+lid-lp-e   grsn
+lid-vlp-z  grsn
+lid-vlp-n  grsn
+lid-vlp-e  grsn
+mox-vsp-z  grsn
+mox-vsp-n  grsn
+mox-vsp-e  grsn
+mox-vbb-z  grsn
+mox-vbb-n  grsn
+mox-vbb-e  grsn
+mox-lp-z   grsn
+mox-lp-n   grsn
+mox-lp-e   grsn
+rgn-vbb-z  grsn
+rgn-vbb-n  grsn
+rgn-vbb-e  grsn
+rgn-lp-z   grsn
+rgn-lp-n   grsn
+rgn-lp-e   grsn
+rgn-vlp-z  grsn
+rgn-vlp-n  grsn
+rgn-vlp-e  grsn
+stu-vsp-z  grsn
+stu-vsp-n  grsn
+stu-vsp-e  grsn
+stu-vbb-z  grsn
+stu-vbb-n  grsn
+stu-vbb-e  grsn
+stu-lp-z   grsn
+stu-lp-n   grsn
+stu-lp-e   grsn
+tns-vsp-z  grsn
+tns-vsp-n  grsn
+tns-vsp-e  grsn
+tns-vbb-z  grsn
+tns-vbb-n  grsn
+tns-vbb-e  grsn
+tns-lp-z   grsn
+tns-lp-n   grsn
+tns-lp-e   grsn
+wet-vsp-z  grsn
+wet-vsp-n  grsn
+wet-vsp-e  grsn
+wet-vbb-z  grsn
+wet-vbb-n  grsn
+wet-vbb-e  grsn
+wet-lp-z   grsn
+wet-lp-n   grsn
+wet-lp-e   grsn
+gra1-vbb-z grf
+gra1-vbb-n grf
+gra1-vbb-e grf
+gra2-vbb-z grf
+gra3-vbb-z grf
+gra4-vbb-z grf
+grb1-vbb-z grf
+grb1-vbb-n grf
+grb1-vbb-e grf
+grb2-vbb-z grf
+grb3-vbb-z grf
+grb4-vbb-z grf
+grb5-vbb-z grf
+grc1-vbb-z grf
+grc1-vbb-n grf
+grc1-vbb-e grf
+grc2-vbb-z grf
+grc3-vbb-z grf
+grc4-vbb-z grf
+#stream_list_end

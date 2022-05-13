@@ -1,0 +1,117 @@
+! file DCV_AIR.SHC
+!      ===========
+!
+! version 4, 30-Mar-92
+!
+! deconvolution with automatic determination of angle of incidence using
+! MDIR command
+! K. Stammler, 20-Nov-89
+
+! list of parameters
+! ------------------
+default 1 ;;          q-file list:
+default 2 1           first file:
+default 3 %#1(0)      last file:
+default 4 -20         window start:
+default 5 200         window end:
+default 6 ;;          filter:
+default 7 dcvout_     output file prefix:
+default 8 2.0         auto-inci time window width:
+default 9 1.0         regularisation:
+
+! local variables
+! ---------------
+sdef qfile            ! current q-file
+sdef filcnt #2        ! file counter
+sdef start            ! start of time window
+sdef end              ! end of time window
+sdef recs             ! number of first trace in file
+sdef rece             ! number of last trace in file
+sdef inci             ! automatically determined angle of incidence
+
+! some important parameters echoed to screen
+! ------------------------------------------
+echo --- constant dcvreg of #9
+echo --- using filter #6
+echo --- set chatty
+switch/global chatter on
+
+! loop all data files
+! -------------------
+loop_start:
+
+   ! get name of input file from list, also trace position
+   ! -----------------------------------------------------
+   if  "filcnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filcnt)
+   switch cmderrstop off
+   switch noerrmsg on
+   calc s &recs = "qfile parse 2
+   if  $status eqi 0  goto/forward recno_ok:
+      calc i &recs = 1
+   recno_ok:
+   switch noerrmsg off
+   switch cmderrstop on
+   calc s &qfile = "qfile parse 1
+   calc i &rece = "recs + 2
+   echo processing file "qfile ( number "filcnt )
+
+   ! delete old traces and read new, check sign and remove mean value
+   ! ----------------------------------------------------------------
+   del all
+   dtw
+   read "qfile |"recs|-|"rece|
+   check_sign
+   demean all
+
+   ! select specified time window and filter if requested
+   ! ----------------------------------------------------
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #5
+   calc r &start = "start + #4
+   if  "start ger 0.0  goto/forward start_ok:
+      calc r &start = 0.0
+   start_ok:
+   if  #6 eqs ;;  goto/forward no_filter:
+      fili f #6
+      filter f 1-3 "start "end
+      del 1-3
+      goto/forward filter_end:
+   no_filter:
+      cut 1-3 "start "end
+   filter_end:
+
+   ! initialize traces and rotate
+   ! ----------------------------
+   resample all .1
+   set all t-origin 0.0
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #8
+   autorot 1 2 3 ^azimuth "start "end
+   calc r &inci = "g1
+   echo inci "inci
+   del 1-3
+
+   ! determine spiking filter and deconvolve
+   ! ---------------------------------------
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + ^pwdw
+   mark 1 "start
+   mark 1 "end
+   unit 1-3 "start "end
+   spiking 1 "start "end #9
+   fold 1-3 ;;; 4
+   unit 5-7 "start "end
+
+   ! write result traces to output files
+   ! -----------------------------------
+   write |#7|_l| 5
+   write |#7|_q| 6
+   write |#7|_t| 7
+   set/file 5-7 inci "inci
+   calc i &filcnt = "filcnt + 1
+
+goto loop_start:
+loop_exit:
+
+return

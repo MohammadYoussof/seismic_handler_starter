@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Read Other</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Read Other</em></H2>
+
+<P>Reads data files of foreign formats. A converter program from
+the foreign format to GSE1 or GSE2 format must be provided as
+an external program. The converter must have the syntax
+<em>&lt;converter&gt; &lt;inputfile&gt;
+&lt;outputfile&gt;</em> and must be located in the directory
+<em>$SH_UTIL</em>. Via
+the <A HREF="menu_configure.html">Configure</A> command (parameter
+number 72) SHM gets the name of the converter. When the
+<em>Read Other</em> entry is
+selected, a file selection box pops up. The user specifies the
+data file in the foreign format, SHM runs the converter script
+on the selected file and creates a temporary GSE file in the
+<em>$SH_SCRATCH</em> directory,
+which is read in using the standard input command for GSE files.</P>
+
+<P>This flexible interface allows the input of any format where
+the user is able to provide a converter program to GSE. However,
+since on every input command the conversion to GSE has to be performed,
+the interface is not as efficient as a directly implemented reader.</P>
+
+<P><small>This page last modified 6-Jul-2000</small></P>
+
+</BODY>
+</HTML>

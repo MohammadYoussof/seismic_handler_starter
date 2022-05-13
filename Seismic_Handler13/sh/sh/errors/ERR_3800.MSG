@@ -1,0 +1,17 @@
+! file ERR_3800.MSG
+!      ============
+!
+! version 1, 1-Mar-94
+!
+! error messages of module cbutil.c
+! K. Stammler, 26-May-93
+!
+*** HP-01 illegal parameter ***
+*** HP-02 illegal style number ***
+*** HP-03 unknown style attribute ***
+*** HP-04 illegal value of attribute ***
+*** HP-05 error opening header file ***
+*** HP-06 error opening output file ***
+*** HP-07 unknown HC item ***
+*** HP-08 string overflow ***
+*** HP-09 not initialized ***

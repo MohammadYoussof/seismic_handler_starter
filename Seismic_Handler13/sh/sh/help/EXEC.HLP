@@ -1,0 +1,39 @@
+command EXEC <cmd-line>
+============
+
+key: execute command line
+
+Executes the command line given by the string <cmd-line>.
+Useful if the command lines is stored in a string variable.
+As an example, let the string "G1 be 'READ QFILE ALL'.  Then
+the statement
+"G1
+will produce an error, because the command line is parsed first
+and then translated.  This will result in a command verb
+'READ QFILE ALL', which is not valid.  In contrast to this
+the parameter <cmd-line> of the EXEC command is first translated,
+then parsed and then the verb and the parameters are translated again.
+That means the statement
+EXEC "G1
+executes the command 'READ QFILE ALL' as desired.
+
+If <cmd-line> contains an incomplete command line, the possibly
+following prompts are displayed on the information channel (IC)
+and all input is read from the main input level (usually level 0).
+
+
+parameter
+
+<cmd-line>  ---  parameter type: text
+   Command line to be executed.
+
+
+Examples
+
+EXEC |READ|$BLANK|#1|$BLANK|ALL|
+           ! same as command "READ #1 ALL"
+
+EXEC "G1   ! executes command given by variable "G1
+
+EXEC #1    ! executes command which is passed as first parameter
+           ! to the current command procedure

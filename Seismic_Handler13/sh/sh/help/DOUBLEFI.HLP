@@ -1,0 +1,24 @@
+command procedure DOUBLEFIL <filter>
+===========================
+
+key: cp:back&forward FFT filter
+
+Filters all traces of the display with a given FFT filter <filter>
+twice.  Before the second filtering the traces are time reversed
+and the result traces are time reversed again.  Thus eventual
+phase shifts of the single filter operation are corrected by
+the second pass.  This routine DELETES the input traces !  Only
+the result traces remain on the display.
+
+
+parameter
+
+<filter>  ---  parameter type: filename (without extension)
+   Filter to be applied to the traces on display.
+
+
+Example:
+
+   DOUBLEFIL BP_2S4S     ! applies the FFT filter BP_2S4S to the
+                         ! traces on the display
+

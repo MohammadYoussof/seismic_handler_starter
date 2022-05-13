@@ -1,0 +1,102 @@
+
+! file WRITESEED.SHC
+!      =============
+!
+! version 2, 7-Jun-95
+!
+! writes data in Steim1-compressed format
+! K. Stammler, 3-Aug-94
+
+sdef ascfile asc_file.000     ! ASCII scratch file
+sdef hdrfile hdr_file.000     ! header file
+sdef cnt 1                    ! trace counter
+sdef norm                     ! normalization to counts
+sdef wseedprg                 ! external program
+sdef cmd                      ! external command
+sdef chan                     ! channel description
+sdef smprate                  ! sample rate
+sdef fname                    ! filename for output
+sdef tmp                      ! scratch
+sdef smpfac                   ! sample rate factor
+sdef smpmul                   ! sample rate multiplier
+
+fct getpath extprog &wseedprg
+@CALC S &WSEEDPRG = |"WSEEDPRG|write_steim1|
+
+nr
+
+! loop traces
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   ! get sample rate
+   calc r &smprate = 1.0 div ^delta("cnt)
+   if  "smprate ger 1.0  goto/forward smp_check:
+      echo sample rate "smprate not implemented
+      return
+   smp_check:
+   calc i &smprate = "smprate int
+   if  "smprate eqi 1  goto/forward smprate_01:
+   if  "smprate eqi 20 goto/forward smprate_20:
+   if  "smprate eqi 80 goto/forward smprate_80:
+   if  "smprate eqi 28 goto/forward smprate_28:
+   goto/forward smprate_x:
+   smprate_01:
+      calc s &chan = |lh|^comp("cnt)|
+      calc i &smpfac = "smprate
+      calc i &smpmul = 1
+      goto/forward smprate_end:
+   smprate_20:
+      calc s &chan = |bh|^comp("cnt)|
+      calc i &smpfac = "smprate
+      calc i &smpmul = 1
+      goto/forward smprate_end:
+   smprate_80:
+      calc s &chan = |hh|^comp("cnt)|
+      calc i &smpfac = "smprate
+      calc i &smpmul = 1
+      goto/forward smprate_end:
+   smprate_28:
+      calc s &chan = |^chan1("cnt)|^chan2("cnt)|^comp("cnt)|
+      calc i &smpfac = 1000
+      calc r &smpmul = ^delta("cnt) * -1000.0
+      calc i &smpmul = "smpmul int
+      goto/forward smprate_end:
+   smprate_x:
+      calc s &chan = |xx|^comp("cnt)|
+   smprate_end:
+   ! create data file
+   calc r &norm = 1.0 div ^calib("cnt)
+   trcfct "cnt mul "norm
+   fct oscall fdelete "ascfile
+   writea/fmt=|<%2.0@f|$blank|>| "ascfile "cnt
+   trcfct "cnt mul ^calib("cnt)
+   ! create header file
+   fct oscall fdelete "hdrfile
+   echo_ch "hdrfile
+@  ECHO sequence number: 1
+@  ECHO station: ^STATION("CNT)
+@  ECHO channel: "CHAN
+@  ECHO start time: ^START("CNT)
+@  ECHO sample rate factor: "SMPFAC
+@  ECHO sample rate multiplier: "SMPMUL
+   echo_ch
+   ! generate name of output file
+   calc s &fname = ^station("cnt) qname ^start("cnt)
+   calc s &tmp = "fname strlen
+   calc i &tmp = "tmp - 2
+   calc s &fname = "fname extract 3 "tmp
+   calc s &fname = |"fname|.|"chan|
+   calc s &fname = "fname lowercase
+@  CALC S &CMD = |"WSEEDPRG|$BLANK|-skip=2|$BLANK|"HDRFILE|$BLANK|"ASCFILE|
+@  CALC S &CMD = |"CMD|$BLANK|"FNAME|
+@  ECHO creating file "FNAME
+   system "cmd
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+fct oscall fdelete "ascfile
+fct oscall fdelete "hdrfile
+rd
+
+return

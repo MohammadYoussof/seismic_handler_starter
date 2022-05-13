@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM setup</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>SHM setup file</H2>
+
+<P>
+Since version 2.4 the parameters of SHM are maintained in a setup text
+file, by default this is located in <em>$SH_INPUTS/shm-config.txt</em>.
+If an environment variable named <em>$SH_USER_PARAM</em> is defined and
+points to an existing file this takes precedence.  The data lines of this
+file are of the simple structure</P>
+<P>
+<em>&lt;keyword&gt; &lt;value&gt;</em>
+</P>
+<P>
+where neither <em>&lt;keyword&gt;</em> nor <em>&lt;value&gt;</em> may
+contain blanks.  Please look in the file
+<em>$SH_INPUTS/shm-config-default.txt</em>
+for a complete list and explanation of possible parameters.  All keywords are
+predefined and hardwired in the program code except keywords starting with
+<em>v$</em>.  These <em>v$</em>-keywords are used for defining the station
+button names of the MiniSEED read dialog box.  Entries like
+<em>v$read_dialog_stations_01</em>, <em>v$read_dialog_stations_02</em>, ...
+and so on are used for defining up to 99 different read dialog boxes.  The
+corresponding value is a list of up to 32 comma-separated (no blanks) button
+names.  Names 1-30 label the 30 station buttons, elements 31 and 32 give
+names to the two subset buttons of the dialog box.  Two subsets of buttons
+may be grouped using brackets in the comma list and can be selected/deselected
+using the subset buttons.  Example:
+</P>
+<P><em>v$read_dialog_stations_01 [abc,bcd,cde],---,---,[xyz,xxx,yyy,zzz]</em>
+</P>
+<P>
+In this case the first three and last four button can be selected together with
+the first and second subset button, respectively.  Names consisting of
+three hyphens (<em>---</em>) result in not selectable buttons.
+Names starting with a
+<em>$</em> refer to a corresponding <em>v$</em>-station list variable
+holding the names of a station set.  Example:
+</P>
+<P><em>
+v$read_dialog_stations_02 $net1,$net2,xyz,abc<br>
+v$net1   n1a,n1b,n1c,n1d,n1e,n1f,nxx<br>
+v$net2   n2x,n2y,n2z,nxx
+</em></P>
+<P>
+In this case a click on the <em>$net1</em>-button selects the stations
+<em>n1a,n1b,n1c,n1d,n1e,n1f,nxx</em> together.  More than one station list
+button may be combined and selected, resulting stations lists are merged and
+possible double selections are corrected, like station <em>nxx</em> in above
+example if <em>$net1</em> and <em>$net2</em> are both selected.
+</P>
+<P>
+Please have a look in the <em>$SH_INPUTS/shm-config-default.txt</em> file
+to see more examples.
+</P>
+
+<P><small>This page last modified 22-May-2006</small></P>
+
+</BODY>
+</HTML>

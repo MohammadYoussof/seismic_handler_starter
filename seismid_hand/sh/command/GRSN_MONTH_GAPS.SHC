@@ -1,0 +1,85 @@
+! file grsn_month_gaps.shc
+!      ===================
+!
+! version 1, 20-Sep-95
+!
+! Scans a day of GRSN data anf lists all found data gaps
+! K. Stammler, 20-Sep-95
+
+default 1 ;;    date
+default 2 tt    output file
+default 3 ;;    file with input directory
+default 4 ;;    counter file
+
+sdef time #1          ! current time
+sdef timecnt 0        ! time step counter
+sdef trclist all      ! trace list to read each time
+sdef timestep 12000   ! time step in seconds
+sdef timestep_no 224  ! number of timesteps
+sdef tmp              ! scratch
+sdef status           ! return status
+
+! test counter file
+switch cmderrstop off
+switch noerrmsg on
+calc i &tmp = %#4
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+
+if  "status nei 0  goto/forward start_ok:
+!  insert error message of last crash to log file
+   calc i &timecnt = %#4
+   calc r &tmp = "timecnt * "timestep
+   calc t &time = "time tadd "tmp
+   ! calc r &tmp = "timestep div 1.0
+   calc i &tmp = "tmp int
+   echo_ch #2
+   echo all time "time "tmp samples crashed
+   echo_ch
+!  increment time counter, because current time was not readable
+   calc i &timecnt = "timecnt + 1
+   echo_ch/ovwr #4
+   echo "timecnt
+   echo_ch
+   calc t &time = "time tadd "timestep
+   goto/forward continue:
+start_ok:
+   echo_ch/new #4
+   echo 0
+   echo_ch
+continue:
+
+time_loop_start:
+   if  "timecnt gei "timestep_no  goto/forward time_loop_exit:
+   del all
+   dtw
+   echo read time "time station "trclist
+@  READS/FORCE %#3 "TIME "TIMESTEP "TRCLIST ZNE LH
+   if  $dsptrcs eqi 0  goto/forward zero_traces:
+      findgap/reqstart="time all #2 10
+      goto/forward trace_cont:
+   zero_traces:
+      calc r &tmp = "timestep
+      calc i &tmp = "tmp int
+      echo_ch #2
+@     ECHO ALL time "TIME "TMP samples not found
+      echo_ch
+   trace_cont:
+   calc t &time = "time tadd "timestep
+   calc i &timecnt = "timecnt + 1
+   echo_ch/ovwr #4
+   echo "timecnt
+   echo_ch
+goto time_loop_start:
+time_loop_exit:
+
+! validitation of list file
+echo_ch #2
+echo $exclamation find_grf_gaps completed $exclamation
+echo_ch
+
+! delete counter file
+fct oscall fdelete #4
+
+return

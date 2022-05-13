@@ -1,0 +1,43 @@
+! file ISDNDIFF.SHC
+!      ============
+!
+! version 1, 21-Oct-96
+!
+! checks difference in data from GRF_ISDN and SFD
+! K. Stammler, 21-Oct-96
+
+default 1 grf_isdn:   directory 1
+default 2 sfd:        directory 2
+default 3 ;;          start time
+default 4 900         read length
+default 5 4           repeats
+default 6 1.0         limit
+
+sdef sqr              ! square sum
+sdef cnt 1            ! repeat counter
+sdef readtime         ! read time
+sdef text             ! warning text
+
+calc t &readtime = #3 tadd 0.0
+
+loop_start:
+	if  "cnt gti #5  goto/forward loop_exit:
+	del all
+	dtw
+	switch chatty off
+   reads/force/noswap #1 "readtime #4 grax zne bh
+	reads/force #2 "readtime #4 gra1 zne bh
+	set _created weight -1.0
+	squarediff
+	calc r &sqr = "ret
+	calc s &text = ;;
+	if  "sqr ler #6  goto/forward limit_ok:
+		calc s &text = <-attention
+   limit_ok:
+	echo "readtime "sqr "text
+	calc i &cnt = "cnt + 1
+	calc t &readtime = "readtime tadd #4
+goto loop_start:
+loop_exit:
+
+return

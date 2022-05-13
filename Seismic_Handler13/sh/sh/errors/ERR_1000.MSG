@@ -1,0 +1,17 @@
+! file ERR_1000.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module USRINPW.C
+! K. Stammler, 8-JUL-91
+!
+*** UI-01 file open error / unknown command verb ***
+*** UI-02 error writing file ***
+*** UI-03 error reading file ***
+*** UI-04 too many nested command files ***
+*** UI-05 no return on interactive level ***
+*** UI-06 identifier name too long ***
+*** UI-07 goto in interactive mode not permitted ***
+*** UI-08 label not found in command procedure ***
+*** UI-09 step aborted ***

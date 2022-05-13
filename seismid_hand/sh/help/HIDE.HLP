@@ -1,0 +1,20 @@
+command HIDE <trc-list>
+============
+
+key: hide traces
+
+Removes traces from display but keeps them in memory.  Hidden traces
+can be redisplayed with the DISPLAY command.
+
+parameters:
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be hidden.
+
+
+examples:
+
+   HIDE ALL              ! clears display, keeps traces in memory
+
+   HIDE 1,4              ! remove two specified traces from display
+

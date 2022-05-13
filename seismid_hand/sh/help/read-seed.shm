@@ -1,0 +1,87 @@
+! file read.shm
+!      ========
+!
+! version 1, 13-Aug-94
+!
+! help text about menu option 'Read'
+! K. Stammler, 13-Aug-94
+!
+Menu Entry  'Read'
+
+Pops up Read MiniSEED Dialog Box.  This dialog box controls the input
+of seismogram data given in MiniSEED format (data records only,
+data compression with Steim-1 algorithm).  The box is divided into
+four parts and the main button set.
+
+
+--- part 1: station selection
+
+Each station listed has a toggle button attached.  If the toggle button
+is pressed (dark color) then the station is selected for reading, if
+the button is released (bright color) the station is deselected.
+For the convenience of the user there are two subset toggle buttons at
+the bottom which select/deselect a subset of the stations with one
+mouse click.
+
+
+--- part 2: channel selection
+
+The three toggle buttons 'Z', 'N', 'E' select the components to be
+read from file.  The buttons can be selected independendly of each other.
+The remaining radio button set selects the sample rate of the data
+stream.  The requested sample rate must be available on disk otherwise
+no data are read in.  This option does not perform any resampling.
+The selected channel(s) refer to all stations selected above.
+
+
+--- part 3: time selection
+
+Controls start time and time span of reading.  The start time is
+displayed in two text fields for date and time.  These text fields
+are editable and the desired start time may be written into it in
+the appropriate format.  Additionally there are 12 arrow buttons
+above/below the text fields which increase/decrease the time displayed
+by a specific amount.  The read time may also be called from a list
+file.  The name of the file is displayed in the text field below the
+start time.  A mouse click on this name opens the file selection box
+to enable the user to switch to another file.  The default path used
+in the file selection box can be set in the startup file using the
+command 'shmsetup defpath_events <path>'.  The time files must
+contain one time per line.  The user can step forward and backward in
+the file using the two arrow buttons left and right to the file name
+text field.  The second text field between these buttons shows the
+current line (=time) number within the file.
+
+
+--- part 4: general options
+
+Keep Traces - Controls whether or not all old traces are deleted before
+   reading new traces.  Traces are deleted if not selected.  This is
+   default.
+
+reads, readk - Special options for GRF data.
+
+sfd-directory - Specifies the pathname where the SEED data directory
+   file (sfdfile.sfd) can be found.  This file contains information
+   about all available data streams.
+
+
+--- main button set
+
+Read Again - Read in seismogram data.  All event information and all
+   phases are left unchanged.  A previously selected filter is applied
+   automatically to the new traces.  Also a possibly requested rotation
+   remains active.
+
+Read New - Read in seismogram data and reset all parameters to default
+   values.  Phase information is cleared as well as the event ID number.
+   After reading the default filter (selectable with 'shmsetup
+   default_filter <filter>') is applied.  Rotation information is
+   cleared.  This option will be executed only if the analysis parameters
+   are either saved (Menu option 'Final Parameters') or cancelled
+   (Menu option 'Cancel Parameters').
+
+Cancel - Close dialog box and leave everything unchanged.
+
+Reset - Resets most of the dialog box items to default values.  These
+   default values are currently not selectable.

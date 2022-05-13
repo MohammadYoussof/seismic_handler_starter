@@ -1,0 +1,35 @@
+command CONNECT <subfct> <trc1> <trc2> [<lo-wdw> <hi-wdw>]
+===============
+
+key: connect traces
+! version 1, 5-May-92
+
+Connects (multiplication or division) two traces and stores the
+result in a new created output trace.  If no time window specified,
+the result trace is computed within the current display window.
+
+
+parameters
+----------
+
+<subfct>  ---  parameter type: string
+   Specifies subfunction.  Valid is either "mul" (multiplication of
+   traces) or "div" (division of traces).
+
+<trc1>, <trc2>  ---  parameter type: trace
+   Input traces to be connected.
+
+<lo-wdw>, <hi-wdw>  ---  parameter type: real
+   The result trace is computed within this time window.  If omitted
+   the current display window is used.
+
+
+examples
+--------
+
+   connect mul 1 2         ! multiplies the first two traces on display
+                           ! within the current display window
+
+   connect mul 1 2 0 100   ! multiplies the first two traces within
+                           ! the time window from 0 to 100 sec.
+

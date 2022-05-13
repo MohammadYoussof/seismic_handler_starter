@@ -1,0 +1,18 @@
+! file MARK_TRACES.SHC
+
+default 1 ;;     flag
+default 2 y      on [y] or off [n]
+
+sdef trace     ! trace pointer
+sdef key       ! key pressed
+sdef x
+
+loop_start:
+   time ;;;;&trace;&key
+   if  "key eqs e  goto/forward loop_exit:
+   if  "key eqs q  goto/forward loop_exit:
+   set "trace #1 #2
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,14 @@
+default 1 used     trace type
+default 2 ;;       station
+sdef listname |#2|_|#1|_dec90_5|
+if  #1 eqs used  goto/forward useit:
+if  #1 eqs notused  goto/forward useit:
+if  #1 eqs local  goto/forward useit:
+if  #1 eqs cont  goto/forward useit:
+if  #1 eqs frag  goto/forward useit:
+   echo illegal parameter #1
+   return
+useit:
+if  $dsptrcs eqi 0  return
+applist_name "listname 1
+return

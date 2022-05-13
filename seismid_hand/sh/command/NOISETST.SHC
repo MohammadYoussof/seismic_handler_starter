@@ -1,0 +1,45 @@
+! file NOISETST.SHC
+!      ============
+!
+! version 2, 30-AUG-91
+!
+! creates sum trace of synthetic noise and gauss peak
+! K. Stammler, 7-AUG-91
+
+default 1 0.5     amplitude of gauss
+
+sdef trcno $dsptrcs
+sdef sumtrc
+sdef trccnt 1
+
+switch chatty off
+
+nr
+echo/no_lf creating gauss
+create gauss .1 40 #1 20 .4
+calc i &sumtrc = "trcno + 1
+
+loop_start:
+   if  "trccnt gti "trcno  goto/forward loop_exit:
+   echo/no_lf summing trace "trccnt
+   sum |"trccnt|,|"sumtrc|
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+del |1-|"sumtrc|
+rd
+nr
+copy all
+hide _created
+echo take 4-th root $blank(10)
+trcfct all spower .25
+echo summing all
+sum all
+del |1-|"trcno|
+trcfct 1 spower 4
+display h:all
+rd
+
+return
+

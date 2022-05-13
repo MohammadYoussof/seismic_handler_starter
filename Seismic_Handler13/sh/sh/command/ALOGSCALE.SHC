@@ -1,0 +1,19 @@
+! file alogscale.shc
+!      =============
+!
+! version 1, 6-Sep-92
+!
+! automatic scaling for logarithmic output
+! K. Stammler, 6-Sep-92
+
+default 1 1    trace number
+default 2 0.01 lower frequency bound
+
+sdef nyquist     ! nyquist freqency
+
+calc r &nyquist = 1.0 div ^delta(#2)
+calc r &nyquist = "nyquist div 2.0
+
+log scale #2 "nyquist ^minval(#1) ^maxval(#1)
+
+return

@@ -1,0 +1,15 @@
+! file ERR_9300.MSG
+!      ============
+!
+! version 3, 24-Mar-98
+!
+! error messages of module seed_cd.c
+! K. Stammler, 3-Nov-95
+!
+*** CD-01 missing environment variable ***
+*** CD-02 string overflow ***
+*** CD-03 error opening input file ***
+*** CD-04 illegal channel ***
+*** CD-05 stream/time not found in archive ***
+*** CD-06 data are online ***
+*** CD-07 data are locked ***

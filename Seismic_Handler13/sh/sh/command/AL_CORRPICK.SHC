@@ -1,0 +1,113 @@
+! file AL_CORRPICK.SHC
+!      ===============
+!
+! version 2, 27-Mar-2001
+!
+! Automatic phase picking by crosscorrelation
+! K. Stammler, 23-Mar-2001
+
+default 1 ;;            station name
+default 2 ;;            abs window start
+default 3 20.0          corrwdw
+default 4 50.0          corrlth
+default 5 1             corrmode
+default 6 corrpick.stx  outfile name
+
+sdef trcno $dsptrcs  ! number of traces on display
+sdef refnum          ! number of reference trace
+sdef cnt 1           ! counter
+sdef ocnt 1          ! second counter
+sdef amce            ! end of am correlation window
+sdef corrl #4        ! correlation length
+sdef corrmax         ! maximum value of correlation
+sdef corrpos         ! position of correlation maximum
+sdef outfile #6      ! output file
+sdef wdwend          ! end of corr window
+sdef wdwstart        ! relative window start
+sdef ams             ! am start
+sdef ame             ! am end
+sdef tmp             ! scratch
+sdef signoise        ! signal to noise ratio
+
+! find reference trace
+calc i &refnum = 1
+search_start:
+   if  "refnum gti $dsptrcs  goto/forward station_not_found:
+   if  ^station("refnum) eqs #1  goto/forward search_exit:
+   calc i &refnum = "refnum + 1
+goto search_start:
+search_exit:
+
+calc t &wdwstart = #2 tdiff ^start("refnum)
+calc r &wdwend = "wdwstart + #3
+
+!echo "refnum "wdwstart "wdwend "outfile
+
+! set correlation window and mode
+fct corrmode #5
+corrl |-|"corrl| "corrl
+
+nr
+
+! loop all stations and correlate
+echo computing correlations with #1
+calc i &cnt = 1
+loop_start:
+   if  "cnt gti "trcno  goto/forward loop_exit:
+   ! echo correlating #1 with ^station("cnt)
+   corr "refnum "wdwstart "wdwend "cnt
+   set _created station ^station("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+rd
+
+! loop all correlation traces
+echo_ch/new "outfile
+calc r &amce = 2.0 * "corrl
+calc i &ocnt = 1
+cloop_start:
+   if  "cnt gti $dsptrcs  goto/forward cloop_exit:
+   am "cnt 0.0 "amce ;; &corrmax ;; &corrpos
+   calc r &corrpos = "corrpos - "corrl
+
+   ! determine signal/noise ratio on trace
+   calc t &ams = #2 tdiff ^start("ocnt)
+   calc r &ams = "ams + "corrpos
+   calc r &ams = "ams - 1.0
+   calc r &ame = "ams + "corrl
+   am/abs "ocnt "ams "ame ;; &tmp
+   mark "ocnt "ams
+   mark "ocnt "ame
+   calc t &ame = #2 tdiff ^start("ocnt)
+   calc r &ame = "ame - 50.0
+   calc r &ams = "ame - 100.0
+   am/abs "ocnt "ams "ame ;; &signoise
+   mark "ocnt "ams
+   mark "ocnt "ame
+   calc r &signoise = "tmp div "signoise
+
+   echo ^station("cnt) "corrpos "corrmax "signoise
+   calc i &cnt = "cnt + 1
+	calc i &ocnt = "ocnt + 1
+goto cloop_start:
+cloop_exit:
+
+!enter &tmp return
+
+@ECHO $EXCLAMATION reftime #2
+echo_ch
+
+! delete correlation traces
+calc i &trcno = "trcno + 1
+del |"trcno|-|$dsptrcs|
+
+return
+
+
+
+
+station_not_found:
+echo station #1 not found in traces
+return

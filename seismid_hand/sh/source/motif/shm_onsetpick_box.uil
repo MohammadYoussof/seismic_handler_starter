@@ -1,0 +1,342 @@
+! file shm_onsetpick_box.uil
+!      =====================
+!
+! version 2, 21-May-2006
+!
+! interface to parameters of onset pick
+! K. Stammler, 28-Apr-97
+
+
+
+object
+   onsetpick_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'onsetpick';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard opick_input_box;
+         XmRowColumn     opick_main_button_box;
+      };
+   };
+
+object
+   opick_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_opick_main_buttons;
+         XmNy = k_pos_y_opick_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_opick_ok;
+      };
+   };
+
+object
+   button_opick_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'Hide';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_ok );
+      };
+   };
+
+object
+   opick_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'opick input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu    opick_thresh_option;
+         XmText          opick_thresh_text;
+         XmOptionMenu    opick_duration_option;
+         XmText          opick_duration_text;
+         XmOptionMenu    opick_break_option;
+         XmText          opick_break_text;
+      };
+   };
+
+object
+   opick_thresh_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_opick_thresh_option;
+         XmNy = k_pos_y_opick_thresh_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Threshold';
+         XmNmenuHistory = XmPushButton button_opick_thresh_2;
+      };
+      controls {
+         XmPulldownMenu opick_thresh_menu;
+      };
+   };
+
+object
+   opick_thresh_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_opick_thresh_1;
+         XmPushButton   button_opick_thresh_2;
+         XmPushButton   button_opick_thresh_3;
+         XmPushButton   button_opick_thresh_4;
+      };
+   };
+
+object
+   button_opick_thresh_1: XmPushButton {
+      arguments {
+         XmNlabelString = '20';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_thresh_1 );
+      };
+   };
+
+object
+   button_opick_thresh_2: XmPushButton {
+      arguments {
+         XmNlabelString = '10';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_thresh_2 );
+      };
+   };
+
+object
+   button_opick_thresh_3: XmPushButton {
+      arguments {
+         XmNlabelString = '5';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_thresh_3 );
+      };
+   };
+
+object
+   button_opick_thresh_4: XmPushButton {
+      arguments {
+         XmNlabelString = '2';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_thresh_4 );
+      };
+   };
+
+object
+   opick_thresh_text: XmText {
+      arguments {
+         XmNx = k_pos_x_opick_thresh_text;
+         XmNy = k_pos_y_opick_thresh_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_opick_thresh_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_opick_thresh_text );
+      };
+   };
+
+object
+   opick_duration_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_opick_duration_option;
+         XmNy = k_pos_y_opick_duration_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Duration';
+         XmNmenuHistory = XmPushButton button_opick_duration_4;
+      };
+      controls {
+         XmPulldownMenu opick_duration_menu;
+      };
+   };
+
+object
+   opick_duration_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_opick_duration_1;
+         XmPushButton   button_opick_duration_2;
+         XmPushButton   button_opick_duration_3;
+         XmPushButton   button_opick_duration_4;
+         XmPushButton   button_opick_duration_5;
+      };
+   };
+
+object
+   button_opick_duration_1: XmPushButton {
+      arguments {
+         XmNlabelString = '0.2';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_duration_1 );
+      };
+   };
+
+object
+   button_opick_duration_2: XmPushButton {
+      arguments {
+         XmNlabelString = '0.3';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_duration_2 );
+      };
+   };
+
+object
+   button_opick_duration_3: XmPushButton {
+      arguments {
+         XmNlabelString = '0.5';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_duration_3 );
+      };
+   };
+
+object
+   button_opick_duration_4: XmPushButton {
+      arguments {
+         XmNlabelString = '1.0';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_duration_4 );
+      };
+   };
+
+object
+   button_opick_duration_5: XmPushButton {
+      arguments {
+         XmNlabelString = '2.0';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_duration_5 );
+      };
+   };
+
+object
+   opick_duration_text: XmText {
+      arguments {
+         XmNx = k_pos_x_opick_duration_text;
+         XmNy = k_pos_y_opick_duration_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_opick_duration_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_opick_duration_text );
+      };
+   };
+
+object
+   opick_break_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_opick_break_option;
+         XmNy = k_pos_y_opick_break_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Breaklength';
+         XmNmenuHistory = XmPushButton button_opick_break_1;
+      };
+      controls {
+         XmPulldownMenu opick_break_menu;
+      };
+   };
+
+object
+   opick_break_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_opick_break_1;
+         XmPushButton   button_opick_break_2;
+         XmPushButton   button_opick_break_3;
+         XmPushButton   button_opick_break_4;
+      };
+   };
+
+object
+   button_opick_break_1: XmPushButton {
+      arguments {
+         XmNlabelString = '0.00';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_break_1 );
+      };
+   };
+
+object
+   button_opick_break_2: XmPushButton {
+      arguments {
+         XmNlabelString = '0.05';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_break_2 );
+      };
+   };
+
+object
+   button_opick_break_3: XmPushButton {
+      arguments {
+         XmNlabelString = '0.10';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_break_3 );
+      };
+   };
+
+object
+   button_opick_break_4: XmPushButton {
+      arguments {
+         XmNlabelString = '0.15';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_opick_break_4 );
+      };
+   };
+
+object
+   opick_break_text: XmText {
+      arguments {
+         XmNx = k_pos_x_opick_break_text;
+         XmNy = k_pos_y_opick_break_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_opick_break_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_opick_break_text );
+      };
+   };
+

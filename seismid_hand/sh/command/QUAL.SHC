@@ -1,0 +1,14 @@
+! file QUAL.SHC
+!
+! sets quality string of all traces on display
+
+default 1 used      quality string
+if  #1 eqs used  goto/forward qualok:
+if  #1 eqs error goto/forward qualok:
+if  #1 eqs noise goto/forward qualok:
+if  #1 eqs cont goto/forward qualok:
+if  #1 eqs strange goto/forward qualok:
+   echo  illegal quality string
+qualok:
+set/file all quality #1
+return

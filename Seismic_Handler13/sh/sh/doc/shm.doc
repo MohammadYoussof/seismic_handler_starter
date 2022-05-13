@@ -1,0 +1,540 @@
+SEISMIC HANDLER SHM
+Beginner's manual
+
+Seismic handler SHM (Motif version) is a program for routine analysis of
+seismic data from an array or a network of stations. The data format
+required is mini-seed, yet the program has capabilities of reading in
+GSE.
+
+The program has been written by Klaus Stammler of the Seismological Observatory
+Graefenberg, Erlangen, Germany (em: klaus@szgrf.uni-erlangen.de)
+
+This manual is not intended to be complete, as: 1) the author of this
+manual is rather an SHM beginner, not an expert and 2) the author of
+this manual uses SHM for a small network (4 stations SUW,WAR,OJC,KSP in
+Poland), without accessing array and large network data. Therefore,
+little if anything can be said here about array and location functions
+of SHM. This manual is intended as an introduction to SHM.
+
+
+1. Setup of SHM
+================================
+a. Environment variables.
+   SHM uses a number of environment variables to move around a directory
+   tree on a file system. The variables should be set in such a way as
+   to avoid any symbolic links. SHM usually does not recognize such links
+   and problems may result. The variables are:
+   PWD - current directory.
+   SEED_INPUTS - directory of calibration files
+   SEED_PROG - directory of seed I/O utilities
+   SFD - path to where are the data files.
+   SH_COMMAND - directory of command procedures of SHM
+   SH_COMMAND2 - the /bmp subdirectory of the above
+   SH_ERRORS - directory of error files
+   SH_EXTPROG - directory of external programs to be called from within SHM
+   SH_FILTER - directory of filter files
+   SH_GLOBALS - directory of network files and magnitude calculation files
+   SH_HELP - help files should be here
+   SH_INPUTS - directory of travel time tables, station lists
+   SH_LIB - directory of SH libraries
+   SH_ROOT - root directory of SH
+   SH_SCRATCH - directory to put scratch files
+   SH_SOURCE - directory of SH source files
+   SH_TEXTEDIT - text editor to use by SHM
+   SH_USERDIR - SH user directory
+   SH_UTIL - directory of SHM utilities
+   Other variables for advanced purposes:
+   SH_LOCSAT, SH_LOCSAT_EXEC, SH_PDE, SH_RANLIB
+   Some other variables are important during SHM installation:
+   SH_CCOPTIONS, SH_COMPILER, SH_LINKLIBS, SH_LINKOPTIONS
+   It is best to have these variables set in the user's .cshrc file.
+
+b. Data preparation.
+   SHM reads mini-seed files, with extensions BH? (broadband 20Hz), LH?
+   (long period 1Hz) and HH (high frequency 80Hz). The files should be
+   gathered in some directory. SHM needs a file  sfdlist.sfd  which
+   determines what time segments are covered by each data file. This
+   file must be created in the directory by:
+      $SEED_PROG/sfdlist.csh '*.?H?' $PWD
+   or (if there happen to be too many files):
+      $SEED_PROG/sfdlist_l.csh '*.?H?' $PWD
+   Attention: when there are symbolic links on the data directory tree,
+    sometimes it may be necessary to manually setenv PWD to the current
+    full absolute directory path before running sfdlist.
+   Attention: once sfdlist is run, the SHM does not see any changes made
+    to the directory (as of its contents). If a data file is added after
+    the sfdlist command, SHM will not load this data. There is a solution
+    to this problem: without exiting SHM, it is possible to run sfdlist
+    from another terminal window - as long as it is run in the correct
+    directory.
+
+   Now we must setenv SFD to the path where are the data files (absolute
+   path, no symbolic links), e.g.:   setenv SFD /data/sdat/1996/01
+   We are now ready to start the SHM from a cmdtool or xterm window.
+   Attention: if there happen to show many, many messages on the screen,
+    there is probably something wrong with the SHM configuration and
+    you should consult an expert of SHM.
+
+c. Starting SHM
+   To start SHM - assuming the env. variables are set up correctly and
+   the sfdlist.sfd created - just type in the name of the program in any
+   cmdtool or xterm window. The name of the program may be "shm", "SHM",
+   or "shm_world", depending on the version. (To clear out: shm_world is
+   a distribution version, shm is a test version, and SHM is usually the
+   alias for shm_world).
+
+
+2. The SHM screen
+=================
+SHM opens two windows and two boxes on startup. The main, largest window
+is the TRACES window, at bottom right. Above it opens the MAGNIFIER window.
+The two boxes at left are the DIALOG box containing the phase information,
+and the PARAMETER box, containing the location information.
+The windows on startup are empty, only the TRACES window has a menu:
+
+File Work Window Array Locate Param Amplitude TraceList Save Specials.
+
+Below this menu, if signals are loaded, SHM displays the time of the
+position of the mouse, signal length and last command. If it doesn't,
+there might be something wrong with the startup configuration, so consult
+a specialist.
+
+The SHM is mostly mouse-oriented. The left mouse button is used mainly
+for phase picking and to pick items from the boxes and menus. The right
+button serves to mark a trace fragment to be magnified in the MAGNIFIER
+window. Seldom needed is the keyboard - mainly to write in non-standard
+phases, extremely long time series length, write in external location
+and origin time (if known), specifying an external filter or command.
+
+
+3. Data input
+=============
+The main data format used by SHM is mini-seed.
+>From the menu, choose "File" - press left mouse button and drag the mouse
+onto "Read" and let go. A window opens, from which we choose by left mouse
+button:
+a) The stations to be read in.
+b) The components to be read in.
+c) Type of data to be read in (LH-1Hz, BH-20Hz, HH-80Hz)
+d) Date & time of beginning of time series.
+e) Length of the time series. When less than 60 minutes, move the mouse
+   over the little horizontal bar and drag it left or right. When over
+   60 minutes, click the left mouse button in the little window and in-
+   put the number of minutes from the keyboard.
+Usually that is all, so we click "Read New".
+Attention: if this is not our first read in SHM, the program will not
+ read in data unless we select "Work->Cancel parameters" before selecting
+ "Read".
+Attention: when during working with data you decide to read a longer/shorter
+ fragment of data, or starting at a later/earlier time, do not cancel your
+ parameters, but make changes in the "Read" window and finish with "Read
+ Again".
+
+Reading in GSE
+--------------
+The author of this manual has not had the chance to work with SHM on GSE data.
+These data can be read in by "File -> Read GSE" or "File -> Read GSE2", de-
+pending on whether the data are GSE or GSE2.
+
+
+4. Scaling of traces, offset removal
+====================================
+The input traces may need scaling. The change of scaling is done by
+selection of "Specials->Setup->normalization". Then we may choose:
+c - constant for all traces
+all(tot) - normalized to maximum amplitude on any trace within all traces
+all(wdw) - normalized to maximum amplitude on any trace within the
+           traces currently on display
+single(tot) - normalized to maximum amplitude on each trace within
+              its full length
+single(wdw) - normalized to maximum amplitude on each trace within
+              the visible window.
+After selection, click on "Hide". The scaling type is remembered until
+it is changed or until Quit from SHM.
+The traces may be furtherly scales by use of the little "zoom" bar at
+bottom of the PARAMETER box. Caution must be taken, one unit of "zoom"
+means scaling by the factor of two.
+
+The offset may be easily removed by chhosing "TraceList->Demean".
+
+Similarly, spikes may be removed by "TraceList->Despike", however, these
+must be real, electronic spikes, not banging of something in the vicinity
+of the seismometer.
+
+5. Use of filters
+=================
+To use filters, choose "Work->Filters". This opens a window with different
+types of filters to use. Click on a little diamond left to choose a filter.
+Some filters (Butterworths) need also some parameters like low bound and
+high bound and filter order, also to be selected by mouse by clicking on
+the little triangles near the values.
+Choose a value for autocut to eliminate the rigning of the filter at the
+beginning of the signal.
+Use the "filter name" box to input an external filter name from the
+keyboard, if needed (usually do not do anything in this box).
+Having selected everything, click on "OK'.
+
+To go back to unfiltered signals, choose "Work->Filters" and then click
+on "none" and "OK".
+
+Attention: After the filtration, the contents of the MAGNIFIER window
+ remains unchanged until the first click of the right mouse button.
+
+6. Magnifying a fragment of a trace
+===================================
+To magnify a trace fragment move the mouse onto the beginning of the
+fragment, click the right button and drag the mouse right to the end
+of the fragment. There, let go of the button. The marked fragment will
+be shown in the MAGNIFIER window. Only one trace at a time may be
+magnified.
+a) To move the MAGNIFIER window on the trace, move the mouse into the
+   center of the marked box on the TRACES window, click the right button,
+   and drag.
+b) To move the MAGNIFIER window from trace to trace, move the mouse onto
+   the new trace and click once on the right button.
+c) To change the width of the MAGNIFIER window, move the mouse onto the
+   right limit of the marked box, click right button and drag left or
+   right. At the desired width, let go. Then you may furtherly need to
+   move the window, see p.6a.
+d) To empty the MAGNIFIER window so the box marked on the TRACES window
+   disappears (desired e.g. before printout!), choose
+   "Window->Del_time_window".
+
+
+7. Phase picking
+================
+Phases are picked by means of the left mouse button on the seismic traces.
+This may be done on filtered or unfiltered signals, in TRACES as well as
+in MAGNIFIER window. Of course, picks made in MAGNIFIER window are much
+more accurate, so this is the place the picks should be made. Phases picked
+in the MAGNIFIER window are at once displayed in the TRACES window and vice
+versa.
+
+After the click, the phase is marked with parameters as are currelty
+displayed in the DIALOG box. Therefore, before you click, make sure these
+parameters are correct. Select or check the:
+a) Phase name (selected from one of two submenus after clicking on "local"
+   or "tele". If needed, you can enter your own phase name into the little
+   box which shows the current phase name. To do this, click on the box,
+   and then use the keyboard.
+b) The direction of first onset (+,- or 0). Of course this is relevant to
+   P waves on vertical component only.
+c) Onset type (emergent or impulsive). In case of impulsive P waves on the
+   vertical component you should always give a non-zero direction of first
+   onset.
+d) Reliable - should be "y". Other choice does not make sense for networks,
+   only for arrays.
+e) Event type. Mark the event as local, regional, teleseismic, nuclear or
+   blast.
+f) "Quality" and "More" - leave unchanged.
+At the bottom of the box there are three rectangles: Del, Fix and Hide.
+Hide causes the DIALOG box to disappear. For the box to reappear, you
+  must mark a phase (with the current parameters), and then try to delete
+  it. Better do not use "Hide".
+Del causes all the phases with parameters identical to the ones currently
+  set in the box, to be deleted. This may be sometimes troublesome; if
+  you have marked let's say, a PS phase on six traces and want to delete
+  it from trace no. 4, you have to delete the phase (it disappears from
+  all 6 traces!) and then pick it again on traces 1,2,3,5 and 6.
+Fix - The purpose of this function is unknown.
+
+SHM may help in phase identification, showing phase onsets calculated
+from theoretical tables. See p.12 how to do this.
+
+Attention: SHM does not accept two phases of identical name on the same
+ trace.
+
+
+8. Period and amplitude determination
+=====================================
+As the amplitude determination must be done on SRO-LP (or WWSSN_LP or
+WWSSN_SP) filtered signals, you must first invoke the appropriate filter.
+Don't worry. Your phase picks will remain unchanged, and you will be
+able to go back to your current display after you have measured the
+periods and amplitudes.
+a) Choose "Work->Filter" and select SRO-LP (see p.5).
+b) Mark the desired phase onsets or - in case of L waves, put phase
+   marks just before the fragment on which you will take your measures.
+   (It is best to do this in the MAGNIFIER window).
+c) For each trace, choose "Amplitude->Ampl&Period_auto_peak". Then
+   move the mouse onto the first maximum (or minimum) after the pick,
+   click left button, move the mouse onto the next minimum (or maximum)
+   and click again. The part of the signal will change color to show
+   the measurement took effect. Repeat this for all desired traces.
+d) After measuring the amplitudes and periods you may return to your
+   original filtration (see p.5).
+
+Attention: SHM checks if the measured parameters are correct; if not, it
+will not save them and will give a warning about this only to the window
+it was started from.
+
+
+9. Results of SHM processing
+============================
+a) The results, as phase picks, measured amplitudes, locations, magnitudes,
+   may be shown on the screen by means of "Work->Show Parameters". This
+   invokes a texteditor, so we may, if we want, make changes to the report
+   file using "Edit". You may now click on "File" by right mouse button and
+   select:
+   aa) Load file. Load another text file into the text editor. This makes
+       little sense at this point.
+   ab) Save current file. Save the current file to $SHSCRATCH/shm_number.evt
+       This makes sense only if you have made changes to the file.
+   ac) Store as New File. Save the file under new name to directory $PWD.
+   ad) Include file. Merge a disk file with our current file.
+   ae) Empty document.
+  To exit texteditor, click right mouse button on the little triangle on
+  the left of the top bar of the editor window. The choose "Quit". If you
+  accidentally click on the left mouse button, you will iconify the text-
+  editor, you must then double-click left on the icon, and then quit it
+  by right mouse button.
+  I haven't found useful purposes for the "View" and "Find" options of the
+  texteditor.
+
+b) Before you save your final parameters, it might be useful to input your
+   comment to the event, such as: "Salomon Islands M=7.1", or "many spikes
+   on the E component at WAR". To input a comment, choose "Work->Comment",
+   or press a "v" with your mouse within the TRACES window. This invokes
+   the texteditor, so you may input your comment. After you have written
+   it in, click the right mouse button on "File" and select "Save current
+   file". Then quit the texteditor by clicking on "File" and selecting
+   "Quit".
+
+c) The final parameters are written down when you choose "Work->Final
+   Parameters" or by pressing "Ctrl-P" with your mouse within the TRACES
+   window. This will write the complete information about the event and
+   the phases picked to file shm_yymmddnnn.evt, where yy=year, mm=month
+   dd=day, nnn=shm_generated_event_number, to directory as declared in
+   shmsetup defpath_evtout statement in one of the startup files (see p. 14).
+   This also invokes the texteditor, so you must click on its "File" and
+   choose "Quit" to close it.
+
+10. Exit from SHM
+=================
+To exit SHM for a moment it is best to iconify it (click left on the
+triangle at the left side of the TRACES window top bar). To bring it back,
+double-click left on the icon.
+To totally quit SHM, choose first "Work->Cancel Parameters" and then "Quit".
+
+
+11. Printouts
+=============
+Printouts are generated by pressing "Ctrl-H". Then you have to click left
+mouse button in the TRACES or MAGNIFIER window (depending on the window of
+which you desire the printout), to have it printed. The printout will
+contain all the currently displayed phase picks, magnifier box, or other
+stuff if present on the window. Of course, the default printer must be
+configured on the machine.
+There are two print modes, a fast mode and a slow quality mode. The quality
+mode uses the sunview utility, so it does run only on machines with sun-
+view installed and running. The quality mode also needs two other programs,
+rasttopnm and pnmtops installed in the $SH_UTIL. The change of modes may be
+done interactively by "Specials->Setup->Hardcopy" and choosing "fast" or
+"quality". This may be also set up in one of the setup files (see p.14).
+
+
+12. Theoretical phase calculation and display
+=============================================
+To have the SHM display the theoretical phase onsets, the little boxes
+of source location and origin time in the PARAMETER box must be filled.
+On an array or an extensive network, SHM may perform a location of its
+own. In other case you have to supply the data manually, coming from
+some other source of information (bulletin). You move your mouse onto
+each little box, click left button, and input the data from the keyboard.
+Before you actually write in the data, make sure there are no contents
+left in the little box. If there is, delete it with the Backspace key.
+On first write-in, SHM will ask for the source of your information; you
+can input anything here (except leaving this space blank or supplying
+spaces).
+This way supply:
+a. Latitude (negative if South)
+b. Longitude (negative if West)
+c. Depth in km
+d. Date. The format of the date is: 23-jul-1996
+e. Time. The format of the time is: 23:45:08.4
+Now calculate the Azimuth and Distance. To do this, choose "Locate->
+External Location".
+
+Now calculate the theoretical phase onsets by "Locate->Theo(Tables)" or
+by pressing "Ctrl-t" from the keyboard. A phase menu window opens up, from
+which we choose the phases we want the SHM to mark. (You cannot mark the
+phases shown in gray, as there are no tables available for these, if you
+want to use them, first you must supply the theo tables for these phases
+to SH_INPUTS.) SHM proposes the main phases to make the choice easier.
+After choosing all the phases needed, click on O.K..
+The calculation may take a moment, depending on the number and type of
+phases chosen. The phases are then displayed on the screen. To get rid
+of them, just press "Ctrl-d" (or you may choose "Locate->Del_Theo"). To
+bring them back, press "Ctrl-t" (or "Locate->Theo(tables)") and click on
+"O.K." (SHM remembers which phases have been chosen last time).
+
+The theoretical phases may differ somewhat from the actual phases seen.
+This is due to: location errors, origin time errors, discrepancies
+between the travel time tables and actual travel times along a path
+specific for a given event and observation point, and travel time inter-
+polation when distance and source depth fall between two table entries.
+Final phase determination should be performed manually, the theo_phase
+utility is just for help.
+
+
+13. Other options (not discussed above)
+=======================================
+a. File. There are also possibilities of reading in .GSE format files and
+   external filters.
+b. Work->Rotate. Rotation of seismograms to components pertaining to P, SV
+    and SH waves. I guess you need to fill in the PARAMETER box to do this,
+    similarly as for the theoretical phases.
+   Work->Info_source. Specification of information source to be written into
+    the "Final Parameters".
+   Work->Parameter_Box. Clicking on this causes the PARAMETER box to disap-
+    pear (if dispalyed) or reappear (if hidden).
+c. Window. These options double the functions of the right mouse button in
+    the TRACES window. The "Del_time_window" causes the MAGNIFIER window
+    to be cleared and the box marking the fragment to be magnified to dis-
+    appear.
+d. Array. Here are the array options, which are not discussed in this
+    beginner's manual.
+e. Locate. Except the "->External Location" "->Theo_phases" and "Del_theo"
+    discussed in p.12, other options need array or extensive network data,
+    or some external files not supplied with SHM.
+f. Param. I have not discovered the use of these options.
+g. Amplitude. Used to determine the amplitudes, periods and magnitudes.
+   The "Amplitude->Ampl&Period_auto_peak" is best to determine the ampl-
+   itudes and periods (see p.8), but there are other choices you may
+   experiment with.
+h. Trace List.
+   -> Demean - discussed in p.4.
+   -> Delete. Delete the traces selected.
+      To select the traces, move the mouse onto the trace number left of
+      the trace, and click left button.
+      After "delete", if you want to bring the traces back again, you
+      must do "File->Read", then click on "Read_Again".
+   -> Despike - discussed in p.4.
+   -> Rm trend. Remove trend. Works similarly to "demean", only the
+      method is different.
+   -> Ref ml. I have not discovered the purpose.
+   -> Hide Sel. Hide the traces selected. Works as delete, except that
+      if you want to bring the traces back, just choose the option again.
+   -> Hide Unsel. Works as Hide Sel, except that hides the traces NOT sel-
+      ected.
+   -> Sort Dist/Sort Azim - Putting the traces in order according to
+      distance or azimuth vs. the source.
+i. Save. I have not discovered the use of these options.
+j. Specials. These options are rather seldom used by the SHM beginner. The
+   most important of these is the "Setup". Here can be found the:
+   -> Special commands. The instructions here depend on the contents of
+      some configuration files. You can for example interactively change
+      your seismic network here.
+   -> Del Horiz. Delete horizontal components. Works as "Trace_List->Delete",
+      except that it does not need trace selection. This command has a short-
+      cut "Ctrl-O" from the keyboard.
+   -> Screendump. A shortcut for this is "Ctrl-H", discussed in p.11.
+   -> User Cmd. Gateway to give a user command. Advanced option.
+   -> Command. Gateway to give an extra SH command. Advanced option.
+   -> Setup:
+     --> hardcopy fast / quality. Set type of printouts.
+     --> max cursor. I haven't discovered the use of this.
+     --> normalization - discussed in p.4.
+     --> trace order. Display the traces with trace no.1 at the top or at
+         the bottom. This can be also set in SHM_USER_STARTUP.SHC file
+         as "shmsetup top_down_order true" or "...false". The "false" is
+         the default.
+     --> filter type. Rather an advanced option.
+     --> default filter. If used, all the traces are filtered with this
+         filter after being read and before being displayed.
+     --> parameter list. I haven't discovered the use yet.
+     --> phase names. I haven't discovered the use yet.
+
+
+14. Elements of SHM configuration
+=================================
+The SHM to work needs a certain directory structure on the hard disk on the
+computer, governed by the environment variables explained in p.1. Below some
+of the elements of the configuration will be discussed.
+A. User configuration.
+   There are two configuration files:
+   SH_COMMAND/SHM_CMD_STARTUP.SHC - standard configuration file
+   SH_USERDIR/private/SHM_USER_STARTUP.SHC - user configuration file
+   Both may have similar contents, but if both specify the same parameter,
+   the value from the user config is taken. If the user config does not
+   contain some parameter, the value of it is taken from the standard con-
+   fig, if that does not specify it, default value is taken.
+   The two files are executed only on startup of SHM.
+   In the files, lines starting with "!" are comment lines and are ignored.
+   Some of the contents:
+   shmsetup prompt_analyst true - on startup, this prompts the analyst to
+         identify himself.
+   sdef tmp - define variable tmp
+   @CALC s &TMP = \path_to\evid\ DOSLASH
+   shmsetup defpath_evid "tmp - The two above lines define the path where
+         SHM keeps track of event numbers used.
+   @CALC s &TMP = \path_to\evtout\ DOSLASH
+   shmsetup defpath_evtout "tmp - The two above lines define the path where
+         Final Parameter files are to be written.
+   shmsetup refstation suw - set reference station to 'SUW' (must be in
+         the list!)
+   shmsetup default_source igf - set default information source to 'igf'
+   shmsetup dephault_phase_type tele_quake - after read, the event is
+         qualified as teleseismic, until this qualification is changed in
+         the DIALOG box (see p.7e).
+   shmsetup default_filter name - prefiltration of signals, see p.13j
+         (setup->default_filter)
+   shmsetup default_depth_type preset - after read, a constant value will
+         be put to "Depth" window in the PARAMETER box.
+   shmsetup default_depth 33.0 - the above value is to be (in this
+         case 33 km).
+   shmsetup top_down_order true - order of traces on display. If true, trace
+         1 is at the top, if false, it is at the bootm.
+   shmsetup double_click_time 300 - double-click time for the mouse
+   shmsetup color_mark 1.0,0.0,0.0 - color (rgb) of phase picks (here:red)
+   shmsetup color_theo 0.0,0.0,1.0 - color of theo_phases (here:blue)
+   shmsetup color_auto 1.0,0.0,1.0 - color of amp&period determ.(here:violet)
+   shmsetup color_crsr 0.0,0.0,1.0 - color of cursor (here:blue)
+   @SHMSETUP SCREENDUMP_PROC |"TMP|sd_xwd.csh| - set printout as fast.
+   @SHMSETUP SCREENDUMP_PROC |"TMP|sd_screendump.csh| - set printout as
+         quality. Attention: only one of the two above statements should
+         appear in a config file. If there will be two, the first will be
+         ignored.
+   shmsetup defpath_data sfd - path to data files is given by the variable
+         sfd.
+   shm_cmd_norm sw - normalization of traces after read (here: sw=all channels
+         separately, within the visible window).
+   SHM_CMD_READ_DIALOG STATLIST_something.STX
+         STATLIST_something.STX is the file containing the list of station
+         codes belonging to the default network. The file is in directory
+         SH_GLOBALS.
+B. Directory SH_GLOBALS
+   a. STATLIST_something.STX files contain the lists of station codes, be-
+      longing to networks. If there are several networks possible, there
+      will be several such files.
+   b. refstation_list.stx - list of possible reference stations (maximum 5).
+   c. Other files are used do determine magnitudes, filters and display
+      colors.
+C. Directory SH_FILTER
+   Contains different filter definitions.
+D. Directory SH_INPUTS
+   a. *.TTT files are travel time tables for theoretical phase calculation.
+   b. filter_lookup.txt. Definition of how different stations are to be
+      filtered. If the station is not here, there may be problems with
+      having it filtered.
+   c. list_of_analysts.txt. List of ID's of analysts.
+      (valid if shmsetup prompt_analyst true)
+   d. STATINF.DAT - All possible station codes and locations throughout the
+      world.
+   e. STATLOC.DAT - Station codes and locations; this data is used in location
+      procedures.
+   f. Some other files of unknown purpose.
+E. Directory SEED_INPUTS
+   Among other files, there are the calibration files, e.g.:
+   seedcalib_suw-bh-z , containing calibration data for station (SUW),
+   trace type (bh=broadband), component (z).
+
+15. Setbacks. These are few, but they do exist - as in almost every
+software program. Those I found are:
+- Enigmatic error communication: Error CL-06, with no further explanation.
+- The "Help" usually doesn't give any help, at least in the current version.
+- No possibility to integrate/differentiate signals.
+
+This short manual has been written by Pawel Wiejacz of the Institute of
+Geophysics, Polish Academy Of Sciences, em: pwiejacz@seismol1.igf.edu.pl ,
+based on own experience with SHM.

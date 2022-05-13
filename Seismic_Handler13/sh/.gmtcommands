@@ -1,0 +1,7 @@
+# GMT common arguments shelf
+-B2g2f0:.archive stations:
+-Jt10/1:5500000
+-R5/46/16.5/55.3r
+-X4.0
+-Y5.5
+EOF

@@ -1,0 +1,36 @@
+
+!      =========
+!
+! version 1, 23-Feb-94
+!
+! let user select phases and store result
+! K. Stammler, 23-Feb-94
+
+default 1 ptime    name of output file
+
+sdef phase         ! name of current phase
+sdef onset         ! onset time of phase
+sdef cmd           ! shell command
+
+fct oscall fdelete |#1|.stx|
+@CALC S &CMD = |cp|$BLANK|XPID.STX|$BLANK|#1|.STX|
+system "cmd
+
+loop_start:
+
+   switch capcnv off
+   ENTER &PHASE name of phase (empty exits, mind upper and lowercase)
+   SWITCH CAPCNV ON
+	if  "phase eqs ;;  goto/forward loop_exit:
+
+@  ECHO select phase "PHASE
+	time &onset
+
+	echo_ch #1
+	echo "phase "onset
+	echo_ch
+
+goto loop_start:
+loop_exit:
+
+return

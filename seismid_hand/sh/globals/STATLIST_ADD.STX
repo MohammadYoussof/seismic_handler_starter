@@ -1,0 +1,41 @@
+! file STATLIST_GERESS.STX
+!      ===================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for GERESS stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 3 ADD
+set2: 0 0 ---
+
+* WLF
+* RGN
+* IBBN
+* BRNL
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---

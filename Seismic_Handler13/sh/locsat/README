@@ -1,0 +1,42 @@
+
+
+				======
+				README
+				======
+
+
+Installation Manager,
+
+	To install the location-related NMRD software, LocSAT, PredSAT and
+TTTab, on your UNIX-based system first uncompress the given file loc_tar.Z.
+Then extract the information from the now uncompressed tar file, loc_tar, 
+in the working directory of your choice.  If LocSAT is being installed on 
+a SUN sparc system the user only need run the executable in the immediate 
+bin directory.  Test files are included in the directories, src/LocSAT/tst 
+and src/PredSAT/tst.  If the installation manager wishes to build from 
+scratch or desires to run the code on a non-sparc system the following, then 
+just run the top-level Makefile, make_loc provided here.  That is, run as: 
+
+% make -f make_loc install
+
+in your current directory.  The executable will be installed in the bin 
+directory and you're ready to go.
+
+	Please note that there is a manual page for LocSAT in directory,
+doc/man/man1.  There are no man pages for PredSAT and TTTab although the
+main prologues in their source code directories are sufficiently documented 
+that user's should have little trouble executing them.
+
+	For any specific questions, I can be reached at the SAIC office in 
+San Diego, as follows,
+
+
+			Walter Nagy
+			Science Applications International Corporation
+			10260 Campus Point Dr.
+			M/S 12
+			San Diego, CA   92121
+			Phone:	(619) 458-2520
+			Fax:	(619) 458-4993
+			Email:	nagy@esosun.css.gov
+

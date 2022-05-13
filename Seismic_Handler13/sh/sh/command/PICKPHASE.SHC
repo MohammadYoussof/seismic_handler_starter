@@ -1,0 +1,46 @@
+! file PICKPHASE.SHC
+!      =============
+!
+! version 1, 25-Jan-93
+!
+! inserts selected phase into trace header
+! K. Stammler, 25-Jan-93
+
+default 1 p-onset      phase info name
+
+sdef cnt 1      ! trace counter
+sdef abspos     ! absolute time position
+sdef trace      ! which trace selected
+sdef abort      ! abort routine
+
+! check whether all traces are read from q-files
+calc i &abort = 0
+check_loop:
+   if  "cnt gti $dsptrcs  goto/forward check_loop_exit:
+   if  ^fromq("cnt) eqs y  goto/forward  trace_ok:
+      echo trace "cnt not from q-file
+      calc i &abort = 1
+   trace_ok:
+   set "cnt usflg1 n
+   calc i &cnt = "cnt + 1
+goto check_loop:
+check_loop_exit:
+if  "abort eqi 1  return
+
+calc i &cnt = 1
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   time &abspos;;;&trace
+   if  ^usflg1("trace) eqs n  goto/forward first_time:
+      echo trace "trace already selected, first selection overwritten
+      set/file "trace #1 "abspos
+      goto/forward sel_ok:
+   first_time:
+      calc i &cnt = "cnt + 1
+      set/file "trace #1 "abspos
+      set "trace usflg1 y
+   sel_ok:
+goto loop_start:
+loop_exit:
+
+return

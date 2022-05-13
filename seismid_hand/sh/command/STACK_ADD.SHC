@@ -1,0 +1,41 @@
+default 1 ;;      first stack file
+default 2 ;;      second stack file
+default 3 1.            relative weight of first stack
+default 4 ;;            shift of first stack
+
+sdef w2                 ! weight of second stack
+sdef trcno              ! number of traces
+sdef trc1               ! traces already on display
+sdef trc2
+sdef trccnt 1
+sdef cmt
+
+nr
+dtw
+calc r &w2 = #3 abs
+calc r &w2 = 2. - "w2           ! weight of second stack
+extract #1 1 no_of_recs &trcno  ! get number of traces in first file
+calc i &trc1 = $dsptrcs
+loop_start:
+   read #1 "trccnt
+   read #2 "trccnt
+   calc i &trc1 = "trc1 + 1        ! increment trace counter
+   calc i &trc2 = "trc1 + 1
+   if  #4 eqs ;;  goto/forward noshift:
+      shift "trc1 #4
+   noshift:
+   calc s &cmt = ^comment("trc1) ! get comment line
+   if  ^delta("trc1) eqr ^delta("trc2)  goto noresample:
+      resample "trc2 ^delta("trc1)
+   noresample:
+   set "trc1 weight #3
+   set "trc2 weight "w2
+   sum |"trc1|,|"trc2|
+   del |"trc1|,|"trc2|
+   set "trc1 comment "cmt
+   calc i &trccnt = "trccnt + 1        ! increment counter
+   if  "trccnt gti "trcno  goto/forward loop_exit:
+goto loop_start:
+loop_exit:
+rd
+return

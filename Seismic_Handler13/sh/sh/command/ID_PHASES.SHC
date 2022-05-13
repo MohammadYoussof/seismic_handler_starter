@@ -1,0 +1,46 @@
+! file id_phases.shc
+!      =============
+!
+! version 1, 4-Aug-92
+!
+! marks phases of a specified phase list
+! to be called directly after an IDENTIFY command
+! K. Stammler, 4-AUG-92
+
+default 1 1            trace number
+default 2 0.           shift time
+default 3 phaselist    phase list file
+default 4 0.1          label step
+
+sdef info "g1      ! information line
+sdef origin        ! origin time
+sdef dist          ! distance
+sdef depth         ! depth
+
+if  ^fromq(#1) nes y  goto/forward from_variable:
+if  #noq nes _existsnot_  goto/forward from_variable:
+
+   echo extract info from q-file ^file(#1)
+   calc s &origin = ^origin(#1)
+   calc s &dist = ^distance(#1)
+   calc s &depth = ^depth(#1)
+   goto/forward info_ok:
+
+from_variable:
+
+   echo get info from internal variable
+   calc s &origin = "info parse 2
+   calc s &dist = "info parse 7
+   calc s &depth = "info parse 5
+
+info_ok:
+
+calc r &dist = "dist /fmt=<%5.2@f>
+calc r &depth = "depth /fmt=<%4.1@f>
+
+echo origin time: "origin
+echo distance "dist deg
+echo depth "depth km
+markp_ii #1 #2 #3 "dist "depth "origin #4
+
+return

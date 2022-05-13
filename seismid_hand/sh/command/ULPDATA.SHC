@@ -1,0 +1,49 @@
+! file ULPDATA.SHC
+!      ===========
+!
+! version 1, 15-Aug-96
+!
+! extracts ULP from 1Hz channel in week traces
+! K. Stammler, 15-Aug-96
+
+default 1 gsh     station
+default 2 sfd:    path
+default 3 ;;      start date
+default 4 12      week length
+default 5 lp100   filter
+
+sdef week 1       ! week counter
+sdef rtime        ! read time
+
+calc t &rtime = #3 tadd 1.0
+fili r #5
+
+loop_start:
+   if  "week gti #4  goto/forward loop_exit:
+	echo start time "rtime
+
+	! clear and read data
+	nr
+   del all_dh
+   norm sf
+	reads/force #2 "rtime 604800 #1 z lh
+	rd
+
+	! filter and resample
+	nr
+	demean 1
+	filter r 1
+	del 1
+	resample 1 50.0
+	rd
+
+	! write
+	write #1 1
+
+	! increment counters
+   calc t &rtime = "rtime tadd 604800
+   calc i &week = "week + 1
+goto loop_start:
+loop_exit:
+
+return

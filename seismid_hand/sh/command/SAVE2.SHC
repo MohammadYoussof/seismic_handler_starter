@@ -1,0 +1,19 @@
+! file SAVE2.SHC
+
+default 1 ;;     1. info entry
+default 2 ;;     2. info entry
+default 3 ;;     file name
+
+sdef cnt 1     ! trace counter
+echo_ch #3
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   echo ^#1("cnt) ^#2("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

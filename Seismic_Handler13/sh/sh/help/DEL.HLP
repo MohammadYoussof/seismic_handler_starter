@@ -1,0 +1,21 @@
+command DEL <trc-list>
+===========
+
+key: delete traces
+
+Removes traces from memory (and from display).  If these traces are
+not stored on a q-file, all information about these traces is lost.
+
+parameters:
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be deleted.
+
+
+examples:
+
+   DEL 1-3              ! delete first three traces of display
+
+   DEL *                ! delete traces selected by graphic cursor
+                        ! exit with "E"-key
+

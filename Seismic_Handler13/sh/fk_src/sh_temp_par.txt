@@ -1,0 +1,22 @@
+Station code           : GRA1
+Onset time             : 28-APR-1996_05:08:04.185
+Onset type             : emergent
+Phase name             : P
+Event Type             : teleseismic quake
+Applied filter         : G_WWSSN_SP
+Component              : Z
+Quality number         : 1
+Weight                 : 4
+Beam-Slowness (sec/deg):  7.1
+Beam-Azimuth (deg)     :   84.5
+Epi-Slowness (sec/deg) :  8.0
+Epi-Azimuth (deg)      :   77.6
+Depth (km)             :  33.0
+Depth type             : (n) preset
+Source region          : SOUTHERN SINKIANG PROV., CHINA
+Reference Location Name: GRA1
+Source of Information  : SZGRF
+Phase Flags            : T
+--- End of Phase ---
+
+

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Spectrogram</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060311;22585700">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Menu entry <EM>Spectrogram</EM></H2>
+<P>Available since version 2.4d (9-Oct-2006).
+Computes spectrogram of selected trace part, i.e. the trace within
+the drag window selected by the right mouse button, and displays it
+in a separate window.  Each call of this menu
+entry opens a new display window.  When working with unfiltered traces
+remember to remove the trace offset (Menu entry
+<a href="menu_demean.html">Demean</a>) otherwise the energy at frequency zero
+dominates everything. 
+</P>
+<P>
+The spectrogram is computed as follows: a subwindow of N samples of the
+selected trace window is transformed to frequency domain using the
+FFT algorithm (see Numerical Recipes, Press et al., Cambridge University
+Press, 1988).  N is determined by the configuration parameter
+<I>spectrogram_width</I> and must be a power of 2.  Reasonable values
+are e.g. 512 or 1024.  Before FFT the input trace is tapered in time domain
+using a cosine taper (2*cos(x)-1, -pi < x < pi).  The squared frequency
+amplitudes are displayed in a colour-coded vertical bar/line in the output
+window.  The next subwindow for FFT is found by shifting the last one by K
+samples to the right.  K is determined by the configuration parameter
+<I>spectrogram_step</I>.  The first subwindow starts with the first sample of
+the selected trace part, the last subwindow ends between 0 and K-1 samples
+before the end of the selected trace part.  The output matrix shows
+frequency over time, the frequency amplitudes are indicated by colour.  In
+the default display (blue-red-yellow), blue colours mark low amplitudes,
+red colours mark medium amplitudes and yellow colours mark high amplitudes.
+All spectrograms are normalised independently, amplitudes cannot be compared
+between two figures.  The frequency axis is logarithmic.  When moving the cursor
+into the colour matrix the numerical values of the current position in time
+and frequency are specified in the bottom text line.
+
+</P>
+<P>Menu entries of the spectrogram window:</P>
+<P><B>Plot</B>: Redraws content of window, e.g. after changing the
+size of the window.</P>
+<P><B>Pow ++</B>: by default the colour coded amplitudes are scaled
+linearly.  The amplitudes may be computed to the Nth power.  This button
+increments N.</P>
+<P><B>Pow --</B>: see above.  This button decrements N.</P>
+<P><B>G-R</B>: Show amplitudes in Green-Red colours.</P>
+<P><B>B-R</B>: Show amplitudes in Blue-Red colours.</P>
+<P><B>B-W</B>: Show amplitudes in Black-White colours.</P>
+<P><B>B-Y</B>: Show amplitudes in Blue-Red-Yellow colours (default).</P>
+<P><B>Quit</B>: closes spectrogram window.</P>
+<P><small>This page last modified 11-Oct-2006</small></P>
+</BODY>
+</HTML>

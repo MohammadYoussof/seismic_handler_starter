@@ -1,0 +1,42 @@
+!   make_corr makes a correlation
+!
+!
+sdef cnt 1
+sdef maxtrc $dsptrcs
+sdef w1
+sdef w2
+sdef inv    ! inverse filter
+sdef stime  ! start time
+nr
+al all p-onset
+save t-origin p_onsets
+set all t-origin 0.
+loop_start:
+   if "cnt gti "maxtrc goto loop_exit:
+   calc t &w1 = ^p-onset("cnt) tdiff ^start("cnt)
+   calc r &w1 = "w1 + ^t-origin("cnt)
+   calc r &w2 = "w1 + ^pwdw("cnt)
+   spiking "cnt "w1 "w2 0.1
+   calc i &inv = $dsptrcs
+   echo computing trace "cnt
+   fold "cnt;;;"inv
+!   set _created start ^start("cnt)
+   del "inv
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+hide |1-|"maxtrc|
+calc r &w2 = $dsp_x + $dsp_w
+max_al $dsp_x "w2
+
+echo aligning traces
+calc i &cnt = 1
+al_loop:
+   if  "cnt gti $dsptrcs  goto/forward al_loop_exit:
+   calc r &w1 = 0 - %p_onsets("cnt)
+   shift "cnt "w1
+   calc i &cnt = "cnt + 1
+goto al_loop:
+al_loop_exit:
+rd
+return

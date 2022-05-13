@@ -1,0 +1,42 @@
+! file INSERT_SIGNOISE_QLIST.SHC
+!      =========================
+!
+! version 1, 16-JUL-91
+!
+! inserts SIGNOISE value to every trace in each q-file listed in a given
+! q-file list.
+!
+! K. Stammler, 16-JUL-91
+
+default 1 ;;      q-file list
+default 2 1       first file
+default 3 %#1(0)  last file
+
+sdef cnt #2      ! file counter
+sdef qfile       ! q-file name
+sdef signoise    ! signal-to-noise-ratio
+
+del all
+dtw
+
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("cnt) parse 1
+   calc s &signoise = ******
+   switch cmderrstop off
+   extract "qfile 1 signoise &signoise
+   if  $status eqi 0  goto/forward signoise_ok:
+      switch cmderrstop on
+      del all
+      read "qfile all
+      insert_signoise_all;;
+   signoise_ok:
+   echo |"cnt|:| "qfile signoise "signoise
+   switch cmderrstop on
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+del all
+
+return

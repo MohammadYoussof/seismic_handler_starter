@@ -1,0 +1,19 @@
+! file ANISO_WEIGHTS.SHC
+
+default 1 1    k-factor
+default 2 0.   phase shift
+
+sdef cnt 1   ! counter
+sdef wgt     ! weight
+
+echo weighting traces |1-|$dsptrcs| ...
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc r &wgt = ^azimuth("cnt) * #1
+   calc r &wgt = "wgt + #2
+   calc r &wgt = "wgt cos
+   set "cnt weight "wgt
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+return

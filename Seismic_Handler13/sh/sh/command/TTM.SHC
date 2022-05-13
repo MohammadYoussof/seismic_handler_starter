@@ -1,0 +1,6 @@
+switch capcnv off
+DEFAULT 1 1 trace number
+DEFAULT 2 P phase
+SWITCH CAPCNV ON
+ttime #1 #2 "ret "g2 "g3
+return

@@ -1,0 +1,15 @@
+command QUIT <verification>
+============
+
+key: quit seismhandler
+
+Terminates seismhandler session and returns to operating system, if
+entered interactively.  In command files it is equivalent to the RETURN
+statement.
+
+
+parameters:
+
+<verification>  ---  parameter type: char
+   Program will be quitted only if <verification> = 'Y'.
+

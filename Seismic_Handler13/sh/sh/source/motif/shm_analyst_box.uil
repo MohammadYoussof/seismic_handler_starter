@@ -1,0 +1,99 @@
+! file shm_analyst_box.uil
+!      ===================
+!
+! version 2, 31-May-95
+!
+! analyst box
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   analyst_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'analyst';
+         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard analyst_input_box;
+         XmRowColumn     analyst_main_button_box;
+      };
+   };
+
+object
+   analyst_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_analyst_main_buttons;
+         XmNy = k_pos_y_analyst_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_analyst_ok;
+      };
+   };
+
+object
+   button_analyst_ok: XmPushButton {
+      arguments {
+         XmNlabelString = ' OK ';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_analyst_ok );
+      };
+   };
+
+object
+   analyst_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'analyst input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+			XmNdefaultButton = button_analyst_ok;
+      };
+      controls {
+         XmLabel         analyst_name_label;
+         XmText          analyst_name_text;
+      };
+   };
+
+object
+   analyst_name_label: XmLabel {
+      arguments {
+         XmNlabelString = 'please enter initials';
+      };
+   };
+
+object
+   analyst_name_text: XmText {
+      arguments {
+!         XmNx = k_pos_x_analyst_name_text;
+         XmNy = k_pos_y_analyst_name_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 3;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_analyst_name_text );
+!         XmNmodifyVerifyCallback =
+!            procedure xm_call_text_input( k_widget_analyst_name_text );
+      };
+   };
+

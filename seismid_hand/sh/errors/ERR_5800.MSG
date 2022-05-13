@@ -1,0 +1,27 @@
+! file ERR_5800.MSG
+!      ============
+!
+! version 3, 8-Jun-2006
+!
+! error messages of module seismics.h
+! K. Stammler, 22-Aug-94
+!
+*** CL3-01 save phase list twice ***
+*** CL3-02 phase list length mismatch ***
+*** CL3-03 string overflow ***
+*** CL3-04 write error on file ***
+*** CL3-05 read error on file ***
+*** CL3-06 open error on input file ***
+*** CL3-07 open error on output file ***
+*** CL3-08 wrong version of save file ***
+*** CL3-09 program bug ***
+*** CL3-10 too less traces ***
+*** CL3-11 no relative station location ***
+*** CL3-12 no theo phase selected ***
+*** CL3-13 error in definition of environment ***
+*** CL3-14 error converting number ***
+*** CL3-15 no phases found ***
+*** CL3-16 SH environment incomplete ***
+*** CL3-17 error retrieving plugin content file ***
+*** CL3-18 no more free plugin entry ***
+*** CL3-19 all available plugins installed ***

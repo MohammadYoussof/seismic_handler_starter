@@ -1,0 +1,45 @@
+
+sdef trcno $dsptrcs
+
+sdef num
+
+nr
+sum _azimuth(0:180);;;&num
+set _created comment |0-180|,|"num|
+set _created azimuth 1000.
+sum _azimuth(30:210);;;&num
+set _created comment |30-210|,|"num|
+set _created azimuth 1000.
+sum _azimuth(60:240);;;&num
+set _created comment |60-240|,|"num|
+set _created azimuth 1000.
+sum _azimuth(90:270);;;&num
+set _created comment |90-270|,|"num|
+set _created azimuth 1000.
+sum _azimuth(120:300);;;&num
+set _created comment |120-300|,|"num|
+set _created azimuth 1000.
+sum _azimuth(150:330);;;&num
+set _created comment |150-330|,|"num|
+set _created azimuth 1000.
+sum _azimuth(180:360);;;&num
+set _created comment |180-0|,|"num|
+set _created azimuth 1000.
+sum _azimuth~(30:210);;;&num
+set _created comment |210-30|,|"num|
+set _created azimuth 1000.
+sum _azimuth~(60:240);;;&num
+set _created comment |240-60|,|"num|
+set _created azimuth 1000.
+sum _azimuth~(90:270);;;&num
+set _created comment |270-90|,|"num|
+set _created azimuth 1000.
+sum _azimuth~(120:300);;;&num
+set _created comment |300-120|,|"num|
+set _created azimuth 1000.
+sum _azimuth~(150:330);;;&num
+set _created comment |330-150|,|"num|
+set _created azimuth 1000.
+hide |1-|"trcno|
+rd
+return

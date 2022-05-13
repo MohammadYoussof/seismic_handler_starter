@@ -1,0 +1,59 @@
+! file ERR_1700.MSG
+!      ============
+!
+! version 4, 27-AUG-91
+!
+! error messages of SeismicHandler
+! K. Stammler, 8-JUL-91
+!
+*** SH-01 memory allocation error ***
+*** SH-02 type index mismatch ***
+*** SH-03 info not found ***
+*** SH-04 entry string overflow ***
+*** SH-05 zero display length ***
+*** SH-06 no help available for this item ***
+*** SH-07 output file open error ***
+*** SH-08 symbol name expected ***
+*** SH-09 calc parameter error ***
+*** SH-10 illegal info entry type ***
+*** SH-11 too less parameters passed ***
+*** SH-12 illegal parameter ***
+*** SH-13 --- illegal error --- ***
+*** SH-14 command path name too long ***
+*** SH-15 required info entry missing ***
+*** SH-16 undefined info entry name ***
+*** SH-17 info entry name too long ***
+*** SH-18 unknown info entry type ***
+*** SH-19 unknown FCT subfunction ***
+*** SH-20 zero time window set ***
+*** SH-21 unknown axis name ***
+*** SH-22 unknown axis item ***
+*** SH-23 unknown synthetic type ***
+*** SH-24 trace list overflow ***
+*** SH-25 string overflow ***
+*** SH-26 unknown flag name ***
+*** SH-27 unknown keyword ***
+*** SH-28 command aborted ***
+*** SH-29 illegal default value ***
+*** SH-30 sample index out of range ***
+*** SH-31 operation not allowed for different sample rates ***
+*** SH-32 entry name already used ***
+*** SH-33 no more entry names of this type definable ***
+*** SH-34 attempt to write to file-header of modified trace ***
+*** SH-35 no trace at this position ***
+*** SH-36 error opening input file ***
+*** SH-37 error converting integer number ***
+*** SH-38 info entry is read-only ***
+*** SH-39 no list specified ***
+*** SH-40 error converting real number ***
+*** SH-41 program bug (this error should not occur) ***
+*** SH-42 graphic cursor selection exit ***
+*** SH-43 empty display list ***
+*** SH-44 illegal particle motion window ***
+*** SH-45 source file is not a q-file ***
+*** SH-46 error reading file ***
+*** SH-47 too many samples ***
+*** SH-48 not implemented ***
+*** SH-49 trace too short ***
+*** SH-50 lowercase command verb ***
+*** SH-51 cursor selection requested ***

@@ -1,0 +1,21 @@
+! file delay+sum.shc
+!      =============
+!
+! version 1, 29-Mar-96
+!
+! beam and sum 
+! K. Stammler, 29-Mar-96
+
+default 1 all  trace list
+default 2 ;;   azimuth
+default 3 ;;   slowness
+
+
+nr
+set all t-origin 0.0
+shift all time_al
+beam #1 #2 #3
+sum #1
+rd
+
+return

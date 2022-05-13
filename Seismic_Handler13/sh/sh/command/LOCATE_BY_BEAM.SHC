@@ -1,0 +1,180 @@
+! file LOCATE_BY_BEAM.SHC
+!      ==================
+!
+! version 1, 10-Mar-2005
+!
+! Search best location
+! K. Stammler, 10-Mar-2005
+
+default 1 ;;   read time
+default 2 ;;   read length
+default 3 locout output file
+
+sdef trcno   ! number of traces
+sdef lat     ! current latitude
+sdef lon     ! current longitude
+sdef max_pvn ! maximum of Pn
+sdef max_pvg ! maximum of Pg
+sdef max_svn ! maximum of Sn
+sdef max_svg ! maximum of Sg
+sdef max_all ! maximum of all together
+sdef maxmax  ! biggest maximum
+sdef maxlat  ! latitude of maximum
+sdef maxlon  ! longitude of maximum
+sdef limlat  ! limit for latitude
+sdef limlon  ! limit for longitude
+
+
+!goto xy:
+! read in data
+
+switch chatty off
+del all
+dtw
+
+reads onl: #1 #2 _grsn zne bh
+reads auto: #1 #2 _at zne bh
+reads auto: #1 #2 _cz zne bh
+reads auto: #1 #2 _pl zne bh
+reads auto: #1 #2 _dk zne bh
+reads auto: #1 #2 _eeu zne bh
+
+calc i &trcno = $dsptrcs
+
+demean all
+fili f hp1hz4
+filter f all
+del |1-|"trcno|
+cut all 20 #2
+envelope_all
+decimate all 40
+unit_all 20 #2
+
+zoom all 5
+
+xy:
+
+calc i &trcno = $dsptrcs
+calc i &trcno = "trcno + 1
+
+calc s &maxmax = 0.0
+
+nr
+
+echo_ch/new #3
+
+! loop locations
+calc r &lat = 33.0
+lat_loop:
+   if  "lat gtr 60 goto/forward lat_loop_end:
+   calc r &lon = -4.0
+   lon_loop:
+      if  "lon gtr 30  goto/forward lon_loop_end:
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 pvn
+		sum all
+		calc r &max_pvn = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 pvg
+		sum all
+ 		calc r &max_pvg = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 svn
+		sum all
+		calc r &max_svn = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 svg
+		sum all
+ 		calc r &max_svg = ^maxval("trcno)
+      del "trcno
+
+      calc r &max_all = "max_pvn + "max_pvg
+      calc r &max_all = "max_all + "max_svn
+      calc r &max_all = "max_all + "max_svg
+      echo "lat "lon "max_all "max_pvn "max_pvg "max_svn "max_svg
+
+      if  "maxmax gtr "max_all  goto/forward maxok:
+         calc r &maxmax = "max_all
+         calc r &maxlat = "lat
+         calc r &maxlon = "lon
+      maxok:
+
+      title 1 |"lat|$blank|"lon|$blank|"max_all|$blank|"maxlat|$blank|"maxlon|
+      rd
+      nr
+
+      calc r &lon = "lon + 1
+   goto lon_loop:
+   lon_loop_end:
+   calc r &lat = "lat + 1.0
+goto lat_loop:
+lat_loop_end:
+
+# finer loop around maximum
+calc r &lat = "maxlat - 1.0
+calc r &limlat = "maxlat + 1.0
+lat_loop2:
+   if  "lat gtr "limlat goto/forward lat_loop2_end:
+   calc r &lon = "maxlon - 1.0
+   calc r &limlon = "maxlon + 1.0
+   lon_loop2:
+      if  "lon gtr "limlon  goto/forward lon_loop2_end:
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 pvn
+		sum all
+		calc r &max_pvn = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 pvg
+		sum all
+ 		calc r &max_pvg = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 svn
+		sum all
+		calc r &max_svn = ^maxval("trcno)
+      del "trcno
+
+      set all t-origin 0.0
+      tt_align "lat "lon 10 svg
+		sum all
+ 		calc r &max_svg = ^maxval("trcno)
+      del "trcno
+
+      calc r &max_all = "max_pvn + "max_pvg
+      calc r &max_all = "max_all + "max_svn
+      calc r &max_all = "max_all + "max_svg
+      echo "lat "lon "max_all "max_pvn "max_pvg "max_svn "max_svg
+
+      if  "maxmax gtr "max_all  goto/forward maxok:
+         calc r &maxmax = "max_all
+         calc r &maxlat = "lat
+         calc r &maxlon = "lon
+      maxok:
+
+      title 1 |"lat|$blank|"lon|$blank|"max_all|$blank|"maxlat|$blank|"maxlon|
+      rd
+      nr
+
+      calc r &lon = "lon + 0.1
+   goto lon_loop2:
+   lon_loop2_end:
+   calc r &lat = "lat + 0.1
+goto lat_loop2:
+lat_loop2_end:
+
+echo_ch
+
+echo location "maxlat "maxlon maximum "maxmax
+
+return

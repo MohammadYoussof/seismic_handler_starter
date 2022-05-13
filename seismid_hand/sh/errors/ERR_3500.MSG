@@ -1,0 +1,23 @@
+! file ERR_3500.MSG
+!      ============
+!
+! version 6, 17-Feb-94
+!
+! error messages of module CMDPARSE.C
+! K. Stammler, 28-Dec-91
+!
+*** PT-01 string overflow ***
+*** PT-02 error opening input file ***
+*** PT-03 this is not a TTT file ***
+*** PT-04 read error on TTT file ***
+*** PT-05 too many depth steps ***
+*** PT-06 distance out of range ***
+*** PT-07 depth out of range ***
+*** PT-08 illegal depth-distance combination ***
+*** PT-09 error in TTT-file ***
+*** PT-10 slowness out of range ***
+*** PT-11 different depth steps in TTT files ***
+*** PT-12 could not fit depth to travel time difference ***
+*** PT-13 bug in program ***
+*** PT-14 incompatible travel time tables ***
+*** PT-15 could not fit distance ***

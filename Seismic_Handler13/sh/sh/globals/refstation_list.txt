@@ -1,0 +1,13 @@
+! file refstation_list.txt
+!      ===================
+!
+! version 1, 11-Oct-95
+!
+! list of reference stations for dialog box (maximum 6)
+! K. Stammler, 11-Oct-95
+GRA1
+MOX
+GRFO
+GEC2
+GRB5
+----

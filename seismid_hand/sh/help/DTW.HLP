@@ -1,0 +1,10 @@
+command DTW
+===========
+
+key: delete time window
+
+Deletes a time window previously set by STW command.  After DTW
+command the time window is chosen automatically in a way, that
+all traces can be displayed in full length. This is default at
+the beginning of SEISMHANDLER session.
+

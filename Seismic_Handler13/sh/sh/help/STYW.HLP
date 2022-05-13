@@ -1,0 +1,28 @@
+command STYW [<lo-time> <hi-time> <lo-y> <hi-y>]
+============
+
+key: select time & y-window
+
+Selects time and y-window simultaneously.  If the parameters are not
+specified the windows are selected by two selections by graphic
+cursors.  For information about time windows see "stw" command,
+for information about y-windows see "syw" command.
+
+
+parameters
+----------
+
+<lo-time>, <hi-time>  ---  parameter type: real
+   Bounds of time window.  If no parameters is specified both windows
+   are selected simultaneously by graphic cursor.
+
+<lo-y>, <hi-y>  ---  parameter type: real
+   Bounds of y-window.  If no parameters are specified both windows
+   are selected simultaneously by graphic cursor.
+
+
+example
+-------
+
+   styw          ! selects both windows simultaneously by graphic cursor
+

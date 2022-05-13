@@ -1,0 +1,30 @@
+
+! file INCIROT.SHC
+!      ===========
+!
+! version 1, 30-JUL-91
+!
+! 2-dim rotation Z,R -> L,Q with given angle of incidence
+! Output traces are labeled.
+! K. Stammler, 30-JUL-91
+
+default 1 1,4         trace list (Z,R)
+default 2 0.0         angle of incidence
+
+sdef neginci
+sdef trcno $dsptrcs   ! number of traces on display
+sdef angle
+
+calc r &neginci = 0 - #2
+
+nr
+calc r &angle = #2 /fmt=<%4.1@f>
+rot #1 "neginci
+calc i &trcno = "trcno + 1
+set "trcno comp l
+set "trcno comment |i:|"angle|
+calc i &trcno = "trcno + 1
+set "trcno comp q
+set "trcno comment |i:|"angle|
+rd
+return

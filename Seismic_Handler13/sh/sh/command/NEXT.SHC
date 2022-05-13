@@ -1,0 +1,9 @@
+default 1 ;;    list file
+default 2 1     increment
+sdef cnt %next_counter
+calc i &cnt = "cnt + #2
+calc s &g1 = %#1("cnt)
+echo_ch/ovwr next_counter
+echo "cnt
+echo_ch
+return

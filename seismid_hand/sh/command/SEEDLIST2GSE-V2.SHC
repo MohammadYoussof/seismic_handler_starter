@@ -1,0 +1,44 @@
+! file SEEDLIST2GSE.SHC
+!      ================
+!
+! version 1, 1-Jun-2001
+!
+! converts list of timespans given in SEED format to GSE1.0
+! The list file should have station, channel, comp, start time
+! and end time per line.
+! K. Stammler, 1-Jun-2001
+
+default 1 ;;      list file
+default 2 1       first line
+default 3 %#1(0)  last line
+default 4 sfd:    sfd path
+
+sdef cnt #2       ! counter
+sdef line         ! current line of list file
+sdef rtime        ! read time
+sdef rlth         ! read length
+sdef station
+sdef chan
+sdef comp
+sdef etime
+
+del all
+dtw
+
+loop_start:
+	if  "cnt gti #3  goto/forward loop_exit:
+   calc s &line = %#1("cnt)
+   calc s &station = "line parse 1
+   calc s &chan = "line parse 2
+   calc s &comp = "line parse 3
+   calc s &rtime = "line parse 4
+   calc s &etime = "line parse 5
+   calc t &rlth = "etime tdiff "rtime
+	reads #4 "rtime "rlth "station "comp "chan
+	writegse;;
+   del all
+	calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

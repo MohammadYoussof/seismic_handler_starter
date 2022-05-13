@@ -1,0 +1,24 @@
+! file 20HZ_LE3D5_S_WOODAND.FLR
+!      ========================
+!
+! version 1, 25-Mar-2003
+!
+! recursive simulation filter of Wood-Anderson for LE3D5s instruments
+! Created from FFT filter using MATLAB
+! K. Stammler, 25-Mar-2003
+1357913578
+3
+0.05
+1.0e-4
+5
+0.5229
+-0.9885
+-0.0543
+0.9886
+-0.4685
+5
+1.0000
+-3.3327
+4.1673
+-2.3242
+0.4900

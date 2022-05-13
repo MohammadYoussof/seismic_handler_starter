@@ -1,0 +1,35 @@
+! file chc.shc
+!      =======
+!
+!
+
+default 1 ;;   hc window
+
+sdef hcfile
+sdef outdev l    ! output device
+
+if  #rot eqs _existsnot_  goto/forward no_rot:
+   calc s &outdev = lr
+no_rot:
+
+echo writing hardcopy file
+hc #1 c &hcfile
+
+echo setup print job for "hcfile
+echo_ch/new sys$login:chc
+if  #verify eqs _existsnot_  goto/forward no_verify:
+   echo |$dollar|$blank|set|$blank|verify|
+no_verify:
+echo/no_crlf |$dollar|$blank|define|$slash|user|$blank|
+echo         |sys$output|$blank|$sh_id|.xxx|
+echo |$dollar|$blank|ccfile|$slash|inp=|"hcfile|$slash|out=|"outdev|
+echo/no_crlf |$dollar|$blank|print|$slash|pass|$slash|queue=grf10|
+echo         |$slash|delete|$blank|simint.lis|
+echo |$dollar|$blank|delete|$slash|noconfirm|$blank|"hcfile|%semicolon|
+echo/no_crlf |$dollar|$blank|delete|$slash|noconfirm|$blank|
+echo         |$sh_id|.xxx|%semicolon|*|
+echo |$dollar|$blank|purge|$slash|nolog|$blank|sys$login:chc.stx|
+echo_ch
+system @sys$login:chc.stx
+
+return

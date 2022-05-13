@@ -1,0 +1,12 @@
+! file p_portrait.shc
+!      ==============
+!
+! version 1, 31-Mar-95
+!
+! switches to potrait format for PS output
+! K. Stammler, 31-Mar-95
+
+!@FCT SETPAR P PSHEADER header_landscape.ps
+wdw size p 0 0 25.9 19.5
+
+return

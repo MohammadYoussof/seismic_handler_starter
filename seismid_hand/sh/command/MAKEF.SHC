@@ -1,0 +1,200 @@
+! file makef.shc
+!      =========
+!
+! version 2, 30-Oct-92
+!
+! creates filter files with utility programs
+! K. Stammler, 24-Jul-92
+
+sdef ftype         ! filter type
+sdef fftrec        ! FFT or recursive ?
+sdef fftype
+sdef dt            ! sample distance
+sdef itype         ! input type
+sdef c1            ! corner freq 1
+sdef c2            ! corner freq 2
+sdef cmd           ! command line
+sdef order         ! order of filter
+sdef file          ! output filter file
+sdef path          ! program path
+sdef c0
+sdef h0
+sdef h1
+sdef h2
+
+! check computer type
+fct get_os &ftype
+if  "ftype nes UNIX  goto/forward path_ok:
+   fct local getenv:SH_UTIL &path
+path_ok:
+
+switch capcnv off
+ECHO
+ECHO filter menu
+ECHO ===========
+ECHO
+ECHO hp $BLANK(3)   Butterworth highpass filter
+ECHO lp $BLANK(3)   Butterworth lowpass filter
+ECHO bp $BLANK(3)   Butterworth bandpass filter
+ECHO bs $BLANK(3)   Butterworth bandstop filter
+ECHO sim $BLANK(2)  Simulation filter
+ECHO rest $BLANK    Restitution filter
+ECHO
+ENTER &FTYPE filter type:
+ENTER &FFTREC FFT (f) or recursive (r) filter:
+
+IF  "FFTREC NES r  GOTO/FORWARD NO_RECURSIVE:
+   ENTER &DT sample distance (sec):
+NO_RECURSIVE:
+
+CALC S &FFTYPE = |"FTYPE|"FFTREC|
+
+IF  "FFTYPE EQS hpf  GOTO/FORWARD DO_HPF:
+IF  "FFTYPE EQS lpf  GOTO/FORWARD DO_HPF:
+   GOTO/FORWARD NO_HPF:
+DO_HPF:
+   ENTER &ITYPE input type (f=Hz,t=sec,w=ang.freq.):
+   ENTER &C1 corner |freq|$SLASH|time:|
+   ENTER &ORDER order of filter:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|butfreq|$BLANK|"FTYPE|
+   CALC S &CMD = |"CMD|$BLANK|"ITYPE|$BLANK|"C1|$BLANK|-o=|"ORDER|
+   CALC S &CMD = |"CMD|$BLANK|-f=|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_HPF:
+
+IF  "FFTYPE EQS bpf  GOTO/FORWARD DO_BPF:
+IF  "FFTYPE EQS bsf  GOTO/FORWARD DO_BPF:
+   GOTO/FORWARD NO_BPF:
+DO_BPF:
+   ENTER &ITYPE input type (f=Hz,t=sec,w=ang.freq.):
+   ENTER &C1 corner 1: |freq|$SLASH|time:|
+   ENTER &C2 corner 2: |freq|$SLASH|time:|
+   ENTER &ORDER order of filter:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|butfreq|$BLANK|"FTYPE|
+   CALC S &CMD = |"CMD|$BLANK|"ITYPE|$BLANK|"C1|$BLANK|"C2|$BLANK|
+   CALC S &CMD = |"CMD|-o=|"ORDER|$BLANK|-f=|"FILE|
+   ECHO command "CMD
+   SYSTEM "CMD
+   RETURN
+NO_BPF:
+
+IF  "FFTYPE EQS hpr  GOTO/FORWARD DO_HPR:
+IF  "FFTYPE EQS lpr  GOTO/FORWARD DO_HPR:
+   GOTO/FORWARD NO_HPR:
+DO_HPR:
+   ENTER &ITYPE input type (f=Hz,t=sec,w=ang.freq.):
+   ENTER &C1 corner |freq|$SLASH|time:|
+   ENTER &ORDER order of filter:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|butrec|$BLANK|"DT|$BLANK|
+   CALC S &CMD = |"CMD|"FTYPE|$BLANK|"ITYPE|$BLANK|"C1|$BLANK|
+   CALC S &CMD = |"CMD|-o=|"ORDER|$BLANK|-f=|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_HPR:
+
+IF  "FFTYPE EQS bpr  GOTO/FORWARD DO_BPR:
+IF  "FFTYPE EQS bsr  GOTO/FORWARD DO_BPR:
+   GOTO/FORWARD NO_BPR:
+DO_BPR:
+   ENTER &ITYPE input type (f=Hz,t=sec,w=ang.freq.):
+   ENTER &C1 corner 1 |freq|$SLASH|time:|
+   ENTER &C2 corner 2 |freq|$SLASH|time:|
+   ENTER &ORDER order of filter:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|butrec|$BLANK|"DT|$BLANK|
+   CALC S &CMD = |"CMD|"FTYPE|$BLANK|"ITYPE|$BLANK|"C1|$BLANK|
+   CALC S &CMD = |"CMD|"C2|$BLANK|-o=|"ORDER|$BLANK|-f=|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_BPR:
+
+IF  "FFTYPE NES simr  GOTO/FORWARD NO_SIMR:
+   ECHO removes seismometer h0, T0
+   ECHO applies seismometer h1, T1 and galvanometer h2, T2
+   ENTER &H0 h0:
+   ENTER &C0 T0:
+   ENTER &H1 h1:
+   ENTER &C1 T1:
+   ENTER &H2 h2:
+   ENTER &C2 T2:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|simrec|$BLANK|
+   CALC S &CMD = |"CMD|"H0|$BLANK|"C0|$BLANK|
+   CALC S &CMD = |"CMD|"H1|$BLANK|"C1|$BLANK|
+   CALC S &CMD = |"CMD|"H2|$BLANK|"C2|$BLANK|
+   CALC S &CMD = |"CMD|"DT|$BLANK|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_SIMR:
+
+IF  "FFTYPE NES simf  GOTO/FORWARD NO_SIMF:
+   ECHO removes seismometer h0, T0
+   ECHO applies seismometer h1, T1 and galvanometer h2, T2
+   ENTER &H0 h0:
+   ENTER &C0 T0:
+   ENTER &H1 h1:
+   ENTER &C1 T1:
+   ENTER &H2 h2:
+   ENTER &C2 T2:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|simfreq|$BLANK|
+   CALC S &CMD = |"CMD|"H0|$BLANK|"C0|$BLANK|
+   CALC S &CMD = |"CMD|"H1|$BLANK|"C1|$BLANK|
+   CALC S &CMD = |"CMD|"H2|$BLANK|"C2|$BLANK|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_SIMF:
+
+IF  "FFTYPE NES restr  GOTO/FORWARD NO_RESTR:
+   ECHO removes seismometer h0, T0
+   ECHO applies highpass with corner Tc (in sec) of order 3
+   ENTER &H0 h0:
+   ENTER &C0 T0:
+   ENTER &C1 Tc:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|restrec|$BLANK|
+   CALC S &CMD = |"CMD|"H0|$BLANK|"C0|$BLANK|
+   CALC S &CMD = |"CMD|"C1|$BLANK|"DT|$BLANK|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_RESTR:
+
+IF  "FFTYPE NES restf  GOTO/FORWARD NO_RESTF:
+   ECHO removes seismometer h0, T0
+   ECHO applies highpass with corner Tc (in sec) of specified order
+   ENTER &H0 h0:
+   ENTER &C0 T0:
+   ENTER &C1 Tc:
+   ENTER &ORDER order:
+   ENTER &FILE name of output file (no extension):
+   CALC S &FILE = "FILE UPPER
+   CALC S &CMD = |"PATH|restfreq|$BLANK|
+   CALC S &CMD = |"CMD|"H0|$BLANK|"C0|$BLANK|
+   CALC S &CMD = |"CMD|"C1|$BLANK|"ORDER|$BLANK|"FILE|
+   ECHO exec cmd "CMD
+   SYSTEM "CMD
+   RETURN
+NO_RESTF:
+
+ECHO Illegal input: "FTYPE "FFTREC
+
+SWITCH CAPCNV ON
+
+return

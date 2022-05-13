@@ -1,0 +1,20 @@
+! file PM3.shc
+!      =======
+!
+! version 2, 21-May-97
+!
+! particle motion diagrams
+! K. Stammler, 14-Apr-92
+
+default 1 1.    time window width in sec
+
+if  $dsptrcs eqi 3  goto/forward num_3:
+
+pm/mwdw/circle=0.02 2,1,3,2,3,1 #1
+return
+
+num_3:
+pm/mwdw/circle=0.02 2,1,3,2,3,1 #1
+return
+
+return

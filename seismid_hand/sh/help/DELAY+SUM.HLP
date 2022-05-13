@@ -1,0 +1,31 @@
+command DELAY+SUM <trc-list> <azimuth> <slowness>
+=================
+
+key: delay and sum
+! version 1, 29-Mar-96
+
+Delays traces specified in <trc-list> to align seismic phases
+with the same azimuth and slowness.  Before applying delays all
+traces are reset in time.  After applying delays all specified
+traces are summed and a SUM trace appears on top of the display.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be beamed.
+
+<azimuth>  ---  parameter type: real
+   Azimuth of phase to be aligned given in degrees.
+
+<slowness>  ---  parameter type: real
+   Slowness of phase to be aligned given in sec/degree.
+
+
+example
+-------
+
+   delay+sum all 30.0 5.0        ! shift all traces to beam a phase of
+                                 ! azimuth 30 degrees and slowness 5.0 sec/deg
+

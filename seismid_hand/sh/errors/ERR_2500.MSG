@@ -1,0 +1,12 @@
+! file ERR_2500.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module QFINTRFC.C
+! K. Stammler, 8-JUL-91
+!
+*** QI-01 type mismatch ***
+*** QI-02 illegal info entry number ***
+*** QI-03 illegal info entry type ***
+*** QI-04 info entry is already used ***

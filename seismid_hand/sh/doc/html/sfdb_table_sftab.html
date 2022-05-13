@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table sftab</H2>
+<P>
+<ul>
+   <li><b>station</b>    VARCHAR(10),
+   <li><b>chan</b>       CHAR(2),
+   <li><b>comp</b>       CHAR,
+   <li><b>pathid</b>     INTEGER,
+   <li><b>relpath</b>    VARCHAR(255),
+   <li><b>sdate</b>      INTEGER,
+   <li><b>stime</b>      DOUBLE,
+   <li><b>edate</b>      INTEGER,
+   <li><b>etime</b>      DOUBLE,
+   <li><b>recnum</b>     INTEGER,
+   <li><b>hswap</b>      TINYINT,
+   <li><b>recsize</b>    INTEGER,
+   <li><b>offset</b>     INTEGER,
+   <li><b>dataflags</b>  INTEGER,
+   <li><b>priority</b>   TINYINT,
+   <li><b>dataformat</b> TINYINT,
+	<li><b>qualref</b>    INTEGER,
+   <li>PRIMARY KEY(<b>pathid</b>,<b>relpath</b>),
+   <li>index(<b>sdate</b>),
+   <li>index(<b>stime</b>),
+   <li>index(<b>edate</b>),
+   <li>index(<b>etime</b>)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>station</b>:    lowercase station name, e.g. 'grfo'
+<li><b>chan</b>:       lowercase channel name, e.g. 'bh'
+<li><b>comp</b>:       lowercase component, e.g. 'z'
+<li><b>pathid</b>:     rootpath ID number;
+             the path strings are taken from lookup table 'pathtab';
+             suggested ranges of 'pathid' numbers:<br>
+             0      : empty rootpath, absolute path given in 'relpath';<br>
+             1-99   : paths to temporary online-files ((A)-type files);<br>
+             101-999: paths to other temporary files ((B)-type files);<br>
+             1000   : reserved entry; separator between temporary and
+                      archive paths;<br>
+             >1000  : paths to archived data ('DVD-paths' or
+                      permanent 'RAID-paths', (C)-type files);
+<li><b>relpath</b>:    relative paths to data files
+<li><b>sdate</b>:      start date of data file, integer YYYYMMDD
+<li><b>stime</b>:      start time of data file, float HHMMSS.SSS
+<li><b>edate</b>:      end date of data file, integer YYYYMMDD
+<li><b>etime</b>:      end time of data file, float HHMMSS.SSS
+<li><b>recnum</b>:     number of SEED records in data file, used for positioning
+             within file
+<li><b>hswap</b>:      swap header info in miniseed record headers (0=no, 1=yes)
+<li><b>recsize</b>:    size of SEED records in bytes, typical values: 512 or 4096
+<li><b>offset</b>:     number of leading SEED records in data file which are not data
+             records, usually 0 or 1 in MiniSEED, larger values in full SEED
+             volumes
+<li><b>dataflags</b>:  data quality flags as defined similar to the values in
+             the SEED record header.  A value set
+             here affects all records of the file:<br>
+             0x01   Saturated,<br>
+             0x02   Clipped,<br>
+             0x04   Spikes,<br>
+             0x08   Glitches,<br>
+             0x10   Missing Data Padded,<br>
+             0x20   Sync Error,<br>
+             0x40   Filter Charging,<br>
+             0x80   Time Tag,<br>
+             0x1000 No Calibration (SH internal flag),<br>
+             0x2000 Data Locked (SH internal flag)<br>
+             a value of 0 means that data are ok
+<li><b>dataformat</b>: data format ID; not yet implemented in SH/SHM.
+             Suggested: 1=miniseed, 2=gcf
+<li><b>priority</b>:   priority of entry; larger values = higher priority
+             e.g. temporary data paths (id < 1000) should have lower priority
+             than archived paths (id > 1000), since archived paths should be
+             complete
+<li><b>qualref</b>:   reference ID (pointer) to quality entry in table
+             <a href="sfdb_table_qualtab.html">qualtab</a>. This table
+             contains statistical information about the data file.  If no
+             entry in table qualtab is available this entry is NULL.
+</ul>
+</P>
+
+<P>This page last modified 28-Feb-2007</P>
+</BODY>
+</HTML>

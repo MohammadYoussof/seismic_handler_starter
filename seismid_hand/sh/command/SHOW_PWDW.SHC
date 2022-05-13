@@ -1,0 +1,11 @@
+! file SHOW_PWDW.SHC
+
+default 1 1     trace number
+
+sdef pwdw
+
+calc t &pwdw = ^p-onset(#1) tadd ^pwdw(#1)
+mark/abs #1 ^p-onset(#1)
+mark/abs #1 "pwdw
+
+return

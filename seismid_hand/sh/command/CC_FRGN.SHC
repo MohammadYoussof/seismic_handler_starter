@@ -1,0 +1,56 @@
+! create crosscorrelations
+default 1 ;;      q-file list
+default 2 1       first file
+default 3 %#1(0)  last file
+default 4 20.     width of corr. wdw
+default 5 ;;      output file prefix
+default 6 ;;      filter
+default 7 ;;      attenuation
+default 8 ;;      correlation trace
+default 9 ;;      output directory
+
+sdef filecnt #2      ! file counter
+sdef qfile           ! name of current q-file
+sdef qlth            ! number of traces in q-file
+sdef trccnt          ! trace counter in q-file
+sdef tmp             ! scratch
+
+del all_dh
+if  #6 eqs ;;  goto/forward nofilread:
+   fili f #6
+nofilread:
+corrl %corrwdw(1) %corrwdw(2)
+
+file_loop:
+   if  "filecnt gti #3  goto/forward file_loop_exit:
+   calc s &qfile = %#1("filecnt)
+   extract "qfile 1 no_of_recs &qlth
+   calc i &trccnt = 1
+   echo processing "qfile ...
+   trace_loop:
+      calc i &tmp = "trccnt + 2
+      if  "tmp gti "qlth  goto/forward trace_loop_exit:
+      read "qfile |"trccnt|-|"tmp|
+      del _distance()
+      del _mark(10:)
+      if  $tottrcs lti 3  goto/forward no_traces:
+         trcfct 1-3 remav
+         if  #6 eqs ;;  goto/forward no_filter:
+            filter f 1-3
+            del 1-3
+         no_filter:
+         create_corr #4 #7 #8
+         if  "filecnt nei 2  goto/forward no2:
+            fct qlines |#9|#5|^station| 2
+         no2:
+         write |#9|#5|^station| 1
+      no_traces:
+      del all
+      calc i &trccnt = "trccnt + 3
+   goto trace_loop:
+   trace_loop_exit:
+   calc i &filecnt = "filecnt + 1
+goto file_loop:
+file_loop_exit:
+
+return

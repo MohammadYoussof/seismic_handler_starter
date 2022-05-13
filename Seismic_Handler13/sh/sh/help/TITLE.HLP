@@ -1,0 +1,42 @@
+command TITLE <line> <text> [<x-pos> <y-pos>]
+=============
+
+key: set title line
+
+Changes title line of display.  There are three lines available
+(line numbers 1,2,3).  Each of them can be set independently in
+text and position.  If no position is entered, the last entered
+position is used.  If a text containing blank should be entered,
+use the query mode, i.e. enter just "title" without any parameters
+and enter parameters <line> and <text> after the correspondend
+prompts.  After the "text: "-prompt any characters in the title
+line are accepted.  The style block number used for title output
+is $titlestyle.
+
+
+parameters
+----------
+
+<line>  ---  parameter type: integer
+   Line number of title.  There are three lines available (1,2,3).
+
+<text>  ---   parameter type: string
+   New text of title line.  If the text contains blanks use the
+   query mode (see above).  If the <text> parameter is left empty
+   the title line is removed from display.
+
+<x-pos>, <y-pos>  ---   parameter type: real
+   Position of text line in units of display width and display height.
+   If these parameters are omitted the last specified values are
+   used.
+
+
+example
+-------
+
+   title
+   1
+   this is a test line
+
+   ! creates new first title line "THIS IS A TEST TITLE"
+

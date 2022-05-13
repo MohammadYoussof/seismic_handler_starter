@@ -1,0 +1,13 @@
+! file KLS_interactive.SHC
+
+default 1 ;;      list file
+default 2 1       increment
+
+echo >>>>>> reading event parameters from terminal <<<<<<
+
+enter/interactive &g1 origin time e.g. 28-sep-91_3:40:10 or 28,9,91,3,40,10
+enter/interactive &g2 distance in degrees
+enter/interactive &g3 depth im km
+enter/interactive &ret back azimuth in degrees
+
+return

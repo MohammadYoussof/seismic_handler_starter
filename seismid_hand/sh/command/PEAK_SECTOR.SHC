@@ -1,0 +1,45 @@
+
+! file PEAK_SECTOR.SHC
+!      ===============
+!
+! version 1, 6-AUG-91
+!
+! creates from hidden Q-traces a stack of conversion depth #1 with
+! trace of a sector from #2 to #3 degrees
+! K. Stammler, 6-AUG-91
+
+default 1 640     conversion depth
+default 2 0.      from azimuth
+default 3 180.    to azimuth
+
+sdef trcno
+
+nr
+del all
+dtw
+if  #2 gtr #3  goto/forward complement:
+   display _azimuth(#2:#3)
+   goto/forward cmp_ok:
+complement:
+   display _azimuth(#2:360.0)
+   display _azimuth(0.0:#3)
+cmp_ok:
+set all t-origin 0.
+rd
+calc i &trcno = $dsptrcs
+echo "trcno traces
+nr
+shift all ps_delay #1 slowness
+sum all
+hide |1-|"trcno|
+stw -20 90
+norm c
+zoom 1 -100
+echo compute 4-th power
+trcfct 1 spower 4.
+shift 1 -15.
+set 1 comment |#2|-|#3|,|"trcno|
+trctxt ^comment($x)
+rd
+
+return

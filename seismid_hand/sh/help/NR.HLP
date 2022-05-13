@@ -1,0 +1,13 @@
+command NR
+==========
+
+key: switch redraw off
+
+Switches automatic redraw off.  A NR command suppresses all display
+redraws until a RD command is entered.  Each NR command must be
+disabled by a separate RD command, that means if there are two
+consecutive NR commands, then two RD commands are needed to cause
+a redraw.
+
+no parameters
+

@@ -1,0 +1,54 @@
+! file SHM_CMD_NORM.SHC
+!      ================
+!
+! version 1, 27-Oct-94
+!
+! renormalizes traces on screen.  Replaces routine 'SHM_CMD_AUTOSCALE.SHC'.
+! K. Stammler, 27-Oct-94
+
+default 1 c      normalization type
+
+sdef filter     ! name of filter
+sdef status     ! return status
+
+if  #1 eqs c  goto/forward do_norm_c:
+
+! automatic scaling:
+! ------------------
+
+nr
+!shmsetup auto_scaling true
+zoom/default all 1.0
+norm #1
+rd
+
+return
+
+
+! constant scaling
+! ----------------
+
+do_norm_c:
+
+!switch verify on
+nr
+!shmsetup auto_scaling false
+zoom/default all 5.0e-4
+norm c
+! try to find filter zoom factor
+switch cmderrstop off
+switch noerrmsg on
+calc s &filter = ^comment extract 5 40
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status nei 0  goto/forward zoom_ok:
+	switch cmderrstop off
+	switch noerrmsg on
+	zoom all %|shm_mag_|"filter|
+	switch noerrmsg off
+	switch cmderrstop on
+zoom_ok:
+rd
+
+return

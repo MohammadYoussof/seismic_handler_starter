@@ -1,0 +1,86 @@
+switch startup off
+wdw/dc=s/ic=s/main
+wdw/ic=s
+switch capcnv off
+ECHO
+ECHO SeismicHandler, version $VERSION (K. Stammler)
+ECHO processing startup file ...
+ECHO
+SWITCH CAPCNV ON
+fct axis timeaxis vpos -0.1
+fct axis timeaxis lab1cnt 1
+fct axis timeaxis labcnt 5
+fct axis timeaxis tick_lth 0.025
+fct axis timeaxis ltick_lth 0.05
+fct axis timeaxis labshift -0.02
+fct axis timeaxis labdist -0.1
+fct axis timeaxis style 7
+fct axis timeaxis plot on
+fct axis timeaxis labfmt <%4.1@f>
+fct axis y-axis vpos -0.03
+fct axis y-axis lab1cnt 1
+fct axis y-axis labcnt 4
+fct axis y-axis tick_lth 0.013
+fct axis y-axis ltick_lth 0.026
+fct axis y-axis labshift -0.01
+fct axis y-axis labdist -0.1
+fct axis y-axis style 7
+fct axis y-axis plot off
+fct axis y-axis labfmt <%4.1@f>
+trctxtp -.13 -.02
+trctxt |$x|:| ^station($x) ^comp($x)
+title/wdw=1 1;;0 -.3
+title/wdw=1 2;;0 -.4
+title/wdw=1 3;;1.15 0.05
+fct path globals shc_globals:
+fct corrmode 3
+switch cmderrstop on
+sdef/global ret x
+sdef/global g1
+sdef/global g2
+sdef/global g3
+entry define sign      i  6 11
+entry define eventno   i  7 12
+entry define mark      i  8 14
+entry define distance  r  1 11
+entry define azimuth   r  2 12
+entry define slowness  r  3 18
+entry define inci      r 12 13
+entry define depth     r 13 14
+entry define magnitude r 14 15
+entry define lat       r 15 16
+entry define lon       r 16 17
+entry define signoise  r 17 22
+entry define pwdw      r 18 23
+entry define dcvreg    r 19 24
+entry define dcvinci   r 20 25
+entry define delay     r 21 26
+entry define filter    s 10 11
+entry define quality   s 11 12
+entry define p-onset   t  1 22
+entry define s-onset   t  2 23
+entry define origin    t  3 24
+entry define reverse   f  0 10
+entry define corrinci  f  1 11
+echo reading iasp91 mantle velocities ...
+fct read_vel shc_inputs:iasp91_efa
+! fct read_vel shc_veloc:prem_mantle_vel
+! fct tt_table u21:[b311stamm.sh.inputs]travel_time.dat
+fct tt_table shc_inputs:
+fct fername shc_inputs:fername.dat
+fct ferindex shc_inputs:fereg.dat
+fct inci_table shc_inputs:pinci.dat
+fct locfile shc_inputs:statloc.dat
+
+! try to find user startup
+switch sherrstop off
+switch cmderrstop off
+switch noerrmsg on
+sys$login:sh_user_startup
+if  $status eqi 0  goto/forward user_startup_ok:
+   echo no user startup available
+user_startup_ok:
+switch noerrmsg off
+switch cmderrstop on
+
+return

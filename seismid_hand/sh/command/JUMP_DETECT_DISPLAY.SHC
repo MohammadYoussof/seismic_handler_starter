@@ -1,0 +1,48 @@
+! file JUMP_DETECT_DISPLAY.SHC
+!      =======================
+!
+! version 1, 13-May-92
+!
+! detects jumps and spikes in all traces of display
+! K. Stammler, 13-May-92
+
+default 1 ;;    output file
+default 2 10    detection factor
+
+sdef maxline    ! number of lines in log file
+sdef linecnt 1  ! line counter in log file
+sdef trccnt     ! trace counter
+sdef line       ! current line
+sdef time       ! time of error
+sdef tmp        ! scratch
+SWITCH CAPCNV OFF
+SDEF KEYWD trace
+SWITCH CAPCNV ON
+
+switch chatty off
+
+echo_ch #1
+
+despike all #2 /log=jump_detect.stx
+calc i &maxline = %jump_detect(0)
+line_loop_start:
+   if  "linecnt gti "maxline  goto/forward line_loop_exit:
+   calc s &line = %jump_detect("linecnt)
+   calc s &tmp = "line parse 1
+   if  "tmp nes "keywd  goto/forward same_trace:
+      calc s &trccnt = "line parse 2
+      goto/forward next_trace:
+   same_trace:
+      calc s &tmp = "line parse 1
+      calc s &time = "line parse 4
+      calc r &time = "time * ^delta("trccnt)
+      calc t &time = ^start("trccnt) tadd "time
+      echo "tmp on trace "trccnt ^station("trccnt) ^comp("trccnt) "time
+   next_trace:
+   calc i &linecnt = "linecnt + 1
+   goto line_loop_start:
+line_loop_exit:
+
+echo_ch
+
+return

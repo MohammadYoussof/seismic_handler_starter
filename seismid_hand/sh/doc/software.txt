@@ -1,0 +1,204 @@
+
+SH Software Documentation
+=========================
+
+
+K. Stammler, 4-AUG-1991
+
+
+All modules of SH are written in ANSI C.  The main part of SH
+is machine independent.  Machine dependent parts of SH are:
+
+   i)   the interface to the operating system
+
+   ii)  the graphics interface (depends on the implemented
+        graphic software)
+
+
+Every C function of SH and every global constant has a module-specific
+(from where it is exported) prefix of two or three characters.
+This enables the reader to find the exporting module of each
+function very quickly.  Now follows a list of all available SH modules
+including the function prefix and a short description of the content.
+
+
+
+The main part of SH (machine independent, except BASECNST.H)
+------------------------------------------------------------
+
+module     pre-       
+name       fix  content
+---------  ---- -------
+
+CMDARGS.C  ca_  access to OS command line parameters
+CMDPARSE.C cp_  parsing of SH command lines
+ERRMSG.C   err_ error message manager
+FFTFILTR.C ff_  FFT filters and applications (Hilbert-Trafo, Minimum delay wavelets)
+MATRIXHD.C mx_  basic functions on 3x3 matrices
+NUMRES.C   nr_  routines from numerical recipes
+POLFILTR.C pf_  polarisation filtering
+QFILEIO.C  qf_  Q-file input/output
+QFINTRFC.C qi_  Q-file info entry interface to SH
+RECFILTR.C rf_  recursive filters
+SEISMHAN.C NONE main module (identifying command verbs, error detection & handling)
+SHCORR.C   sc_  cross correlation routines
+SHCURSOR.C cr_  graphic cursor selection, trace markers
+SHDATABA.C db_  read & write access to trace header information
+SHDSPMGR.C dm_  display manager (trace positioning, labels, axes, ...)
+SHHELP.C   hl_  help utility (read access to help files)
+SHLIB.C    sl_  subroutine pool (lower level)
+SHMATH.C   mt_  mathematical routines
+SHMENU0.C  mn0_ menu routines
+SHMENU1.C  mn1_ menu routines
+SHMENU2.C  mn2_ menu routines
+SHMENU3.C  mn3_ menu routines
+SHMENU4.C  mn4_ menu routines
+SHMENUIO.C mni_ menu routines (trace input/output)
+SHMENUX.C  mnx_ menu routines
+SHMIDLEV.C ml_  subroutine pool (upper level)
+SHPM.C     pm_  particle motion diagrams
+SHSYMBOL.C ss_  local and global variables, parameters of command procedures
+SHTRANSL.C tr_  translation of expressions
+STATLOC.C  gl_  read & write access to station description file
+TIMECONV.C tc_  time conversions (absolute, numerical, text string)
+TRAVTIME.C tt_  travel time computations
+USRINPW.C  ui_  input/output routines (window and file I/O)
+UTILITY.C  ut_  some utilities
+CAUSRDEF.H      prototypes of module CMDARGS.C
+CPERRORS.H CPE_ error codes of mo
+CPUSRDEF.H CPC_ prototypes of module CMDPARSE.C
+DFQENTRY.H QEC_ predefined and default info entry numbers
+ERUSRDEF.H      prototypes of module ERRMSG.C
+FCTXCR.H        prototypes of module SHCURSOR.C
+FCTXDM.H        prototypes of module SHDSPMGR.C
+FCTXHL.H        prototypes of module SHHELP.C
+FCTXML.H        prototypes of module SHMIDLEV.C
+FCTXMN0.H       prototypes of module SHMENU0.C
+FCTXMN1.H       prototypes of module SHMENU1.C
+FCTXMN2.H       prototypes of module SHMENU2.C
+FCTXMN3.H       prototypes of module SHMENU3.C
+FCTXMN4.H       prototypes of module SHMENU4.C
+FCTXMNI.H       prototypes of module SHMENUIO.C
+FCTXMNX.H       prototypes of module SHMENUX.C
+FCTXMT.H        prototypes of module SHMATH.C
+FCTXPM.H        prototypes of module SHPM.C
+FCTXSL.H        prototypes of module SHLIB.C
+FFUSRDEF.H      prototypes of module FFTFILTR.C
+FLERRORS.H      error codes of modules FFTFILTR.C and RECFILTR.C
+GLUSRDEF.H GLE_ prototypes and error codes of module STATLOC.C
+INFOIDX.H  E*_  all about trace headers & info entries, prototypes of module SHDATABA.C
+MXUSRDEF.H MXC_ prototypes of module MATRIXHD.C
+NUMRES.H        prototypes of module NUMRES.C
+PFUSRDEF.H      prototypes of module POLFILTR.C
+QFERRORS.H QFE_ error codes of module QFILEIO.C
+QFUSRDEF.H      prototypes of module QFILEIO.C
+QIERRORS.H QIE_ error codes of module QFINTRFC.C
+QIUSRDEF.H      prototypes of module QFINTRFC.C
+RFUSRDEF.H      prototypes of module RECFILTR.C
+SCERRORS.H SCE_ error codes of module SHCORR.C
+SCUSRDEF.H      prototypes of module SHCORR.C
+SHCONST.H  SHC_ global SH constants
+SHERRORS.H SHE_ SH error codes
+SHFRGN.H   sh_  interface to foreign format readers (READF command)
+SHVARS.H   shv_,shd_ global variables of SH
+SSERRORS.H SSE_ error codes of module SHSYMBOL.C
+SSUSRDEF.H      prototypes of module SHSYMBOL.C
+TCERRORS.H TCE_ error codes of module TIMECONV.C
+TCUSRDEF.H      prototypes of module TIMECONV.C
+TRERRORS.H TRE_ error codes of module SHTRANSL.C
+TRUSRDEF.H      prototypes of module SHTRANSL.C
+TTERRORS.H TTE_ error codes of module TRAVTIME.C
+TTUSRDEF.H      prototypes of module TRAVTIME.C
+UIERRORS.H UIE_ error codes of module USRINPW.C
+UIUSRDEF.H      prototypes of module USRINPW.C
+UTERRORS.H UTE_ error codes of module UTILITY.C
+UTUSRDEF.H      prototypes of module UTILITY.C
+
+
+A special include file defines some important global constants (which
+shouldn't be changed), the paths to important include files (which
+should be adjusted to the actual environment) and global preprocessor
+flags (which should be adjusted as well).
+
+BASECNST.H BC_  basic constants, paths to include files, preprocessor flags
+
+include file definitions in BASECNST.H:
+BC_SYSBASE   points to the include file SYSBASE.H
+BC_SYERRORS  points to the include file SYERRORS.H
+BC_GCUSRDEF  points to the include file GCUSRDEF.H
+BC_SHDIRS    points to the include file SHDIRS.H
+BC_FOREIGN   points to the include file SHFRGN.H
+             (to be changed for own implentations)
+
+preprocessor flags in BASECNST.H
+BC_VAX       should be defined only if SH is compiled on a VAX
+BC_GRFVAX    should be defined only on the machines in the SZGRF, Erlangen
+BC_SUN       should be defines only if SH is compiled on a SUN
+BC_ATARI     should be defines only if SH is compiled on an ATARI
+BC_MAINARGS  should be defined if SH takes OS parameters
+BC_STDLIB_EX should be defined if the include file <stdlib.h> is available
+
+
+
+Interface to the operating system
+---------------------------------
+
+SYSCALL.C  sy_  calls to system services
+SYSBASE.H  SYC_ system constants, prototypes of module SYSCALL.C
+
+These files are machine dependent and must be completely rewritten if
+SH is to be installed on a new type of computer.
+
+
+
+Graphic interface
+-----------------
+
+If the graphic modules are ported from one computer type to another,
+it is currently necessary to do some small changes in the source code.
+That means that there exist currently three different sets of graphic
+modules (for the VAX, the SUN and the ATARI implementation).  For the
+next version of SH it is planned to combine these sets to a general
+graphics interface which is machine independent.
+
+The VAX version of the graphics interface consists of the files:
+
+GRAPHCH.C  gc_  channel dispatcher (uppermost level of graphic routines)
+GCUSRDEF.H      prototypes of module GRAPHCH.C
+GCERRORS.H GCE_ error code of module GRAPHCH.C
+MEMFILE.C  mf_  memory channel (storage of graphic vectors in memory)
+MFUSRDEF.H      prototypes of module MEMFILE.C
+MFERRORS.H MFE_ error codes of module MEMFILE.C
+CCCH.C     cc_  Calcomp channel (calls to Calcomp library creating PFL files)
+CCUSRDEF.H      prototypes of module CCCH.C
+CCERRORS.H CCE_ error codes of module CCCH.C
+TKCH.C     tk_  Tektronix channel (via Calcomp screen library)
+TKUSRDEF.H      prototypes of module TKCH.C
+TKERRORS.H TKE_ error codes of module TKCH.C
+VWCH.C     vw_  VWS (UIS) channel, (calls to VAX UIS library)
+VWUSRDEF.H      prototypes of module VWCH.C
+VWERRORS.H VWE_ error codes of module VWCH.C
+XWCH.C     xw_  X-Window interface
+XWUSRDEF.H      prototypes of module XWCH.C
+XWERRORS.H XWE_ errors codes of module XWCH.C
+PSCH.C     ps_  PostScript interface
+PSUSRDEF.H      prototypes of module PSCH.C
+PSERRORS.H PSE_ error codes of module PSCH.C
+
+
+
+Foreign format readers
+----------------------
+
+There is a standard interface defined calling read routines of foreign
+data formats.  The (empty) prototypes are defined in file SHFRGN.H.
+If you want to implement your own format reader, you have to write
+the C implementation and a corresponding new header file SHFRGN.H
+which fits the given interface.  An example is given in the files:
+
+SHFRGN.C   sh_  implementation of foreign reader (here dispatcher to different foreign formats) 
+SHFRGN.H        prototypes of module SHFRGN.C (this interface is given)
+SH_NEIC.C  sh_neic_ read for ASCII files created by program sonic1 on PC
+SH_NEIC.H       prototypes of module SH_NEIC.C
+FRGNTEST.C sh_test_ implementation of a second foreign format (artificial and rather stupid)
+FRGNTEST.H      prototypes of module FRGNTEST.C

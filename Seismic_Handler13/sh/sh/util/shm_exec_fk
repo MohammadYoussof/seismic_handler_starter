@@ -1,0 +1,28 @@
+#! /bin/csh
+#
+# file shm_exec_fk
+#      ===========
+#
+# version 3, 23-May-96
+#
+# shell script to execute fk
+# K. Stammler, 23-Jun-94
+
+if  ("$1" == "" || "$2" == "" || "$3" == "" || "$4" == "" || "$5" == "")  then
+	echo "Usage: $0 <header> <data> <output> <colnum> <scale>"
+	exit
+endif
+
+#set echo
+
+# set paths
+set fk_exec_dir=$SH_UTIL/fk_src
+set map_exec_dir=$SH_SOURCE/img
+
+# execute fk
+cd $SH_SCRATCH
+$fk_exec_dir/fk
+
+# execute display
+setenv UIDPATH $map_exec_dir/mapmatrix.uid
+$map_exec_dir/mapmatrix fk_signal.out $4 $5

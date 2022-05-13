@@ -1,0 +1,41 @@
+! file make_ascii_qlist.shc
+!      ====================
+!
+! version 1, 26-Feb-92
+!
+! creates ASCII-files from all q-files given in the q-file list.
+! Each trace is copied to a separate ASCII file.  The output ASCII-file
+! has the same as the q-file, the extension holds the trace number
+! (".001", ".002", ...).
+
+default 1 ;;     q-file list
+default 2 1      first file
+default 3 %#1(0) last file
+
+sdef filcnt #2   ! file counter
+sdef trccnt      ! trace counter
+sdef qfile       ! current q-file
+sdef ext         ! extension
+
+file_loop_start:
+   if  "filcnt gti #3  goto/forward file_loop_exit:
+   del all
+   dtw
+   calc s &qfile = %#1("filcnt)
+   echo/no_crlf processing file "qfile $blank
+   read "qfile all
+   calc i &trccnt = 1
+   trc_loop_start:
+      if  "trccnt gti $dsptrcs  goto/forward trc_loop_exit:
+      calc/fmt=<%03@d> i &ext = "trccnt
+      echo/no_crlf |"ext|$blank|
+      writea/npl=4 |"qfile|.|"ext| "trccnt station comp start
+      calc i &trccnt = "trccnt + 1
+   goto trc_loop_start:
+   trc_loop_exit:
+   echo
+   calc i &filcnt = "filcnt + 1
+goto file_loop_start:
+file_loop_exit:
+
+return

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+  <META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+  <TITLE>statloc</TITLE>
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>How to put station location information into SH/SHM</H2>
+
+<P>To be able to apply array operations like beamforming or vespagrams
+or for computing source locations SH/SHM needs station information
+of the records.This information is read from a file
+<em>$SH_INPUTS/STATINF.DAT</em> only. Station
+information specified in data input files like GSE is ignored.
+The format specifications of the STATINF.DAT file are:</P>
+
+<UL>
+  <LI>one line per station
+  <LI>the line must begin with the station name to define in uppercase
+  letters
+  <LI>the station information follows in any order in the format
+  <em>&lt;keyword&gt;:&lt;value&gt;</em>
+</UL>
+
+<P>Valid keywords are:</P>
+
+<DL>
+  <DD><em>lat</em>: station
+  latitude in degrees (required)
+  <DD><em>lon</em>: station
+  longitude in degrees (required)
+  <DD><em>elev</em>: station
+  elevation in m (optional)
+  <DD><em>array</em>: unique
+  number to distinguish different arrays, in particular which relative
+  locations refer to each other (optional)
+  <DD><em>xrel</em>: relative
+  location in EW-direction in km (optional)
+  <DD><em>yrel</em>: relative
+  location in SN-direction in km (optional)
+  <DD><em>name</em>: describing
+  text, replace blanks by underscores (optional)
+</DL>
+
+<P>After the <em>STATINF.DAT</em>
+file has been modified, it is recommended to restart SH/SHM, since
+it holds an internal cache for the station entries.</P>
+
+<P>The way SH/SHM computes relative locations xrel and yrel from
+latitude and longitude is:</P>
+
+<PRE>lat := location latitude; lon := location longitude
+reflat := latitude of reference point; reflon = lon. of reference point
+C := 111.19 km/deg
+x = (lon - reflon) * C * cos(lat)
+y = (lat - reflat) * C</PRE>
+
+<P>The code fails definitely if an array is located across the
+zero meridian.</P>
+
+<P>This page last modified 4-Jul-2000</P>
+
+</BODY>
+</HTML>

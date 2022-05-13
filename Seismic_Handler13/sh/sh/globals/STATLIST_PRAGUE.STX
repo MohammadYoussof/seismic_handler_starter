@@ -1,0 +1,41 @@
+! file STATLIST_PRAGUE.STX
+!      ===================
+!
+! version 1, 8-Jun-95
+!
+! setup of dialog box for Prague stations
+! K. Stammler, 8-Jun-95
+
+set1: 0 3 ALL
+set2: 0 0 ---
+
+* PRU
+* KHC
+* DPC
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---

@@ -1,0 +1,28 @@
+! file epi_dist.shc
+!      ============
+!
+! version 1, computes distance to epicentre for each trace in display
+! K. Stammler, 4-Jun-92
+
+default 1 0.   epicentre latitude
+default 2 0.   epicentre longitude
+
+sdef dist      ! distance
+sdef azim      ! azimuth
+sdef cnt 1     ! counter
+sdef slat      ! station latitude
+sdef slon      ! station longitude
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   call statloc ^station("cnt) &slat &slon
+   call locdiff "slat "slon #1 #2 &dist &azim
+   set "cnt distance "dist
+   set "cnt azimuth "azim
+   calc/fmt=<%4.2@f> r &dist = "dist
+   !echo set station ^station("cnt) distance "dist deg, azimuth "azim deg
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

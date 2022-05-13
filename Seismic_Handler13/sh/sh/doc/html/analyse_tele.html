@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+  <TITLE>analyse tele</TITLE>
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Steps to analyse teleseismic events</H2>
+
+<UL>
+  <LI>read in appropriate data window
+  <LI>choose filter which provides good signal/noise ratio (WWSSN-SP)
+  <LI>determine slowness and azimuth of incoming wave (a) using
+  manually picked first arrivals, then call <em>Plane Wave</em>,
+  (b) using first visible
+  minimum/maximum automatically picked, then call <em>Plane Wave</em>,
+  or (c) using <em>FK</em> algorithm.
+  <LI>check resulting slowness and azimuth using the <em>Beam</em> option
+  of SHM, if necessary correct
+  phase readings
+  <LI>pick first arrival phase (P, PKP) on reference station, add
+  phase readings on other stations if desired
+  <LI>calibrate slowness and azimuth if calibration vectors are
+  available (e.g. for GRF) using menu entry <em>Calibration</em>
+  <LI>call menu entry <em>Locate
+  Tele</em> and locate event
+  <LI>if depth phases are visible, pick them and determine focal
+  depth (menu entry <em>Depth</em>).
+  Relocate event (<em>Locate
+  Tele</em>) with new depth.
+  <LI>read maximum amplitude on first arrivals picked (WWSSN-SP
+  simulation filter, menu entry <em>Ampl
+  &amp; Period auto Peak</em>)
+  <LI>determine magnitudes mb (menu entry <em>mb</em>)
+  <LI>reread event in a longer time window to see possible surface
+  waves. Use only vertical component of reference station
+  <LI>choose SRO-LP simulation filter, adjust cutoff time to at
+  least 5 min.
+  <LI>use menu entry <em>Surface
+  Ampl automatic</em> and select window of surface wave train
+  on vertical component to determine amplitude and period of surface
+  waves
+  <LI>determine Ms using menu entry <em>MS
+  Prague</em>
+  <LI>select menu entry Final Parameters to save results to file
+</UL>
+
+</BODY>
+</HTML>

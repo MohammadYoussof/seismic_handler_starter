@@ -1,0 +1,25 @@
+command CMD <cmd-file>
+===========
+
+key: create command file
+! version 1, 5-May-92
+
+Creates command file containing all previously entered commands
+since beginning of SH session or since last "cmd" command.
+This file is an editable file which can be arbitrarily changed.
+Command files have an extension ".SHC".
+
+
+parameter
+---------
+
+<cmd-file>  ---  parameter type: filename (without extension)
+   Name of command file to be created.  An extension ".SHC" is
+   appended to the name.
+
+
+example
+-------
+
+   cmd allcmds      ! creates file ALLCMDS.SHC
+

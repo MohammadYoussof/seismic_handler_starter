@@ -1,0 +1,94 @@
+! file charsize.shc
+!      ============
+!
+! version 1, 7-Jul-93
+!
+! let user choose character size
+! K. Stammler, 7-Jul-93
+
+! local variables
+sdef inputfile 
+sdef size_title      ! size of title
+sdef size_trctxt     ! size of trace info text
+sdef size_pm         ! particle motion diagram text size
+sdef size_timeaxis   ! size of time axis labelling
+sdef status          ! return status
+sdef cmd             ! user command
+
+fct getpath userdir &inputfile
+calc s &inputfile = |"inputfile|sh_user_text_size|
+
+! read / create input file
+switch cmderrstop off
+switch noerrmsg on
+calc r &size_title = %"inputfile(1)
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status eqi 0  goto/forward file_exists:
+   calc r &size_title = 0.05
+   calc r &size_trctxt = 0.05
+   calc r &size_pm = 0.05
+   calc r &size_timeaxis = 0.05
+   fct setstyle $titlestyle charsize "size_title
+   fct setstyle $trcinfostyle charsize "size_trctxt
+   fct setstyle $pmstyle charsize "size_pm
+   fct setstyle $timeaxisstyle charsize "size_timeaxis
+   goto/forward file_cont:
+file_exists:
+   calc r &size_trctxt = %"inputfile(2)
+   calc r &size_pm = %"inputfile(3)
+   calc r &size_timeaxis = %"inputfile(4)
+file_cont:
+
+menue:
+calc r &size_title = "size_title /fmt=<%5.3@f>
+calc r &size_trctxt = "size_trctxt /fmt=<%5.3@f>
+calc r &size_pm = "size_pm /fmt=<%5.3@f>
+calc r &size_timeaxis = "size_timeaxis /fmt=<%5.3@f>
+echo
+echo
+@ECHO 1 title: $HEXCHAR09(3) "SIZE_TITLE
+@ECHO 2 trace info: $HEXCHAR09(3) "SIZE_TRCTXT
+@ECHO 3 particle motion text: $HEXCHAR09(1) "SIZE_PM
+@ECHO 4 time axis labelling: $HEXCHAR09(2) "SIZE_TIMEAXIS
+@ECHO q quit
+echo
+@ENTER &CMD selection:
+
+if  "cmd eqs q  goto/forward write_file:
+if  "cmd eqs 1  goto/forward set_title:
+if  "cmd eqs 2  goto/forward set_trctxt:
+if  "cmd eqs 3  goto/forward set_pm:
+if  "cmd eqs 4  goto/forward set_timeaxis:
+goto menue:
+
+set_title:
+@ENTER &SIZE_TITLE new title size
+fct setstyle $titlestyle charsize "size_title
+goto menue:
+
+set_trctxt:
+@ENTER &SIZE_TRCTXT new trace info text size
+fct setstyle $trcinfostyle charsize "size_trctxt
+goto menue:
+
+set_pm:
+@ENTER &SIZE_PM new particle motion text size
+fct setstyle $pmstyle charsize "size_pm
+goto menue:
+
+set_timeaxis:
+@ENTER &SIZE_TIMEAXIS new time axis label size
+fct setstyle $timeaxisstyle charsize "size_timeaxis
+goto menue:
+
+write_file:
+echo_ch/ovwr "inputfile
+echo "size_title
+echo "size_trctxt
+echo "size_pm
+echo "size_timeaxis
+echo_ch
+
+return

@@ -1,0 +1,17 @@
+! file SHM_CMD_SETHC.SHC
+!      =================
+!
+! version 1, 8-Sep-94
+!
+! sets hardcopy routine
+! K. Stammler. 8-Sep-94
+
+default 1 ;;    screendump routine
+
+sdef path
+
+fct getpath extprog &path
+shmsetup screendump_proc |"path|#1|
+echo set path |"path|#1|
+
+return

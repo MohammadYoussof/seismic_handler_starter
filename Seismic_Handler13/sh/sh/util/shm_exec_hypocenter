@@ -1,0 +1,96 @@
+#! /bin/csh
+#
+# file shm_exec_hypocenter
+#      ===================
+#
+# version 3, 15-Nov-2004
+#
+# Execute hypocenter program on picked phases
+# K. Stammler, 11-Mar-2003
+
+if  ("$1" == "")  then
+	echo "Usage: $0 <evtfile>"
+	exit
+endif
+
+# get parameters
+set evtfile=$1
+
+# set constants
+set hypexec=/programs/sol2/hypocenter/PRO/hyp
+set hypiasp=/programs/sol2/hypocenter/DAT
+set hypoin=hypocenter-in.dat
+set hyphead=STATION0.HYP
+set hyplog=hyp.log
+
+if  (! -e $evtfile)  then
+	echo "$0 : Input file $evtfile not found.  Abort."
+	exit
+endif
+
+cd $SH_SCRATCH
+
+# check depth type
+set depqual=""
+set res=`grep 'Depth type' $evtfile`
+if  ($#res == 5)  then
+	if  ($res[5] == "preset")  then
+		set res=`grep 'Depth (km)' $evtfile`
+		if  ($#res == 4)  then
+			set depqual="-d=$res[4]"
+		endif
+	endif
+endif
+
+if  (-e $hypoin)  \rm $hypoin
+$SH_UTIL/ev2hypocenter $depqual -a $evtfile $hypoin
+
+# check for velocity model
+set modelname=""
+if  (-e table_prefix.txt)  set modelname=`cat table_prefix.txt`
+if  (-e $SH_INPUTS/hypocenter_velmod_$modelname.dat)  then
+	set velmod=$SH_INPUTS/hypocenter_velmod_$modelname.dat
+else
+	set velmod=$SH_INPUTS/hypocenter_velmod.dat
+endif
+echo "Hypocenter: using velocity model $velmod"
+
+# create file STATION0.HYP
+if  (-e $hyphead)  \rm $hyphead
+touch $hyphead
+echo "RESET TEST(13)=2.0"            >>$hyphead
+echo ""                              >>$hyphead
+set slist=`grep 'Station code' $evtfile | awk '{print $4}' | sort -u`
+foreach s ($slist)
+	$SH_UTIL/statinf -hypocenter $s   >>$hyphead
+end
+echo ""                              >>$hyphead
+cat $velmod                          >>$hyphead
+echo ""                              >>$hyphead
+echo " 5.0 1100.2200. 1.74"          >>$hyphead
+
+# check for IASP91 model
+if  (! -e IASP91.HED)  ln -s $SH_INPUTS/IASP91.HED IASP91.HED
+if  (! -e IASP91.TBL)  ln -s $SH_INPUTS/IASP91.TBL IASP91.TBL
+
+# call hypocenter
+if  (-e $hyplog)  \rm $hyplog
+$hypexec <<END >& $hyplog
+$hypoin
+n
+END
+
+if  (-e hypout.evt)  \rm hypout.evt
+$SH_UTIL/ev4hypocenter print.out hypsum.out hypout.evt hypview.txt
+
+# if something went wrong, get at least back the input data
+if  (! -e hypout.evt)  then
+	cp $evtfile hypout.evt
+else if  (-z hypout.evt)  then
+	cp $evtfile hypout.evt
+else
+	set num=`grep -c 'Station code' hypout.evt`
+	if  ($num < 2)  cp $evtfile hypout.evt
+endif
+
+$SH_TEXTEDIT hypview.txt &

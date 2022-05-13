@@ -1,0 +1,38 @@
+command ECHO <text1>[;<text2>[;...;<textN>]]
+============
+
+key: text output
+
+Writes text to echo channel (set by ECHO_CH command).  Default output
+channel  is the seismhandler text window.  All parameters entered are
+displayed, separated by blanks.
+
+
+parameters:
+
+<text1>, <text2>, ..., <textN>  ---  parameter type: string
+   Text to be written to echo channel, parameters are separated by
+   blanks.
+
+
+qualifiers
+
+/NO_LF
+   Writes no line feed at the of the line.  Next ECHO command
+   overwrites this one.
+
+/NO_CRLF
+   Writes no line feed and no carriage return at the end of the
+   line.  Next ECHO text is appended to this one.
+
+
+Examples:
+
+   ECHO THIS   IS A    TEST      ! writes string "THIS IS A TEST" to
+                                 ! the currently selected ECHO-file
+
+   ECHO DISTANCE ^DISTANCE(2)    ! writes string "DISTANCE " and value
+                                 ! of distance information of second trace
+                                 ! on display to the currently selected
+                                 ! ECHO-file
+

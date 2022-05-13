@@ -1,0 +1,48 @@
+! file RMS_CLEAN.SHC
+!      =============
+!
+! version 1, 30-Sep-2005
+!
+! Throws out traces with high or low RMS value
+! K. Stammler, 30-Sep-2005
+
+default 1 10.0 factor
+
+sdef cnt 1    ! counter
+sdef crms     ! current rms
+sdef mrms 0.0 ! mean rms
+sdef hilev    ! hi level
+sdef lolev    ! lower level
+
+loop1_start:
+   if  "cnt gti $dsptrcs  goto/forward loop1_exit:
+   rms "cnt ;;; &crms
+   calc r &mrms = "mrms + "crms
+   calc i &cnt = "cnt + 1
+goto loop1_start:
+loop1_exit:
+
+calc r &mrms = "mrms div $dsptrcs
+calc r &hilev = "mrms * #1
+calc r &lolev = "mrms div #1
+echo mean rms "mrms lo "lolev hi "hilev
+
+calc i &cnt = 1
+loop2_start:
+   if  "cnt gti $dsptrcs  goto/forward loop2_exit:
+   rms "cnt ;;; &crms
+   if  "crms gtr "lolev  goto/forward lolev_ok:
+      echo trace "cnt ^station("cnt) too low rms
+		del "cnt
+      goto loop2_start:
+   lolev_ok:
+   if  "crms ltr "hilev  goto/forward hilev_ok:
+      echo trace "cnt ^station("cnt) too high rms
+		del "cnt
+		goto loop2_start:
+   hilev_ok:
+   calc i &cnt = "cnt + 1
+goto loop2_start:
+loop2_exit:
+
+return

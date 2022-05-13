@@ -1,0 +1,478 @@
+
+ LocSAT LOCATION RESULTS
+ ============================================================================== 
+
+  First arrival detected at:  0: 0: 0.00 (GMT) on: Jan.  1, 1970
+
+ ============================================================================== 
+
+ALL1     65.0653 -147.5639    0.6260
+AQU      42.3539   12.4031    0.7290
+ARA0     69.5350   25.5060    0.4030
+ARC      69.5350   25.5060 -999.0000
+ARU      56.4000   58.6000    0.2500
+AS12    -23.6660  133.9040    0.6074
+ASAR    -23.6660  133.9040    0.6070
+ASPA    -23.6660  133.9040    0.6070
+BC03     63.0700 -141.7800    0.0000
+BLA      37.2113  -80.4200    0.6340
+BM05     67.4300 -144.5800    0.0000
+CM16     18.4600   98.9400    0.0000
+CMBB     18.4575   98.9429    0.3420
+CML1     18.6533   98.8469    0.2922
+COP      55.6853   12.4325    0.1300
+CTA     -20.0880  146.2540    0.3580
+DAG      76.7714  -18.6550    0.3000
+EKA      55.3332   -3.1588    0.3530
+ENN      50.7670    5.9230    0.1200
+FIA0     61.4444   26.0793    0.1380
+FIA1     61.4440   26.0790 -999.0000
+FINSA    62.1127   26.3062    0.2050
+FLBB     54.7188 -101.9950    0.2290
+FX01     52.8800 -173.1600    0.0000
+FXBB     52.8821  173.1642    0.2500
+GAR      39.0000   70.3000    0.1370
+GBA      13.6040   77.4360    0.6860
+GEA0     48.8200   13.7000 -999.0000
+GRF      49.6920   11.2220    0.5000
+HFS      60.1344   13.6968    0.2650
+HVH      20.7500 -156.2500    0.2123
+IL01     64.7700 -146.8900    0.0000
+IM03     65.9800 -153.7500    0.0000
+ISK      41.0656   29.0592    0.1310
+KAF      62.1127   26.3062    0.2050
+KIV      43.9500   42.6833    1.2060
+KS15     37.4421  127.8844    0.1000
+KSL1     37.5778  127.9519 -999.0000
+KSP      50.8433   16.2933 -999.9000
+LA01     29.3343 -103.6678    1.0250
+LABB     29.3342 -103.6678    1.0250
+LSZ     -15.2766   28.1882    1.1850
+LTX      29.3339 -103.6669    0.1013
+MA01     30.3079 -103.2542    1.3638
+MAT      36.5427  138.2070    0.4059
+MAW     -67.6040   62.8710    0.1200
+MOA      47.8495   14.2659    0.5720
+MOX      50.6460   11.6160    0.4550
+MUD      56.4600    9.1700    0.0120
+NPO      64.7714 -146.8865    0.4190
+NRA0     60.7350   11.5410    0.3020
+NRS      60.7353   11.5414    0.3000
+NUR      60.5090   24.6514    0.1020
+OBN      55.1000   36.6000    0.1310
+OSS      46.6896   10.1331    1.7000
+PFO      33.6100 -116.4600 -999.9000
+PIN      42.7778 -109.5556    0.1820
+RAR     -21.2125 -159.7733    0.0280
+SBA     -77.8503  166.7561    0.0380
+SGE     -17.5892  177.9233    1.0210
+SH01     29.9255 -104.3696    1.3840
+SNF      50.5080    4.2830    0.1080
+SNZO    -41.3103  174.7046   -0.0120
+SOBB     39.6742   -3.9631    0.7520
+SOL1     39.8415   -4.0172    0.6122
+STK     -31.8820  141.5920    0.2130
+SUF      62.7191   26.1506    0.1850
+TOL      39.8814   -4.0486    0.4800
+TT01     62.9100 -156.0200    0.0000
+VAF      63.0422   22.6715    0.5500
+VTS      42.6853   23.3344    1.4800
+WRA     -19.7657  134.3819    0.3550
+YKA      62.4932 -114.6053    0.1970
+
+ Ariv ID Statn  Phase    Type Atype  Observed    S.D. Err
+   71463 VAF    Lg       t    d        97.631   3.000   0
+   71464 KAF    Sn       t    d        44.786   3.000   0
+   71465 KAF    Rg       t    n        69.750   3.000   0
+   71466 KAF    Lg       t    d        50.254   3.000   0
+   66883 FIA1   Pn       t    d         0.000   3.000   0
+   66883 FIA1   Pn       a    d       166.000  15.000   0
+   66883 FIA1   Pn       s    n        16.830   1.500   0
+   66884 FIA1   Lg       t    d        30.102   5.000   0
+   66884 FIA1   Lg       a    d       172.000 -15.000   4
+   66884 FIA1   Lg       s    n        32.680   1.500   0
+   66970 KAF    Pn       t    d         6.602   1.000   0
+   67020 ARA0   Pn       t    d       107.500   3.000   0
+   67020 ARA0   Pn       a    d       177.000  15.000   0
+   67020 ARA0   Pn       s    n        12.770   1.500   0
+   67021 ARA0   Sn       t    d       219.500   5.000   0
+   67021 ARA0   Sn       a    d       167.000  15.000   0
+   67021 ARA0   Sn       s    n        26.450   1.500   0
+   67022 ARA0   Lg       t    d       280.703   5.000   0
+   67022 ARA0   Lg       a    d       158.000  15.000   0
+   67022 ARA0   Lg       s    n        33.670   1.500   0
+ ============================================================================== 
+
+ hypcut0: General initial location information :
+ ===============================================
+    Method: S-P time w/ azimuth at 1 station
+   Station: FIA1   
+  S-P time:   30.10 sec.
+  Distance:    2.64 deg.
+   Azimuth:  166.00 deg.
+  Latitude:   58.88 deg. N
+ Longitude:   27.31 deg. E
+ ===============================================
+
+ 
+ 
+- Iteration #  0   Number of Obs. (Data): 13
+- Lat:  58.880   Lon:   27.313   Depth:    0.000   To:   -46.826
+- Unwt. RMS Res.:  6.1658   Wt. RMS Res.:  0.9625   CNVGTST: 0.70360E-01
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63      101.32     -3.69       -1.23      4.73
+KAF    Sn       t        44.79       44.80     -0.01        0.00      3.27
+KAF    Lg       t        50.25       55.60     -5.34       -1.78      3.27
+FIA1   Pn       t         0.00       -3.00      3.00        1.00      2.64
+FIA1   Pn       a       166.00      166.00      0.00        0.00      2.64
+FIA1   Lg       t        30.10       35.74     -5.64       -1.13      2.64
+KAF    Pn       t         6.60        5.56      1.04        1.04      3.27
+ARA0   Pn       t       107.50      105.71      1.79        0.60     10.68
+ARA0   Pn       a       177.00      174.96      2.04        0.14     10.68
+ARA0   Sn       t       219.50      220.92     -1.42       -0.28     10.68
+ARA0   Sn       a       167.00      174.96     -7.96       -0.53     10.68
+ARA0   Lg       t       280.70      287.77     -7.07       -1.41     10.68
+ARA0   Lg       a       158.00      174.96    -16.96       -1.13     10.68
+
+> Sighat:  1.000   NSSD:  1.097   dLat:   41.392   dLon:    6.618   dZ:    0.000
+> True Cond. Num.:   7.14       Effective Cond. Num.:   7.14    
+ 
+ 
+- Iteration #  1   Number of Obs. (Data): 13
+- Lat:  59.253   Lon:   27.429   Depth:    0.000   To:   -40.585
+- Unwt. RMS Res.:  5.2715   Wt. RMS Res.:  0.4657   CNVGTST: 0.93644E-03
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       98.11     -0.48       -0.16      4.43
+KAF    Sn       t        44.79       42.54      2.24        0.75      2.91
+KAF    Lg       t        50.25       50.64     -0.38       -0.13      2.91
+FIA1   Pn       t         0.00       -1.60      1.60        0.53      2.29
+FIA1   Pn       a       166.00      162.46      3.54        0.24      2.29
+FIA1   Lg       t        30.10       31.17     -1.07       -0.21      2.29
+KAF    Pn       t         6.60        6.97     -0.37       -0.37      2.91
+ARA0   Pn       t       107.50      106.99      0.51        0.17     10.31
+ARA0   Pn       a       177.00      174.50      2.50        0.17     10.31
+ARA0   Sn       t       219.50      218.42      1.08        0.22     10.31
+ARA0   Sn       a       167.00      174.50     -7.50       -0.50     10.31
+ARA0   Lg       t       280.70      282.50     -1.79       -0.36     10.31
+ARA0   Lg       a       158.00      174.50    -16.50       -1.10     10.31
+
+> Sighat:  1.000   NSSD:  0.531   dLat:   -0.175   dLon:   -1.297   dZ:    0.000
+> True Cond. Num.:   7.21       Effective Cond. Num.:   7.21    
+ 
+ 
+- Iteration #  2   Number of Obs. (Data): 13
+- Lat:  59.251   Lon:   27.406   Depth:    0.000   To:   -40.601
+- Unwt. RMS Res.:  5.2777   Wt. RMS Res.:  0.4653   CNVGTST: 0.21037E-06
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.96     -0.33       -0.11      4.42
+KAF    Sn       t        44.79       42.51      2.27        0.76      2.91
+KAF    Lg       t        50.25       50.60     -0.35       -0.12      2.91
+FIA1   Pn       t         0.00       -1.64      1.64        0.55      2.29
+FIA1   Pn       a       166.00      162.75      3.25        0.22      2.29
+FIA1   Lg       t        30.10       31.10     -1.00       -0.20      2.29
+KAF    Pn       t         6.60        6.95     -0.35       -0.35      2.91
+ARA0   Pn       t       107.50      106.98      0.52        0.17     10.32
+ARA0   Pn       a       177.00      174.57      2.43        0.16     10.32
+ARA0   Sn       t       219.50      218.42      1.08        0.22     10.32
+ARA0   Sn       a       167.00      174.57     -7.57       -0.50     10.32
+ARA0   Lg       t       280.70      282.51     -1.80       -0.36     10.32
+ARA0   Lg       a       158.00      174.57    -16.57       -1.10     10.32
+
+> Sighat:  1.000   NSSD:  0.531   dLat:   -0.009   dLon:   -0.035   dZ:    0.000
+> True Cond. Num.:   7.20       Effective Cond. Num.:   7.20    
+ 
+ 
+- Iteration #  3   Number of Obs. (Data): 13
+- Lat:  59.251   Lon:   27.405   Depth:    0.000   To:   -40.601
+- Unwt. RMS Res.:  5.2779   Wt. RMS Res.:  0.4653   CNVGTST: 0.83533E-02
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.96     -0.33       -0.11      4.42
+KAF    Sn       t        44.79       42.51      2.27        0.76      2.91
+KAF    Lg       t        50.25       50.60     -0.35       -0.12      2.91
+FIA1   Pn       t         0.00       -1.65      1.65        0.55      2.29
+FIA1   Pn       a       166.00      162.76      3.24        0.22      2.29
+FIA1   Lg       t        30.10       31.10     -0.99       -0.20      2.29
+KAF    Pn       t         6.60        6.95     -0.35       -0.35      2.91
+ARA0   Pn       t       107.50      106.98      0.52        0.17     10.32
+ARA0   Pn       a       177.00      174.57      2.43        0.16     10.32
+ARA0   Sn       t       219.50      218.42      1.08        0.22     10.32
+ARA0   Sn       a       167.00      174.57     -7.57       -0.50     10.32
+ARA0   Lg       t       280.70      282.51     -1.80       -0.36     10.32
+ARA0   Lg       a       158.00      174.57    -16.57       -1.10     10.32
+
+> Sighat:  1.000   NSSD:  0.559   dLat:   -6.751   dLon:   10.246   dZ:   19.276
+> True Cond. Num.:   12.1       Effective Cond. Num.:   12.1    
+ 
+ 
+- Iteration #  4   Number of Obs. (Data): 13
+- Lat:  59.190   Lon:   27.585   Depth:    0.000   To:   -43.781
+- Unwt. RMS Res.:  5.4571   Wt. RMS Res.:  0.8241   CNVGTST: 0.48687E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.85     -0.22       -0.07      4.52
+KAF    Sn       t        44.79       41.17      3.62        1.21      2.99
+KAF    Lg       t        50.25       49.84      0.41        0.14      2.99
+FIA1   Pn       t         0.00       -3.60      3.60        1.20      2.37
+FIA1   Pn       a       166.00      161.03      4.97        0.33      2.37
+FIA1   Lg       t        30.10       30.58     -0.48       -0.10      2.37
+KAF    Pn       t         6.60        4.81      1.79        1.79      2.99
+ARA0   Pn       t       107.50      104.71      2.79        0.93     10.38
+ARA0   Pn       a       177.00      174.08      2.92        0.19     10.38
+ARA0   Sn       t       219.50      216.83      2.67        0.53     10.38
+ARA0   Sn       a       167.00      174.08     -7.08       -0.47     10.38
+ARA0   Lg       t       280.70      281.42     -0.72       -0.14     10.38
+ARA0   Lg       a       158.00      174.08    -16.08       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  0.990   dLat:    0.171   dLon:    0.489   dZ:   19.404
+> True Cond. Num.:   12.2       Effective Cond. Num.:   12.2    
+ 
+ 
+- Iteration #  5   Number of Obs. (Data): 13
+- Lat:  59.192   Lon:   27.594   Depth:    0.000   To:   -43.801
+- Unwt. RMS Res.:  5.4643   Wt. RMS Res.:  0.8325   CNVGTST: 0.49202E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.86     -0.23       -0.08      4.52
+KAF    Sn       t        44.79       41.13      3.65        1.22      2.99
+KAF    Lg       t        50.25       49.80      0.45        0.15      2.99
+FIA1   Pn       t         0.00       -3.63      3.63        1.21      2.37
+FIA1   Pn       a       166.00      160.92      5.08        0.34      2.37
+FIA1   Lg       t        30.10       30.55     -0.45       -0.09      2.37
+KAF    Pn       t         6.60        4.78      1.82        1.82      2.99
+ARA0   Pn       t       107.50      104.67      2.83        0.94     10.38
+ARA0   Pn       a       177.00      174.06      2.94        0.20     10.38
+ARA0   Sn       t       219.50      216.78      2.72        0.54     10.38
+ARA0   Sn       a       167.00      174.06     -7.06       -0.47     10.38
+ARA0   Lg       t       280.70      281.37     -0.66       -0.13     10.38
+ARA0   Lg       a       158.00      174.06    -16.06       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  1.000   dLat:    0.002   dLon:    0.014   dZ:   19.408
+> True Cond. Num.:   12.2       Effective Cond. Num.:   12.2    
+ 
+ 
+- Iteration #  6   Number of Obs. (Data): 13
+- Lat:  59.192   Lon:   27.594   Depth:    0.000   To:   -43.801
+- Unwt. RMS Res.:  5.4645   Wt. RMS Res.:  0.8326   CNVGTST: 0.49207E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.86     -0.23       -0.08      4.52
+KAF    Sn       t        44.79       41.13      3.65        1.22      2.99
+KAF    Lg       t        50.25       49.80      0.45        0.15      2.99
+FIA1   Pn       t         0.00       -3.63      3.63        1.21      2.37
+FIA1   Pn       a       166.00      160.92      5.08        0.34      2.37
+FIA1   Lg       t        30.10       30.55     -0.45       -0.09      2.37
+KAF    Pn       t         6.60        4.78      1.82        1.82      2.99
+ARA0   Pn       t       107.50      104.67      2.83        0.94     10.38
+ARA0   Pn       a       177.00      174.06      2.94        0.20     10.38
+ARA0   Sn       t       219.50      216.78      2.72        0.54     10.38
+ARA0   Sn       a       167.00      174.06     -7.06       -0.47     10.38
+ARA0   Lg       t       280.70      281.36     -0.66       -0.13     10.38
+ARA0   Lg       a       158.00      174.06    -16.06       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  1.001   dLat:    0.000   dLon:    0.000   dZ:   19.408
+> True Cond. Num.:   12.2       Effective Cond. Num.:   12.2    
+ 
+ 
+- Iteration #  7   Number of Obs. (Data): 13
+- Lat:  59.192   Lon:   27.594   Depth:    0.000   To:   -43.801
+- Unwt. RMS Res.:  5.4645   Wt. RMS Res.:  0.8326   CNVGTST: 0.49206E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.86     -0.23       -0.08      4.52
+KAF    Sn       t        44.79       41.13      3.65        1.22      2.99
+KAF    Lg       t        50.25       49.80      0.45        0.15      2.99
+FIA1   Pn       t         0.00       -3.63      3.63        1.21      2.37
+FIA1   Pn       a       166.00      160.92      5.08        0.34      2.37
+FIA1   Lg       t        30.10       30.55     -0.45       -0.09      2.37
+KAF    Pn       t         6.60        4.78      1.82        1.82      2.99
+ARA0   Pn       t       107.50      104.67      2.83        0.94     10.38
+ARA0   Pn       a       177.00      174.06      2.94        0.20     10.38
+ARA0   Sn       t       219.50      216.78      2.72        0.54     10.38
+ARA0   Sn       a       167.00      174.06     -7.06       -0.47     10.38
+ARA0   Lg       t       280.70      281.36     -0.66       -0.13     10.38
+ARA0   Lg       a       158.00      174.06    -16.06       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  1.001   dLat:    0.000   dLon:    0.000   dZ:   19.408
+> True Cond. Num.:   12.2       Effective Cond. Num.:   12.2    
+ 
+ 
+- Iteration #  8   Number of Obs. (Data): 13
+- Lat:  59.192   Lon:   27.594   Depth:    0.000   To:   -43.801
+- Unwt. RMS Res.:  5.4645   Wt. RMS Res.:  0.8326   CNVGTST: 0.49206E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.86     -0.23       -0.08      4.52
+KAF    Sn       t        44.79       41.13      3.65        1.22      2.99
+KAF    Lg       t        50.25       49.80      0.45        0.15      2.99
+FIA1   Pn       t         0.00       -3.63      3.63        1.21      2.37
+FIA1   Pn       a       166.00      160.92      5.08        0.34      2.37
+FIA1   Lg       t        30.10       30.55     -0.45       -0.09      2.37
+KAF    Pn       t         6.60        4.78      1.82        1.82      2.99
+ARA0   Pn       t       107.50      104.67      2.83        0.94     10.38
+ARA0   Pn       a       177.00      174.06      2.94        0.20     10.38
+ARA0   Sn       t       219.50      216.78      2.72        0.54     10.38
+ARA0   Sn       a       167.00      174.06     -7.06       -0.47     10.38
+ARA0   Lg       t       280.70      281.36     -0.66       -0.13     10.38
+ARA0   Lg       a       158.00      174.06    -16.06       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  1.001   dLat:    0.000   dLon:    0.000   dZ:   19.408
+> True Cond. Num.:   12.2       Effective Cond. Num.:   12.2    
+ 
+ 
+- Iteration #  9   Number of Obs. (Data): 13
+- Lat:  59.192   Lon:   27.594   Depth:    0.000   To:   -43.801
+- Unwt. RMS Res.:  5.4645   Wt. RMS Res.:  0.8326   CNVGTST: 0.39679E+00
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.86     -0.23       -0.08      4.52
+KAF    Sn       t        44.79       41.13      3.65        1.22      2.99
+KAF    Lg       t        50.25       49.80      0.45        0.15      2.99
+FIA1   Pn       t         0.00       -3.63      3.63        1.21      2.37
+FIA1   Pn       a       166.00      160.92      5.08        0.34      2.37
+FIA1   Lg       t        30.10       30.55     -0.45       -0.09      2.37
+KAF    Pn       t         6.60        4.78      1.82        1.82      2.99
+ARA0   Pn       t       107.50      104.67      2.83        0.94     10.38
+ARA0   Pn       a       177.00      174.06      2.94        0.20     10.38
+ARA0   Sn       t       219.50      216.78      2.72        0.54     10.38
+ARA0   Sn       a       167.00      174.06     -7.06       -0.47     10.38
+ARA0   Lg       t       280.70      281.36     -0.66       -0.13     10.38
+ARA0   Lg       a       158.00      174.06    -16.06       -1.07     10.38
+
+> Sighat:  1.000   NSSD:  0.949   dLat:    6.607   dLon:  -10.522   dZ:    0.000
+> True Cond. Num.:   7.30       Effective Cond. Num.:   7.30    
+ 
+ 
+- Iteration # 10   Number of Obs. (Data): 13
+- Lat:  59.251   Lon:   27.409   Depth:    0.000   To:   -40.592
+- Unwt. RMS Res.:  5.2765   Wt. RMS Res.:  0.4654   CNVGTST: 0.16370E-03
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       98.00     -0.37       -0.12      4.42
+KAF    Sn       t        44.79       42.53      2.25        0.75      2.91
+KAF    Lg       t        50.25       50.62     -0.37       -0.12      2.91
+FIA1   Pn       t         0.00       -1.63      1.63        0.54      2.29
+FIA1   Pn       a       166.00      162.72      3.28        0.22      2.29
+FIA1   Lg       t        30.10       31.12     -1.02       -0.20      2.29
+KAF    Pn       t         6.60        6.96     -0.36       -0.36      2.91
+ARA0   Pn       t       107.50      106.99      0.51        0.17     10.32
+ARA0   Pn       a       177.00      174.56      2.44        0.16     10.32
+ARA0   Sn       t       219.50      218.44      1.06        0.21     10.32
+ARA0   Sn       a       167.00      174.56     -7.56       -0.50     10.32
+ARA0   Lg       t       280.70      282.52     -1.82       -0.36     10.32
+ARA0   Lg       a       158.00      174.56    -16.56       -1.10     10.32
+
+> Sighat:  1.000   NSSD:  0.531   dLat:    0.000   dLon:   -0.203   dZ:    0.000
+> True Cond. Num.:   7.20       Effective Cond. Num.:   7.20    
+ 
+ 
+- Iteration # 11   Number of Obs. (Data): 13
+- Lat:  59.251   Lon:   27.406   Depth:    0.000   To:   -40.601
+- Unwt. RMS Res.:  5.2778   Wt. RMS Res.:  0.4653   CNVGTST: 0.21535E-08
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+VAF    Lg       t        97.63       97.96     -0.33       -0.11      4.42
+KAF    Sn       t        44.79       42.51      2.27        0.76      2.91
+KAF    Lg       t        50.25       50.60     -0.35       -0.12      2.91
+FIA1   Pn       t         0.00       -1.65      1.65        0.55      2.29
+FIA1   Pn       a       166.00      162.76      3.24        0.22      2.29
+FIA1   Lg       t        30.10       31.10     -0.99       -0.20      2.29
+KAF    Pn       t         6.60        6.95     -0.35       -0.35      2.91
+ARA0   Pn       t       107.50      106.98      0.52        0.17     10.32
+ARA0   Pn       a       177.00      174.57      2.43        0.16     10.32
+ARA0   Sn       t       219.50      218.42      1.08        0.22     10.32
+ARA0   Sn       a       167.00      174.57     -7.57       -0.50     10.32
+ARA0   Lg       t       280.70      282.51     -1.80       -0.36     10.32
+ARA0   Lg       a       158.00      174.57    -16.57       -1.10     10.32
+
+> Sighat:  1.000   NSSD:  0.531   dLat:   -0.002   dLon:   -0.006   dZ:    0.000
+> True Cond. Num.:   7.20       Effective Cond. Num.:   7.20    
+
+ Location ran for 11 iterations ... Converged!
+
+ ============================================================================== 
+
+
+ Final location estimate (+/- S.D.):
+      Latitude:   59.251 deg. N +/-    16.104 km.
+     Longitude:   27.405 deg. E +/-    28.936 km.
+         Depth:    0.000  km.   +/-     0.000 km.
+ Relative O.T.:  -40.601 sec.   +/-     2.231 sec.
+ Absolute O.T.:  -40.601 sec.   +/-     2.231 sec.
+
+ Confidence region at 0.90 level:
+   Semi-major axis:    65.8  km. =  0.59 deg.
+   Semi-minor axis:    26.7  km. =  0.24 deg.
+ Major-axis strike:    68.6 deg. clockwise from North
+       Depth error:     0.0  km.
+  Orig. time error:     3.7 sec.
+
+ Standard errors (sigma):
+              Prior:  1.00 (  9999 deg. of freedom)
+          Posterior:  1.00 ( 10009 deg. of freedom)
+          Posterior:  0.53 (Normalized sample S.D.)
+
+      Azimuthal weighting:  1.00
+ Effective rank of matrix:  3.00
+    Maximum azimuthal GAP:  335 deg.
+
+ ============================================================================== 
+                       Data           Residuals    Distance Azimuth   Data
+ Ariv ID Statn  Phase  Type at     True Normalized   (deg.)  (deg.)  Import Err
+ ============================================================================== 
+   66883 FIA1   Pn     t     d    1.645      0.548    2.289  343.92   0.098   0
+      Slowness Vector Residual:   3.081
+   66883 FIA1   Pn     s     n    2.957      1.971    2.289  343.92  -1.000   0
+   66883 FIA1   Pn     a     d    3.238      0.216    2.289  343.92   0.211   0
+   66884 FIA1   Lg     t     d   -0.994     -0.199    2.289  343.92   0.120   0
+      Slowness Vector Residual:   5.328
+   66884 FIA1   Lg     s     n    1.357      0.905    2.290  343.92  -1.000   0
+   66884 FIA1   Lg     a     n    9.238     -0.616    2.289  343.92  -1.000   4
+   66970 KAF    Pn     t     d   -0.348     -0.348    2.912  349.83   0.810   0
+   71464 KAF    Sn     t     d    2.272      0.757    2.912  349.83   0.143   0
+   71466 KAF    Lg     t     d   -0.351     -0.117    2.912  349.83   0.405   0
+   71465 KAF    Rg     t     n    2.425      0.808    2.912  349.83  -1.000   0
+   71463 VAF    Lg     t     d   -0.330     -0.110    4.424  330.98   0.741   0
+   67020 ARA0   Pn     t     d    0.519      0.173   10.316  356.29   0.108   0
+      Slowness Vector Residual:   0.927
+   67020 ARA0   Pn     s     n   -0.741     -0.494   10.316  356.29  -1.000   0
+   67020 ARA0   Pn     a     d    2.430      0.162   10.316  356.29   0.010   0
+   67021 ARA0   Sn     t     d    1.076      0.215   10.316  356.29   0.096   0
+      Slowness Vector Residual:   4.265
+   67021 ARA0   Sn     s     n    2.690      1.793   10.316  356.29  -1.000   0
+   67021 ARA0   Sn     a     d   -7.570     -0.505   10.316  356.29   0.010   0
+   67022 ARA0   Lg     t     d   -1.804     -0.361   10.316  356.29   0.238   0
+      Slowness Vector Residual:   9.649
+   67022 ARA0   Lg     s     n    2.347      1.565   10.316  356.29  -1.000   0
+   67022 ARA0   Lg     a     d  -16.570     -1.105   10.316  356.29   0.010   0
+ ============================================================================== 
+
+ =  0, No problem, normal interpolation
+ =  4, S.D. <= 0.0

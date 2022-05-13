@@ -1,0 +1,51 @@
+! file eventinfo.shc
+!      =============
+!
+! version 1, 6-Aug-92
+!
+! writes event-info to a temporary file (and to g1)
+! K. Stammler, 6-Aug-92
+
+default 1 ;;    origin time
+default 2 ;;    latitude ([+|-], no W's or S's)
+default 3 ;;    longitude ([+|-], no W's or S's)
+default 4 ;;    depth
+default 5 ;;    magnitude mb
+
+sdef line       ! info line
+sdef baz        ! backazimuth
+sdef dist       ! distance
+sdef slat       ! station latitude
+sdef slon       ! station longitude
+
+echo take station ^station
+call statloc ^station &slat &slon
+call locdiff "slat "slon #2 #3 &dist &baz
+calc r &dist = "dist /fmt=<%4.1@f>
+calc r &baz = "baz /fmt=<%4.1@f>
+
+calc s &line = |01)|$blank(3)|#1|$blank|#2|$blank|#3|$blank(2)|#4|
+calc s &line = |"line|$blank(2)|#5|$blank|"dist|$blank(3)|"baz|
+calc s &g1 = "line
+
+echo_ch/new xpid
+echo "line
+echo $blank(4) origin $blank(18) lat $blank(2) lon $blank(2) depth magn dist $blank baz
+echo_ch
+
+if  ^fromq eqs N  return
+if  #nofile nes _existsnot_  return
+if  #file nes _existsnot_  goto/forward insert:
+enter &line insert to q-file ? [y|n]:
+if  "line nes Y  return
+insert:
+
+echo insert info values to q-file for all traces
+set/file all origin #1
+set/file all distance "dist
+set/file all depth #4
+set/file all magnitude #5
+set/file all lat #2
+set/file all lon #3
+
+return

@@ -1,0 +1,29 @@
+
+! file ONLINE_DATA.SHC
+!      ===============
+!
+! version 3, 12-Sep-96
+!
+! reads last possible data
+! K. Stammler, 3-Aug-94
+
+default 1 grf       station list
+default 2 300       length backward in sec
+
+sdef exec_path      ! path to update-executable
+sdef cmd            ! command line
+sdef sfdfile        ! name of sfdfile
+sdef dprog          ! path to progs
+
+fct local getenv:dprog &dprog
+
+@CALC S &EXEC_PATH = |"DPROG|\|update_today_sfd.csh| DOSLASH
+@CALC S &SFDFILE = today.sfd
+
+! create sfd-file
+@CALC S &CMD = |"EXEC_PATH|$BLANK|today|$BLANK|"SFDFILE|
+system "cmd
+
+reads/force/sfd="sfdfile |.|$slash| online #2 #1 zne bh
+
+return

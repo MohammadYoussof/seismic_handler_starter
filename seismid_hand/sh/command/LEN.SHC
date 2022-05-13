@@ -1,0 +1,16 @@
+
+! file LEN.SHC
+!      =======
+!
+! version 1, 27-Aug-92
+!
+! reads ESSTF Lennartz binary format
+! J.Zednik+M.Musil 18-June-93
+
+default 1 ;;     LEN file
+default 2 1      trace number in file
+
+
+readf/fmt=4 #1 #2
+
+return

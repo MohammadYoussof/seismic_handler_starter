@@ -1,0 +1,26 @@
+
+! file AUTOINCI.SHC
+!      ============
+!
+! version 1, 30-JUL-91
+!
+! rotates two traces by automatically determined angle of incidence
+! (within given time window)
+! K. Stammler, 30-JUL-91
+
+default 1 1            z-comp
+default 2 2            r-comp
+default 3 0            lo-wdw
+default 4 2            hi-wdw
+
+sdef trcno $dsptrcs   ! trace pointer
+sdef inci             ! computed angle of incidence
+
+nr
+mdir |#1|,|#2| #3 #4 &inci
+calc r &inci = 0 - "inci
+rotinci |#1|,|#2| "inci
+calc r &g1 = "inci
+rd
+
+return

@@ -1,0 +1,45 @@
+command FILI <kind> <filter1>[;<filter2>[;...;<filterN>]]
+============
+
+key: read filter(s)
+
+Reads one or more filters from file into memory (only one digital 'D'
+filter).  All following FILTER commands of the same <kind> will use
+these filters read in.  Filters read in by previous FILI commands
+are overwritten.  The filters are searched in the current directory
+and if not found there, they are read from the filter directory.  The
+filter directory can be changed by FCT PATH FILTER <dir-string>.
+
+The filter file extensions must be omitted.  The extensions are
+".FLF" for FFT and digital filters (<kind> = 'F', <kind> = 'D') and
+".FLR" for recursive filters (<kind> = 'R').
+
+For detailed information about filter file format see FILTFORM.INF.
+If a sequence of FFT filters is read in, zeroes in numerator and
+denominator of all transfer functions are shortened automatically
+if possible.
+
+
+parameters
+
+<kind>  ---  parameter type: char
+   Determines kind of filter file.  Valid values are 'F' (FFT filters),
+   'D' (digital filters) and 'R' (recursive filters).
+
+<filter1> ... <filterN>  ---  parameter type: filename (without extension)
+   Name of filter files to be read into memory.
+
+
+valid qualifiers
+
+/COMPRESS
+   Only valid for FFT filters (<kind> = 'F').  The transfer functions
+   of the whole sequence is squeezed to a single transfer function.
+   This way the filtering is done in a single step and not by a
+   cascade of filters.
+
+
+example:
+
+   FILI F WWSSN_SP        ! reads WWSSN-SP FFT filter
+

@@ -1,0 +1,33 @@
+! file ALIST2GSE.SHC
+!      =============
+!
+! version 1, 1-Sep-2000
+!
+! converts list of ASCII-files to GSE1.0
+! The list file should contain one ASCII-filename per line.
+! K. Stammler, 1-Sep-2000
+
+default 1 ;;      list file
+default 2 1       first line
+default 3 %#1(0)  last line
+
+sdef cnt #2       ! counter
+sdef line         ! current line of list file
+sdef afile        ! current q-file
+
+del all
+dtw
+
+loop_start:
+	if  "cnt gti #3  goto/forward loop_exit:
+	calc s &line = %#1("cnt)
+	calc s &afile = "line parse 1
+	echo reading file "afile number "cnt
+	reada "afile
+	writegse |gse|"cnt|.gse|
+   del all
+	calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

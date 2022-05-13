@@ -1,0 +1,24 @@
+command STW [<lo-bound>;<hi-bound>]
+===========
+
+key: set time window
+
+Sets a time window on display.  This time window remains valid until
+changed explicitly or removed by "dtw" command.  If the parameters
+are omitted, the time window can be selected by graphic cursor.
+
+
+parameters
+----------
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time bounds of trace display.
+
+
+examples
+--------
+
+   stw              ! let user select time window by graphic cursor
+
+   stw 0. 100.      ! set time time from 0 to 100 sec
+

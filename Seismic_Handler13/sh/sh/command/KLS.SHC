@@ -1,0 +1,46 @@
+! file KLS.SHC
+!      =======
+!
+! version 2, 9-Oct-92
+!
+! k-list read procedure
+! K. Stammler, 1991
+
+default 1 1      counter increment
+
+sdef travtim      ! travel time in seconds
+sdef t-origin     ! origin time
+sdef t-start      ! start time
+sdef wdwlth       ! length of time window
+sdef wdwstart %sys$login:kls_setup(5)     ! start of time window
+sdef wdwend   %sys$login:kls_setup(6)     ! end of time window
+sdef kdir     %sys$login:kls_setup(3)     ! directory
+sdef traces   %sys$login:kls_setup(4)     ! trace list
+sdef getnext  %sys$login:kls_setup(1)     ! routine to get next event
+sdef listfile %sys$login:kls_setup(7)     ! list file
+sdef phase    %sys$login:kls_setup(8)     ! reference phase
+
+del all_dh
+dtw
+
+"getnext "listfile #1     ! get next event
+calc s &t-origin = "g1
+! call travel p "g2 "g3 &travtim
+call travel "phase "g2 "g3 &travtim
+calc t &t-start = "t-origin tadd "travtim
+calc t &t-start = "t-start tadd "wdwstart
+calc/fmt=<%@f> r &wdwlth = "wdwend - "wdwstart
+kls_getlabel "t-start
+kls_mount_new "g1
+echo >>>>>> reading "kdir "t-start "wdwlth "traces <<<<<<
+nr
+readk "kdir "t-start "wdwlth "traces
+title 1 ^start
+rd
+
+! reformat event info string (from variable ret to g1)
+reformat_eventline
+calc s &kdir = "g1 parse 8
+set _created azimuth "kdir
+
+return

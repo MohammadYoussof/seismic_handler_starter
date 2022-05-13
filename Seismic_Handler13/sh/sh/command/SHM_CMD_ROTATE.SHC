@@ -1,0 +1,67 @@
+! file SHM_CMD_ROTATE.SHC
+!      ==================
+!
+! version 1, 9-Mar-94
+!
+! rotation of traces in SHM
+! K. Stammler, 9-Mar-94
+
+default 1 ;;     z-trace
+default 2 ;;     n-trace
+default 3 ;;     e-trace
+default 4 ;;     azimuth
+
+sdef rotaz       ! rotation angle
+sdef stw_file    ! time window file
+sdef num         ! scratch
+
+fct getpath scratch &stw_file
+calc s &stw_file = |"stw_file|$sh_id|rotstw.stx|
+
+!echo shm_cmd_rotate #1 #2 #3 #4
+!switch verify on
+
+if  #1 nes unrotate  goto/forward no_unrotate:
+   del _shm_rot(y)
+   hide all
+   external_routine prepare_display
+   display _shm_view(y)
+   rd r
+   return
+no_unrotate:
+
+if  #1 nes begin  goto/forward no_begin:
+   nr
+   echo_ch/new "stw_file
+   echo $dsp_x
+   echo $dsp_xmax
+   echo_ch
+   dtw
+   del _shm_rot(y)
+   display h:all
+   return
+no_begin:
+
+if  #1 nes finish  goto/forward no_finish:
+   hide all
+   external_routine prepare_display
+   display _shm_view(y)
+   stw %"stw_file(1) %"stw_file(2)
+   fct oscall fdelete "stw_file
+   rd r
+   return
+no_finish:
+
+if  #1 eqs ;;  goto/forward no_z:
+   copy #1
+   set _created shm_rot y
+no_z:
+
+calc r &rotaz = 180 - #4
+rot |#2|,|#3| "rotaz
+set _created shm_rot y
+calc i &num = $dsptrcs - 1
+set $dsptrcs comp t
+set "num comp r
+
+return

@@ -1,0 +1,48 @@
+! file SEARCH_ENTRY_QLIST.SHC
+!      ======================
+!
+! version 1, 15-JUL-91
+!
+! extracts from a list of q-files those which match a specified condition
+! on a given info entry. Only the first trace in each file is checked.
+! K. Stammler, 15-JUL-91
+
+default 1 ;;         list file
+default 2 1          first line
+default 3 %#1(0)     last line
+default 4 p-onset    info entry
+default 5 eqi        compare operation
+default 6 1          compare with number
+default 7 ;;         output file
+
+sdef filecnt #2
+sdef qfile
+sdef info
+sdef status
+
+echo_ch #7
+
+loop_start:
+   if  "filecnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filecnt) parse 1
+   switch noerrmsg on
+   switch cmderrstop off
+   extract "qfile 1 #4 &info
+   calc i &status = $status
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "status nei 0  goto/forward notfound:
+      echo/no_crlf "info $blank
+      if  "info #5 #6  goto/forward printout:
+         goto/forward notfound:
+      printout:
+      echo "qfile
+   notfound:
+   calc i &filecnt = "filecnt + 1
+   goto loop_start:
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

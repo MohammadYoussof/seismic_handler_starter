@@ -1,0 +1,224 @@
+! file LHMENU.SHC
+!      ==========
+!
+! version 2, 22-May-2000
+!
+! Menu options for LH display
+! K. Stammler, 17-Dec-99
+
+! parameters
+default 1 sfd:           sfdpath
+default 2 1-may-1995     day
+default 3 bfo            station
+default 4 lh             channel
+default 5 z              component
+default 6 GRSN_S+SRO_LP  filter
+default 7 stations       station list file
+
+! local variables
+sdef datpath #1
+sdef time #2
+sdef station #3
+sdef chan #4
+sdef comp #5
+sdef filter #6
+sdef zoom
+sdef amplicut
+sdef tmp
+sdef key                 ! key pressed
+sdef title               ! title
+sdef statno 0            ! station number
+
+if  "filter eqs lp_12sec_4  goto/forward fil1:
+   calc r &zoom = 112.5 /fmt=<%5.1@f>
+   calc r &amplicut = 100.0
+   goto/forward filend:
+fil1:
+   calc r &zoom = 20.0 /fmt=<%5.1@f>
+   calc r &amplicut = 200.0
+filend:
+
+! find station entry, misuse key variable
+calc i &key = 1
+floop_start:
+   if  "key gti %#7(0)  goto/forward floop_exit:
+   if  %#7("key) nes #3  goto/forward floop_cont:
+      calc i &statno = "key
+      goto/forward floop_exit:
+   floop_cont:
+   calc i &key = "key + 1
+floop_exit:
+
+switch cmderrstop off
+fct amplicut "amplicut
+! calc r &amplicut = 0.0 - "amplicut
+
+! read in data
+nr
+showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+rd r
+
+! do not exit on errors
+switch cmderrstop off
+
+loop_start:
+
+	! wait for next key
+   time;;;;;&key
+
+   ! Q -> exit
+   if  "key eqs q  goto/forward loop_exit:
+
+   ! P make hardcopy
+   if  "key nes p  goto/forward l1:
+      phc;;
+      goto loop_start:
+   l1:
+
+   ! O create PS file
+   if  "key nes o  goto/forward l1a:
+      hc ;; p &tmp
+      echo created file "tmp
+      goto loop_start:
+   l1a:
+
+   ! U increase amplitudes
+   if  "key nes u  goto/forward l2:
+      calc r &zoom = "zoom * 1.2 /fmt=<%5.1@f>
+      nr
+      zoom/rel all 1.2
+      calc s &title = |^station|$blank|"chan|$blank|^comp|$blank(3)|^date(2)|
+      calc s &title = |"title|$blank|filter|$blank|"filter|
+      calc s &title = |"title|$blank|zoom|$blank|"zoom|
+      title 3 "title
+      rd r
+      goto loop_start:
+   l2:
+
+   ! D decrease amplitudes
+   if  "key nes d  goto/forward l3:
+      calc r &zoom = "zoom div 1.2 /fmt=<%5.1@f>
+      nr
+      zoom/rel all 0.8
+      calc s &title = |^station|$blank|"chan|$blank|^comp|$blank(3)|^date(2)|
+      calc s &title = |"title|$blank|filter|$blank|"filter|
+      calc s &title = |"title|$blank|zoom|$blank|"zoom|
+      title 3 "title
+      rd r
+      goto loop_start:
+   l3:
+
+	! T next day
+   if  "key nes t  goto/forward l4:
+      calc t &time = "time tadd 86400
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+   l4:
+
+	! previous day
+   if  "key nes y  goto/forward l5:
+      calc t &time = "time tadd -86400
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+   l5:
+
+	! C next component
+   if  "key nes c  goto/forward l6:
+      if  "comp nes z  goto/forward l6z:
+         calc s &comp = n
+         goto/forward l6dsp:
+      l6z:
+      if  "comp nes n  goto/forward l6n:
+         calc s &comp = e
+         goto/forward l6dsp:
+      l6n:
+         calc s &comp = z
+      l6dsp:
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+   l6:
+
+   ! J jump to station
+   if  "key nes j  goto/forward l7:
+      calc s &station = ;;
+      statloop:
+         time;;;;;&key
+         if  "key eqs .  goto/forward statloop_exit:
+         calc s &station = |"station|"key|
+         goto statloop:
+      statloop_exit:
+      nr
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+      rd r
+   l7:
+
+	! F set filter
+   if  "key nes f  goto/forward l8:
+      if  "filter nes grsn_s+sro_lp  goto/forward l8sro:
+         calc s &filter = lp_12sec_4
+         calc r &zoom = 20.0 /fmt=<%5.1@f>
+         calc r &amplicut = 200.0
+         goto/forward l8dsp:
+      l8sro:
+         calc s &filter = grsn_s+sro_lp
+         calc r &zoom = 112.5 /fmt=<%5.1@f>
+         calc r &amplicut = 100.0
+      l8dsp:
+      nr
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+      rd r
+   l8:
+
+   ! N next station
+   if  "key nes n  goto/forward l9:
+      calc i &statno = "statno + 1
+      if  "statno lei %#7(0)  goto/forward l9nook:
+         calc i &statno = 1
+      l9nook:
+      calc s &station = %#7("statno)
+      nr
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+      rd r
+   l9:
+
+   ! A set/delete amplicut
+   if  "key nes a  goto/forward l10:
+      calc r &amplicut = 0.0 - "amplicut
+      if  "amplicut ler 0.0  goto/forward l10unset:
+         set all amplicut y
+         goto/forward l10amplok:
+      l10unset:
+         set all amplicut n
+      l10amplok:
+      rd r
+   l10:
+
+   ! V decrease amplicut value
+   if  "key nes v  goto/forward l11:
+      calc r &amplicut = "amplicut div 2
+      fct amplicut "amplicut
+      rd r
+   l11:
+
+   ! G decrease amplicut value
+   if  "key nes g  goto/forward l12:
+      calc r &amplicut = "amplicut * 2
+      fct amplicut "amplicut
+      rd r
+   l12:
+
+   ! H set channel
+   if  "key nes h  goto/forward l13:
+      calc s &chan = ;;
+      chanloop:
+         time;;;;;&key
+         if  "key eqs .  goto/forward chanloop_exit:
+         calc s &chan = |"chan|"key|
+         goto chanloop:
+      chanloop_exit:
+      nr
+      showday "datpath "time "station "chan "comp "filter "zoom "amplicut
+      rd r
+   l13:
+
+   goto loop_start:
+loop_exit:
+
+return

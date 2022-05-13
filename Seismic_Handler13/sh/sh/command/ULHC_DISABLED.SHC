@@ -1,0 +1,65 @@
+! file ULHC.SHC
+!      ========
+!
+! version 6, 31-Jul-96
+!
+! Unix HP-GL hardcopy
+! K. Stammler, 21-Dec-92
+
+default 1 ;;       hc window
+default 2 a4       paper size
+
+sdef hcfile        ! name of hardcopy file
+sdef scrfile       ! scratch file
+sdef cmd           ! print command
+sdef wdvdir        ! WDV directory
+sdef papself       ! paper select file
+sdef tohpglf       ! switch command to HPGL
+sdef trailf        ! trailer file
+
+@CALC S &WDVDIR = \home\ersn06\klaus\wdv\ DOSLASH
+
+if  #2 eqs a4  goto/forward do_a4:
+if  #2 eqs a3  goto/forward do_a3:
+echo illegal paper size #2
+return
+
+do_a4:
+   if  #nosize nes _existsnot_  goto/forward no_a4size:
+      wdw size l 0.0 0.0 25.9 19.5
+   no_a4size:
+	calc s &papself = |"wdvdir|a4lpaper.wdv|
+   goto/forward format_ok:
+do_a3:
+   if  #nosize nes _existsnot_  goto/forward no_a3size:
+      wdw size l 0.0 0.0 42.0 29.5
+   no_a3size:
+	calc s &papself = |"wdvdir|a3paper.wdv|
+format_ok:
+calc s &tohpglf = |"wdvdir|to_hpgl.wdv|
+
+hc #1 l &hcfile
+
+calc s &trailf = |"wdvdir|to_wdv.wdv|
+calc s &scrfile = |"hcfile|.000|
+
+! concatenate files
+@CALC S &CMD = |rm|$BLANK|"SCRFILE|
+system "cmd
+@CALC S &CMD = |touch|$BLANK|"SCRFILE|
+system "cmd
+@CALC S &CMD = |cat|$BLANK|"PAPSELF|$BLANK|>>|"SCRFILE|
+system "cmd
+@CALC S &CMD = |cat|$BLANK|"TOHPGLF|$BLANK|>>|"SCRFILE|
+system "cmd
+@CALC S &CMD = |cat|$BLANK|"HCFILE|$BLANK|>>|"SCRFILE|
+system "cmd
+@CALC S &CMD = |cat|$BLANK|"TRAILF|$BLANK|>>|"SCRFILE|
+system "cmd
+@CALC S &CMD = |\rm|$BLANK|"HCFILE|
+system "cmd
+@CALC S &CMD = |lpr|$BLANK|-s|$BLANK|-r|$BLANK|-h|
+@CALC S &CMD = |"CMD|$BLANK|-Pwdv|$BLANK|"SCRFILE|$BLANK|&|
+system "cmd
+
+return

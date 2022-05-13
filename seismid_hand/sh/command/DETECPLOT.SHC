@@ -1,0 +1,34 @@
+! creates plot of each event in list file
+
+default 1 ;;     event list
+default 2 1      first event
+default 3 %#1(0) last event
+default 4 -60    left margin
+default 5 120    right margin
+default 6 od0:   device name
+
+sdef cnt #2      ! event counter
+sdef secno       ! number of seconds
+sdef tstart      ! start time of window
+
+trctxt ^station(x) - ^comp(x)
+norm c
+zoom/default all .4
+set/default all reduction 2
+
+calc i &secno = #5 - #4
+
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   del all
+   dtw
+   calc t &tstart = %#1("cnt) tadd #4
+   echo reading "tstart from #6
+   readk #6 "tstart "secno all
+   title 1 ^start 0.0 -.35
+   hc
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

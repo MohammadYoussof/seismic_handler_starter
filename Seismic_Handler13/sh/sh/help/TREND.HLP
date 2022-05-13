@@ -1,0 +1,23 @@
+command TREND <trc-list>
+=============
+
+key: remove linear trend
+
+Removes linear trend from all traces specified in <trc-list>.
+The input traces are modified.
+
+
+parameter
+---------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be processed.  These traces are modified.
+
+
+examples
+--------
+
+   trend 1        ! removes trend of first trace on display
+
+   trend all      ! removes trend of all traces on display
+

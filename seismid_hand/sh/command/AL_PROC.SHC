@@ -1,0 +1,46 @@
+! file AL_PROC.SHC
+!      ===========
+!
+! version 2, 27-Mar-2001
+!
+! Process automatic location
+! K. Stammler, 23-Mar-2001
+
+default 1 ;;    station
+default 2 ;;    onset
+default 3 sfd:  input path
+
+! delete possibly existing traces and time window
+del all_dh
+dtw
+norm sw
+
+! process P waves
+al_read_p #2 #3
+al_filter grsn_s+g_wwssn_sp
+al_corrpick #1 #2 20.0 50.0 1 p_picks.stx
+al_markonset p_picks #2 p_picks 140 260
+al_locate_with_p p_picks.stx #1
+
+! process S waves
+del all_dh
+dtw
+al_read_s %s_arrival #3 %s_bazimuth
+al_filter grsn_s+wwssn_lp
+al_pick_s s_picks.stx s_picks
+al_write_beam %s_slowness %s_bazimuth s_beam %s_station
+al_write_beam %scs_slowness %s_bazimuth scs_beam %s_station
+
+! compute P beam with wwssn-lp filter
+del all_dh
+dtw
+al_read_p #2 #3
+al_filter grsn_s+wwssn_lp
+al_write_beam %p_slowness %s_bazimuth p_beam %s_station
+
+! get P-S difference for one station then make final location
+!al_beamcorr p_beam s_beam
+al_beampick p_beam s_beam scs_beam s_p_time beampick
+al_locate_with_all p_picks.stx p_picks_corr.stx s_picks.stx
+
+return

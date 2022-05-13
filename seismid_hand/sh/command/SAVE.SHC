@@ -1,0 +1,25 @@
+
+! file SAVE.SHC
+!      ========
+!
+! version 1, 30-JUL-91
+!
+! saves given info entry of all traces on display to given output file
+! K. Stammler, 30-JUL-91
+
+default 1 ;;     info entry
+default 2 ;;     file name
+
+sdef cnt 1     ! trace counter
+echo_ch/new #2
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   echo ^#1("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

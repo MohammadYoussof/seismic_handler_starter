@@ -1,0 +1,355 @@
+! file shm_spcsetup.uil
+!      ================
+!
+! version 2, 17-Jun-2006
+!
+! Spectrum parameters
+! K. Stammler, 3-Sep-98
+
+
+
+object
+   spcsetup_box: XmFormDialog {
+      arguments {
+         XmNdialogTitle = 'Spectrum Setup';
+         XmNmarginWidth = 5;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmForm spcsetup_input_box;
+         XmRowColumn     spcsetup_main_button_box;
+      };
+   };
+
+object
+   spcsetup_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = 200;
+         XmNtopAttachment = XmATTACH_WIDGET;
+			XmNtopWidget = spcsetup_input_box;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_spcsetup_ok;
+         XmPushButton     button_spcsetup_cancel;
+      };
+   };
+
+object
+   button_spcsetup_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_spcsetup_ok );
+      };
+   };
+
+object
+   button_spcsetup_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_spcsetup_cancel );
+      };
+   };
+
+object
+!   spcsetup_input_box:  XmBulletinBoard {
+   spcsetup_input_box:  XmForm {
+      arguments {
+         XmNdialogTitle = 'Spectrum Setup';
+         XmNmarginWidth = 50;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+			XmLabel         spcsetup_grid_label;
+         XmRadioBox      spcsetup_grid_radiobox;
+			XmLabel         spcsetup_trunc_label;
+         XmRadioBox      spcsetup_trunc_radiobox;
+			XmLabel         spcsetup_mode_label;
+         XmRadioBox      spcsetup_mode_radiobox;
+			XmLabel         spcsetup_overlap_label;
+         XmRadioBox      spcsetup_overlap_radiobox;
+			XmLabel         spcsetup_numwdw_label;
+			XmText          spcsetup_numwdw_text;
+      };
+   };
+
+object
+   spcsetup_grid_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_spcsetup_grid_label;
+         XmNy = k_pos_y_spcsetup_grid_label;
+         XmNlabelString = 'Grid: ';
+      };
+   };
+
+object
+   spcsetup_grid_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_spcsetup_grid_radio;
+         XmNy = k_pos_y_spcsetup_grid_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_spcsetup_grid_on;
+         XmToggleButton     button_spcsetup_grid_off;
+      };
+   };
+
+object
+   button_spcsetup_grid_on: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'on';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_grid_on );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_auto_yes );
+      };
+   };
+
+object
+   button_spcsetup_grid_off: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'off';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_grid_off );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_auto_no );
+      };
+   };
+
+object
+   spcsetup_trunc_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_spcsetup_trunc_label;
+         XmNy = k_pos_y_spcsetup_trunc_label;
+         XmNlabelString = 'End of data: ';
+      };
+   };
+
+object
+   spcsetup_trunc_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_spcsetup_trunc_radio;
+         XmNy = k_pos_y_spcsetup_trunc_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_spcsetup_trunc_off;
+         XmToggleButton     button_spcsetup_trunc_on;
+      };
+   };
+
+object
+   button_spcsetup_trunc_off: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pad zeros';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_trunc_off );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_auto_yes );
+      };
+   };
+
+object
+   button_spcsetup_trunc_on: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'truncate';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_trunc_on );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_auto_no );
+      };
+   };
+
+object
+   spcsetup_mode_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_spcsetup_mode_label;
+         XmNy = k_pos_y_spcsetup_mode_label;
+         XmNlabelString = 'Method: ';
+      };
+   };
+
+object
+   spcsetup_mode_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_spcsetup_mode_radio;
+         XmNy = k_pos_y_spcsetup_mode_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_spcsetup_mode_powspc;
+         XmToggleButton     button_spcsetup_mode_fft;
+         XmToggleButton     button_spcsetup_mode_fft2;
+      };
+   };
+
+object
+   button_spcsetup_mode_powspc: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Power Spec';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_mode_powspc );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_output_yes );
+      };
+   };
+
+object
+   button_spcsetup_mode_fft: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'FFT';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_mode_fft );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_output_no );
+      };
+   };
+
+object
+   button_spcsetup_mode_fft2: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'FFT-sq';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_mode_fft2 );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_output_no );
+      };
+   };
+
+object
+   spcsetup_overlap_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_spcsetup_overlap_label;
+         XmNy = k_pos_y_spcsetup_overlap_label;
+         XmNlabelString = 'Overlap (PowSpec): ';
+      };
+   };
+
+object
+   spcsetup_overlap_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_spcsetup_overlap_radio;
+         XmNy = k_pos_y_spcsetup_overlap_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_spcsetup_overlap_on;
+         XmToggleButton     button_spcsetup_overlap_off;
+      };
+   };
+
+object
+   button_spcsetup_overlap_on: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'on';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_overlap_on );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_output_yes );
+      };
+   };
+
+object
+   button_spcsetup_overlap_off: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'off';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_spcsetup_overlap_off );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_activate( k_button_locsat_output_no );
+      };
+   };
+
+object
+   spcsetup_numwdw_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_spcsetup_numwdw_label;
+         XmNy = k_pos_y_spcsetup_numwdw_label;
+         XmNlabelString = 'No. of windows (PowSpec): ';
+      };
+   };
+
+object
+   spcsetup_numwdw_text: XmText {
+      arguments {
+         XmNx = k_pos_x_spcsetup_numwdw_text;
+         XmNy = k_pos_y_spcsetup_numwdw_text;
+         XmNwidth = 50;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 2;
+         XmNvalue = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_spcsetup_numwdw_text );
+!         XmNmodifyVerifyCallback =
+!            procedure xm_call_text_input( k_widget_locsat_freedom_text );
+      };
+   };
+

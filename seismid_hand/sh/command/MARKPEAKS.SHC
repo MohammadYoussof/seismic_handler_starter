@@ -1,0 +1,74 @@
+! file MARKPEAKS.SHC
+!      =============
+!
+! version 1, 19-JUL-91
+!
+! marks peaks read with procedure GETPEAKS
+! K. Stamler, 19-JUL-91
+
+default 1 ;;       peak-file
+default 2 moho     discontinuity (sed,moho,200,400,670)
+
+sdef time_number      ! word number of time in line
+sdef line             ! current line
+sdef linecnt 1        ! line counter
+sdef marktime         ! time to be marked on current trace
+sdef trccnt 1         ! trace counter
+sdef status           ! execution status
+
+! identify discontinuity
+if  #2 nes sed  goto/forward no_sed:
+   calc i &time_number = 2
+   goto/forward time_recognized:
+no_sed:
+if  #2 nes moho  goto/forward no_moho:
+   calc i &time_number = 4
+   goto/forward time_recognized:
+no_moho:
+if  #2 nes 200  goto/forward no_200:
+   calc i &time_number = 6
+   goto/forward time_recognized:
+no_200:
+if  #2 nes 400  goto/forward no_400:
+   calc i &time_number = 8
+   goto/forward time_recognized:
+no_400:
+if  #2 nes 670  goto/forward no_670:
+   calc i &time_number = 10
+   goto/forward time_recognized:
+no_670:
+echo *** illegal discontinuity ***
+return
+time_recognized:
+
+! read lines from peak-file
+line_loop_start:
+
+   ! get next line
+   switch cmderrstop off
+   switch noerrmsg on
+   calc s &line = %#1("linecnt)
+   calc i &status = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "status nei 0  goto/forward line_loop_exit:
+
+   ! mark time at current trace if time string is valid
+   calc s &g1 = "line extract 1 1
+   if  "g1 eqs $exclamation  goto/forward empty_line:
+      fct terminators |$blank|@|$slash|%semicolon|
+		calc s &marktime = "line parse "time_number
+      fct terminators |$blank|$slash|%semicolon|
+      calc s &g1 = "marktime extract 1 1
+      if  "g1 eqs -  goto/forward empty_line:
+      if  "g1 eqs *  goto/forward empty_line:
+         mark "trccnt "marktime
+         calc i &trccnt = "trccnt + 1
+   empty_line:
+
+   calc i &linecnt = "linecnt + 1
+
+goto line_loop_start:
+line_loop_exit:
+
+return

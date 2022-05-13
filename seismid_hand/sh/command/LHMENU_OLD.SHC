@@ -1,0 +1,30 @@
+! file LHMENU.SHC
+!      ==========
+!
+! version 1, 17-Dec-99
+!
+! Menu options for LH display
+! K. Stammler, 17-Dec-99
+
+sdef key
+
+switch cmderrstop off
+
+loop_start:
+   time;;;;;&key
+   if  "key eqs q  goto/forward loop_exit:
+   if  "key nes p  goto/forward l1:
+      phc;;
+      goto loop_start:
+   l1:
+   if  "key nes u  goto/forward l2:
+      zoom/rel all 1.1
+      goto loop_start:
+   l2:
+   if  "key nes d  goto/forward l3:
+      zoom/rel all 0.9
+      goto loop_start:
+   l3:
+   goto loop_start:
+loop_exit:
+return

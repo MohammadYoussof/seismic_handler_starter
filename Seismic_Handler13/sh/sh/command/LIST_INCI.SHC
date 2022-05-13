@@ -1,0 +1,73 @@
+
+! file LIST_INCI.SHC
+!      =============
+!
+! version 1, 26-aug-91
+!
+! lists automaticly determined angles of incidence
+! K. Stammler, 26-aug-91
+
+default 1 ;;           q-file list:
+default 2 1            first file:
+default 3 %#1(0)       last file:
+default 4 -20          window start:
+default 5 200          window end:
+default 6 ;;           filter:
+default 7 incilist     output file:
+default 8 2.0          auto-inci time window width:
+
+switch/global chatter on
+
+sdef qfile        ! current q-file
+sdef filcnt #2    ! file counter
+sdef start
+sdef end
+sdef recs
+sdef rece
+sdef inci
+
+echo_ch #7
+
+loop_start:
+   if  "filcnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filcnt)
+   switch cmderrstop off
+   calc s &recs = "qfile parse 2
+   if  $status eqi 0  goto/forward recno_ok:
+      calc i &recs = 1
+   recno_ok:
+   switch cmderrstop on
+   calc s &qfile = "qfile parse 1
+   calc i &rece = "recs + 2
+   del all
+   dtw
+   read "qfile |"recs|-|"rece|
+   check_sign
+   remav all
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #5
+   calc r &start = "start + #4
+   if  "start ger 0.0  goto/forward start_ok:
+      calc r &start = 0.0
+   start_ok:
+   if  #6 eqs ;;  goto/forward no_filter:
+      fili f #6
+      filter f 1-3 "start "end
+      del 1-3
+   no_filter:
+   resample all .1
+   set all t-origin 0.0
+   calc t &start = ^p-onset tdiff ^start
+   calc r &end = "start + #8
+
+   autorot 1 2 3 ^azimuth "start "end
+   calc/fmt=<%5.1@f> r &inci = "g1
+   echo "qfile "inci
+
+   calc i &filcnt = "filcnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

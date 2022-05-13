@@ -1,0 +1,25 @@
+command READK <dir> <start-time> <seconds> <stations>
+=============
+
+key: read GRF data from k-file
+
+Reads GRF data from k-file.  The traces read are added to the current display.
+
+
+parameters
+
+<dir>  ---   parameter type: string
+   directory of data files (including colon !)
+
+<start-time>  ---   parameter type: time
+   start time of traces to be read
+
+<seconds> ---  parameter type: real
+   number of seconds to be read
+
+<stations>  ---  parameter type: list of integer
+   List of stations to be read from k-file or strings "ALL" (reads all traces),
+   "ALL_Z" (reads all z-components) or "ALL_3" (reads all 3-component stations).
+   A1Z A1N A1E A2Z A3Z A4Z B1Z B1N B1E B2Z B3Z B4Z B5Z C1Z C1N C1E C2Z C3Z C4Z
+    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19
+

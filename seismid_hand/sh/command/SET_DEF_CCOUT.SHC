@@ -1,0 +1,5 @@
+!fct sethc ccrot lr
+wdw size c 2.2 -3.7 15.6846 29.7285
+fct setstyle $trcinfostyle charsize 0.009
+trctxtp -.13 -.01
+return

@@ -1,0 +1,57 @@
+command SDEF <name>[;<value>]
+============
+
+key: define symbol
+
+Defines a new symbol.  If the qualifier /GLOBAL is entered it is created
+in the global symbol set, otherwise in the current local symbol set.
+The symbol value is initialized to <value>, if <value> is omitted, the
+symbol is initialized to a zero-length string.  The length of a symbol name
+is restricted to 15 characters, the length of the symbol value to
+80 characters.
+
+The local symbol set is saved and restored on each command level, the
+global set is not.  That means, the global symbol set is accessable
+(reading and writing) from every command level, while the local set
+is accessable only from the current level.  Each call of a command file
+saves the current local set and creates a new (empty) one, each
+RETURN statement deletes the local symbol set and restores the parent one.
+
+If a symbol is defined in both symbol sets, the definition of the
+local set takes preference to the definition of the global set.
+
+
+parameters:
+
+<name>  ---  parameter type: string
+   Name of new symbol.  The length of the name is restricted to 15
+   characters.
+
+<value>  ---  parameter type: string
+   Initialization value of new symbol.  The length of <value> is
+   restricted to 80 characters.
+
+
+qualifiers
+
+/GLOBAL
+   The symbol is created in the global symbol set (see above).
+
+/REPLACE
+   A previously defined symbol of the same name in the same set is
+   deleted before creating the new symbol.
+
+/CHECK
+   If the symbol is already defined, the SDEF command is ignored.
+
+
+Examples:
+
+   SDEF NEWSYM          ! defines local symbol "NEWSYM"
+
+   SDEF NEWSYM 1        ! defines local symbol "NEWSYM" and initialises
+                        ! it to "1"
+
+   SDEF/GLOBAL VAL TST  ! defines global symbol "VAL" and initialises
+                        ! it to "TST"
+

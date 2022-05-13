@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>fil_format</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Format of filter files</H2>
+
+<P>The filter files are line oriented, that means there is one
+information entry per line. Blank lines are not allowed ! The
+format of the filter files is as follows:</P>
+
+<H3>FFT filter</H3>
+
+<UL>
+  <LI>All lines at the beginning of the file starting with exclamation
+  sign <em>!</em> are comments
+  and ignored by the program.
+  <LI>The first data line is a magic number and must be <em>1357913578</em>
+  <LI>The next data line contains the number <em>1</em>,
+  which is an ID for FFT filters.
+  <LI>Normalization value (real number), which is multiplied to
+  the output samples of the filter.
+  <LI>Number of zeros z (integer)
+  <LI>z lines following with one zero each in the format
+  <em>(&lt;real-part&gt;,&lt;imag-part&gt;)</em>.
+  Both parts of a complex conjugate pair must be specified.
+  <LI>Number of poles p
+  <LI>p lines following with one pole each in the same format as
+  zeros.
+</UL>
+
+<P><A HREF="fil_example_fft.html">Example of an FFT filter file</A>.</P>
+
+<H3>Recursive filters</H3>
+
+<UL>
+  <LI>All lines at the beginning of the file starting with exclamation
+  sign <em>!</em> are comments
+  and ignored by the program.
+  <LI>The first data line is a magic number and must be <em>1357913578</em>.
+  <LI>The next data line contains the number <em>3</em>,
+  which is an ID for recursive filters.
+  <LI>Sample rate for which this file is valid (real number)
+  <LI>Normalization value (real number), which is multiplied to
+  the output samples of the filter.
+  <LI>Number of numerator coefficients n (integer)
+  <LI>n lines following, one coefficient (real number) in each.
+  <LI>Number of denominator coefficients d (integer)
+  <LI>d lines following, one coefficient per line.
+  <LI>Optional following other stages of the filter, new stage
+  indicated by a line containing a single <em>@</em>.
+  <LI>Additional stages are repeating the entries 'ID number
+  <em>3</em>' until denominator
+  coefficients.
+</UL>
+
+<P><A HREF="fil_example_flr.html">Example of a recursive filter
+file</A>.</P>
+
+<P><small>This page last modifed 10-Jul-2000</small></P>
+
+</BODY>
+</HTML>

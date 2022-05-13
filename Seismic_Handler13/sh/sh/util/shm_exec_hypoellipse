@@ -1,0 +1,57 @@
+#! /bin/csh
+#
+# file shm_exec_hypoellipse
+#      ====================
+#
+# version 3, 22-Aug-2001
+#
+# executes hypoellipse
+# 1. par:  complete name of header file
+# 2. par:  name of arrival time file (.evt-file)
+# 3. par:  root path for executables
+# 4. par:  root for output files
+# 5. par:  fixed depth value
+# 6. par:  use S waves
+
+#set echo
+
+# generate names of scratch files and delete old versions
+set input_file=$4_input.txt
+set param_file=$4_param.txt
+set arrival_file=$4_arrivals.txt
+set output_file=$4.out
+set transl_file=$4.evt
+set edit_file=$4.edt
+\rm -f $input_file
+\rm -f $param_file
+\rm -f $arrival_file
+\rm -f $output_file
+\rm -f $transl_file
+
+# create parameter file
+set use_s
+if  ($6 != 0)  set use_s="-s"
+$3/ev2hypo $2 $arrival_file -d=$5 $use_s
+cat $1 $arrival_file > $param_file
+echo "" >> $param_file
+
+# create input file
+echo $param_file >  $input_file
+echo y           >> $input_file
+echo $4          >> $input_file
+echo ""          >> $input_file
+echo ""          >> $input_file
+echo n           >> $input_file
+echo n           >> $input_file
+echo n           >> $input_file
+echo n           >> $input_file
+
+# run hypoellipse, creates file $output_file
+$3/Hypoe < $input_file
+
+# convert output file to .evt-file
+$3/ev4hypou $output_file $transl_file
+
+# edit output file
+$3/reformat_hypoe_out $output_file $edit_file
+$SH_TEXTEDIT $edit_file &

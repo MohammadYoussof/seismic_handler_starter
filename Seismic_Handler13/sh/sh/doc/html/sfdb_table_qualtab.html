@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table qualtab</H2>
+<P>
+<ul>
+   <li><b>qualref</b>    INTEGER,
+   <li><b>gapcount</b>   INTEGER,
+   <li><b>jitters</b>    INTEGER,
+   <li><b>gapsize</b>    FLOAT,
+   <li><b>offset</b>     FLOAT,
+   <li><b>qual1</b>      FLOAT,
+   <li><b>qual2</b>      FLOAT,
+   <li><b>qual3</b>      FLOAT,
+   <li><b>qual4</b>      FLOAT,
+   <li><b>qual5</b>      FLOAT,
+   <li><b>qual6</b>      FLOAT,
+   <li><b>qual7</b>      FLOAT,
+   <li><b>qual8</b>      FLOAT,
+   <li><b>qual9</b>      FLOAT,
+   <li><b>version</b>    INTEGER,
+   <li>PRIMARY KEY(<b>qualref</b>)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>qualref</b>:    ID number of qualtab entry.  Used also in table
+                       <a href="sfdb_table_sftab.html">sftab</a>.
+<li><b>gapcount</b>:   Number of gaps found in data file, i.e. subsequent
+                       SEED records discontinuous in time.  Gaps counted are
+                       larger than dt/2 (dt = sample distance).
+<li><b>jitters</b>:    Number of small data gaps in the file with length smaller
+                       than dt/2.
+<li><b>gapsize</b>:    Relative length of gaps in relation to the length of
+                       the file, i.e. total sum of the length of all data gaps
+                       divided by the time span of the file multiplied by 100.
+<li><b>offset</b>:     Offset of trace including gain.  The trace is read in
+                       (using SeismicHandler, SH), the total gain is multiplied
+                       to the sample values and then the mean value of the
+                       trace is computed and stored in this entry.
+<li><b>qual1 - qual9</b>: general quality numbers, meaning of the numbers
+                       depends on the version.
+<li><b>version</b>:    Version number defining the meaning of numbers qual1
+                       to qual9.
+</ul>
+</P>
+
+<p>
+In version 1 the meaning of the quality numbers is:
+<ul>
+<li><b>qual1</b>:      Value of amplitude spectrum of trace at 0.01 Hz (100 s).
+<li><b>qual2</b>:      Value of amplitude spectrum of trace at 0.05 Hz (20 s).
+<li><b>qual3</b>:      Value of amplitude spectrum of trace at 0.16667 Hz (6 s).
+<li><b>qual4</b>:      Value of amplitude spectrum of trace at 1.0 Hz.
+<li><b>qual5</b>:      Value of amplitude spectrum of trace at 3.5 Hz.
+<li><b>qual6</b>:      Root mean square of sample differences.
+<li><b>qual7</b>:      Not used.
+<li><b>qual8</b>:      Not used.
+<li><b>qual9</b>:      Not used.
+</ul>
+</p>
+
+<P>This page last modified 28-Feb-2007</P>
+</BODY>
+</HTML>

@@ -1,0 +1,43 @@
+! file EXTRACT_2INFO.SHC
+
+default 1 ;;      name of list file
+default 2 1       number of first file
+default 3 %#1(0)  number of last file
+default 4 ;;      first info
+default 5 ;;      second info
+default 6 ;;      output file
+
+sdef filecnt #2   ! file counter
+sdef qfile        ! current q-file
+sdef info1        ! first info value
+sdef info2        ! second info value
+sdef status
+
+echo_ch/new #6
+
+loop_start:
+   if  "filecnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("filecnt) parse 1
+   switch cmderrstop off
+   switch noerrmsg on
+   extract "qfile 1 #4 &info1
+   if  $status nei 0  goto/forward empty:
+   extract "qfile 1 #5 &info2
+   if  $status nei 0  goto/forward empty:
+      switch cmderrstop on
+      switch noerrmsg off
+      echo "qfile "info1 "info2
+      goto/forward notempty:
+   empty:
+      echo_ch
+      switch cmderrstop on
+      switch noerrmsg off
+      echo empty info entry in file number "filecnt "qfile
+      echo_ch #6
+   notempty:
+   calc i &filecnt = "filecnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+return

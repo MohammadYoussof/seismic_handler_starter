@@ -1,0 +1,64 @@
+command IF <operand1> <cmp-op> <operand2> <command> [<label>]
+==========
+
+key: conditional execution
+
+Valid only in command procedures.  Evaluates the condition
+"<operand1> <cmp-op> <operand2>" and executes the command <command>
+if the result is TRUE.
+
+
+parameters:
+
+<operand1>, <operand2>  ---  parameter type: depends on <cmp-op> (see below)
+   Operands to be compared.
+
+<cmp-op>  ---  parameter type: string
+   Compare operation which determines the manner of comparison and data
+   type of both operands.  Valid operators are listed below:
+
+   integer operations
+   EQI     <operand1> is equal to <operand2>
+   NEI     <operand1> is not equal to <operand2>
+   GTI     <operand1> is greater than <operand2>
+   GEI     <operand1> is greater than or equal to <operand2>
+   LTI     <operand1> is less than <operand2>
+   LEI     <operand1> is less than or equal to <operand2>
+
+   real operations
+   EQR     <operand1> is equal to <operand2>
+   NER     <operand1> is not equal to <operand2>
+   GTR     <operand1> is greater than <operand2>
+   GER     <operand1> is greater than or equal to <operand2>
+   LTR     <operand1> is less than <operand2>
+   LER     <operand1> is less than or equal to <operand2>
+
+   string operations
+   EQS     <operand1> is equal to <operand2>
+   NES     <operand1> is not equal to <operand2>
+
+<command>  ---  parameter type: string
+   Command to be executed if the compare operation results TRUE.  Possible
+   choices are:
+      GOTO   (<label> must be passed as 5-th parameter)
+      RETURN (returns to parent command level, see RETURN command)
+
+<label>  ---  parameter type: string
+   If <command> equals GOTO this is the destination label.
+
+
+qualifiers
+
+/FORWARD
+   Only valid if <command> is GOTO, forward jump (see GOTO command).
+
+
+examples:
+
+   IF  "TRCCNT GTI $DSPTRCS  GOTO/FORWARD LOOP_EXIT:
+           if symbol "TRCCNT" is greater than the number of traces
+           on display jump forward to label LOOP_EXIT:
+
+   IF  $STATUS NEI 0  RETURN
+           if previous command created an error return from command procedure
+

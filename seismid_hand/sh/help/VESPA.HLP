@@ -1,0 +1,42 @@
+command procedure VESPA <slow1> <slow2> <slowstep> <azim> <power>
+=======================
+
+key: cp:slowness vespagram
+
+Computes vespagram from all traces of the display.  For each
+slowness value from <slow1> to <slow2> in steps of <slowsteps>
+a beam trace is computed (using azimuth <azim>).  On the
+summation the <power>-th root process is applied.  <power>=1
+means plain summation.  The input traces are hidden after execution
+of this procedure.  To get them back, enter the command
+"display h:all".  Each output trace corresponds to a slowness
+value.  The slowness is given in the "comment"-entry of the
+trace.  It is convenient to switch the trace info text to
+"comment" by the command "trctxt ^comment($x)".
+
+
+parameters
+----------
+
+<slow1>, <slow2>  ---  parameter type: real
+   Slowness window. Units in deg/sec.
+
+<slowstep>  ---  parameter type: real
+   Step size within slowness window.  Unit in deg/sec.
+
+<azimuth>  ---  parameter type: real
+   Beam azimuth in degrees.
+
+<power>  ---  parameter type: real
+   Before each summation the <power>-th root of the input traces
+   is computed.  The result trace is then taken to the <power>-th
+   power.
+
+
+examples
+--------
+
+   vespa 3.0 7.0 0.2 23.3 1.   ! usual vespagram (plain summation)
+
+   vespa 3.0 7.0 0.2 23.3 4.   ! 4-th root process on each summation
+

@@ -1,0 +1,38 @@
+command ENTER <&symbol> [;<prompt1>[;<prompt2>[;...;<promptN>]]]
+=============
+
+key: read symbol value
+
+Valid only in command procedures.  Reads new value of a previously
+defined symbol (local or global set) from the input level which is
+passed at the command procedure call (the input level can be redirected
+by qualifiers, see also HELP PROC_CALL).
+
+
+parameters
+
+<&symbol>  ---  parameter type: symbol address
+   Name of the symbol (previously defined) to store the result of input.
+
+<prompt1>, <prompt2>, ..., <promptN>  ---  parameter type: string
+   Text for prompting user input.  The text parameters are separated
+   by blanks.
+
+
+qualifiers
+
+/PARENT
+   The input is read from the parent command level, no regard is payed
+   to the local input level (see HELP PROC_CALL) passed.
+
+/INTERACTIVE
+   The input is read from the main input level (see HELP PROC_CALL),
+   no regard is payed to the local input level.
+
+
+example:
+
+   ENTER &NAME Q-FILE NAME:    ! prompts from within a command procedure
+                               ! "Q-FILE NAME: " and stores the received
+                               ! value in the symbol "NAME"
+

@@ -1,0 +1,52 @@
+! creates plot of each event in list file
+
+default 1 ;;     event list
+default 2 1      first event
+default 3 %#1(0) last event
+default 4 -60    left margin
+default 5 120    right margin
+default 6 dd6:   device name
+default 7 tns    station list
+default 8 z,n,e  component list
+default 9 20     sample rate (hz)
+
+sdef cnt #2      ! event counter
+sdef secno       ! number of seconds
+sdef tstart      ! start time of window
+
+trctxt ^station(x) - ^comp(x)
+norm c
+zoom/default all .4
+set/default all reduction 2
+
+calc i &secno = #5 - #4
+
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   del all
+   dtw
+   calc t &tstart = %#1("cnt) tadd #4
+   echo reading "tstart from #6
+   readg/current #6 "tstart "secno #7 #8 #9
+   if  $dsptrcs eqi 0  goto/forward no_traces:
+      nr
+      demean all
+      title 1 ^start 0.0 -.35
+      zoom _station(bfo) 3.901108e-03
+      zoom _station(brnl) 3.1e-4
+      zoom _station(brl) 3.1e-4
+      zoom _station(bug) 2.037518e-03
+      zoom _station(clz) 4.187925e-03
+      zoom _station(fur) 2.194634e-03
+      zoom _station(ham) 7.686840e-05
+      zoom _station(tns) 3.468870e-03
+      zoom _station(wet) 4.944477e-03
+!      zoom/rel all 0.3
+      rd
+      hc
+   no_traces:
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

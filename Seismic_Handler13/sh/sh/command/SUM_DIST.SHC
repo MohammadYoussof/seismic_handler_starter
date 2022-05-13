@@ -1,0 +1,34 @@
+
+sdef trcno $dsptrcs
+
+sdef num
+
+nr
+sum _distance(30:40);;;&num
+set _created comment |30-40|,|"num|
+set _created distance 1000.
+sum _distance(40:50);;;&num
+set _created comment |40-50|,|"num|
+set _created distance 1000.
+sum _distance(50:60);;;&num
+set _created comment |50-60|,|"num|
+set _created distance 1000.
+sum _distance(60:70);;;&num
+set _created comment |60-70|,|"num|
+set _created distance 1000.
+sum _distance(70:80);;;&num
+set _created comment |70-80|,|"num|
+set _created distance 1000.
+sum _distance(80:90);;;&num
+set _created comment |80-90|,|"num|
+set _created distance 1000.
+sum _distance(90:100);;;&num
+set _created comment |90-100|,|"num|
+set _created distance 1000.
+sum _distance(100:110);;;&num
+set _created comment |100-110|,|"num|
+set _created distance 1000.
+hide |1-|"trcno|
+rd
+
+return

@@ -1,0 +1,55 @@
+
+! file VESPA_AZ.SHC
+!      ============
+!
+! version 2, 16-JUL-91
+!
+! computes vespagram of all traces on display.
+! time versus azimuth display.
+! K. Stammler, 16-JUL-91
+
+default 1 0.0      from azimuth
+default 2 180.0    to azimuth
+default 3 5.0      azimuth step size
+default 4 18.5     slowness
+default 5 1.0      power
+
+sdef azi #1              ! current azimuth
+sdef trcno $dsptrcs      ! current number of traces on display
+sdef vtrcl |1-|$dsptrcs| ! number of input traces
+sdef azinum              ! azimuth output string
+sdef invexp              ! inverse exponent
+
+nr
+switch chatty off
+copy all
+hide _created
+if  #5 eqi 1.0  goto/forward no_exp:
+   calc r &invexp = 1.0 div #5
+   trcfct "vtrcl spower "invexp
+no_exp:
+
+loop_start:
+   if  "azi gtr #2  goto/forward loop_exit:
+   calc r &azinum = "azi/fmt=<%4.1@f>
+   echo/no_lf computing azimuth "azinum
+   set "vtrcl t-origin 0.0
+   shift "vtrcl time_al
+   beam "vtrcl "azi #4
+   sum "vtrcl
+   calc i &trcno = "trcno + 1
+   set "trcno comment |A:|"azinum|
+   set "trcno station ^station      ! for plot routine  18-JUL-91
+   set "trcno start ^start          ! for plot routine  18-JUL-91
+   calc r &azi = "azi + #3
+goto loop_start:
+loop_exit:
+
+del "vtrcl
+if  #5 eqi 1.0  goto/forward no_exp2:
+   trcfct all spower #5
+no_exp2:
+rd
+echo $blank(30)
+
+return

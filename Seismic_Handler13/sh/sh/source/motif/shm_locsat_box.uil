@@ -1,0 +1,422 @@
+! file shm_locsat_box.uil
+!      ==================
+!
+! version 10, 17-Jun-2006
+!
+! hypoellipse interface
+! K. Stammler, 17-Oct-94
+
+
+
+object
+   locsat_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'Local or Regional Event';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard locsat_input_box;
+         XmRowColumn     locsat_main_button_box;
+      };
+   };
+
+object
+   locsat_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_locsat_main_buttons;
+         XmNy = k_pos_y_locsat_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_locsat_ok;
+         XmPushButton     button_locsat_hypo;
+         XmPushButton     button_locsat_cancel;
+      };
+   };
+
+object
+   button_locsat_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'LocSAT';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_ok );
+      };
+   };
+
+object
+   button_locsat_hypo: XmPushButton {
+      arguments {
+         XmNlabelString = 'Plugin11';
+         XmNborderWidth = 5;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_button_locsat_hypo );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_hypo );
+      };
+   };
+
+object
+   button_locsat_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_cancel );
+      };
+   };
+
+object
+   locsat_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'locsat input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu    locsat_depth_option;
+         XmText          locsat_depth_text;
+         XmLabel         locsat_start_radio_label;
+         XmRadioBox      locsat_start_radiobox;
+			XmLabel         locsat_prefix_label;
+			XmText          locsat_prefix_text;
+			XmLabel         locsat_freedom_label;
+			XmText          locsat_freedom_text;
+			XmLabel         locsat_iterations_label;
+			XmText          locsat_iterations_text;
+         XmLabel         locsat_output_radio_label;
+         XmRadioBox      locsat_output_radiobox;
+      };
+   };
+
+object
+   locsat_depth_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_locsat_depth_option;
+         XmNy = k_pos_y_locsat_depth_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Depth';
+         XmNmenuHistory = XmPushButton button_locsat_depth_free;
+      };
+      controls {
+         XmPulldownMenu locsat_depth_menu;
+      };
+   };
+
+object
+   locsat_depth_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_locsat_depth_free;
+         XmPushButton   button_locsat_depth_0;
+         XmPushButton   button_locsat_depth_1;
+         XmPushButton   button_locsat_depth_10;
+         XmPushButton   button_locsat_depth_15;
+         XmPushButton   button_locsat_depth_20;
+         XmPushButton   button_locsat_depth_33;
+      };
+   };
+
+object
+   button_locsat_depth_0: XmPushButton {
+      arguments {
+         XmNlabelString = '0 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_0 );
+      };
+   };
+
+object
+   button_locsat_depth_1: XmPushButton {
+      arguments {
+         XmNlabelString = '1 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_1 );
+      };
+   };
+
+object
+   button_locsat_depth_10: XmPushButton {
+      arguments {
+         XmNlabelString = '10 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_10 );
+      };
+   };
+
+object
+   button_locsat_depth_15: XmPushButton {
+      arguments {
+         XmNlabelString = '15 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_15 );
+      };
+   };
+
+object
+   button_locsat_depth_20: XmPushButton {
+      arguments {
+         XmNlabelString = '20 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_20 );
+      };
+   };
+
+object
+   button_locsat_depth_33: XmPushButton {
+      arguments {
+         XmNlabelString = '33 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_33 );
+      };
+   };
+
+object
+   button_locsat_depth_free: XmPushButton {
+      arguments {
+         XmNlabelString = 'free';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_locsat_depth_free );
+      };
+   };
+
+object
+   locsat_depth_text: XmText {
+      arguments {
+         XmNx = k_pos_x_locsat_depth_text;
+         XmNy = k_pos_y_locsat_depth_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+         XmNvalue = 'free';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_locsat_depth_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_locsat_depth_text );
+      };
+   };
+
+object
+   locsat_start_radio_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_locsat_start_radio_lb;
+         XmNy = k_pos_y_locsat_start_radio_lb;
+         XmNlabelString = 'auto start loc: ';
+      };
+   };
+
+object
+   locsat_start_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_locsat_start_radio;
+         XmNy = k_pos_y_locsat_start_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_locsat_auto_yes;
+         XmToggleButton     button_locsat_auto_no;
+      };
+   };
+
+object
+   button_locsat_auto_yes: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'yes';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_locsat_auto_yes );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_locsat_auto_yes );
+      };
+   };
+
+object
+   button_locsat_auto_no: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'no';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_locsat_auto_no );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_locsat_auto_no );
+      };
+   };
+
+object
+   locsat_freedom_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_locsat_freedom_label;
+         XmNy = k_pos_y_locsat_freedom_label;
+         XmNlabelString = 'deg. of freedom: ';
+      };
+   };
+
+object
+   locsat_freedom_text: XmText {
+      arguments {
+         XmNx = k_pos_x_locsat_freedom_text;
+         XmNy = k_pos_y_locsat_freedom_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+         XmNvalue = '8';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_locsat_freedom_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_locsat_freedom_text );
+      };
+   };
+
+object
+   locsat_prefix_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_locsat_prefix_label;
+         XmNy = k_pos_y_locsat_prefix_label;
+         XmNlabelString = 'velocity model: ';
+      };
+   };
+
+object
+   locsat_prefix_text: XmText {
+      arguments {
+         XmNx = k_pos_x_locsat_prefix_text;
+         XmNy = k_pos_y_locsat_prefix_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+!         XmNvalue = 'tab';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_locsat_prefix_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_locsat_prefix_text );
+      };
+   };
+
+object
+   locsat_iterations_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_locsat_iterations_label;
+         XmNy = k_pos_y_locsat_iterations_label;
+         XmNlabelString = 'max. iterations: ';
+      };
+   };
+
+object
+   locsat_iterations_text: XmText {
+      arguments {
+         XmNx = k_pos_x_locsat_iterations_text;
+         XmNy = k_pos_y_locsat_iterations_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+         XmNvalue = '20';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_locsat_iterations_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_locsat_iterations_text );
+      };
+   };
+
+object
+   locsat_output_radio_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_locsat_output_radio_lb;
+         XmNy = k_pos_y_locsat_output_radio_lb;
+         XmNlabelString = 'brief output: ';
+      };
+   };
+
+object
+   locsat_output_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_locsat_output_radio;
+         XmNy = k_pos_y_locsat_output_radio;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_locsat_output_yes;
+         XmToggleButton     button_locsat_output_no;
+      };
+   };
+
+object
+   button_locsat_output_yes: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'yes';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_locsat_output_yes );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_locsat_output_yes );
+      };
+   };
+
+object
+   button_locsat_output_no: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'no';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_locsat_output_no );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_locsat_output_no );
+      };
+   };
+

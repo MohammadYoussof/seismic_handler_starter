@@ -1,0 +1,21 @@
+
+/* file SHFRGN.H
+ *      ========
+ *
+ * version 3, 31-aug-91
+ *
+ * dummy headers for foreign input
+ * K. Stammler, 1-aug-91
+ */
+
+#ifndef __SHFRGN
+#define __SHFRGN
+
+#define sh_frgn_trace(g,f,r,s) *(s)=SHE_NOTIMPL
+#define sh_frgn_geti(e,i,s)
+#define sh_frgn_getr(e,i,s)
+#define sh_frgn_gets(e,l,i,s)
+#define sh_frgn_getc(e,i,s)
+#define sh_frgn_read(d)
+
+#endif  /* __SHFRGN */

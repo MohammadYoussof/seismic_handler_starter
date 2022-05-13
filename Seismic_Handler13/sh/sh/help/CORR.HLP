@@ -1,0 +1,67 @@
+command CORR <wavelet> <wl-start> <wl-end> <corr-trc>
+============
+
+key: compute crosscorrelation
+! version 1, 5-May-92
+
+Computes crosscorrelation of two traces specified by <wavelet> and
+<corr-trc>.  At the trace <wavelet> a time window from <wl-start>
+to <wl-end> is selected.  This wavelet is crosscorrelated with the
+trace <corr-trc> from <cl-start> sec to <cl-end> sec relative
+to the selected wavelet window.  The correlation length
+<cl-start>..<cl-end> is selected by the "corrl" command (default
+is -30..100 sec).  The output trace is positioned at the lower
+value of the time bound given in the "corrl" command, i.e. after
+a "corrl -50 200" instruction the output traces start at time
+position -50.
+
+There are three different correlation modes available.  The
+correlation mode can be selected by "fct corrmode <mode>".  Mode
+number 1 is default.
+
+mode description (x[i]: samples of <wavelet>, y[j]: samples of <corr-trc>)
+
+ <mode> = 1:
+                  sum_{i} (x[i]-x_mean) * (y[i]-y_mean)
+ cc  =   ----------------------------------------------------------
+         sqrt(sum_{j}(x[j]-x_mean)^2) * sqrt(sum{k}(y[k]-y_mean)^2)
+
+ <mode> = 2:
+         sum_{i} (x[i]-x_mean) * (y[i]-y_mean)
+ cc  =   -------------------------------------
+              sum_{j}(x[j]-x_mean)^2)
+
+ <mode> = 3:
+         sum_{i} x[i] * y[i]
+ cc  =   -------------------
+          sum_{i} (x[i])^2
+
+
+parameters
+----------
+
+<wavelet>  ---  parameter type: trace
+   Trace of correlation wavelet (see above).
+
+<wl-start>, <wl-end>  ---  parameter type: real
+   Wavelet time window in seconds.  This selected time window on
+   trace <wavelet> is crosscorrelated with the <corr-trc> trace.
+
+<corr-trc>  ---  parameter type: trace
+   The correlation waveletis correlated with this trace.
+
+
+qualifiers
+----------
+
+/m
+   The wavelet window is marked.
+
+
+example
+-------
+
+   corr 1 100.0 110.0 4       ! correlates time window from 100.0 to
+                              ! 110.0 sec of trace 1 with trace 4;
+                              ! the result is appended to the display
+

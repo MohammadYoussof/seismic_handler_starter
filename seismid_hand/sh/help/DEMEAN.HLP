@@ -1,0 +1,37 @@
+command DEMEAN <trc-list> [<lo-bound> <hi-bound>]
+==============
+
+key: remove mean value
+
+Removes mean value from all traces given by <trc-list>.  If the
+parameters <lo-bound>, <hi-bound> are not specified, the mean
+value is determined inside the current display window.  You can
+enter a "*" as second parameter (<lo-bound>), then the time window
+is selected by graphic cursor.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to remove mean value.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time window in sec. (rel. to time axis) for determining mean
+   value.  If omitted the current display window is used.  If
+   an astrisk ("*") is entered as <lo-bound> the time window can
+   be selected by graphic cursor.
+
+
+Examples:
+
+   DEMEAN 1 10. 20.     ! removes mean value of time window from 10 sec
+                        ! to 20 sec from all samples of first trace
+
+   DEMEAN ALL           ! removes mean value of all traces on display.
+                        ! the mean values are determined inside the
+                        ! current display window
+
+   DEMEAN 1-3 *         ! removes mean value from first three traces
+                        ! on display.  The time window can be selected
+                        ! by graphic cursor.
+

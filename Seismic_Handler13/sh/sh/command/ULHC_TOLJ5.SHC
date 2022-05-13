@@ -1,0 +1,14 @@
+! file ULHC.SHC
+!      ========
+!
+! version 6, 31-Jul-96
+!
+! Unix HP-GL hardcopy
+! K. Stammler, 21-Dec-92
+
+default 1 ;;       hc window
+default 2 a4       paper size
+
+phc #1
+
+return

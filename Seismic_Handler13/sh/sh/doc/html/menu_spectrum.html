@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Spectrum</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060311;22585700">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Menu entry <EM>Spectrum</EM></H2>
+<P>Computes spectrum of selected trace part, i.e. the trace within
+the drag window selected by the right mouse button, and displays it
+in a separate log-log scaled window.  Repeated call of this menu
+entry adds traces to the spectrum display in changing colours.  To
+clear the spectrum window from traces use the <I>Quit</I> menu entry
+of the spectrum window.  This closes the window.  A new call to
+<I>Spectrum</I> reopens the window with only one trace in it.  The
+first trace in the spectrum display determines the frequency and
+amplitude borders.  The borders may be changed using the <I>Display</I>
+menu entries of the spectrum window.  A click of the middle mouse
+button toggles a crosshair cursor.</P>
+<P>There are three computation algorithms available: a PSD estimator
+(spctrm routine from Numerical Recipes), an FFT and a squared FFT
+algorithm (based on the realft routine of Numerical Recipes).  For
+the PSD estimator the selected time window is divided in to n
+subwindows with or without time overlap.  Each subwindow is processed
+with one of the above algorithms and the results are averaged and
+displayed in the spectrum window.  The FFT algorithms take the whole
+time window and therefore do not compute averages.</P>
+<P>If you intend to display displacement spectra please make sure
+that the input seismograms are displacement traces.</P>
+<P>Menu entries of the spectrum window:</P>
+<P><B>Spectrum/Insert</B>: insert current spectrum to the display
+window.</P>
+<P><B>Spectrum/Setup</B>: parameter setup for the spectrum
+algorithms. Grid: switch on/off the log-log grid in the display
+window. End of data: the algorithms need time series with a length of
+a power of two. 'pad zeros' add zeros to the end of the selected time
+window to read the next power of two. 'truncate' cuts the trace down
+to the closest smaller power of two. Method: choose the computation
+algorithm. Overlap: use overlapping/not overlapping time windows in
+the PSD estimator algorithm. No. of windows: number of data windows
+for averaging used in the PSD algorithm.</P>
+<P><B>Spectrum/Fit Line</B>: fit a line to the spectrum displayed. 
+After selecting this entry choose two frequencies by clicking the
+left mouse button.  All spectrum values between these two frequencies
+are used for a straight line fit.  This line may be used for a corner
+period estimation.</P>
+<P><B>Spectrum/Screendump</B>: make screendump of a graphic window
+(like screendump in the main window).</P>
+<P><B>Spectrum/Quit</B>: close spectrum window and delete all spectra
+computed so far.</P>
+<P><B>Display/Automatic</B>: choose default borders for frequencies
+and amplitudes in the spectrum window.</P>
+<P><B>Display/Inc Bottom Freq</B>: increase bottom frequency by one
+magnitude.</P>
+<P><B>Display/Dec Bottom Freq</B>: decrease bottom frequency by one
+magnitude.</P>
+<P><B>Display/Inc Top Freq</B>: increase top frequency by one
+magnitude.</P>
+<P><B>Display/Dec Top Freq</B>: decrease top frequency by one
+magnitude.</P>
+<P><B>Display/Inc Bottom Ampl</B>: increase bottom amplitude by one
+magnitude.</P>
+<P><B>Display/Dec Bottom Ampl</B>: decrease bottom amplitude by one
+magnitude.</P>
+<P><B>Display/Inc Top Ampl</B>: increase top amplitude by one
+magnitude.</P>
+<P><B>Display/Dec Top Ampl</B>: decrease top amplitude by one
+magnitude.</P>
+<P><B>Method/Power Spec</B>: recompute all spectra with the PSD
+estimator routine.</P>
+<P><B>Method/FFT</B>: recompute all spectra with the FFT routine.</P>
+<P><B>Method/FFT squared</B>: recompute all spectra with the squared
+FFT routine.</P>
+<P><small>This page last modified 11-Mar-2006</small></P>
+</BODY>
+</HTML>

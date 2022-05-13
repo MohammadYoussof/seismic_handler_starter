@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Calibration</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Calibration</em></H2>
+
+<P>Advanced option. Slowness and back-azimuth values determined
+by an array record are usually not perfect, since the waveforms
+arriving at the array are distorted by heterogeneities on the
+receiver side. This command allows to correct the slowness/azimuth
+measurement for such systematic errors. It uses a lookup table
+with slowness correction vectors. These correction vectors are
+found by investigating representative events in the past, comparing
+the bearing of the array with the theoretical slowness and back-azimuth
+from the array center to the location given by international data
+centers (like ISC or NEIC). These difference vectors are used
+to correct the measured slowness/azimuth values. The simple algorithm
+implemented here takes the next correction vector and shifts it
+to the location of the current measurement in slowness-azimuth
+domain. The end of the shifted arrow points to a corrected (calibrated)
+result. This method is applicable only if the data set of teleseismic
+records is big enough to provide a dense coverage of correction
+vectors over the whole range of possible slowness/azimuth pairs.
+Also the correction table is usually made with records of the
+complete array. If an actual record misses one or even more stations
+the correction vectors may not be suitable any more. For the GRF
+array such a correction table is provided in the distribution.</P>
+
+<P>There is a calibration lookup file $SH_INPUTS/calib_lookup.txt
+which tells SHM which correction table is to be used for which
+stations. It contains one line per entry of the format &lt;stationlist&gt;
+&lt;calibfile&gt;. Please note that &lt;stationlist&gt; must not
+contain blanks. Lines starting with ! are comments and ignored
+by the program.  The only entry in this file is the GRF array
+pointing to the file of slowness correction vectors $SH_INPUTS/calib_grf.dat.
+This file is formatted as follows:</P>
+
+<UL>
+  <LI>One line per entry
+  <LI>The first 26 characters of each line are comment
+  <LI>The following four numers are beam slowness, beam azimuth,
+  corrected (theoretical) slowness and corrected azimuth
+  <LI>The remaing part of the line is again comment
+</UL>
+
+<P>The way to proceed is as follows: after determining the slowness/azimuth
+(with <A HREF="menu_plane_wave.html">Plane Wave</A> or
+<A HREF="menu_fk.html">FK</A>) select the menu entry <em>Calibration</em>.
+A new window pops up showing an area in slowness/azimuth domain
+around the measured values. Black arrows indicate available correction
+vectors within this area. The red arrow is the suggestion of the
+program to correct the beam measurement. The top of the red arrow
+may be moved with the left mouse button to adjust the suggested
+correction manually. The resulting location and region name is
+displayed in the top left corner of the window. The window has
+a small drop down menu with the following entries:</P>
+
+<UL>
+  <LI><em>Accept</em>: accept
+  the current correction values, close window and return to main
+  program.
+  <LI><em>Quit</em>: do
+  not accept corrections, close window and return to main program
+  <LI><em>Screendump</em>:
+  make hardcopy of the window
+  <LI><em>Set Calib Flag</em>:
+  mark this event as a candidate for an entry in the calibration
+  file
+  <LI><em>Clear Calib Flag</em>:
+  clear a previously set calibration flag.
+</UL>
+
+<P>Leaving the window with <em>Accept</em>
+adds the corrected slowness/azimuth values to the analysis parameters
+and uses those for following teleseismic locations. Leaving with
+<em>Quit</em> does not
+change anything in the parameter set.</P>
+
+<P><small>This page last modified 7-Jul-2000</small></P>
+
+</BODY>
+</HTML>

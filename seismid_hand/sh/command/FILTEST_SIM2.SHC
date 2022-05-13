@@ -1,0 +1,22 @@
+! file FILTEST_SIM2.SHC
+!      ================
+!
+! version 1, 2-Dec-94
+!
+! compares simulated with directly filtered tf
+! K. Stammler, 2-Dec-94
+
+default 1 grf         instrument
+default 2 20          sample rate (hz)
+default 3 g_wwssn_sp  simulation
+
+fili f |tf_vel_|#3|
+filter f 1
+set _created station sim-dir
+
+fili f |tf_vel_|#1|
+filter f 1
+fili r |#2|hz_|#1|_s+|#3|
+filter r _created
+
+return

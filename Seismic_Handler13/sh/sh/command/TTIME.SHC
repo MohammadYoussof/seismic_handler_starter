@@ -1,0 +1,73 @@
+! file TTIMES.SHC
+!      ==========
+!
+! version 1, 4-JUL-91
+!
+! computes and marks travel times of various phases
+
+default 1 1        trace
+switch capcnv off
+DEFAULT 2 P        phase
+SWITCH CAPCNV ON
+default 3 ;;       origin time
+default 4 100.0    distance (deg)
+default 5 0.       depth (km)
+
+sdef outfile sys$login:phasefile_tmp   ! scratch file
+sdef cmdfile sys$login:phasefile_cmd   ! command file
+sdef linecnt 10                        ! line counter
+sdef line                              ! current line
+sdef phase xxx                         ! current phase
+sdef ttime                             ! travel time
+sdef tpos                              ! time position
+
+echo phase #2 depth #5 distance #4
+
+! create command file
+echo_ch/new "cmdfile
+echo %dollar |def|%slash|user| sys$output |"outfile|.stx|
+echo %dollar ttimes
+echo #2
+echo $blank
+echo #5
+echo #4
+echo -1
+echo -1
+echo_ch
+
+! run command file
+system |@|"cmdfile|.stx|
+
+line_loop_start:
+   switch noerrmsg on
+   switch cmderrstop off
+   calc s &line = %"outfile("linecnt)
+   if  $status nei 0  goto/forward illegal_phase:
+   calc i &tpos = 4
+   calc s &phase = "line parse 3
+   if  "phase eqs #2  goto/forward line_loop_exit:
+   calc i &tpos = 3
+   calc s &phase = "line parse 2
+   if  "phase eqs #2  goto/forward line_loop_exit:
+   switch cmderrstop on
+   switch noerrmsg off
+   calc i &linecnt = "linecnt + 1
+goto line_loop_start:
+line_loop_exit:
+switch cmderrstop on
+switch noerrmsg off
+
+calc s &ttime = "line parse "tpos
+echo "phase "ttime
+calc t &ttime = #3 tadd "ttime
+echo abs: "ttime
+calc t &ttime = "ttime tdiff ^start(#1)
+echo rel: "ttime
+
+mark/label=#2 #1 "ttime
+
+return
+
+illegal_phase:
+echo *** illegal phase #2 ***
+return

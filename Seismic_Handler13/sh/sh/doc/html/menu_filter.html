@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Filter</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Filter</em></H2>
+
+<P>Applies filter to traces on display. The filter dialog box
+opens to offer available filters. A description of the
+elements of the filter dialog box follows below. After clicking
+on <em>OK</em> the filtering is done on all traces of the display if
+no traces have been selected before (may take some time, depending on
+number and length of traces and on the CPU power of the host). The resulting
+traces are displayed on screen. The original traces remain in memory
+but are not visible any more. When the filter is changed, the
+previously computed filter output traces are deleted and a new filter
+operation is started using the original traces. Deselecting the filters (filter
+<em>None</em>) restores
+the original (unfiltered) traces on screen. Once a filter is selected in
+remains active until it is explicitly switched off in the filter dialog
+box or a <em>Read New</em>
+is executed (see command <A HREF="menu_read.html">Read</A>).
+<em>Read Again</em> keeps the
+filter, that means the traces read in are filtered automatically.</P>
+
+<P>SHM knows three kinds of filters, FFT filters, recursive filters and
+tabulated filters.  While tabulated filters should be used only under special
+circumstances, filter operations described here may be performed with either
+of the other two types. Practically there are some contraints, however.
+In general, the recursive filters are faster in computation time, in particular
+for long traces. The computation time for recursive filters grows
+linearly with the number of sample points, N, while the FFT filters
+need time proportional to N*log(N), due to the FFT operation.
+In some cases the FFT filters turn out to be numerically more
+stable than recursive ones. FFT filters have one filter file for
+all possible sample rates of the input traces, recursive filters
+need a separate file for each rate (see <A HREF="fil_format.html">filter
+files</A> of SHM). The program package supplies utility programs
+to create FFT/recursive filters for several standard filters,
+special filters have to be created manually by the user. In general,
+creating FFT filter files is much easier than computing recursive
+filter coefficients.</P>
+
+<P>
+<b>This paragraph applies to SHM version 2.4e and later only:</b>  If one or more
+traces have been selected (by left-clicking on the station name or number)
+before calling the filter dialog box, it opens
+up with a restricted list of available filters.  The chosen filter (usually
+a Butterworth highpass, lowpass or bandpass) then
+is applied to the selected traces only and remains active as an additional
+filter to these traces until it is switched off explicitely.  This is useful
+e.g. for noisy traces to cut out the noise signals in addition to simulation
+filters applied.  But be aware that such an additional Butterworth may change
+the simulation filtering severely and affect amplitude measurements on simulated
+seismograms.  To mark such traces with additional Butterworth filters visually,
+they are displayed in a different colour (controlled by configuration parameters
+<I>colour_addfil_red</I>, <I>colour_addfil_green</I>, <I>colour_addfil_blue</I>,
+default is dark violet).  Different additional filters may be chosen for
+different traces.  To switch off additional filters select the appropriate
+traces again and choose no filter (<I>None</I>) in the filter dialog box.
+
+</P>
+
+<H3>The filter dialog box</H3>
+
+<P>This dialog box has the following elements</P>
+
+<UL>
+  <LI>List of radio buttons with available filters.
+  <em>None</em> switches of the filter option,
+  all other selections set a new filter. A description of the filters
+  follows.
+  <LI>Corner frequencies and order of filter. This refers only
+  to Butterworth Bandpass (BP), Lowpass (LP), and Highpass (HP)
+  filters. BP reads <em>lower
+  bound</em>, <em>upper
+  bound</em> and <em>order</em>,
+  LP reads <em>lower bound</em>
+  and <em>order</em>, HP
+  reads <em>upper bound</em>
+  and <em>order</em>. On
+  all other filter selections these values have no meaning.
+  <LI>Name of the filter. Is set automatically when a filter is selected.
+  When selecting filter <em>Other</em> this field has to be edited manually
+  (this option is not tested very well).
+  <LI><em>autocut</em> value
+  option box. Usually filtered traces start with ringing at the
+  beginning of the trace, caused by the discontinuity at the beginning
+  of the input trace. The length of this filter noise depends on
+  the dominant frequency of the filter. The length given here is cut off
+  from each filtered trace so that the ringing does not appear
+  on the screen. Known bug: this causes a shift of the time window
+  selected by <A HREF="window_op.html">Set Time Window</A>.
+</UL>
+
+<H3>List of available filters</H3>
+
+<UL>
+  <LI><em>None</em>: switches
+  off the filter option (see above).
+  <LI><em>Standard BP</em>:
+  Despite the name this is a simulation filter emulating a GRF
+  record with BP from 0.8 to 2.2 Hz.
+  <LI><em>WWSSN-SP</em>:
+  simulation filter of this standard instrument
+  <LI><em>LRSM-SP</em>:
+  simulation filter, useful for more highfrequent signals
+  <LI><em>Wood-Anderson</em>:
+  simulation filter, mainly used for magnitude determinations
+  <LI><em>KIRNOS</em>: simulation
+  filter, similar to displacement
+  <LI><em>SRO-LP</em>: simulation
+  filter, useful for signals of long periods, surface waves
+  <LI><em>WWSSN-LP</em>:
+  simulation filter, not as longperiodic as SRO-LP
+  <LI><em>LRSM-LP</em>:
+  simulation filter
+  <LI><em>Butterworth BP</em>:
+  Butterworth Bandpass, see above
+  <LI><em>Butterworth LP</em>:
+  Butterworth Lowpass, see above
+  <LI><em>Butterworth HP</em>:
+  Butterworth Highpass, see above
+  <LI><em>Other</em>: manual
+  filter preparation, not really tested, for experts only
+</UL>
+
+<P>Whether SHM uses FFT or recursive filters may be set (temporarily)
+in <A HREF="menu_setup.html">Setup</A> (parameter
+<em>filter type</em>) or (permanently) in <A
+HREF="menu_configure.html">Configure</A> (in SHM version prior to 2.4 it is
+parameter number 30, values <em>true</em> or
+<em>false</em>, in version 2.4 and later it is the configuration file parameter
+<I>filter_type</I>). The <em>Read New</em> option of
+command <A HREF="menu_read.html">Read</A> can apply a default
+filter after reading a new data set automatically. This also may
+be changed in <A HREF="menu_setup.html">Setup</A> (parameter 
+<em>default filter</em>) or
+<A HREF="menu_configure.html">Configure</A> (in SHM version prior to 2.4 it is
+parameter number 38, example filter <em>s+standard_bp</em>,
+no filter means here <em>;;</em>, in SHM version 2,4 or later this is set in
+the configuration file, parameter <I>default_filter</I>).</P>
+
+<P>For further information please see the topics</P>
+
+<UL>
+  <LI><A HREF="fil_format.html">Format of filter files</A>
+  <LI><A HREF="fil_graphics.html">Graphic display of SH/SHM FFT
+  filters</A>
+  <LI><A HREF="fil_simulation.html">Working with simulation filters</A>
+  <LI><A HREF="fil_amplitudes.html">Measuring amplitudes in SHM</A>
+</UL>
+
+<P><small>This page last modified 15-Oct-2006</small></P>
+
+</BODY>
+</HTML>

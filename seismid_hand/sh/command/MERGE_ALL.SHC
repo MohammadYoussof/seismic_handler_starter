@@ -1,0 +1,32 @@
+! file MERGE_ALL.SHC
+!      =============
+!
+! version 1, 21-Jul-2006
+!
+! Merges all traces with same stream info (STATION,CHAN1,CHAN2,COMP)
+! K. Stammler, 21-Jul-2006
+
+! no parameters, works on all traces of display
+
+sdef m1       ! trace 1
+sdef m2       ! trace 2
+sdef m3       ! next trace
+
+nr
+
+loop_start:
+
+   merge_pair &m1 &m2
+   if  "m1 eqi 0  goto/forward loop_exit:
+
+	merge "m1 "m2
+   calc i &m3 = "m2 + 1
+	display $dsptrcs "m3
+   del |"m1|,|"m2|
+
+goto loop_start:
+loop_exit:
+
+rd
+
+return

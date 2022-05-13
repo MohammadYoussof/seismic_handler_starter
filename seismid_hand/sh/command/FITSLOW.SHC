@@ -1,0 +1,77 @@
+
+! file fitslow.shc
+!      ===========
+!
+! version 2, 25-May-92
+!
+! returns distance in degrees from given slowness and depth
+! in variable "g1
+! K. Stammler, 24-May-92
+
+default 1 ;;   slowness |(sec|$slash|deg)|
+default 2 0.   depth (km)
+switch capcnv off
+DEFAULT 3 P    phase
+SWITCH CAPCNV ON
+default 4 0.1  distance accuracy
+
+sdef phase p      ! reference phase
+sdef mindist      ! minimum distance
+sdef maxdist      ! maximum distance
+sdef dist         ! new distance
+sdef slow         ! new slowness
+sdef loopcnt 1    ! loop counter
+
+SWITCH CAPCNV OFF
+IF  #3 NES P  GOTO/FORWARD NO_P:
+   CALC R &MINDIST = 2.
+   CALC R &MAXDIST = 105.
+   GOTO/FORWARD PHASE_OK:
+NO_P:
+IF  #3 NES Pdiff  GOTO/FORWARD NO_PDIFF:
+   CALC R &MINDIST = 123.
+   CALC R &MAXDIST = 144.
+   CALC S &PHASE = Pdiff
+   GOTO/FORWARD PHASE_OK:
+NO_PDIFF:
+IF  #3 NES PKP  GOTO/FORWARD NO_PKP:
+   CALC R &MINDIST = 114.
+   CALC R &MAXDIST = 180.
+   CALC S &PHASE = PKPdf
+   GOTO/FORWARD PHASE_OK:
+NO_PKP:
+IF  #3 NES pP  GOTO/FORWARD NO_VPP:
+   CALC R &MINDIST = 2.
+   CALC R &MAXDIST = 105.
+   CALC S &PHASE = pP
+   GOTO/FORWARD PHASE_OK:
+NO_VPP:
+   ECHO illegal phase
+   RETURN
+PHASE_OK:
+SWITCH CAPCNV ON
+
+loop_start:
+   if  "loopcnt gti 20  goto/forward loop_exit:
+	calc r &dist = "maxdist + "mindist
+	calc r &dist = "dist div 2.0
+	call slowness "phase "dist #2 &slow
+	if  "slow gtr #1  goto/forward lowbound:
+		calc r &maxdist = "dist
+		goto/forward bound_ok:
+   lowbound:
+		calc r &mindist = "dist
+   bound_ok:
+   echo slowness approx: "slow
+   calc r &dist = "maxdist - "mindist
+   if  "dist gtr #4  goto/forward continue:
+		calc r &g1 = "mindist + "maxdist
+		calc r &g1 = "g1 div 2.0
+		echo found distance "g1
+		return
+   continue:
+   calc i &loopcnt = "loopcnt + 1
+goto loop_start:
+loop_exit:
+
+return

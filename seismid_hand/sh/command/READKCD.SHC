@@ -1,0 +1,26 @@
+! file READKCD.SHC
+!      ===========
+!
+! version 2, 26-Nov-96
+!
+! reads k-CD data
+! K. Stammler, 23-Oct-96
+
+default 1 grf    station list
+default 2 ;;     start time
+default 3 600    sec length
+
+sdef cmd         ! shell command
+sdef klength     ! length to be extracted from k-file
+
+fct local getenv:dprog &cmd
+
+calc i &klength = #3 + 10
+@CALC S &CMD = |"CMD|$SLASH|kcopy|$SLASH|readk|$SLASH|k_auto_extract.csh|
+calc s &cmd = |"cmd|$blank|#2|$blank|"klength|
+
+system "cmd
+
+reads %here #2 #3 #1 zne bh
+
+return

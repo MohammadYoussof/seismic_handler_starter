@@ -1,0 +1,23 @@
+! file DEFCOLORS.SHC
+!      =============
+!
+! version 1, 24-Feb-2005
+!
+! Define color array
+! K. Stammler, 24-Feb-2005
+
+default 1 1   start attrib block
+default 2 5   number of colors
+
+sdef blk #1
+sdef cnt 1
+
+loop_start:
+   if  "cnt gti #2  goto/forward loop_exit:
+   fct setstyle "blk color %colarr("cnt)
+   calc i &cnt = "cnt + 1
+   calc i &blk = "blk + 1
+goto loop_start:
+loop_exit:
+
+return

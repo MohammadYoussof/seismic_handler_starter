@@ -1,0 +1,96 @@
+command FCT <subfunction>;<p1>;...;<pN>
+===========
+
+key: multi-functional command
+! version 1, 31-AUG-91
+
+Some low level commands.  Action depends on <subfunction>.  Only
+poor documentation about this commands.
+
+parameters:
+
+<subfunction>  ---  parameter type: string
+
+   Valid inputs are:
+
+   SETSTYLE    changes style attribute block number <p1>.
+               <p1> = line attribute block number (integer)
+               <p2> = attribute name (string, see list below)
+               <p3> = new value of attribute
+               valid attribute names: WRMODE (REPLACE, TRANSPARENT,
+               XOR, ERASE), LINETYPE, LINEPATTERN, LINEWIDTH,
+               CHARHEIGHT, CHARROT, FONT, TEXTEFFECTS
+   AXIS        sets axis parameters of axis <p1>
+               <p1> = name of axis (string)
+               <p2> = name of axis item (string, see list below)
+               <p3> = new value of axis item
+               valid axis items: VPOS, LINE_S, LINE_E, TICK_S, TICK_INTV,
+               LAB1VAL, LAB_INTV, LAB1CNT, LABCNT, TICK_LTH, LTICK_LTH,
+               LABSHIFT, LABDIST, STYLE, LABFMT
+   PATH        sets directory paths
+               <p1> = directory name (string, see list below)
+               <p2> = new directory string (string)
+               valid directory names: SCRATCH, HELP, COMMAND,
+               GLOBALS, FILTER, ERRORS, CURVES
+   QDIR        set file prefix for q-file operations.  To be used
+               if header and binary files are on different directories.
+               <p1> = H (for header files) or B (for binary files)
+               <p2> = file prefix
+               example: "fct qdir b opdir:" adds string "opdir:" at the
+                  beginning on every file access to a q-binary file.
+   QLINES      add info lines to a q-header file.  If a new trace is
+               appended to an existing q-file it may occur that there
+               are not enough info lines in the q-file to hold all the
+               information assigned to the new trace.  With this command
+               you can extend the number of info lines pre trace in the
+               q-file by <p2> lines.
+               <p1> = q-file name
+               <p2> = number of info lines to be added on each trace
+   QCOMMENT    inserts text file as a comment into header of q-file
+               <p1> = comment file
+               <p2> = q-file
+   CORRMODE    sets correlation mode
+               <p1> = correlation mode number (integer: 1,2 or 3)
+   AMPLICUT    sets maximum amplitude to be displayed if AMPLICUT
+               flag is set on a trace.  With this flag set the
+               display manager cuts off peaks with larger amplitudes
+               than <p1>.
+               <p1> = maximum amplitude for all traces with AMPLICUT flag set
+   AUTHOR      prints program info
+   STATION     insert station to location file
+               <p1> = station name  (string)
+               <p2> = latitude  (real)
+               <p3> = longitude  (real)
+               <p4> = array code  (integer)
+               <p5> = rel. array x-position  (real)
+               <p6> = rel. array y-position  (real)
+               <p7> = comment (string)
+   LOCFILE     sets location file name (file containing location of
+               various stations)
+               <p1> = name and path of location file
+   SETHC       sets hardcopy parameters (will be replaced by SETPAR in future)
+               <p1> = item to be changed (VAX: JOB_QUEUE HC_QUEUE CCPAR CCROT)
+               <p2> = new value of item
+   SETPAR      sets graphics parameters
+               <p1> = channel map
+               <p2> = item to be changed (depends on graphic channel)
+               <p3> = new value of item
+   READ_VEL    reads velocity file (for PS-delay routines)
+               <p1> = name of velocity file (default extension ".VEL")
+   CHANGE_VEL  changes P or S velocities (read in by FCT READ_VEL)
+               by a constant factor <p2>
+               <p1> = P or S
+               <p2> = multiplication factor
+   TERMINATORS changes terminator set of command line parser (dangerous
+               command !!!  May confuse beginners)
+               <p1> = string containing new terminator set
+                      (1. char: BLANK; 2. char: qualifier;
+                      all others: additional terminators;  default is " /;"
+   TT_TABLE    set name of travel time table
+               <p1> = name of ASCII travel time table
+   MARGIN      sets margin widths of display (in units of width & height)
+               <p1> = name of margin: L(eft), R(ight), T(op), B(ottom)
+               <p2> = margin width in units of width (L,R) and height (T,B)
+   LOCAL       executes command which is machine dependend
+
+   [SWAP_DISPLAY]

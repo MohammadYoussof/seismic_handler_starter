@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Sfdb archiving concept</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>Archiving concept based on the sfdb database</H2>
+<P>
+The archiving system at the SZGRF is based on the three classes of data files:
+(A) files from online data transmission protocols like seedlink
+which are usually available for a limited time on a specific directory
+tree; (B) intermediate term archive files, collected from various data sources
+usually available with a time delay of a day or a few days; (C) permanently
+archived files which have been analysed, quality checked and put to a final
+location on a RAID system or CD/DVD jukebox.  The intermediate directories (B)
+are searched every day for N days backward in time for gaps in the data streams.
+N is typically in the order of 10 days.
+Gaps are found using the sfdb database entries (pathid's between 100 and 1000)
+under the assumption that only continuous files (without gaps inside the file)
+are archived there.  All gaps found are tried to be filled using data files
+from the type (A) archive (pathid's between 0 and 100 and additional on path
+1000) or, if not all data are available there, using dedicated data retrieval
+methods accessing external data sources.  When copied to be (B) archive all
+data files are split up at data gaps so that the sftab entries in sfdb represent
+the data coverage of the archive.  After these N days the (B) archive
+should contain all available data for the data streams.
+</P>
+<P>
+<img src="data_archive_abc.gif" width="788" height="522"
+        alt="Data Archive ABC">
+</P>
+<P>
+After a period of M days (M is in the order of 30 to 60 days) the data in (B)
+are copied to the final archive location in the (C) type archive.  In this
+step the data of all streams of an archive are copied into one directory
+of a given maximum size.  Currently, this maximum size is set to 4.5 GBytes
+so that the data directories can be copied onto DVDs for backup.  These
+type (C) data directories (with pathid's above 1000) contain data of all
+stations of the archive for the same time slice.  In a final step, all data
+in archive (B) older than K days before the end of the most recent type (C)
+data are deleted.  The data in type (A) archive, the online directories, are
+expected to be deleted by the data providing software (seedlink) after some
+time.
+</P>
+<P>
+The archiving software can manage a number of different archives in parallel.
+All archives have the same structure, but are independent of each other and
+have separate type (C) directories.  The defining parameters
+of an archive are:
+<ul>
+<li><b>name</b>:        Name of the archive.
+<li><b>index</b>:       Index number of the archive.
+<li><b>max_storage</b>: Maximum storage capacity (in bytes) in the type (C)
+                        directories.
+<li><b>b_rootpath</b>:  Root path to the type (B) data.
+<li><b>c_rootpath</b>:  Root path to the type (C) data.
+<li><b>wait_days</b>:   After this number of days data are exported from the
+                        (B) archive to the (C) archive.
+<li><b>dir_prefix</b>:  Prefix string of the output directories of type (C)
+                        data and label names.
+<li><b>keep_days</b>:   This number of days after the most recent type (C) data
+                        the files of the (B) archive are deleted.
+<li><b>usb_backups</b>: Number of copies of type (C) directories on external
+                        USB disks.
+</ul>
+At the SZGRF currently are 5 archives defined.  Their parameter descriptions
+are:
+<ul>
+<li> name='grsn-bh', index=1, max_storage=4500000000,
+     b_rootpath='/r06p4/arch_bh', c_rootpath='/r06p1/datalib',
+     wait_days=21, dir_prefix='grsn', keep_days=30, usb_backups=2
+<li> name='grsn-hh', index=2, max_storage=4500000000,
+     b_rootpath='/r06p4/arch_hh', c_rootpath='/r06p3/grsn-80hz',
+     wait_days=30, dir_prefix='hhgr', keep_days=15, usb_backups=0
+<li> name='grsn-lh', index=3, max_storage=640000000,
+     b_rootpath='/r06p4/arch_lh', c_rootpath='/r06p1/datalib',
+     wait_days=30, dir_prefix='lp', keep_days=60, usb_backups=0
+<li> name='krakatau', index=4, max_storage=4500000000,
+     b_rootpath='/r08p1/foreign', c_rootpath='/r08p1/foreign',
+     wait_days=30, dir_prefix='krak', keep_days=60, usb_backups=0
+<li> name='foreign-bh', index=5, max_storage=4500000000,
+     b_rootpath='/r06p2/foreign', c_rootpath='/r06p2/foreign',
+     wait_days=30, dir_prefix='frgn', keep_days=30, usb_backups=0
+</ul>
+</P>
+<P>
+<h3>Archiving routines</h3>
+The routines for processing the archiving functions are <i>ArchAtoB.py</i> and
+<i>archiver.py</i>.  Both Python scripts are in the directory <i>$SH_UTIL/sfdb</i>.
+A typical crontab entry would look like
+</p>
+<p><i>
+22 3,6,9 * * * /usr/local/SH/shlink/util/sfdb/ArchAtoB.py 12 >>log/ArchAtoB.log 2>&1<br>
+59 15 * * * /usr/local/SH/shlink/util/sfdb/archiver.py >>log/archiver.log 2>&1
+</i></p>
+<p>
+<ul>
+<li><b>ArchAtoB.py &lt;backdays&gt;</b>: Copies data files from archive (A) to
+       archive (B) for the last &lt;backdays&gt; days.  Loops all channels of
+       all archives defined.
+<li><b>archiver.py</b>: Loops all archives and calls for each the
+       methods <i>ExportDataToTypeC()</i> (collects all streams of the (B)
+       archive for the next (C) type directory or DVD)  and
+       <i>RemoveDataFromTypeB()</i> (removes data from (B) archive).
+</ul>
+</p>
+
+<P><small>This page last modified 28-Feb-2007</small></P>
+</BODY>
+</HTML>

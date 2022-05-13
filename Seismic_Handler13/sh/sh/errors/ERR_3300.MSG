@@ -1,0 +1,21 @@
+! file ERR_3300.MSG
+!      ============
+!
+! version 2, 31-AUG-91
+!
+! error messages of module GEMCH.C, GEM graphics channel
+! K. Stammler, 15-AUG-91
+!
+*** GM-01 attempt to initialise twice ***
+*** GM-02 illegal world coordinates ***
+*** GM-03 no more windows available ***
+*** GM-04 string input error ***
+*** GM-05 illegal window coordinates ***
+*** GM-06 set font failed ***
+*** GM-07 error opening file ***
+*** GM-08 unkown command ID (shouldn't occur any more) ***
+*** GM-09 string overflow ***
+*** GM-10 illegal style number ***
+*** GM-11 illegal style item ***
+*** GM-12 illegal value ***
+*** GM-13 no resource file found ***

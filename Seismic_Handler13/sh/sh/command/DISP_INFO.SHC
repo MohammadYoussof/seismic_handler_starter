@@ -1,0 +1,48 @@
+! DISP_INFO.SHC
+! =========
+! redisplays traces in window by one selected Info-entry
+
+default 1 azimuth           info entry
+default 2 0                 order: normal(0) or reverse(1)
+
+sdef cnt 1
+sdef info
+sdef disprec
+
+calc i &cnt = 1
+echo_ch/new disp_info.tmp1
+echo_start:
+if "cnt gti $dsptrcs     goto/forward echo_exit:
+calc/fmt=<%20.9@f> r &info = ^#1("cnt)
+echo "info ^recno("cnt)
+calc i &cnt = "cnt + 1
+goto echo_start:
+echo_exit:
+echo_ch
+
+if #2 eqi 1              goto/forward rev:
+for:
+@SYSTEM |sort|$BLANK|-nr|$BLANK|DISP_INFO.TMP1>DISP_INFO.TMP2|
+goto/forward cont:
+rev:
+@SYSTEM |sort|$BLANK|-n|$BLANK|DISP_INFO.TMP1>DISP_INFO.TMP2|
+cont:
+
+nr
+calc i &cnt = 1
+disp_start:
+if "cnt gti %disp_info.tmp2(0)      goto/forward disp_exit:
+!calc s &info = %disp_info.tmp2("cnt)
+!display |_|#1|(|"info|)|
+calc s &disprec = %disp_info.tmp2("cnt) parse 2
+display |_recno(|"disprec|)|
+calc i &cnt = "cnt + 1
+goto disp_start:
+disp_exit:
+
+echo traces were redisplayed in order of #1
+rd
+@SYSTEM |rm|$BLANK|DISP_INFO.TMP1|
+@SYSTEM |rm|$BLANK|DISP_INFO.TMP2|
+
+return

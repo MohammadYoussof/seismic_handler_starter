@@ -1,0 +1,10 @@
+! file kls_setcount.shc
+!      ================
+
+default 1 0   counter value
+
+echo_ch/new sys$login:kls_counter
+echo #1
+echo_ch
+
+return

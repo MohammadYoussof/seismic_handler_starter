@@ -1,0 +1,24 @@
+! file SHM_CMD_LIST_TRCOFFSET.SHC
+!      ==========================
+!
+! version 1, 20-Jul-94
+!
+! lists offset of traces in counts.  It is assumed that the following operations
+! have been executed directly before calling this routine:
+!   i)   read original traces without applying any filter
+!  ii)   Demean Traces with menue option
+! It is particularly important that the traces were not filtered before, because
+! any filter operation removes the mean automatically and permanently.
+
+sdef cnt 01      ! trace counter
+sdef offset      ! trace offset in counts
+
+loop_start:
+	if  "cnt gti $dsptrcs  goto/forward loop_exit:
+	calc r &offset = ^opinfo("cnt) div ^calib("cnt) /fmt=<%6.1@f>
+@  ECHO trace "CNT , ^STATION("CNT) ^COMP("CNT) offset "OFFSET
+	calc i &cnt = "cnt + 1 /fmt=<%02@d>
+goto loop_start:
+loop_exit:
+
+return

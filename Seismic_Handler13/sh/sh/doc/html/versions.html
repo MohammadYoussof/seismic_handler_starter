@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<TITLE>menu_marshal_basham</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060407;17010100">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+
+<H2>Version History of SH and SHM</H2>
+
+<P>
+<B>23-feb-96 SH-4.0a</B>
+first ftp version of SH
+</P>
+<P>
+<B>26-feb-96 SH-4.0b</B>
+removed scan_streams* from $SH_UTIL, new examples for compiler-flags in
+setup/shsetup
+</P>
+<P>
+<B>26-mar-96 SH-4.0c</B>
+fixed amplitude bug (factor 2*pi) in reading GSE2.0 files
+</P>
+<P>
+<B>22-may-96 SH-4.0d</B>
+included HP-UX version
+</P>
+<P>
+<B>29-may-96 SH-4.0e</B>
+included IBM/AIX version
+</P>
+<P>
+<B>05-jun-96 SH-4.0f</B>
+missing compiler switch on HP-UX, fixed Makefile of mapmatrix
+</P>
+<P>
+<B>16-sep-96 SH-4.0g </B>
+fixed bug in array beam routine (mt_locate). Now use geometric center as
+reference. This bug caused errors in slowness and azimuth for large
+aperture arrays (GRSN). Slowness and Azimuth output in evt-files now
+in hundredths.
+</P>
+<P>
+<B>27-Dec-96 SH-4.0h</B>
+Implementation of SH-update scripts via ftp. Renaming of SHN to SH_N.
+</P>
+<P>
+<B>13-Jan-97 SH-4.0i </B>
+Trace display resizeable, text menue for configuring SHM.
+</P>
+<P>
+<B>22-Jan-97 SH-4.0j</B>
+new shmsetup-parameter 'auto_phase'. SHMSETUP continues after unknown
+item.
+</P>
+<P>
+<BR><BR>
+</P>
+<P>
+<BR><BR>
+</P>
+
+<H3>after SH-4.0j there are separate lists for SH and SHM</H3>
+<P>
+<BR><BR>
+</P>
+
+
+
+<P>
+<H3>SH-versions</H3>
+</P>
+<P><BR></P>
+<P>
+<B>19-Mar-97 SH-4.0k</B>
+GSE2.0 input
+improved: fixed bug in reading INTV data, GSE2 input can also read
+GSE1.0 (automatic distinction). Fixed bug in GSE1.0-cmp6 input.
+'READGSE' is now obsolete, exists only for compatibility.
+</P>
+<P>
+<B>28-Apr-97 SH-4.0l</B>
+Implemented phase picker of Baer/Kradolfer (command PICK)
+</P>
+<P>
+<B>30-May-97 SH-4.0m</B>
+Two serious bugs in READGSE2 found and fixed. (1) Amplitudes were wrong if
+calibration period not equal to 1 in GSE2 files. (2) READGSE2 missed one digit
+of the milliseconds when reading GSE1 files -&gt; Time error up to 1
+sec. (reading GSE2 files with READGSE2 was o.k.)
+</P>
+<P>
+<B>05-Dec-97 SH-4.0n</B>
+command 'reads':
+Fixed calib=0-bug when reading starts in a gap. Time-axis is not
+shifted any more in the distance-proportional display.
+</P>
+<P>
+<B>01-Sep-98 SH-4.0o</B>
+Can read mixed MiniSEED of 512-byte and 4096-byte records.
+</P>
+<P>
+<B>17-Mar-99 SH-4.0p</B>
+Implemented /TIMECORR qualifier on READS command. Applies time corrections in
+MiniSEED data files.
+</P>
+<P>
+<B>13-Jan-2000 SH-4.0q</B>
+Y2K bug fixes and minor changes.
+</P>
+<P>
+<B>04-Aug-2000 SH-4.0r</B>
+Change in Makefiles to work properly on Solaris 7.
+</P>
+<P>
+<B>23-Nov-2001 SH-4.0s</B>
+Some new commands (stalta, stability, leveldetec)
+</P>
+<P>
+<B>07-Feb-2002 SH-4.0t</B>
+Can read Steim2 compression in MiniSEED files.
+</P>
+<P>
+<B>08-Jul-2002 SH-4.0u</B>
+Can read wordorder=0 (80x86 format) Steim1-MiniSEED
+</P>
+<P>
+<B>01-Mar-2004 SH-4.0v</B>
+Fixed bug in Q-file module. When inserting new Q-file entries corrupted headers
+could be produced after leaving SH.
+</P>
+<P>
+<B>27-Aug-2004 SH-4.0w</B>
+minor changes for ESC course in Potsdam
+</P>
+<P>
+<B>21-Nov-2005 SH-4.1a</B>
+changes in source code for 64bit system (Suse Linux 10.0)
+</P>
+<P>
+<B>08-Mar-2006 SH-4.1b</B>
+Read from Steim1/2 compressed Seed volumes via seed2sfd. Network code and
+location ID can be passed to the reads command to select specific
+streams from a Seed volume.
+</P>
+<P>
+<B>01-Apr-2006 SH-4.1c</B>
+Fixed bug in
+q-file interface on 64bit systems.  Number of info entries increased.
+ See command <I>entry list &lt;file&gt;</I>.
+</P>
+<P>
+<B>26-Jul-2006 SH-5.0a</B> 
+SH code prepared for IP port I/O to send SH commands to remote machines.
+New commands MERGE and MERGE_PAIR for merging two traces with correct timing
+(in opposite to APPEND).
+</P>
+<P>
+<B>??-Nov-2006 SH-5.0b</B>
+No public release
+</P>
+<P>
+<B>28-Dec-2006 SH-5.0c</B>
+Configuration file from SHM also usable for SH;  multiple search paths
+for command procedures, filter input and station info file;  new command
+Spectrogram; fixed bug in reading cm6 compressed GSE files on 64bit systems
+</P>
+<P>
+<B>in preparation SH-5.0d</B>
+Fixed bug on long path lists in 'fct path command ...' commands.  Default
+switches for 'reads' command (/[no]swap, /[no]invhdr) definable in
+configuration file.
+</P>
+<P>
+<BR><BR>
+</P>
+
+
+
+<P>
+<H3>SHM-versions</H3>
+</P>
+<P><BR></P>
+<P>
+<B>12-feb-97 SHM-2.1a</B>
+complete reorganization of internal phase management. Big changes, new bugs
+possible.
+</P>
+<P>
+<B>19-mar-97 SHM-2.1b</B>
+see SH-4.0k
+</P>
+<P>
+<B>05-may-97 SHM-2.1c</B>
+Interface for M. Baer's phase picker (Menu options 'Onset Pick' and 'Onset Pick
+Setup ...').
+</P>
+<P>
+<B>30-may-97 SHM-2.1d</B>
+see SH-4.0m
+</P>
+<P>
+<B>04-Jun-97 SHM-2.1e</B>
+amplitude readings on unfiltered traces from other stations than
+GRF/GRSN/GERESS now possible.
+</P>
+<P>
+<B>05-Dec-97 SHM-2.1f</B>
+Reading of q-files now possible (Menu entry 'Read Q'). Added parameters in
+'Configure'.
+</P>
+<P>
+<B>10-Dec-97 SHM-2.1g</B>
+3-components display now possible in zoom-window. Phase picking restricted to
+visible trace display area. Improvements in handling pseudo-phases.
+Initial MiniSEED read dialog box configurable with resource file.
+</P>
+<P>
+<B>15-Jul-98 SHM-2.1h</B>
+Interface for foreign data formats. Needs an external programs which
+converts data to GSE.
+</P>
+<P>
+<B>01-Sep-98 SHM-2.1i</B>
+Can read mixed MiniSEED files of 512-byte and 4096-byte records.
+Implementation of Spectrum display. More elaborate mouse cursors.
+</P>
+<P>
+<B>17-Nov-98 SHM-2.1k</B>
+Implementation of particle motion diagrams. Writing of MiniSEED and GSE files.
+</P>
+<P>
+<B>18-Jan-99 SHM-2.1l</B>
+Switching of MiniSEED-Read-Dialogboxes.
+</P>
+<P>
+<B>22-Jun-99 SHM-2.1m</B>
+Fixed bugs in reading GSE-files using BP as default filter, implemented small
+tolerance in valid sample rate of recursive filters, automatic 'Get
+Values' Option in FK, new menu entry 'Fix Beam', accept long station
+list in 'reads' command.
+</P>
+<P>
+<B>13-Jan-2000 SHM-2.1n</B>
+Y2K bug fixes and minor changes.
+</P>
+<P>
+<B>23-Nov-2001 SHM-2.1p</B>
+Bugfix for LocSAT on Linux for German events. Correlation picker
+</P>
+<P>
+<B>07-Feb-2002 SHM-2.1q</B>
+Interface for AutoDRM requests. Reads GSE-data from AutoDRMs fully
+automatically.
+All standard AutoDRMs can be configured using a text file. Uses
+SH-4.0t and can read Steim2 compressed miniSEED files.
+</P>
+<P>
+<B>08-May-2002 SHM-2.1r</B>
+Possible to read in Intel-formatted MiniSEED files.
+</P>
+<P>
+<B>26-Aug-2002 SHM-2.1s</B>
+Improvements for Linux environment
+</P>
+<P>
+<B>30-Apr-2003 SHM-2.1t</B>
+Interface for Hypocenter location program
+</P>
+<P>
+<B>24-Nov-2004 SHM-2.2a</B>
+development of installation scripts
+</P>
+<P>
+<B>27-Aug-2004 SHM-2.2b</B>
+new names for Flinn-Engdahl regions
+</P>
+<P>
+<B>03-Nov-2004 SHM-2.2c</B>
+particle motion diagram writes out angle of main polarisation; new filter
+button: restitution to displacement; changes in 'Spectrum' window,
+incl. linear fit
+</P>
+<P>
+<B>12-Jan-2005 SHM-2.2d</B>
+optimized functionality of ReadNew and ReadAgain buttons in the MiniSEED read
+dialog box; two more parameters of LocSAT location (residual rms &amp;
+max. azimuthal gap) stored in evt-file.
+</P>
+<P>
+<B>15-Apr-2005 SHM-2.2e</B>
+time dependent transfer functions implemented additional parameters in
+evt-files (Mw, Broadband Magnitude, User Magnitude, Corner Freq., Low
+Freq Level, Moment tensor Elements, Scalar Moment, Fault Plane
+Solution), user-defined attenuation in ml-formula
+</P>
+<P>
+<B>20-Jun-2005 SHM-2.2f</B>
+Implementation of tabulated (FAP) filters for simulation filters in SHM
+</P>
+<P>
+<B>17-Jul-2005 SHM-2.2g</B>
+Implementation of Broadband Magnitude
+</P>
+<P>
+<B>21-Nov-2005 SHM-2.3a</B>
+Fix compilation errors on Suse Linux 10.0, core dump on 64bit system fixed
+</P>
+<P>
+<B>03-Mar-2006 SHM-2.3b</B>
+Increase number of plugins from 10 to 20
+</P>
+<P>
+<B>09-Mar-2006 SHM-2.3c</B>
+new plugin command reread (refresh plugin definitions)
+</P>
+<P>
+<B>16-Jun-2006 SHM-2.4a</B>
+Simple configuration file (no more SHM_USER_STARTUP.SHC) including window
+geometry and MiniSEED station interface (no more STATLIST_...STX-files).
+Definition of network buttons with arbitrary station subsets possible.
+Separate configurations for different users possible, including own
+station info file (STATINF.DAT) or filter lookup table (filter_lookup.txt).
+SEED Calibration gains in a single text file instead of many
+seedcalib_...-files (seedcalib_...-files are still supported if desired,
+also a conversion tool is provided).  Data quality defects reported in
+SEED-quality flags indicated by alert trace colour.  <I>Add Plugin</I> feature
+implemented to download available plugins from our website directly into
+your program (plugin for source code update available).
+Freely definable colours of trace windows (foreground and background) and
+dialog boxes.  Text output in shell window reduced.
+Improvements in <I>Identify Phase</I>, Surface Waves included in <I>Locations
+matching</I>. Improvements in FK interface (automatic presetting of
+values for LP filters, decimation possible).  Fixed bug in q-file handling
+on 64bit machines.
+</P>
+<P>
+<B>18-Jun-2006 SHM-2.4b</B>
+fixed bug for 64bit version of version 2.4a;
+modularised configuration file (include statement); dialog box colour
+configurable in configuration file
+</P>
+<P>
+<B>26-Jul-2006 SHM-2.4c</B>
+fixed bug: too many open files in version 2.4b
+when using option <I>Identify Phases</I>.  New parameters for configuration
+file: <I>trace_normalisation</I>, <I>exclusive_agency</I> and
+<I>recover_evid</I>.  See <a href="configuration-file.html">documentation</a>
+for details on these.  Improvements in trace normalisation.
+</P>
+<P>
+<B>09-Oct-2006 SHM-2.4d</B>
+New menu entry <I>Spectrogram</I> (computes
+spectrogram of a trace); segmentation fault fixed on
+not existing evt-files in the event list file.  Improvements in trace rotation:
+if azimuth equals 0, azimuth is computed from epicentre location
+</P>
+<P>
+<B>15-Oct-2006 SHM-2.4e</B>
+Fixed bug in <I>Identify Phase</I> (source
+depth has been dropped in some cases); additional Butterworth filtering to
+simulation filters on selected traces
+</P>
+<P>
+<B>??-Nov-2006 SHM-2.4f</B>
+No public release
+</P>
+<P>
+<B>28-Dec-2006 SHM-2.4g</B>
+Implementation of string lists in various
+paths (multiple search paths for command procedures, filters, station infos,
+sensitivities, filter lookup tables); use of internal and environment
+variables in string parameters of the configuration file; rubber drag box
+movable by arrow keys and right mouse click in zoom window; rounding of
+time labels on time axis; fixed bug in reading of cm6 compressed GSE files on
+64bit systems
+</P>
+<P>
+<B>05-May-2007 SHM-2.4h</B>
+Fixed bug (caused segmentation fault) connected with 'Identify Phase'.
+Increased command line length for working with many stations. Set alert colour
+on traces with unknown station name.  New menu entry 'Delete Bad Qual'.
+</P>
+<P><small>This page last modified 5-May-2007</small></P>
+</BODY>
+</HTML>

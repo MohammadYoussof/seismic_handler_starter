@@ -1,0 +1,21 @@
+! file put_title
+
+if  ^fromq eqs y  then  goto/forward do_q:
+
+nr
+title 1 %xpid(1)
+title 2 %xpid(2)
+title 3 ^start
+rd
+return
+
+do_q:
+
+sdef text
+calc s &text = |origin:|^origin|$blank(2)|lat:|^lat|$blank(2)|lon:|^lon|
+calc s &text = |"text|$blank(2)|depth:|^depth|
+title 1 "text
+calc s &text = |magn:|^magnitude|$blank(2)|dist:|^distance|$blank(2)|baz:|^azimuth|
+title 2 "text
+
+return

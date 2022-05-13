@@ -1,0 +1,22 @@
+command CORRL <cl-start>;<cl-end>
+=============
+
+key: select correlation length
+
+Select correlation length for all following correlations (CORR
+command).  The correlation wavelet selected by the CORR command
+is crosscorrelated with a trace from <cl-start> to <cl-end>
+relative to the selected wavelet window.  Default is -30.0 sec and
+100.0 sec.
+
+
+parameters
+
+<cl-start>, <cl-end>  ---  parameter type: real
+   Correlation length (see above).
+
+
+example:
+
+   CORRL -30.0 100.0           ! set default corrrelation length
+

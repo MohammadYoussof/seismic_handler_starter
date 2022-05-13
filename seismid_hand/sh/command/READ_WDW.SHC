@@ -1,0 +1,24 @@
+! file READ_WDW.SHC
+! reads time window of section using a reduction velocity
+
+default 1 ;;        q-file
+default 2 all       trace list
+default 3 6.0       reduction velocity
+default 4 0.016     sample rate
+default 5 -2.0      lower bound (in sec)
+default 6 8.0       upper bound (in sec)
+
+sdef first          ! first trace to be read
+sdef reftime        ! reference time
+
+calc i &first = 1
+if  #2 eqs all  goto/forward first_ok:
+   calc i &first = #2
+first_ok:
+nr
+extract #1 "first start &reftime
+read/pos=distance/dt=#4/vel=#3 #1 #2 #5 #6
+shift _created time_al "reftime
+shift _created red_time #3
+rd
+return

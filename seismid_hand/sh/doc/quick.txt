@@ -1,0 +1,174 @@
+
+Quick Guide to SH
+=================
+
+! version 2, 4-Nov-98
+
+
+General Remarks
+---------------
+
+- command line interpreter is not case-sensitive
+- command line consists of command-verb, parameters and qualifiers
+- separation characters are blanks " " or semicolons ";"
+- qualifiers are preceded by a slash.
+- delete scratch files in directory '$SH_SCRATCH' from time to time
+
+
+
+Trace Addressing
+----------------
+
+Traces are numbered from bottom upward.  A list of traces is specified
+by a list of trace numbers separated by comma or hypen.  Examples:
+   DEL 3          ! deletes 3rd trace
+	DEL 1,4        ! deletes 1st and 4th trace
+   DEL 1-3        ! deletes first 3 traces
+   DEL 1-3,7-9    ! deletes traces 1,2,3,7,8,9
+	DEL ALL        ! deletes all traces
+
+
+
+Some Commands
+-------------
+
+
+  > basic commands ------------------------------------------------------------
+
+
+- start SH from C-shell
+   SH
+
+- open graphics window
+   XOPEN;;              on X-Window system
+
+- exiting from SH
+   QUIT
+
+- help
+   HELP                 directory of (almost all) available commands
+   HELP/KEY             directory with brief description
+   HELP/CALL            directory with calling syntax
+   HELP <cmd>           more detailed help on command <cmd>, example: HELP HELP
+
+- read commands for waveform data
+	READ                 reads from q-files (SH private format)
+	READS                reads from Mini-SEED files (only Steim1 data records)
+	READGSE              reads GSE1 or GSE2 files
+	READAH               reads AH file (if implemented)
+	READA                read ASCII file
+
+- redraw display
+   RD                   redraws display
+   NR                   disables automatic redrawing (re-enable with RD)
+
+- set & delete time windows
+   STW                  set time window
+   DTW                  delete time window
+
+- pick time position on traces
+   TIME                 gives absolute and relative time, also difference
+                        time to last pick, exit with "E"-key
+
+- delete traces
+   DEL <list>           deletes all traces of <list>
+
+- shift traces
+   SHIFT <list> <time>  shift all traces in <list> by <time> seconds
+   SHIFT ALL TIME_AL    shift traces according to their position in absolute time
+   TRESET               sets time-origin to zero for all traces
+
+
+- trace amplitudes
+    NORM AF             default setting.  Traces are normalized to the maximum value
+                        of all traces on the display
+    NORM SF             all traces are displayed with the same amplitude
+    ZOOM <list> <f>     all traces in <list> are amplified by a factor of <f>
+                        this is independent from the NORM command
+- hardcopy
+   HC                   creates PostScript file and sends it to laser printer
+                        print command can be changed with CHANGE_PRN
+                        default print command is: "lpr -Plw %s"
+                        %s is replaced by the actual filename
+   TITLE <n> <t>        puts a title line on the display
+
+
+
+   > filtering commands ------------------------------------------------------------
+
+
+
+- filtering traces (FFT filters)
+   FILI F <filter>      read in filter file (contains poles and zeroes)
+   FILTER F <list>      filters list of traces
+
+- filtering traces (recursive filters)
+   FILI R <filter>      read in filter file (contains poles and zeroes)
+   FILTER R <list>      filters list of traces
+
+
+
+   > 3-component commands ------------------------------------------------------
+
+
+
+- particle motion diagrams
+   PMSTART <wdwsize>    opens separate window of size <wdwsize> x <wdwsize> cm.
+   PM/MWDW <list> <wd>  particle motion diagrams of N pairs of traces given by
+                        2N elements in <list>.  <wd> is width of time window.
+   PM3 <wd>             abbreviation of PM/MWDW 2,1,3,2,3,1 <wd>
+                        if 3 traces are on the display, same for 6 and 9 traces
+   PMEND                closes PM window
+                        Before using the PM command, set an appropriate time window
+                        with the STW command.
+
+- find azimuth & angle of incidence
+   MDIR <list> *        computes angles according to selected time window.  <list> must
+                        have 2 or 3 elements
+
+- trace rotation
+   ROT3 <list> <a> <i>  3-dim rotation of traces by azimuth <a> and angle of
+                        incidence <i>.  <list> must have 3 elements (Z,N,E).
+   ROTAZ <list> <a>     2-dim azimuth rotation.  <list> must have 2 elements (N,E).
+   ROTINCI <list> <i>   2-dim incidence rotation.  <list> must have 2 elements (Z,R).
+
+
+
+   > array features ------------------------------------------------------------
+
+
+
+- location of events
+   LOCATE               computes azimuth and slowness for picked phase
+                        exit with "E"-key
+                        Traces MUST have the correct position in time !!!
+                        ensure with the two commands:
+                           SET ALL T-ORIGIN 0.  (or 'TRESET')
+                           SHIFT ALL TIME_AL
+
+- beaming of traces
+   BEAM <list> <a> <s>  shifts traces to align a phase coming from an azimuth of <a>
+                        and a slowness of <s>.
+                        Traces MUST have the correct position in time !!!  (see above)
+
+- summing of traces
+   SUM <list>           sums all traces specified in <list>
+
+
+
+   > other ---------------------------------------------------------------------
+
+
+
+- utilities
+   DEMEAN <list>        removes mean value
+   TREND <list>         removes linear trend
+   DESPIKE <list> <f>   removes spikes
+   MEND ...             replaces several consecutive samples by interpolation
+   RESAMPLE <list> <dt> resamples traces
+   CUT <list> <lo> <hi> cuts traces at the specified time bounds
+   SYSTEM               access to UNIX shell
+   MARK <trc> <time>    marks trace (marks can be labelled, see HELP MARK)
+
+
+

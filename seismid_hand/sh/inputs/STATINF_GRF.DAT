@@ -1,0 +1,30 @@
+GRA1 lat:+49.6918877 lon: +11.2217202 elevation: 499.5 array:01 xrel:  0.000 yrel:   0.000 name:Graefenberg,_F.R.G.
+GRB1 lat:+49.3913475 lon: +11.6519526 elevation: 494.0 array:01 xrel: 31.008 yrel: -33.554 name:Graefenberg,_F.R.G.
+GRC1 lat:+48.9961681 lon: +11.5213504 elevation: 512.0 array:01 xrel: 21.148 yrel: -77.524 name:Graefenberg,_F.R.G.
+GRA2 lat:+49.6552079 lon: +11.3594439 elevation: 512.0 array:01 xrel:  9.938 yrel:  -4.194 name:Graefenberg,_F.R.G.
+GRA3 lat:+49.7622038 lon: +11.3186951 elevation: 455.0 array:01 xrel:  7.108 yrel:   7.756 name:Graefenberg,_F.R.G.
+GRA4 lat:+49.5654029 lon: +11.4358711 elevation: 503.0 array:01 xrel: 15.348 yrel: -14.194 name:Graefenberg,_F.R.G.
+GRB2 lat:+49.2709252 lon: +11.6699661 elevation: 552.0 array:01 xrel: 32.068 yrel: -47.024 name:Graefenberg,_F.R.G.
+GRB3 lat:+49.3435419 lon: +11.8059826 elevation: 517.0 array:01 xrel: 42.088 yrel: -38.974 name:Graefenberg,_F.R.G.
+GRB4 lat:+49.4689373 lon: +11.5608463 elevation: 507.0 array:01 xrel: 24.368 yrel: -25.004 name:Graefenberg,_F.R.G.
+GRB5 lat:+49.1121310 lon: +11.6767332 elevation: 525.0 array:01 xrel: 32.708 yrel: -64.834 name:Graefenberg,_F.R.G.
+GRC2 lat:+48.8675675 lon: +11.3755426 elevation: 445.0 array:01 xrel: 10.328 yrel: -91.764 name:Graefenberg,_F.R.G.
+GRC3 lat:+48.8901739 lon: +11.5858216 elevation: 438.0 array:01 xrel: 25.728 yrel: -89.334 name:Graefenberg,_F.R.G.
+GRC4 lat:+49.0867465 lon: +11.5262720 elevation: 503.0 array:01 xrel: 21.568 yrel: -67.464 name:Graefenberg,_F.R.G.
+BFO	lat:+48.3301	lon: +08.3296	elevation: 589.0	array:01	xrel:-213.739243	yrel:-151.305984	name:FRG,_Black_Forest
+BRG	lat:+50.8732	lon: +13.9428	elevation: 296.0	array:01 xrel: 191.206207	yrel: 131.528015	name:FRG,_BERGGIESHUEBEL
+BRNL	lat:+52.4278	lon: +13.3580	elevation: 42.0	array:01	xrel: 144.838257	yrel: 304.206085	name:FRG,_Berlin
+BSEG  lat:+53.9353	lon: +10.3169  elevation: 40.0	array:01	xrel: -59.227159	yrel: 471.825014	name:FRG,_Bad_Segeberg
+BUG	lat:+51.4406	lon: +07.2693	elevation: 85.0	array:01	xrel:-274.249786	yrel: 194.984146	name:FRG,_Bochum
+CLL	lat:+51.3077	lon: +13.0026	elevation: 230.0	array:01	xrel: 123.881096	yrel: 179.806717	name:FRG,_COLLM
+CLZ	lat:+51.8416	lon: +10.3724	elevation: 680.0	array:01	xrel: -58.227596	yrel: 239.171051	name:FRG,_Clausthal
+FUR	lat:+48.1629	lon: +11.2752	elevation: 565.0	array:01	xrel:   4.084936	yrel:-169.896957	name:FRG,_Fuerstenfeldbruck
+GRFO	lat:+49.6909	lon: +11.2203	elevation: 384.0	array:01	xrel: 000.000000	yrel: 000.000000	name:Graefenberg,_F.R.G.
+GSH	lat:+50.737		lon: +06.3798	elevation: 370.0	array:01	xrel:-340.726078	yrel: 116.206037	name:FRG,_Grosshau
+HAM	lat:+53.4650	lon: +09.9247	elevation: 30.25	array:01	xrel: -85.853569	yrel: 419.532349	name:FRG,_Hamburg
+IBBN	lat:+52.3072	lon:  +7.7566	elevation: 140.0  array:01	xrel: -235.574904	yrel: 290.796575	name:FRG,_Ibbenbueren
+LID   lat:+54.5481	lon: +13.3664	elevation: 0.0	array:01	xrel: 138.315430	yrel: 539.962219	name:GRF,_Liddow
+MOX	lat:+50.6447	lon: +11.6156	elevation: 455.0	array:01	xrel:  27.806353	yrel: 106.098869	name:FRG,_Moxa
+RGN	lat:+54.5477	lon: +13.3214	elevation: 15.0	array:01 xrel: 135.414603	yrel: 539.917770	name:FRG,_Ruegen
+TNS	lat:+50.2225	lon: +08.4473	elevation: 815.0	array:01	xrel:-197.254562	yrel:  59.121090	name:FRG,_Taunus
+WET	lat:+49.1440	lon: +12.8782	elevation: 613.0	array:01	xrel: 120.636627	yrel: -60.830681	name:FRG,_Wetzell

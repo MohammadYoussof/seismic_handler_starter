@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table backup</H2>
+<P>
+<ul>
+   <li><b>pathid</b>     INTEGER,
+   <li><b>mediatype</b>  INTEGER,
+   <li><b>label</b>      VARCHAR(255),
+   <li><b>version</b>    INTEGER,
+   <li><b>creation</b>   DATETIME,
+   <li><b>lastcheck</b>  DATETIME,
+   <li><b>status</b>     INTEGER,
+   <li><b>locations</b>  VARCHAR(255),
+   <li><b>comment</b>    VARCHAR(255),
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>pathid</b>:     Path ID as used in
+                       <a href="sfdb_table_sftab.html">sftab</a> (and pathtab).
+                       Describes path to data saved.
+<li><b>mediatype</b>:  Identifier defining the media type for the backup.
+                       Valid values are 1 (=DVD), 2 (=CD), 3 (=ext USB disk),
+                       4 (=online storage), 5 (=tape).
+<li><b>label</b>:      Label of storage medium.  E.g. label on DVD or on
+                       external USB disk.
+<li><b>version</b>:    Version of backup.  A data directory (described by pathid)
+                       may be saved more than once on different media possibly
+                       under the same label.
+<li><b>creation</b>:   Creation date and time of the backup entry.
+<li><b>lastcheck</b>:  Date and time of the last integrity check of the backup
+                       (MD5 checksums).
+<li><b>status</b>:     Status of the last integrity check performed. 1=ok,
+                       other values indicate errors or problems.
+<li><b>location</b>:   Optional description of location of backup medium.
+<li><b>comment</b>:    Optional comment.
+</ul>
+</P>
+
+<P>This page last modified 28-Feb-2007</P>
+</BODY>
+</HTML>

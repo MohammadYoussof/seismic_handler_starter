@@ -1,0 +1,125 @@
+
+Event Identification Procedures (EIP)
+=====================================
+
+There exists a set of command procedures for SH which are used to identify
+event records.  These procedures are divided into two groups.  The first
+group uses the event information listed in PDE files (Preliminary Determination
+of Epicenters) and the second group tries to locate the event by
+waveform analysis.  In both cases the routines gain event information
+(location of epicenter, source depth, magnitude, origin time).  This
+information may be used to mark theoretical onset times of various phases
+on the trace which tests the validity of the information.  It is also possible
+to optimize the PDE parameters (retrieved by group 1 procedures) by the
+group 2 procedures.  It should be noted that the PDE listings are updated
+not very frequently and therefore PDE information is not available for
+the most recent events (recent means here up to one year ago).
+
+
+
+PDE routines
+============
+
+
+identify
+--------
+
+   This procedure takes a picked phase as input and checks each event in the
+   PDE listings that is within a time window of one hour before the picked
+   time.  For each event the theoretical travel time of the specified phase
+   is computed, added to the origin time from PDE and compared with the
+   picked arrival time.  If the difference between theoretical and
+   observed arrival time is smaller than a given time tolerance (usually
+   5 sec) the event is listed on screen.  If more than one event matches within
+   the tolerance time (this occurs very rarely), the events are sorted by
+   magnitude.  The first matching event is also stored in memory (actually,
+   in the global variable "g1"), where it may be used in subsequent procedures.
+   If the traces on display are read from q-file and the qualifier "/file" is
+   present on the command line, then the info values of the first event will
+   be inserted to the header of all (!) traces on display.  Please be sure
+   that all traces on display belong to this event, otherwise you will have
+   wrong header information in some of the traces.  If the qualifier "/nofile"
+   is entered then the information is not stored in the q-file headers.  Without
+   qualifiers "/file" or "/nofile" the procedure will ask the user whether or
+   not the information should be inserted to q-file.
+
+   The "identify" procedure takes one parameter (the phase name) and prompts
+   for a graphic cursor input (the phase pick).  To overcome the automatic
+   case conversion in command lines it is recommended to enter the "identify"-
+   command without parameter and let the procedure prompt for it.  On the
+   phase prompt you have to enter the phase name correctly in upper- and
+   lowercase letters.  The procedure is very fussy about these names, for
+   instance it does not accept "PKP" alone, you have to specify the branch
+   as well, like "PKPdf" or "PKPbc".  After entering this parameter you are
+   requested to pick the phase by graphic cursor.  You should be as accurate
+   as possible in order not to exceed the tolerance time for matching events.
+   Therefore you should select an appropriate time resolution by the "stw"-
+   command before "identify".  If the tolerance time seems to be too restrictive
+   you may enlarge it by specifying the qualifier "/tol=<toltime>" on the
+   command line (Example: "identify/tol=10", to set it to 10 sec).
+
+
+eventinfo
+---------
+
+   If a recent event is processed, then it is possible that no PDE information
+   is available.  If you have access to other sources of information then you
+   may pass the information by hand to SH.  This is done by the "eventinfo"
+   procedure.  The status of SH after execution of "eventinfo" is (almost) the
+   same as after "identify", particularly you may call "id_phases" after
+   "eventinfo".  "eventinfo" also accepts the two qualifiers "/file" or
+   "/nofile" which have the same meaning as for "identify".  If none of these
+   is specified the procedure asks the user whether to store the information
+   in q-file.
+
+   Syntax:
+      eventinfo <origin> <lat> <lon> <depth> <mb>
+
+   Examples:
+      eventinfo 23-sep-82_5:32:8.0 -23.4 30.0 34.6 5.8
+      eventinfo 23,9,82,5,32,8 45.0 -16.3 0. 6.2
+
+
+
+id_phases
+---------
+
+   This command procedure marks theoretical arrival times of various phases
+   on a specified trace.  It uses the PDE information gathered by the
+   "identify" procedure and which was stored in memory (in variable "g1").
+   It prefers, however, the header information if the specified trace was
+   read in from a q-file, except the qualifier "/noq" is entered.
+   "id_phases" is useful only after an "identify" or "eventinfo" command.
+
+   Syntax:
+      id_phases <trace> <shift> <phaselist> <label-step>
+
+   Parameters:
+
+      <trace>  ---  parameter type: integer
+         Specifies the number of the trace to be marked.  The default trace
+         is 1.
+
+      <shift>  ---  parameter type: real
+         All phase markers are shifted by <shift> seconds.  If the phase
+         markers are obviously not correctly positioned you may pass here
+         a time shift.  The default shift value is 0.
+
+      <phaselist>  ---  parameter type: filename (no extension)
+         Specifies a file which contains the names of the phases which should
+         be marked.  The default file used is "phaselist.stx" in the
+         directory "shc_globals".  You may have a look on this file as an
+         example file.  If you are interested only in a subset of the phases
+         listed there, you can created your own file with less phases and
+         pass to the routine.
+
+      <label-step>  ---  parameter type: real
+         Controls the positioning of the labels.  If <label-step> is set to
+         zero all label texts are on the same y-position.  If you have chosen
+         a large time window ("stw" command) the phase names may overlap,
+         causing bad readability.  A value of 0.1 places the labels on
+         different heights which reduces overlapping.  Default value is 0.1.
+
+
+
+

@@ -1,0 +1,12 @@
+! file SHM_CMD_TIMEAL.SHC
+!      ==================
+!
+! version 1, 10-Dec-97
+!
+! Aligns traces in time (called after reading traces)
+! K. Stammler, 10-Dec-97
+
+set all t-origin 0.0
+shift all time_al
+
+return

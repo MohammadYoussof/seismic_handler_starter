@@ -1,0 +1,45 @@
+command CURVE <curve-file>
+=============
+
+key: draw curve into display
+
+Draws curve into trace display.  The curve is read from file
+<curve-file>.  It uses the coordinate system defined by the
+time axis and the y-axis.  The curve file contains pairs
+of coordinates (time,y) in each line, which are connected
+by straight lines in the display.  An empty line stops the
+polygon and starts a new line at the next pair.  If a line starts
+with "TEXT: " the rest of the line is printed at the last
+read location.
+
+Curve files are searched first in the current directory then
+in the directory specified by the "SHD_CURVES"-path.
+
+
+parameter
+
+<curve-file>  ---  parameter type: filename (without extension)
+   File which contains curve.  It must have the extension ".CRV"
+   and start with a line containing "SH_CRV" at the very beginning.
+   Each line of the file contains either:
+   -  a coordinate pair "time y" (separated by blanks)
+   -  nothing
+   -  an output text (line must start with "TEXT: ")
+   Coordinate pairs are connected until a blank line is read.  A
+   blank line starts a new polygon.  An output text is printed at
+   the last read location.
+
+
+qualifiers
+
+/NEG
+   If this qualifier is specified, all y-values are sign-reversed.
+
+/CLIP
+   Clips output to section of trace display
+
+
+Example:
+
+   CURVE MYCURVE    ! draws curve file MYCURVE.CRV into trace display
+

@@ -1,0 +1,58 @@
+
+parameter types
+===============
+
+key: * parameter types
+
+
+integer          Contains digits from "0" to "9",
+                 may be preceded by a sign "+" or "-"
+                 Examples:   "1", "-1", "+354"
+
+real             Floating point number, period can be omitted if
+                 no fraction digits are to be entered
+                 Examples:   "1", "1.0", "+1.0", "-1.", ".1", "1.e-1"
+
+char             Single alphabetic character
+                 Examples:   "A", "X"
+
+string           Contains alphanumeric characters and underscores,
+                 no blanks, must start with an alphabetic character
+                 Examples:  "abc", "a12", "test_string"
+
+text             Contains any printable characters.
+                 Examples: "abc", "This is a text"
+
+filename         Valid filename of the operating system.
+                 Examples are machine dependend
+
+list of integer  List of integer numbers without sign, elements are
+                 separated by commas, contiguous blocks of numbers
+                 can be entered by start and end element separated
+                 by a hyphen ("-").  Ascending order of numbers is
+                 not necessary.
+                 Examples:  "1", "1,3", "1-3,7-9", "7-9,1,18,17,10-12"
+
+trace list       Either a list of integer (see above) or strings
+                 "ALL" (all traces of display), "ALL_DH" (all traces
+                 in memory), "ALL_H" (all hidden traces).  The trace
+                 list may be preceded by a window specifier if the
+                 trace list doesn't refer to the current graphics
+                 window.  A window specifier is "W<wdw-no>:", where
+                 <wdw-no> is the number of an opened window on the
+                 display.
+                 Examples:  "3,1,7-9", "ALL", "W2:ALL", "W2:1-3,7-9"
+
+trace            Trace list of length 1.
+                 Examples: "3", "W2:1"
+
+info entry       Name of a defined info entry (see ENTRY command)
+                 Examples:  "LENGTH", "DELTA"
+
+symbol address   Name of a defined symbol preceded by "&".  This
+                 symbol is used to store an output value.
+                 Examples "&RET"
+
+constant         Constant expression.  The parameter must be exactly
+                 this expression.
+

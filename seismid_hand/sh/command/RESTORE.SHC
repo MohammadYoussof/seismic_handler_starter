@@ -1,0 +1,23 @@
+
+! file RESTORE.SHC
+!      ===========
+!
+! version 2, 29-Oct-92
+!
+! restores given info entry of all traces on display
+! K. Stammler, 30-JUL-91
+
+default 1 ;;     info entry
+default 2 ;;     file name
+default 3 %#2(0) number of traces to be restored
+
+sdef cnt 1          ! trace counter
+
+loop_start:
+   if  "cnt gti #3 goto/forward loop_exit:
+   set "cnt #1 %#2("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

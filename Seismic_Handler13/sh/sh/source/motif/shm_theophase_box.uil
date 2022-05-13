@@ -1,0 +1,683 @@
+! file shm_theophase_box.uil
+!      =====================
+!
+! version 4, 17-Jun-2006
+!
+! theoretical phase selection box
+! K. Stammler, 15-Jul-94
+
+
+object
+   theo_phase_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'theo phase form';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+         XmNx = 600;
+         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard theo_phase_selection;
+         XmRowColumn     theo_phase_main_button_box;
+      };
+   };
+
+object
+   theo_phase_selection:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Theo Phase Selection';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmRowColumn    theo_phase_boxA;
+         XmRowColumn    theo_phase_boxB;
+         XmRowColumn    theo_phase_boxC;
+         XmRowColumn    theo_phase_boxD;
+			XmText         theo_phase_add_text;
+      };
+   };
+
+object
+   theo_phase_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_theo_phase_main_buttons;
+         XmNy = k_pos_y_theo_phase_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_theo_phase_ok;
+         XmPushButton     button_theo_phase_cancel;
+      };
+   };
+
+object
+   button_theo_phase_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_theo_phase_ok );
+      };
+   };
+
+object
+   button_theo_phase_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_theo_phase_cancel );
+      };
+   };
+
+object
+   theo_phase_boxA: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_theo_phase_boxA;
+         XmNy = k_pos_y_theo_phase_boxA;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_theo_phase_P;
+         XmToggleButton  button_theo_phase_pP;
+         XmToggleButton  button_theo_phase_sP;
+         XmToggleButton  button_theo_phase_PP;
+         XmToggleButton  button_theo_phase_PS;
+         XmToggleButton  button_theo_phase_PKPab;
+         XmToggleButton  button_theo_phase_PKPbc;
+         XmToggleButton  button_theo_phase_PKPdf;
+         XmToggleButton  button_theo_phase_pPKPab;
+         XmToggleButton  button_theo_phase_pPKPbc;
+      };
+   };
+
+object
+   theo_phase_boxB: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_theo_phase_boxB;
+         XmNy = k_pos_y_theo_phase_boxB;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_theo_phase_pPKPdf;
+         XmToggleButton  button_theo_phase_sPKPab;
+         XmToggleButton  button_theo_phase_sPKPbc;
+         XmToggleButton  button_theo_phase_sPKPdf;
+         XmToggleButton  button_theo_phase_PcP;
+         XmToggleButton  button_theo_phase_PcS;
+         XmToggleButton  button_theo_phase_PKKPdf;
+         XmToggleButton  button_theo_phase_PKiKP;
+         XmToggleButton  button_theo_phase_PPP;
+         XmToggleButton  button_theo_phase_Pdiff;
+      };
+   };
+
+object
+   theo_phase_boxC: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_theo_phase_boxC;
+         XmNy = k_pos_y_theo_phase_boxC;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_theo_phase_S;
+         XmToggleButton  button_theo_phase_pS;
+         XmToggleButton  button_theo_phase_sS;
+         XmToggleButton  button_theo_phase_SS;
+         XmToggleButton  button_theo_phase_SP;
+         XmToggleButton  button_theo_phase_SKSac;
+         XmToggleButton  button_theo_phase_SKSdf;
+!         XmToggleButton  button_theo_phase_pSKSac;
+!         XmToggleButton  button_theo_phase_pSKSdf;
+         XmToggleButton  button_theo_phase_SKPab;
+         XmToggleButton  button_theo_phase_SKPdf;
+      };
+   };
+
+object
+   theo_phase_boxD: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_theo_phase_boxD;
+         XmNy = k_pos_y_theo_phase_boxD;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_theo_phase_sSKSac;
+         XmToggleButton  button_theo_phase_sSKSdf;
+         XmToggleButton  button_theo_phase_ScS;
+         XmToggleButton  button_theo_phase_ScP;
+         XmToggleButton  button_theo_phase_SKKSac;
+         XmToggleButton  button_theo_phase_SKKSdf;
+         XmToggleButton  button_theo_phase_SSS;
+         XmToggleButton  button_theo_phase_SKKPdf;
+         XmToggleButton  button_theo_phase_Sdiff;
+      };
+   };
+
+object
+   button_theo_phase_P: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'P';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_P );
+      };
+   };
+
+object
+   button_theo_phase_pP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_pP );
+      };
+   };
+
+object
+   button_theo_phase_sP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sP );
+      };
+   };
+
+object
+   button_theo_phase_PP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PP );
+      };
+   };
+
+object
+   button_theo_phase_PS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PS );
+      };
+   };
+
+object
+   button_theo_phase_PKPab: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PKPab';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PKPab );
+      };
+   };
+
+object
+   button_theo_phase_PKPbc: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PKPbc';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PKPbc );
+      };
+   };
+
+object
+   button_theo_phase_PKPdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PKPdf );
+      };
+   };
+
+object
+   button_theo_phase_pPKPab: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pPKPab';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_pPKPab );
+      };
+   };
+
+object
+   button_theo_phase_pPKPbc: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pPKPbc';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_pPKPbc );
+      };
+   };
+
+object
+   button_theo_phase_pPKPdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pPKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_pPKPdf );
+      };
+   };
+
+object
+   button_theo_phase_sPKPab: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sPKPab';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sPKPab );
+      };
+   };
+
+object
+   button_theo_phase_sPKPbc: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sPKPbc';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sPKPbc );
+      };
+   };
+
+object
+   button_theo_phase_sPKPdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sPKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sPKPdf );
+      };
+   };
+
+object
+   button_theo_phase_PcP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PcP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PcP );
+      };
+   };
+
+object
+   button_theo_phase_PcS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PcS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PcS );
+      };
+   };
+
+object
+   button_theo_phase_PKKPdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PKKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PKKPdf );
+      };
+   };
+
+object
+   button_theo_phase_PKiKP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PKiKP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PKiKP );
+      };
+   };
+
+object
+   button_theo_phase_PPP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PPP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_PPP );
+      };
+   };
+
+object
+   button_theo_phase_Pdiff: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Pdiff';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_Pdiff );
+      };
+   };
+
+object
+   button_theo_phase_S: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'S';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_S );
+      };
+   };
+
+object
+   button_theo_phase_pS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'pS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_pS );
+      };
+   };
+
+object
+   button_theo_phase_sS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sS );
+      };
+   };
+
+object
+   button_theo_phase_SS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SS );
+      };
+   };
+
+object
+   button_theo_phase_SP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SP );
+      };
+   };
+
+object
+   button_theo_phase_SKSac: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKSac';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKSac );
+      };
+   };
+
+object
+   button_theo_phase_SKSdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKSdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKSdf );
+      };
+   };
+
+object
+   button_theo_phase_SKPab: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKPab';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKPab );
+      };
+   };
+
+object
+   button_theo_phase_SKPdf: XmToggleButton {
+      arguments {
+ !        XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKPdf );
+      };
+   };
+
+!object
+!   button_theo_phase_pSKSac: XmToggleButton {
+!      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNlabelString = 'pSKSac';
+!			XmNsensitive = false;
+!      };
+!      callbacks {
+!         MrmNcreateCallback = procedure
+!            xm_call_create_widget( k_widget_theo_phase_pSKSac );
+!      };
+!   };
+
+!object
+!   button_theo_phase_pSKSdf: XmToggleButton {
+!      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNlabelString = 'pSKSdf';
+!			XmNsensitive = false;
+!      };
+!      callbacks {
+!         MrmNcreateCallback = procedure
+!            xm_call_create_widget( k_widget_theo_phase_pSKSdf );
+!      };
+!   };
+
+object
+   button_theo_phase_sSKSac: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sSKSac';
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sSKSac );
+      };
+   };
+
+object
+   button_theo_phase_sSKSdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'sSKSdf';
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_sSKSdf );
+      };
+   };
+
+object
+   button_theo_phase_ScS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'ScS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_ScS );
+      };
+   };
+
+object
+   button_theo_phase_ScP: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'ScP';
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_ScP );
+      };
+   };
+
+object
+   button_theo_phase_SKKSac: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKKSac';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKKSac );
+      };
+   };
+
+object
+   button_theo_phase_SKKSdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKKSdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKKSdf );
+      };
+   };
+
+object
+   button_theo_phase_SSS: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SSS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SSS );
+      };
+   };
+
+object
+   button_theo_phase_SKKPdf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SKKPdf';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_SKKPdf );
+      };
+   };
+
+object
+   button_theo_phase_Sdiff: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Sdiff';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_theo_phase_Sdiff );
+      };
+   };
+
+object
+   theo_phase_add_text: XmText {
+      arguments {
+         XmNx = k_pos_x_theo_phase_edit;
+         XmNy = k_pos_y_theo_phase_edit;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 40;
+!         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_theo_phase_edit );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_theo_phase_edit );
+      };
+   };
+

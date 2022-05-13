@@ -1,0 +1,35 @@
+! file 20HZ_GRFO_S+WOODAND.FLR
+!      =======================
+!
+! version 1, 29-Nov-94
+!
+! recursive filter file of a simulation filter (Wood_anderson for GRFO input)
+! removes seismometer h0,T0 and applies transfer
+! function (h1,T1,h2,T2)
+! h0: 0.707000
+! T0: 360
+! h1: 0.800000
+! T1: 0.800000
+!
+1357913578
+3
+5.000000e-02
+0.0028
+3
+1.000617e+00
+-2.000000e+00
+9.993832e-01
+3
+1.357826e+00
+-1.920868e+00
+7.213063e-01
+@
+3
+5.000000e-02
+0.025
+2
+1.000000e+00
+1.000000e+00
+2
+1.000000e+00
+-1.000000e+00

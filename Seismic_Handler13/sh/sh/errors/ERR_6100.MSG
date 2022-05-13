@@ -1,0 +1,21 @@
+! file ERR_6100.MSG
+!      ============
+!
+! version 1, 16-Apr-98
+!
+! error messages of modules eventdsc
+! K. Stammler, 16-Apr-98
+!
+*** EVE-01 comment pointer inconsistency ***
+*** EVE-02 memory allocation error ***
+*** EVE-03 string overflow ***
+*** EVE-04 illegal value ***
+*** EVE-05 error opening input file ***
+*** EVE-06 error opening output file ***
+*** EVE-07 missing terminator ***
+*** EVE-08 unknown info item ***
+*** EVE-09 error reading float ***
+*** EVE-10 error reading integer ***
+*** EVE-11 info specified twice ***
+*** EVE-12 no more events ***
+*** EVE-13 format error in file ***

@@ -1,0 +1,51 @@
+! file AL_BEAMPICK.SHC
+!      ===============
+!
+! version 1, 29-Mar-2001
+!
+! Picks onsets on beam traces and computes time difference between picks
+! K. Stammler, 29-Mar-2001
+
+! S-offset -240 length 480
+! P-offset -180 length 360
+
+default 1 ;;        trace1
+default 2 ;;        trace2
+default 3 ;;        trace3
+default 4 s_p_time  outfile
+default 5 ;;        hcfile
+
+sdef pick1        ! first pick
+sdef pick2        ! second pick
+sdef pick3        ! third pick
+sdef tmp          ! scratch
+sdef tdiff        ! time difference
+sdef tdiff2       ! time difference
+
+del all
+dtw
+read #1 1
+read #2 1
+read #3 1
+
+pick 1 ;;; &pick1
+pick 2 ;;; &pick2
+pick 3 ;;; &pick3
+
+calc t &tdiff = "pick2 tdiff "pick1
+calc t &tdiff2 = "pick3 tdiff "pick1
+
+echo_ch/new #4
+echo "tdiff
+echo "tdiff2
+echo_ch
+
+#enter &g1 after beam pick
+
+if  #5 eqs ;;  return
+hc ;; p &tmp
+@CALC S &TMP = |mv|$BLANK|"TMP|$BLANK|#2|.ps|
+system "tmp
+
+
+return

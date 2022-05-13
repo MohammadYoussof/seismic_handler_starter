@@ -1,0 +1,581 @@
+! file shm_speccmd_box.uil
+!      ==================
+!
+! version 3, 17-Jun-2006
+!
+! special commands box
+! K. Stammler, 9-Aug-94
+
+
+
+object
+   speccmd_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'special commands';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+!         XmNx = 600;
+!         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard speccmd_selection;
+         XmRowColumn     speccmd_main_button_box;
+      };
+   };
+
+object
+   speccmd_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = 110;
+         XmNy = 670;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_speccmd_hide;
+      };
+   };
+
+object
+   button_speccmd_hide: XmPushButton {
+      arguments {
+         XmNlabelString = 'Hide';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_hide );
+      };
+   };
+
+object
+   speccmd_selection:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Special Commands';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmPushButton       button_speccmd_1;
+			XmText             text_speccmd_1;
+         XmPushButton       button_speccmd_2;
+			XmText             text_speccmd_2;
+         XmPushButton       button_speccmd_3;
+			XmText             text_speccmd_3;
+         XmPushButton       button_speccmd_4;
+			XmText             text_speccmd_4;
+         XmPushButton       button_speccmd_5;
+			XmText             text_speccmd_5;
+         XmPushButton       button_speccmd_6;
+			XmText             text_speccmd_6;
+         XmPushButton       button_speccmd_7;
+			XmText             text_speccmd_7;
+         XmPushButton       button_speccmd_8;
+			XmText             text_speccmd_8;
+         XmPushButton       button_speccmd_9;
+			XmText             text_speccmd_9;
+         XmPushButton       button_speccmd_10;
+			XmText             text_speccmd_10;
+         XmPushButton       button_speccmd_11;
+			XmText             text_speccmd_11;
+         XmPushButton       button_speccmd_12;
+			XmText             text_speccmd_12;
+         XmPushButton       button_speccmd_13;
+			XmText             text_speccmd_13;
+         XmPushButton       button_speccmd_14;
+			XmText             text_speccmd_14;
+         XmPushButton       button_speccmd_15;
+			XmText             text_speccmd_15;
+      };
+   };
+
+object
+   button_speccmd_1: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 20;
+         XmNlabelString = '-01-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1 );
+      };
+   };
+
+object
+   text_speccmd_1: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 20;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text );
+      };
+   };
+
+object
+   button_speccmd_2: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 60;
+         XmNlabelString = '-02-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+1 );
+      };
+   };
+
+object
+   text_speccmd_2: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 60;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '2';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+1);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+1 );
+      };
+   };
+
+object
+   button_speccmd_3: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 100;
+         XmNlabelString = '-03-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+2 );
+      };
+   };
+
+object
+   text_speccmd_3: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 100;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '3';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+2);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+2 );
+      };
+   };
+
+object
+   button_speccmd_4: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 140;
+         XmNlabelString = '-04-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+3 );
+      };
+   };
+
+object
+   text_speccmd_4: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 140;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '4';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+3);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+3 );
+      };
+   };
+
+object
+   button_speccmd_5: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 180;
+         XmNlabelString = '-05-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+4 );
+      };
+   };
+
+object
+   text_speccmd_5: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 180;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '5';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+4);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+4 );
+      };
+   };
+
+object
+   button_speccmd_6: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 220;
+         XmNlabelString = '-06-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+5 );
+      };
+   };
+
+object
+   text_speccmd_6: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 220;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '6';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+5);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+5 );
+      };
+   };
+
+object
+   button_speccmd_7: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 260;
+         XmNlabelString = '-07-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+6 );
+      };
+   };
+
+object
+   text_speccmd_7: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 260;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '7';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+6);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+6 );
+      };
+   };
+
+object
+   button_speccmd_8: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 300;
+         XmNlabelString = '-08-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+7 );
+      };
+   };
+
+object
+   text_speccmd_8: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 300;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '8';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+7);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+7 );
+      };
+   };
+
+object
+   button_speccmd_9: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 340;
+         XmNlabelString = '-09-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+8 );
+      };
+   };
+
+object
+   text_speccmd_9: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 340;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '9';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+8);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+8 );
+      };
+   };
+
+object
+   button_speccmd_10: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 380;
+         XmNlabelString = '-10-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+9 );
+      };
+   };
+
+object
+   text_speccmd_10: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 380;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '10';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+9);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+9 );
+      };
+   };
+
+object
+   button_speccmd_11: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 420;
+         XmNlabelString = '-11-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+10 );
+      };
+   };
+
+object
+   text_speccmd_11: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 420;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '11';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+10);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+10 );
+      };
+   };
+
+object
+   button_speccmd_12: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 460;
+         XmNlabelString = '-12-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+11 );
+      };
+   };
+
+object
+   text_speccmd_12: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 460;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '12';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+11);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+11 );
+      };
+   };
+
+object
+   button_speccmd_13: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 500;
+         XmNlabelString = '-13-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+12 );
+      };
+   };
+
+object
+   text_speccmd_13: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 500;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '13';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+12);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+12 );
+      };
+   };
+
+object
+   button_speccmd_14: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 540;
+         XmNlabelString = '-14-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+13 );
+      };
+   };
+
+object
+   text_speccmd_14: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 540;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '14';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+13);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+13 );
+      };
+   };
+
+object
+   button_speccmd_15: XmPushButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 580;
+         XmNlabelString = '-15-';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_speccmd_1+14 );
+      };
+   };
+
+object
+   text_speccmd_15: XmText {
+      arguments {
+         XmNx = 80;
+         XmNy = 580;
+         XmNwidth = 180;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+         XmNvalue = '15';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_speccmd_1_text+14);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_speccmd_1_text+14 );
+      };
+   };
+

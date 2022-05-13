@@ -1,0 +1,265 @@
+! file shm_hypoellipse_box.uil
+!      =======================
+!
+! version 1, 15-Jul-94
+!
+! hypoellipse interface
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   hypoellipse_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'hypoellipse';
+         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+!         XmNx = 600;
+!         XmNy = 200;
+         XmNmarginWidth = 20;
+         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard hypo_input_box;
+         XmRowColumn     hypo_main_button_box;
+      };
+   };
+
+object
+   hypo_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_hypo_main_buttons;
+         XmNy = k_pos_y_hypo_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_hypo_ok;
+         XmPushButton     button_hypo_cancel;
+      };
+   };
+
+object
+   button_hypo_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_ok );
+      };
+   };
+
+object
+   button_hypo_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_cancel );
+      };
+   };
+
+object
+   hypo_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'hypo input box';
+         XmNmarginWidth = 15;
+         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu    hypo_depth_option;
+         XmText          hypo_depth_text;
+         XmLabel         hypo_s_radio_label;
+         XmRadioBox      hypo_s_radiobox;
+      };
+   };
+
+object
+   hypo_depth_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_hypo_depth_option;
+         XmNy = k_pos_y_hypo_depth_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Depth';
+         XmNmenuHistory = XmPushButton button_hypo_depth_free;
+      };
+      controls {
+         XmPulldownMenu hypo_depth_menu;
+      };
+   };
+
+object
+   hypo_depth_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_hypo_depth_free;
+         XmPushButton   button_hypo_depth_0;
+         XmPushButton   button_hypo_depth_5;
+         XmPushButton   button_hypo_depth_10;
+         XmPushButton   button_hypo_depth_15;
+         XmPushButton   button_hypo_depth_20;
+         XmPushButton   button_hypo_depth_33;
+      };
+   };
+
+object
+   button_hypo_depth_0: XmPushButton {
+      arguments {
+         XmNlabelString = '0 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_0 );
+      };
+   };
+
+object
+   button_hypo_depth_5: XmPushButton {
+      arguments {
+         XmNlabelString = '5 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_5 );
+      };
+   };
+
+object
+   button_hypo_depth_10: XmPushButton {
+      arguments {
+         XmNlabelString = '10 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_10 );
+      };
+   };
+
+object
+   button_hypo_depth_15: XmPushButton {
+      arguments {
+         XmNlabelString = '15 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_15 );
+      };
+   };
+
+object
+   button_hypo_depth_20: XmPushButton {
+      arguments {
+         XmNlabelString = '20 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_20 );
+      };
+   };
+
+object
+   button_hypo_depth_33: XmPushButton {
+      arguments {
+         XmNlabelString = '33 km';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_33 );
+      };
+   };
+
+object
+   button_hypo_depth_free: XmPushButton {
+      arguments {
+         XmNlabelString = 'free';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_hypo_depth_free );
+      };
+   };
+
+object
+   hypo_depth_text: XmText {
+      arguments {
+         XmNx = k_pos_x_hypo_depth_text;
+         XmNy = k_pos_y_hypo_depth_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+         XmNvalue = 'free';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_hypo_depth_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_hypo_depth_text );
+      };
+   };
+
+object
+   hypo_s_radio_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_hypo_s_radio_label;
+         XmNy = k_pos_y_hypo_s_radio_label;
+         XmNlabelString = 'use S onsets: ';
+      };
+   };
+
+object
+   hypo_s_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_hypo_s_radio;
+         XmNy = k_pos_y_hypo_s_radio;
+         XmNorientation = XmHORIZONTAL;
+         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_hypo_use_s_yes;
+         XmToggleButton     button_hypo_use_s_no;
+      };
+   };
+
+object
+   button_hypo_use_s_yes: XmToggleButton {
+      arguments {
+         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'yes';
+         XmNset = true;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_hypo_use_s_yes );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_hypo_use_s_yes );
+      };
+   };
+
+object
+   button_hypo_use_s_no: XmToggleButton {
+      arguments {
+         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'no';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_hypo_use_s_no );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_hypo_use_s_no );
+      };
+   };
+

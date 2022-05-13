@@ -1,0 +1,156 @@
+! file KMENU.SHC
+!      =========
+!
+! version 3, 3-JUN-91
+!
+! k-file interface
+! K. Stammler, 31-MAY-91
+
+
+! local variables
+sdef cmd             ! command character entered by user
+sdef date 31-may-91  ! date to be read
+sdef time 7:00:00    ! time to be read
+sdef device dd1:     ! input device for k-files
+sdef length 600      ! length in seconds to be read
+sdef trclist all     ! trace list
+sdef filter none     ! trace filter
+
+sdef trcno           ! number of traces on display
+sdef tmp             ! scratch
+
+
+! try to get defaults from file
+switch cmderrstop off
+switch noerrmsg on
+nop %kmenu_df
+if  $status nei 0  goto/forward no_file:
+   calc s &date = %kmenu_df(1)
+   calc s &time = %kmenu_df(2)
+   calc s &device = %kmenu_df(3)
+   calc s &length = %kmenu_df(4)
+   calc s &trclist = %kmenu_df(5)
+   calc s &filter = %kmenu_df(6)
+no_file:
+switch noerrmsg off
+switch cmderrstop on
+
+nr
+norm c
+zoom/default all 1.e-3
+rd
+
+main_loop:
+
+   ! display menu options
+   echo $blank
+   switch capcnv off
+   ECHO/NO_LF $BLANK(28)  (T)ime |[|"TIME|]|
+   ECHO                   (D)ate |[|"DATE|]|
+   ECHO/NO_LF $BLANK(28)  (L)ength |[|"LENGTH|$BLANK|sec|]|
+   ECHO                   (V)olume |[|"DEVICE|]|
+   ECHO/NO_LF $BLANK(28)  (F)ilter |[|"FILTER|]|
+   ECHO                   (S)tations |[|"TRCLIST|]|
+   ECHO (A)mplitude, (C)ontinue, (Q)uit, (R)ead, Time-(W)indow, (Z)oom
+   SWITCH CAPCNV ON
+   enter/interactive &cmd kmenu>
+
+   ! read command
+   if  "cmd eqs ;; goto/forward executed:
+   if  "cmd eqs d  goto/forward menu_d:
+   if  "cmd eqs t  goto/forward menu_t:
+   if  "cmd eqs v  goto/forward menu_v:
+   if  "cmd eqs l  goto/forward menu_l:
+   if  "cmd eqs s  goto/forward menu_s:
+   if  "cmd eqs f  goto/forward menu_f:
+   if  "cmd eqs r  goto/forward menu_r:
+   if  "cmd eqs c  goto/forward menu_c:
+   if  "cmd eqs 0  goto/forward menu_c:
+   if  "cmd eqs z  goto/forward menu_z:
+   if  "cmd eqs a  goto/forward menu_a:
+   if  "cmd eqs w  goto/forward menu_w:
+   if  "cmd eqs q  goto/forward main_loop_exit:
+   if  "cmd eqs shc  goto/forward main_loop_exit:
+   goto/forward other_cmd:
+
+   ! execute command
+   menu_d:
+      enter/interactive &date enter new date:
+      goto/forward executed:
+   menu_t:
+      enter/interactive &time enter new time:
+      goto/forward executed:
+   menu_v:
+      enter/interactive &device enter new volume:
+      goto/forward executed:
+   menu_l:
+      enter/interactive &length enter new length:
+      goto/forward executed:
+   menu_s:
+      enter/interactive &trclist enter new station list:
+      goto/forward executed:
+   menu_f:
+      enter/interactive &filter enter new filter:
+      if  "filter eqs none  goto/forward executed:
+      switch cmderrstop off
+      fili f "filter
+      if  $status eqi 0  goto/forward filter_ok:
+         calc s &filter = none
+         echo *** filter ignored ***
+      filter_ok:
+      switch cmderrstop on
+      goto/forward executed:
+   menu_c:
+      calc s &tmp = |"date|_|"time|
+      calc t &tmp = "tmp tadd "length
+      calc s &date = "tmp extract 1 11
+      calc s &time = "tmp extract 13 12
+      ! continue with menu_r
+   menu_r:
+      nr
+      del all
+      echo reading "device |"date|_|"time| "length "trclist ...
+      readk/counts "device |"date|_|"time| "length "trclist
+      if  $dsptrcs eqi 0  goto/forward no_filter:
+      if  "filter eqs none  goto/forward no_filter:
+         echo applying filter "filter ...
+         calc i &trcno = $dsptrcs
+         filter f all
+         del |1-|"trcno|
+      no_filter:
+      title 1 ^start
+      rd
+      goto/forward executed:
+   menu_a:
+      amp
+      goto/forward executed:
+   menu_z:
+      exec zoom
+      goto/forward executed:
+   menu_w:
+      exec stw
+      goto/forward executed:
+   other_cmd:
+      switch cmderrstop off
+      exec "cmd
+      switch cmderrstop on
+   executed:
+
+goto main_loop:
+main_loop_exit:
+
+! save parameters
+echo_ch/new kmenu_df
+echo "date
+echo "time
+echo "device
+echo "length
+echo "trclist
+echo "filter
+echo_ch
+
+if  "cmd nes q  goto/forward  no_quit:
+   quit y y
+no_quit:
+
+return

@@ -1,0 +1,1524 @@
+! file shm_read_box.uil
+!      ================
+!
+! version 22, 17-Jun-2006
+!
+! read dialog box
+! K. Stammler, 17-Jun-2004
+
+
+object
+   read_grsn_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'read GRSN form';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+         XmNx = 600;
+         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard station_selection;
+         XmBulletinBoard compfreq_selection;
+         XmBulletinBoard time_selection;
+         XmBulletinBoard other_selection;
+         XmRowColumn     read_grsn_main_button_box;
+      };
+   };
+
+object
+   station_selection:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Station Selection';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmRowColumn    read_grsn_station_boxA;
+         XmRowColumn    read_grsn_station_boxB;
+         XmRowColumn    read_grsn_station_boxC;
+         XmRowColumn    read_grsn_station_boxG1;
+         XmRowColumn    read_grsn_station_boxG2;
+         XmRowColumn    read_grsn_station_boxG3;
+         XmRowColumn    read_grsn_station_boxGRF;
+         XmRowColumn    read_grsn_station_boxGRSN;
+!         XmRowColumn    read_grsn_station_boxALL;
+			XmRowColumn    read_grsn_frame_next;
+      };
+   };
+
+object
+   compfreq_selection:  XmBulletinBoard {
+      arguments {
+         XmNy = 285;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmRowColumn    read_grsn_comp_box;
+			XmText         read_grsn_comp_text;
+         XmRowColumn    read_grsn_freqbox;
+			XmText         read_grsn_hz_text;
+      };
+   };
+
+object
+   time_selection:  XmBulletinBoard {
+      arguments {
+         XmNy = 370;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmText         read_grsn_date_text;
+         XmText         read_grsn_time_text;
+         XmText         read_grsn_length_text;
+			XmLabel        label_read_grsn_length;
+         XmArrowButton  button_read_grsn_yearup;
+         XmArrowButton  button_read_grsn_yeardn;
+         XmArrowButton  button_read_grsn_monthup;
+         XmArrowButton  button_read_grsn_monthdn;
+         XmArrowButton  button_read_grsn_dayup;
+         XmArrowButton  button_read_grsn_daydn;
+         XmArrowButton  button_read_grsn_hourup;
+         XmArrowButton  button_read_grsn_hourdn;
+         XmArrowButton  button_read_grsn_minup;
+         XmArrowButton  button_read_grsn_mindn;
+         XmArrowButton  button_read_grsn_secup;
+         XmArrowButton  button_read_grsn_secdn;
+         XmArrowButton  button_read_grsn_nexttime;
+         XmArrowButton  button_read_grsn_prevtime;
+         XmText         time_file_text;
+         XmText         time_fileno_text;
+         XmScale        read_grsn_length_scale;
+      };
+   };
+
+object
+   other_selection:  XmBulletinBoard {
+      arguments {
+         XmNy = 571;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmText         read_grsn_device_text;
+			XmLabel        label_data_path;
+         XmRowColumn    read_grsn_keep_box;
+      };
+   };
+
+object
+   read_grsn_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 22;
+         XmNx = 80;
+         XmNy = 665;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_read_grsn_read;
+         XmPushButton     button_read_grsn_readnew;
+         XmPushButton     button_read_grsn_cancel;
+         XmPushButton     button_read_grsn_reset;
+      };
+   };
+
+object
+   button_read_grsn_read: XmPushButton {
+      arguments {
+         XmNlabelString = 'Read Again';
+         XmNfontList = k_button_font;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_read_again );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_read );
+      };
+   };
+
+object
+   button_read_grsn_readnew: XmPushButton {
+      arguments {
+         XmNlabelString = 'Read New';
+         XmNfontList = k_button_font;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_read_new );
+          XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_readnew );
+      };
+   };
+
+object
+   button_read_grsn_request: XmPushButton {
+      arguments {
+         XmNlabelString = 'Request';
+         XmNfontList = k_button_font;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_request );
+      };
+   };
+
+object
+   button_read_grsn_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNfontList = k_button_font;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_cancel );
+      };
+   };
+
+object
+   button_read_grsn_reset: XmPushButton {
+      arguments {
+         XmNlabelString = 'Reset';
+         XmNfontList = k_button_font;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_reset );
+      };
+   };
+
+object
+   read_grsn_station_boxA: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statA;
+         XmNy = k_pos_y_read_grsn_statA;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_0;
+         XmToggleButton  button_read_grsn_1;
+         XmToggleButton  button_read_grsn_2;
+         XmToggleButton  button_read_grsn_3;
+         XmToggleButton  button_read_grsn_4;
+      };
+   };
+
+object
+   read_grsn_station_boxB: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statB;
+         XmNy = k_pos_y_read_grsn_statB;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_5;
+         XmToggleButton  button_read_grsn_6;
+         XmToggleButton  button_read_grsn_7;
+         XmToggleButton  button_read_grsn_8;
+         XmToggleButton  button_read_grsn_9;
+      };
+   };
+
+object
+   read_grsn_station_boxGRF: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statB-65;  ! +2
+         XmNy = k_pos_y_read_grsn_statB+165;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+      };
+      controls {
+         XmToggleButton  button_read_grsn_grf;
+      };
+   };
+
+object
+   read_grsn_station_boxGRSN: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG1-85;  ! +20
+         XmNy = k_pos_y_read_grsn_statG1+165;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+      };
+      controls {
+         XmToggleButton  button_read_grsn_grsn;
+      };
+   };
+
+object
+   read_grsn_station_boxALL: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG1+50;
+         XmNy = k_pos_y_read_grsn_statG1+165;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+      };
+      controls {
+         XmToggleButton  button_read_grsn_all;
+      };
+   };
+
+object
+   read_grsn_frame_next: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG1+140;
+         XmNy = k_pos_y_read_grsn_statG1+165;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+      };
+      controls {
+         XmPushButton  button_read_grsn_nextdiag;
+      };
+   };
+
+object
+   read_grsn_keep_box: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_first_col;
+         XmNy = 20;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_keep;
+!        XmToggleButton  button_read_grsn_todaysfd;
+         XmToggleButton  button_read_grsn_fbox;
+         XmToggleButton  button_read_grsn_invhdr;
+      };
+   };
+
+object
+   read_grsn_station_boxC: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statC;
+         XmNy = k_pos_y_read_grsn_statC;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_10;
+         XmToggleButton  button_read_grsn_11;
+         XmToggleButton  button_read_grsn_12;
+         XmToggleButton  button_read_grsn_13;
+         XmToggleButton  button_read_grsn_14;
+      };
+   };
+
+object
+   read_grsn_station_boxG1: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG1;
+         XmNy = k_pos_y_read_grsn_statG1;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_15;
+         XmToggleButton  button_read_grsn_16;
+         XmToggleButton  button_read_grsn_17;
+         XmToggleButton  button_read_grsn_18;
+         XmToggleButton  button_read_grsn_19;
+      };
+   };
+
+object
+   read_grsn_station_boxG2: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG2;
+         XmNy = k_pos_y_read_grsn_statG2;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_20;
+         XmToggleButton  button_read_grsn_21;
+         XmToggleButton  button_read_grsn_22;
+         XmToggleButton  button_read_grsn_23;
+         XmToggleButton  button_read_grsn_24;
+      };
+   };
+
+object
+   read_grsn_station_boxG3: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_statG3;
+         XmNy = k_pos_y_read_grsn_statG3;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_25;
+         XmToggleButton  button_read_grsn_26;
+         XmToggleButton  button_read_grsn_27;
+         XmToggleButton  button_read_grsn_28;
+         XmToggleButton  button_read_grsn_29;
+      };
+   };
+
+object
+   read_grsn_comp_box: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_comp;
+         XmNy = k_pos_y_read_grsn_comp;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton  button_read_grsn_comp_z;
+         XmToggleButton  button_read_grsn_comp_n;
+         XmToggleButton  button_read_grsn_comp_e;
+         XmToggleButton  button_read_grsn_comp_edit;
+      };
+   };
+
+object
+   button_read_grsn_0: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+0 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+0 );
+      };
+   };
+
+object
+   button_read_grsn_1: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+1 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+1 );
+      };
+   };
+
+object
+   button_read_grsn_2: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+2 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+2 );
+      };
+   };
+
+object
+   button_read_grsn_3: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+3 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+3 );
+      };
+   };
+
+object
+   button_read_grsn_4: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+4 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+4 );
+      };
+   };
+
+object
+   button_read_grsn_5: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+5 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+5 );
+      };
+   };
+
+object
+   button_read_grsn_6: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+6 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+6 );
+      };
+   };
+
+object
+   button_read_grsn_7: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+7 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+7 );
+      };
+   };
+
+object
+   button_read_grsn_8: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+8 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+8 );
+      };
+   };
+
+object
+   button_read_grsn_9: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+9 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+9 );
+      };
+   };
+
+object
+   button_read_grsn_10: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+10 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+10 );
+      };
+   };
+
+object
+   button_read_grsn_11: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+11 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+11 );
+      };
+   };
+
+object
+   button_read_grsn_12: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+12 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+12 );
+      };
+   };
+
+object
+   button_read_grsn_13: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+13 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+13 );
+      };
+   };
+
+object
+   button_read_grsn_14: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+14 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+14 );
+      };
+   };
+
+object
+   button_read_grsn_15: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+15 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+15 );
+      };
+   };
+
+object
+   button_read_grsn_16: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+16 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+16 );
+      };
+   };
+
+object
+   button_read_grsn_17: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+17 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+17 );
+      };
+   };
+
+object
+   button_read_grsn_18: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+18 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+18 );
+      };
+   };
+
+object
+   button_read_grsn_19: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+19 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+19 );
+      };
+   };
+
+object
+   button_read_grsn_20: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+20 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+20 );
+      };
+   };
+
+object
+   button_read_grsn_21: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+21 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+21 );
+      };
+   };
+
+object
+   button_read_grsn_22: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+22 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+22 );
+      };
+   };
+
+object
+   button_read_grsn_23: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+23 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+23 );
+      };
+   };
+
+object
+   button_read_grsn_24: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+24 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+24 );
+      };
+   };
+
+object
+   button_read_grsn_25: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+25 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+25 );
+      };
+   };
+
+object
+   button_read_grsn_26: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+26 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+26 );
+      };
+   };
+
+object
+   button_read_grsn_27: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+27 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+27 );
+      };
+   };
+
+object
+   button_read_grsn_28: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+28 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+28 );
+      };
+   };
+
+object
+   button_read_grsn_29: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+         XmNfontList = k_button_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_read_grsn_station+29 );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_station+29 );
+      };
+   };
+
+object
+   button_read_grsn_comp_z: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Z';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_comp_z );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_comp_z );
+      };
+   };
+
+object
+   button_read_grsn_comp_n: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'N';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_comp_n );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_comp_n );
+      };
+   };
+
+object
+   button_read_grsn_comp_e: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'E';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_comp_e );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_comp_e );
+      };
+   };
+
+object
+   button_read_grsn_comp_edit: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'ed';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_comp_edit );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_comp_edit );
+      };
+   };
+
+object
+   read_grsn_freqbox: XmRowColumn {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNx = k_pos_x_read_grsn_freq;
+         XmNy = k_pos_y_read_grsn_freq;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+      };
+      controls {
+         XmToggleButton     button_read_grsn_1hz;
+         XmToggleButton     button_read_grsn_20hz;
+         XmToggleButton     button_read_grsn_80hz;
+         XmToggleButton     button_read_grsn_edit_hz;
+      };
+   };
+
+object
+   button_read_grsn_1hz: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'LH';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback = 
+            procedure xm_call_create_widget( k_widget_read_grsn_1hz );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_1hz );
+      };
+   };
+
+object
+   button_read_grsn_20hz: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'BH';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback = 
+            procedure xm_call_create_widget( k_widget_read_grsn_20hz );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_20hz );
+      };
+   };
+
+object
+   button_read_grsn_80hz: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'HH';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback = 
+            procedure xm_call_create_widget( k_widget_read_grsn_80hz );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_80hz );
+      };
+   };
+
+object
+   button_read_grsn_edit_hz: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'ed';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback = 
+            procedure xm_call_create_widget( k_widget_read_grsn_edit_hz );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_edit_hz );
+      };
+   };
+
+object
+   read_grsn_hz_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_hz_text;
+         XmNy = k_pos_y_read_grsn_hz_text;
+         XmNwidth = 40;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 3;
+         XmNvalue = 'BD';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_hz_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_hz_text );
+      };
+   };
+
+object
+   read_grsn_comp_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_comp_text;
+         XmNy = k_pos_y_read_grsn_comp_text;
+         XmNwidth = 40;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 15;
+         XmNvalue = 'FA';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_comp_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_comp_text );
+      };
+   };
+
+object
+   read_grsn_date_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date;
+         XmNy = k_pos_y_read_grsn_date;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 12;
+         XmNvalue = '01-Jan-1993';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_date );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_date );
+      };
+   };
+
+object
+   read_grsn_time_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time;
+         XmNy = k_pos_y_read_grsn_time;
+         XmNwidth = 100;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 9;
+         XmNvalue = '00:00:00';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_time );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_time );
+      };
+   };
+
+object
+   read_grsn_length_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_length+160;
+         XmNy = k_pos_y_read_grsn_length;
+         XmNwidth = 70;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 6;
+         XmNvalue = '6.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_length );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_length );
+      };
+   };
+
+object
+   label_read_grsn_length: XmLabel {
+      arguments {
+         XmNx = k_pos_x_read_grsn_length;
+         XmNy = k_pos_y_read_grsn_length+6;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'read length edit:';
+      };
+   };
+
+object
+   label_data_path: XmLabel {
+      arguments {
+         XmNx = k_pos_x_read_grsn_device-50;
+         XmNy = k_pos_y_read_grsn_device+7;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'path:';
+      };
+   };
+
+object
+   read_grsn_device_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_device;
+         XmNy = k_pos_y_read_grsn_device;
+         XmNwidth = 70;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 80;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_device );
+         XmNmotionVerifyCallback = 
+            procedure xm_call_activate( k_button_read_grsn_device );
+      };
+   };
+
+object
+   button_read_grsn_dayup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+5;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_dayup );
+      };
+   };
+
+object
+   button_read_grsn_daydn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+5;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_daydn );
+      };
+   };
+
+object
+   button_read_grsn_monthup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+40;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_monthup );
+      };
+   };
+
+object
+   button_read_grsn_monthdn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+40;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_monthdn );
+      };
+   };
+
+object
+   button_read_grsn_yearup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+75;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_yearup );
+      };
+   };
+
+object
+   button_read_grsn_yeardn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+75;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_yeardn );
+      };
+   };
+
+object
+   button_read_grsn_hourup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+3;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_hourup );
+      };
+   };
+
+object
+   button_read_grsn_hourdn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+3;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_hourdn );
+      };
+   };
+
+object
+   button_read_grsn_minup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+32;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_minup );
+      };
+   };
+
+object
+   button_read_grsn_mindn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+32;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_mindn );
+      };
+   };
+
+object
+   button_read_grsn_secup: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+61;
+         XmNy = k_pos_y_read_grsn_date-20;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_secup );
+      };
+   };
+
+object
+   button_read_grsn_secdn: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_time+61;
+         XmNy = k_pos_y_read_grsn_date+30;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_secdn );
+      };
+   };
+
+object
+   button_read_grsn_nexttime: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+195;
+         XmNy = k_pos_y_read_grsn_date+70;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_nexttime );
+      };
+   };
+
+object
+   button_read_grsn_prevtime: XmArrowButton {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+5;
+         XmNy = k_pos_y_read_grsn_date+70;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_read_grsn_prevtime );
+      };
+   };
+
+object
+   time_file_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+35;
+         XmNy = k_pos_y_read_grsn_date+67;
+         XmNwidth = 110;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 80;
+         XmNvalue = 'eventlist';
+			XmNeditable = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_evtfile_text);
+!         XmNmodifyVerifyCallback =
+!            procedure xm_call_text_input( k_widget_read_grsn_evtfile_text );
+         XmNmotionVerifyCallback = 
+            procedure xm_call_activate( k_button_read_grsn_eventfile );
+      };
+   };
+
+object
+   time_fileno_text: XmText {
+      arguments {
+         XmNx = k_pos_x_read_grsn_date+155;
+         XmNy = k_pos_y_read_grsn_date+67;
+         XmNwidth = 40;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 3;
+         XmNvalue = '0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_eventno_text);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_read_grsn_eventno_text );
+      };
+   };
+
+object
+   button_read_grsn_grf: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+			XmNsensitive = false;
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_grf );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_grf );
+      };
+   };
+
+object
+   button_read_grsn_grsn: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '---';
+			XmNsensitive = false;
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_grsn );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_grsn );
+      };
+   };
+
+object
+   button_read_grsn_all: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'all';
+			XmNsensitive = true;
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_all );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_all );
+      };
+   };
+
+object
+   button_read_grsn_keep: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Keep Traces';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_keep );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_keep );
+      };
+   };
+
+object
+   button_read_grsn_todaysfd: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'today sfd';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_todaysfd );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_todaysfd );
+      };
+   };
+
+object
+   button_read_grsn_invhdr: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'PC-Sun Sfd';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_invhdr );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_invhdr );
+      };
+   };
+
+object
+   button_read_grsn_fbox: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Fbox';
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_fbox );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_read_grsn_fbox );
+      };
+   };
+
+object
+   read_grsn_length_scale: XmScale {
+      arguments {
+         XmNx = k_pos_x_read_grsn_length;
+         XmNy = k_pos_y_read_grsn_length+50;
+         XmNunitType = XmPIXELS;
+         XmNminimum = 0;
+         XmNmaximum = 120;
+         XmNwidth = 230;
+         XmNborderWidth = 0;
+         XmNtitleString = 'read length (min)';
+         XmNshowValue = true;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNscaleMultiple = 1;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_read_grsn_length_scale );
+         XmNvalueChangedCallback =
+            procedure xm_call_scale(k_scale_read_grsn_length);
+      };
+   };
+
+object
+   button_read_grsn_nextdiag: XmPushButton {
+      arguments {
+         XmNlabelString = 'Next';
+!         XmNborderWidth = 5;
+         XmNx = k_pos_x_read_grsn_statG1+110;
+         XmNy = k_pos_y_read_grsn_statG1+135;
+         XmNfontList = k_button_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_read_grsn_nextdiag );
+      };
+   };
+

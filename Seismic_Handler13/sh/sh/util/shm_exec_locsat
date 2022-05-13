@@ -1,0 +1,38 @@
+#! /bin/csh
+#
+# file shm_exec_locsat
+#      ===============
+#
+# version 5, 11-Jul-98
+#
+# executes LocSAT prgram
+# K. Stammler, 17-Oct-94
+
+if  ("$1" == "" || "$2" == "" || "$3" == "" || "$4" == "")  then
+	echo "$0 <stations> <data> <control> <result> <reftime>"
+	exit
+endif
+
+echo "6= $6"
+
+set tmpfile=$SH_SCRATCH/locsat_edit.txt
+
+if  ($?SH_LOCSAT_EXEC != 1)  then
+	echo "$0 variable SH_LOCSAT_EXEC not defined"
+	exit
+endif
+
+$SH_LOCSAT_EXEC -s $1 -d $2 -c $3 -o $4
+if  (-z $4)  \rm $4
+
+set pos=""
+if  ("`hostname`" == "ersn24")  set pos="-geometry 80x35+1+1"
+
+if  ("$6" == "brief")  then
+	if  (-e $tmpfile)  \rm $tmpfile
+	$SH_UTIL/reformat_locsat_out $4 $5 >$tmpfile
+	$SH_TEXTEDIT $pos $tmpfile &
+else
+	$SH_TEXTEDIT $pos $4 &
+	echo "$4 $5"
+endif

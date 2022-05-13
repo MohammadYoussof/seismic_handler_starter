@@ -1,0 +1,14 @@
+! file ext-location.shm
+!      ================
+!
+! version 1, 9-Dec-97
+!
+! help text about menu option 'External Loc'.
+! K. Stammler, 9-Dec-97
+Menu Entry 'External Loc'
+
+Reads latitude and longitude from dialog box and computes distance, back-azimuth
+and P-slowness (if possible) to reference station.
+
+Previous locations including calibrated slowness and back-azimuth values are lost.
+

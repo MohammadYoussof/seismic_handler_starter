@@ -1,0 +1,15 @@
+! sets weights of all traces in the display to inverse normalisation
+
+sdef trccnt 1
+echo ------------------------------
+echo normalisation must be sf or sw
+echo ------------------------------
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   set "trccnt weight ^norm("trccnt)
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

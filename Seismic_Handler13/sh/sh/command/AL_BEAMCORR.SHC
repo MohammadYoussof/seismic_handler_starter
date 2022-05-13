@@ -1,0 +1,58 @@
+! file AL_BEAMCORR.SHC
+!      ===============
+!
+! version 1, 28-Mar-2001
+!
+! Computes correlations between beam traces
+! K. Stammler, 28-Mar-2001
+
+! S-offset -240 length 480
+! P-offset -180 length 360
+
+default 1 ;;        trace1
+default 2 ;;        trace2
+default 3 s_p_time  outfile
+
+sdef corrmax      ! correlation maximum
+sdef corrmin      ! correlation minimum
+sdef minpos       ! minimum position
+sdef maxpos       ! maximum position
+sdef tmp          ! scratch
+sdef tdiff        ! time difference
+sdef sign         ! sign of correlation
+
+del all
+dtw
+read #1 1
+read #2 1
+
+fct corrmode 2
+corrl 0 140
+corr 1 150 240 2
+#fct corrmode 1
+#corr 1 150 240 2
+
+#echo ^minval(3) ^maxval(3)
+am 3 0 140 &corrmin &corrmax &minpos &maxpos
+#echo "minpos "maxpos "corrmin "corrmax
+
+calc s &sign = pos
+calc r &tmp = 0.0 - "corrmin
+if  "tmp ler "corrmax  goto/forward maxok:
+   calc s &corrmax = "tmp
+   calc s &maxpos = "minpos
+   calc s &sign = neg
+maxok:
+#echo "maxpos "corrmax
+
+calc t &tdiff = ^start(2) tdiff ^start(1)
+calc r &tdiff = "tdiff + "maxpos
+
+echo_ch/new #3
+echo "tdiff
+echo "sign
+echo_ch
+
+#enter &g1 after beam corr
+
+return

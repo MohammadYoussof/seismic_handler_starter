@@ -1,0 +1,55 @@
+! file SEARCH_ENTRY_FILE.SHC
+!      ======================
+!
+! version 1, 15-JUL-91
+!
+! extracts a specified info entry from all traces of a q-file which match
+! a given condition on a specifed info entry
+! K. Stammler, 15-JUL-91
+
+default 1 ;;         q-file
+default 2 mark       info entry to compare
+default 3 eqi        compare operation
+default 4 1          compare with
+default 5 eventno    output info entry
+default 6 ;;         output file
+
+sdef trccnt 1   ! trace counter
+sdef info1      ! extracted compare info
+sdef info2      ! extracted output info
+sdef status1    ! extract status of compare info
+sdef status2    ! extract status of output info
+sdef maxtrc     ! number of traces in q-file
+
+echo_ch #6
+extract #1 1 no_of_recs &maxtrc
+
+loop_start:
+   if  "trccnt gti "maxtrc  goto/forward loop_exit:
+   switch noerrmsg on
+   switch cmderrstop off
+   extract #1 "trccnt #2 &info1
+   calc i &status1 = $status
+   extract #1 "trccnt #5 &info2
+   calc i &status2 = $status
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "status1 nei 0  goto/forward notfound:
+      if  "info1 #3 #4  goto/forward printout:
+         goto/forward notfound:
+      printout:
+      if  "status2 eqi 0  goto/forward print_ok:
+         echo *** trace "trccnt output entry not found ***
+         goto/forward print_fin:
+      print_ok:
+         echo "info2
+      print_fin:
+   notfound:
+   calc i &trccnt = "trccnt + 1
+   goto loop_start:
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

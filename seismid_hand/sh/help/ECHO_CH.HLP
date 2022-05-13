@@ -1,0 +1,43 @@
+command ECHO_CH [<filename>]
+===============
+
+key: select echo channel
+
+Selects the text output channel.  Any non-blank parameter opens an ASCII
+file name "<filename>.STX".  If <filename> is omitted, the text channel
+is reset to the default channel (seismhandler text window).  Any file
+previously opened is closed.
+
+If the text channel is switched to an existing file, the following
+output is appended to the file, unless the /NEW qualifier is entered.
+
+
+parameter:
+
+<filename>  ---  parameter type: filename (no extension)
+   Name of file to be opened as text channel.  Any file previously opened
+   is closed.  If this parameter is omitted, the text channel is reset
+   to the seismhandler text window.
+
+
+qualifiers
+
+/NEW
+   A new output file is created (output is not appended to an already
+   existing file; creates a new version of a file on a VAX).
+
+/OVWR
+   Overwrites an existing file (output is not appended).
+
+
+Examples:
+
+   ECHO_CH LOGFILE        ! appends all following ECHO-output to file
+                          ! LOGFILE.STX
+
+   ECHO_CH/OVWR LOGFILE   ! creates new output file LOGILE.STX; a possibly
+                          ! existing file of this name is deleted
+
+   ECHO_CH                ! closes a previously opened ECHO-file and
+                          ! switches output back to screen
+

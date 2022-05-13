@@ -1,0 +1,110 @@
+! file READ_PHASE.SHC
+!      ==============
+!
+! version 2, 17-Mar-2006
+!
+! Reads time window around specified phase for a given station and hypocenter
+! K. Stammler, 1-Oct-2005
+
+! parameters of routine
+default 1 JK:     miniseed path
+default 2 1-jan-99_11:22  origin time
+default 3 0.0     epicenter latitude
+default 4 0.0     epicenter longitude
+default 5 33.0    depth in km
+default 6 grfo    station name
+default 7 p       phase name
+default 8 z       component
+default 9 600     window length in sec
+default 10 120    offset
+
+! local variables
+sdef ttrav        ! travel time
+sdef slat         ! station latitude
+sdef slon         ! station longitude
+sdef dist         ! distance
+sdef azim         ! azimuth
+sdef bazim        ! back azimuth
+sdef rtime        ! read time
+sdef offset       ! offset time (20% of read length)
+sdef trcno        ! number of traces
+sdef tmp          ! scratch
+sdef ostype       !
+
+fct local getenv:ostype &ostype
+calc s &ostype = "ostype upper
+
+! compute travel time
+call statloc #6 &slat &slon
+call locdiff #3 #4 "slat "slon &dist &bazim
+call locdiff "slat "slon #3 #4 &dist &azim
+switch cmderrstop off
+call travel #7 "dist #5 &ttrav
+switch cmderrstop on
+if  "ttrav nes ;;  goto/forward xtrav_ok:
+	calc r &ttrav = 0.0
+xtrav_ok:
+if  "ttrav ner 0.0  goto/forward ttrav_ok:
+   if  #7 nes p  goto/forward pcheck:
+      call travel pvdvivfvf "dist #5 &ttrav
+      goto/forward ttrav_ok:
+   pcheck:
+   if  #7 nes s  goto/forward scheck:
+      call travel svdvivfvf "dist #5 &ttrav
+      goto/forward ttrav_ok:
+   scheck:
+   echo no travel time for #7 , distance "dist , depth #5
+   return
+ttrav_ok:
+
+! compute time window
+calc t &rtime = #2 tadd "ttrav
+!calc r &offset = #9 * 0.2
+calc r &offset = #10
+calc r &offset = 0.0 - "offset
+calc t &rtime = "rtime tadd "offset
+
+! if R,T components requested, rotation has to be done
+! if Z,N,E components, simply read and return
+if  #8 eqs r  goto/forward do_rot:
+if  #8 eqs t  goto/forward do_rot:
+
+! this is the simple case 
+if  "ostype eqs linux  goto/forward linux1:
+   reads #1 "rtime #9 #6 #8 bh
+   goto/forward end_linux1:
+linux1:
+   reads/noswap/invhdr #1 "rtime #9 #6 #8 bh
+end_linux1:
+return
+
+
+! this needs rotation
+do_rot:
+
+calc i &trcno = $dsptrcs
+if  "ostype eqs linux  goto/forward linux2:
+   reads #1 "rtime #9 #6 ne bh
+	goto/forward end_linux2:
+linux2:
+   reads/noswap/invhdr #1 "rtime #9 #6 ne bh
+end_linux2:
+calc i &tmp = "trcno + 2
+if  "tmp eqi $dsptrcs  goto/forward read_ok:
+   echo read of NE failed
+   if  "trcno eqi $dsptrcs  return
+   del $dsptrcs
+   return
+read_ok:
+calc i &trcno = $dsptrcs
+calc i &tmp = "trcno - 1
+rotaz |"tmp|,|"trcno| "azim
+del |"tmp|,|"trcno|
+if  #8 eqs r  goto/forward del1:
+   del "tmp
+   goto/forward del2:
+del1:   ! else
+   del "trcno
+del2:   ! endif
+
+return

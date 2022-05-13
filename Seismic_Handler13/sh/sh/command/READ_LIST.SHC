@@ -1,0 +1,26 @@
+! file reada_list.shc
+!      ==============
+!
+! version 1, 10-Aug-94
+!
+! reads list of ASCII files
+! K. Stammler, 10-Aug-94
+
+default 1 ;;       name of list file
+
+sdef cfile      ! current q-file
+sdef cnt 1      ! file counter
+sdef max %#1(0) ! last file in list
+
+nr
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   calc s &cfile = %#1("cnt)
+   echo reading file "cfile
+   read "cfile all
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

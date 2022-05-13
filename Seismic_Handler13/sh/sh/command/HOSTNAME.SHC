@@ -1,0 +1,20 @@
+! file HOSTNAME.SHC
+!      ============
+!
+! version 1, 9-Apr-99
+!
+! Returns hostname in RET
+! K. Stammler, 9-Apr-99
+
+sdef tmpfile     ! scratch file
+sdef cmd         ! shell command
+
+fct getpath scratch &tmpfile
+calc s &tmpfile = |"tmpfile|$sh_id|hostname.stx|
+fct oscall fdelete "tmpfile
+@CALC S &CMD = |hostname>|"TMPFILE|
+system "cmd
+calc s &ret = %"tmpfile
+fct oscall fdelete "tmpfile
+
+return

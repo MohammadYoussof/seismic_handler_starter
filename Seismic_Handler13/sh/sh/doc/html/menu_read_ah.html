@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Read AH</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Read AH</em></H2>
+
+This option is available only if a suitable library <em>libahaio.a</em> for
+your system is present in
+<em>$SH_LIB</em> and the compiler switch <em>SH_SETUP_AH</em> is set at
+compilation time.
+
+<P>Reads in AH data files. A file selection box pops
+up to let the user select the data file. The default path in the
+selection box may be changed in <A HREF="menu_configure.html">Configure</A>
+(parameter number 10). After selecting the
+file, all traces of the file are read in. By default all previously
+read traces are deleted before reading a new AH file. To keep
+traces when reading new ones switch on the <em>Keep Traces</em>
+button in the <A HREF="menu_read.html">Read</A>
+dialog box (this is not straightforward, I admit).</P>
+
+<h3>Important:</h3>
+Please note that all traces read with this function are multiplied with a factor
+of 2*pi.  When working with velocity proportional data this ensures that the
+data are scaled to nm/s if the reference frequency is 1Hz.  For other data
+this is maybe not wanted.  This change this behaviour edit the file
+<em>$SH_COMMAND/READAH.SHC</em>.
+<p><br></p>
+
+<small>This page last modfied 1-Jan-2006</small>
+
+</BODY>
+</HTML>

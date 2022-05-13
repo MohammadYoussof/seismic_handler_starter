@@ -1,0 +1,102 @@
+! file PLOT_DETECTION_LIST.CSH
+!      =======================
+!
+! version 2, 24-Jan-97
+!
+! plots list of times and makes hardcopy files
+! K. Stammler, 23-Jan-97
+
+default 1 ;;    time list
+default 2 ;;    parameter file
+
+!sdef inpdir   %#2(1)   ! input directory for data
+sdef toffset  %#2(2)   ! time offset for filtering
+sdef wdwlth   %#2(3)   ! length of plot wdw in sec
+sdef statlist %#2(4)   ! station list
+!sdef complist %#2(5)   ! component list
+!sdef chan     %#2(6)   ! channel code
+!sdef filter   %#2(7)   ! filter
+!sdef normtype %#2(8)   ! normalization type
+!sdef zoom     %#2(9)   ! zoom factor
+sdef cnt 1             ! event counter
+sdef maxcnt %#1(0)     ! number of events
+sdef read_time         ! read time
+sdef read_length       ! read length
+sdef ptime             ! plot time
+sdef line              ! current line of file
+sdef tmp               ! scratch
+sdef trcno             ! number of traces
+sdef negoffset         ! negative offset
+sdef hcfile            ! hardcopy file
+sdef gstep             ! step size
+sdef xpos              ! x-position
+sdef ypos              ! y-position
+
+switch chatty off
+fct amplicut 1500
+
+calc r &read_length = "wdwlth + "toffset
+calc r &negoffset = 0.0 - "toffset
+calc r &tmp = "wdwlth div 4.0            ! use quarter of given window length
+calc r &negoffset = "negoffset - "tmp    ! as plot offset before spec. time
+fili f %#2(7)
+
+fct setstyle $titlestyle charsize 0.008
+fct setstyle $timeaxisstyle charsize 0.008
+fct setstyle $trcinfostyle charsize 0.008
+trctxt ^station($x)
+calc r &xpos = 0.0
+calc r &ypos = 13.1
+calc r &gstep = 6.5
+wdw size p "xpos "ypos 5 5
+
+norm %#2(8)
+zoom/default all %#2(9)
+
+echo_ch/new pslist.stx
+
+loop_start:
+	if  "cnt gti "maxcnt  goto/forward loop_exit:
+	del all_dh
+	dtw
+	calc s &line = %#1("cnt)
+	calc s &ptime = "line parse 1
+	calc t &read_time = "ptime tadd "negoffset
+	reads %#2(1) "read_time "read_length "statlist %#2(5) %#2(6)
+	demean all
+	calc i &trcno = $dsptrcs
+	filter f all
+	del |1-|"trcno|
+	cut all "toffset $dsp_xmax
+	set all t-origin 0.0
+	calc s &tmp = "line parse 2
+	calc s &tmp = |"tmp|$blank|"ptime|
+	title 1 "tmp
+	calc s &tmp = "line parse 3
+	title 2 "tmp
+	set all amplicut y
+	set all reduction 2
+	rd
+	hc ;; p &hcfile
+	echo "hcfile
+	calc r &xpos = "xpos + "gstep
+	if  "xpos ltr 25.0  goto/forward xpos_ok:
+		calc r &xpos = 0.0
+		calc r &ypos = "ypos - "gstep
+		if  "ypos ger 0.0  goto/forward ypos_ok:
+			calc r &xpos = 0.0
+			calc r &ypos = 13.1
+      ypos_ok:
+   xpos_ok:
+	wdw size p "xpos "ypos 5 5
+	calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+fct getpath extprog &tmp
+@CALC S &TMP = |"TMP|concat_ps.csh|$BLANK|PSLIST.STX|
+system "tmp
+
+return

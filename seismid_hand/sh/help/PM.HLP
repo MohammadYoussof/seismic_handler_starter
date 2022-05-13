@@ -1,0 +1,59 @@
+command PM <trc-list> <p1> [<p2>]
+==========
+
+key: particle motion diagram
+
+Draws particle motion diagrams to the PM output window (selected
+by "pmch" command).  The trace in <trc-list> are used alternately as
+x and y-coordinates for the PM plots.  For each pair of traces a
+separate PM plot is produced.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be displayed in particle motion diagrams.
+   Each pair of consecutive traces is plotted in a separate diagram.
+   The list length must be even.
+
+<p1>, <p2>  ---  parameter type: real
+   If none of the qualifiers "/mwdw" and "/vwdw" is specified, <p1>
+   and <p2> contain start and end of the time window (in sec, relative
+   to the time axis) for the particle motion.  If "/mwdw" is specified,
+   <p1> is the width of the displayed window in sec, <p2> is not used.
+   If "/vwdw" is specified neither <p1> nor <p2> is used.
+
+
+qualifers
+---------
+
+/mwdw
+   This qualifer can be used only, if the PM output window (set by
+   command "pmch") is different from the trace window.  The graphic
+   cursor appears in the trace window and let the user select time
+   positions.  After each selection the particle motion window is
+   updated with the diagrams of width <p1> sec centered at the
+   selected time.  Exit from this mode by the "E"-key.
+
+/vwdw
+   This qualifer can be used only, if the PM output window (set by
+   command "pmch") is different from the trace window.  The graphic
+   cursor appears in the trace window and let the user select a
+   start time and then several end times.  After each end time
+   selected the particle motion window is updated with the diagrams
+   between start and end time.  Exit from this mode by "E"-key.
+
+/circle=<radius>
+   If this qualifier is specified, the beginning of each PM diagram
+   is marked by a circle around the first sample.  <radius> specifies
+   the radius of the circle marker.  A typical value is 0.02.
+
+
+example
+--------
+
+   pm/mwdw/circle=0.02 3,2,3,1,2,1 4.
+      Draws three PM diagrams of the first three traces on display
+      and marks the beginning of each diagram by a circle.
+

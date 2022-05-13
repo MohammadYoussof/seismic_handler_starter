@@ -1,0 +1,33 @@
+! finds angle of incidence for deconvolution
+
+sdef trcno $dsptrcs     ! number of traces on display
+sdef inci               ! angle of incidence
+
+if  "trcno eqi 3  goto/forward trcno_ok:
+   echo there must be Z,N,E components on display
+   return
+trcno_ok:
+
+nr
+trctxt ^station(x) ^comp(x) \ ^comment(x)
+rotaz;;   ! create R & T components
+del 5     ! delete T component
+rd r
+
+calc i &trcno = $dsptrcs
+aloop:
+   enter &inci angle [q=exit]:
+   if  "inci eqs q  goto/forward aloop_exit:
+   calc s &ret = "inci      ! store as return value
+   nr
+   rotinci;;"inci
+   calc i &trcno = "trcno + 1
+   del "trcno
+   rd
+goto aloop:
+aloop_exit:
+
+calc i &trcno = $dsptrcs
+del |4-|"trcno|           ! delete created q-components
+
+return

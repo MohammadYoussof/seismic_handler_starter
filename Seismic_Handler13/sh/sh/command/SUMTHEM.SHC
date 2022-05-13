@@ -1,0 +1,23 @@
+!  SUMTHEM  is a module to sum two sets
+!  of traces
+default 1;;how many traces in one set ?
+default 2;;multiplication factor for set 1
+!
+sdef cnt 1
+sdef cnt2
+!
+switch verify on
+!
+trcfct |1-|#1| mul #2
+loop_start:
+if "cnt gti #1 goto/forward loop_exit:
+  calc i &cnt2 = "cnt + #1
+  sum |"cnt|,|"cnt2|
+  set $dsptrcs station ^station("cnt)
+  calc i &cnt = "cnt + 1
+  goto loop_start
+loop_exit:
+del |1-|#1|
+del |1-|#1|
+return
+end

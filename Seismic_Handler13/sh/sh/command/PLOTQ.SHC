@@ -1,0 +1,84 @@
+! plots traces from all q-files of a q-file list.  One page per file.
+default 1 ;;      q-file list
+default 2 1       first file
+default 3 %#1(0)  last file
+default 4 -20     time window start
+default 5 120     time window end
+default 6 ;;      filter
+default 7 35      minimum distance
+default 8 95      maximum distance
+default 9 90      minimum excl. depth
+default 10 350    maximum excl. depth
+
+sdef qfile     ! name of current qfile
+sdef tline     ! title line
+sdef filcnt #2 ! file counter
+sdef wdws      ! start of time window
+sdef wdwe      ! end of time window
+sdef trcno     ! number of traces
+sdef tmp
+sdef plotno 1  ! number of plots
+
+!wdw/global/gc=c create c 0.0 0.0 25.9 19.5
+fct axis timeaxis labcnt 5
+fct setstyle $titlestyle charsize .025
+fct setstyle $timeaxisstyle charsize .02
+
+set/default all reduction 2
+
+loop_start:
+   if  "filcnt gti #3  goto/forward loop_exit:
+   del all
+   dtw
+   norm af
+   calc s &qfile = %#1("filcnt) parse 1
+   nr
+!   read "qfile all
+   read "qfile 1-3   ! only first 3 traces
+   switch cmderrstop off
+   echo "qfile ^eventno
+   if  $status nei 0  goto/forward noplot:
+   if  ^distance ltr #7  goto/forward noplot:
+   if  ^distance gtr #8  goto/forward noplot:
+!   if  ^depth ler #9  goto/forward doplot:
+!   if  ^depth ger #10  goto/forward doplot:
+!   goto/forward noplot:
+   doplot:
+      switch cmderrstop on
+      calc t &wdws = ^p-onset tdiff ^start
+      calc r &wdwe = "wdws + #5
+      calc r &wdws = "wdws + #4
+      stw "wdws "wdwe
+      calc s &tline = |^start|$blank|"qfile|
+      title 1 "tline
+      calc r &tmp = ^distance/fmt=<%5.1@f>
+      calc s &tline = |"plotno|:|$blank|dst:|"tmp|
+      calc r &tmp = ^azimuth/fmt=<%5.1@f>
+      calc s &tline = |"tline|$blank|az:|"tmp|
+      calc r &tmp = ^depth/fmt=<%5.1@f>
+      calc s &tline = |"tline|$blank|dp:|"tmp|$blank|ev:|^eventno|
+      calc s &tline = |"tline|$blank|f:|#6|
+      title 2 "tline
+      calc i &plotno = "plotno + 1
+      if  #6 eqs ;;  goto/forward nofilter:
+         calc i &trcno = $tottrcs
+         demean all
+         fili f #6
+         calc r &wdwe = "wdwe + 50.0
+         calc r &wdws = "wdws - 50.0
+         if  "wdws gtr 0.0  goto/forward wdws_ok:
+            calc r &wdws = 0.
+         wdws_ok:
+         filter f all "wdws "wdwe
+         del |1-|"trcno|
+      nofilter:
+      norm aw
+      rd r
+      cm:chc0
+   noplot:
+   switch cmderrstop on
+   calc i &filcnt = "filcnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,12 @@
+! file ERR_2400.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module SHCORR.C
+! K. Stammler, 8-JUL-91
+!
+*** SC-01 zero window specified ***
+*** SC-02 2. correlation trace too short ***
+*** SC-03 unknown correlation mode ***
+*** SC-04 wrong dimension in module MATRIXHD ***

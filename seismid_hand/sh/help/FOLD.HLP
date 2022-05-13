@@ -1,0 +1,29 @@
+command FOLD <trc-list> [<lo-bound> <hi-bound>] <filter>
+
+key: fold traces with filter
+
+Folds traces with a filter trace <filter>.  If no time window
+<lo-bound>, <hi-bound> is specified the whole traces are filtered.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be filtered.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   If specified the filtering is restricted to this time window
+   given in seconds relative to the time axis, otherwise the
+   whole trace are filtered.
+
+<filter>  ---  parameter type: trace
+   Filter trace.
+
+
+Examples:
+
+   FOLD 1-3 10. 20. 4   ! folds traces 1,2,3 with trace 4 between
+                        ! 10 sec and 20 sec
+
+   FOLD 1;;4            ! folds whole trace 1 with trace 4
+

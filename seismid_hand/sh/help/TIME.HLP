@@ -1,0 +1,64 @@
+command TIME [<abspos>] [<relpos>] [<ypos>] [<trace>] [<key>]
+============
+
+key: determine time position
+
+The graphic cursor is displayed and the time values of user-selected
+positions are returned.  If no parameter is passed, the graphic
+cursor remains on display until the "E"-key is pressed (Exit).
+Every selected position is echoed on the current info channel.
+If any parameter is passed, only one selection is possible and
+the result is not displayed on the text channel but stored in
+the variable(s) passed as parameters.
+
+
+parameters
+----------
+
+<abspos>  ---  parameter type: symbol address
+   Symbol receiving the absolute time position
+	(example: "14-JUL-1990_18:30:20.021")
+
+<relpos>  ---  parameter type: symbol address
+   Symbol receiving the relative time position with reference to
+   the time axis (example: "23.354")
+
+<ypos>  ---  parameter type: symbol address
+   Symbol receiving the value of the y-coordinate (perpendicular
+   to time axis).
+
+<trace>  ---  parameter type: symbol address
+   Symbol receiving the address of the selected trace.
+
+<key>  ---  parameter type: symbol address
+   Symbol receiving the ASCII code of the key pressed.
+
+
+qualifiers
+----------
+
+/nomark
+   Selected time points are not marked.
+
+/parent
+   The cursor input is read from the parent command level.
+
+/interactive
+   The cursor input is read from the main (interactive) input level.
+   This is default.
+
+
+examples
+--------
+
+   time                    ! select several time positions;
+                           ! exit with "E"-key
+
+   time &abs               ! select one position; the absloute time
+                           ! position is stored in the (defined)
+                           ! variable "abs"
+
+   time ;; &rel            ! select one position; the relative time
+                           ! position is stored in the (defined)
+                           ! variable "rel"
+

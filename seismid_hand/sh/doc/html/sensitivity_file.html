@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>Sensitivity File</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>SH/SHM sensitivity file</H2>
+
+<P>For computing true amplitudes SH/SHM need to know the calibration gain
+numbers to be multiplied to the digital counts of each trace.  From SHM
+version 2.4 on  this information is stored in a sensitivity file, by default
+this is the file <em>$SH_INPUTS/sensitivities.txt</em>.  This filename may
+be altered using the <a href="shm_setup.html">global setup file</a>,
+parameter <em>sensitivity_file</em>.
+</P>
+
+<P>
+The syntax of the sensititvity file is one entry per line:
+</P>
+<P>
+<em>&lt;stream&gt; &lt;from-time&gt; &lt;to-time&gt; &lt;gain&gt;</em>
+</P>
+<P>
+where <em>&lt;stream&gt;</em> is the stream name giving station, channel
+and component (or component wildcard <em>?</em>) separated by hyphens, e.g. <em>xyz-bh-z</em>,
+<em>&lt;from-time&gt;</em> and <em>&lt;to-time&gt;</em> specify the
+time window where this calibration gain is valid (in
+<a href="timeformat.html">SH time format</a>) and <em>&lt;gain&gt;</em>
+gives the total calibration gain in (nm/s)/count.  The time entries
+<em>&lt;from-time&gt;</em> or <em>&lt;to-time&gt;</em> may be specified
+as three dots <em>...</em>, indicating that there is no upper or lower
+time boundary of the calibration information, respectively.  So many entries of
+the sensitivity file may look like</P>
+<P>
+<em>bfo-bh-? ... ... 1.67</em>
+</P>
+in this case telling that all three components of <em>bfo</em>, channel
+<em>bh</em> have a total gain of 1.67 (nm/s)/count for all times (neither
+upper nor lower time boundary given).  Other may look like</P>
+<P><em>
+gra1-bh-z   ...                16-oct-1995_11:00   1.212652<br>
+gra1-bh-z   16-oct-1995_11:00  07-feb-1997_12:00   1.171863<br>
+gra1-bh-z   07-feb-1997_12:00  ...   1.206827
+</em></P>
+<P>
+indicating that at station <em>gra1</em> the equipment was changed on
+16-Oct-1995_11:00 and on 7-Feb-1997_12:00 resulting in a changing
+calibration gain.
+</P>
+<P>
+To migrate from a version prior to SHM 2.4 with <em>seedcalib_...</em>-files
+to the 2.4 sensitivity file use script
+<em>$SH_UTIL/sensitivity_from_old_style.csh</em>
+and redirect the output to a file to get the new sensitivity file from your
+existing <em>seedcalib_...</em>-files.  If you do not have a sensitivity file
+yet then enter
+</P>
+<P>
+<em>$SH_UTIL/sensitivity_from_old_style.csh &gt; $SH_INPUTS/sensitivities.txt</em>
+</P>
+</P>
+
+<P><small>This page last modified 22-May-2006</small></P>
+
+</BODY>
+</HTML>

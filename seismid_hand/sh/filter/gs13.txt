@@ -1,0 +1,5 @@
+
+Die Konstante der Uebertragungsfunktion fuer das GS13 (nach Literatur
+1.5818e37) wurde zerlegt in eine Normierung des Pole-Zero-Ausdrucks bei
+5Hz (5.962e26) auf 1.0 in TF_VEL_GS13.FLF und eine Kalibrierung
+(1 / (26.53 Counts/(nm/s))) beim Einlesen (in seedcalib_ge..-hh-z).

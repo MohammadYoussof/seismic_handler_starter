@@ -1,0 +1,39 @@
+!                            position of parameter box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+parameter_box_x              140
+parameter_box_y              0 
+parameter_box_w              100
+parameter_box_h              720
+
+!                            position of phase dialog box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+phase_box_x                  0
+phase_box_y                  0
+phase_box_w                  140
+phase_box_h                  620
+
+!                            position of main window in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+window_main_x                224
+window_main_y                220
+window_main_w                800
+window_main_h                516
+
+!                            position of single trace box in pixels: x-position,
+!                            y-position, width, height
+!                            type: integer
+single_trace_box_y           0
+single_trace_box_x           224
+single_trace_box_w           800
+single_trace_box_h           203
+
+!                            size of drawing area in pixels
+!                            type: integer
+draw_area_width              785
+draw_area_height             485
+
+!                            use small menu font
+small_menu_font              true

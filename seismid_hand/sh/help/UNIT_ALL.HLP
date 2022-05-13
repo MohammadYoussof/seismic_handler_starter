@@ -1,0 +1,26 @@
+command procedure UNIT_ALL <lo-wdw> <hi-wdw>
+==========================
+
+key: cp:normalize peaks
+
+On each trace of the display the maximum sample amplitude within the
+time window (<lo-wdw>,<hi-wdw>) is set to 1.0.  This procedure
+does not only affect the display of the traces, it changes the
+sample values !  Keep this in mind if you compute rotations or
+sums of these traces later on.
+
+
+parameters
+----------
+
+<lo-wdw>, <hi-wdw>  ---  parameter type: real
+   The maximum amplitude is detected only within this given
+   time window (in sec).
+
+
+example
+-------
+
+   unit_all 0. 100.
+       sets all peaks between 0 and 100 sec to amplitude 1.0
+

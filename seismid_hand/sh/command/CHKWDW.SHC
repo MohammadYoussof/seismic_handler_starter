@@ -1,0 +1,51 @@
+! file CHKWDW.SHC
+
+default 1 rest_05_3      restitution filter
+default 2 -20.0          left offset
+default 3 20.0           right offset
+
+sdef ws      ! window start
+sdef we      ! window end
+sdef trcno $dsptrcs
+sdef cmd
+sdef ps
+sdef pe
+sdef lth
+
+nr
+fili f #1
+calc t &ps = "g1 tdiff ^start
+calc t &pe = "g2 tdiff ^start
+calc r &ws = "ps + #2
+calc r &we = "pe + #3
+calc r &lth = "pe - "ps
+echo p-wdw "lth sec.
+stw "ws "we
+filter f all "ws "we
+hide |1-|"trcno|
+rd
+mark 1 "ps
+mark 1 "pe
+
+loop_start:
+   enter/interactive &cmd ok? [<CR>|s|e]
+   if  "cmd eqs ;;  goto/forward loop_exit:
+   fct setstyle $markstyle color %blue
+   if  "cmd eqs s  goto/forward wdws:
+      echo select new end time
+      time &g2
+      goto/forward wdwok:
+   wdws:
+      echo select new start time
+      time &g1
+   wdwok:
+   fct setstyle $markstyle color %red
+goto loop_start:
+loop_exit:
+
+del all
+display h:all 1
+mark/abs 1 "g1
+mark/abs 1 "g2
+
+return

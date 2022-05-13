@@ -1,0 +1,31 @@
+! file VESPA.SHC
+! for different events
+! after each beam the time offset is reset to zero
+! no absolute time align !
+default 1 3.0      from slowness
+default 2 7.0      to slowness
+default 3 0.5      slowness step size
+default 4 0.0      azimuth
+
+sdef slo #1              ! current slowness
+sdef trcno $dsptrcs      ! current number of traces on display
+sdef vtrcl |1-|$dsptrcs| ! number of input traces
+sdef slonum
+
+nr
+loop_start:
+   if  "slo gtr #2  goto/forward loop_exit:
+   calc r &slonum = "slo/fmt=<%4.1@f>
+   set "vtrcl t-origin 0.0
+   beam "vtrcl #4 "slo
+   sum "vtrcl
+   calc i &trcno = "trcno + 1
+   set "trcno comment |S:|"slonum|
+   calc r &slo = "slo + #3
+goto loop_start:
+loop_exit:
+
+hide "vtrcl
+rd
+
+return

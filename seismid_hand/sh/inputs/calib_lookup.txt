@@ -1,0 +1,8 @@
+! file calib_lookup.txt
+!      ================
+!
+! version 1, 23-Sep-93
+!
+! calibration lookup table
+! K. Stammler, 23-Sep-93
+GRA1,GRA2,GRA3,GRA4,GRB1,GRB2,GRB3,GRB4,GRB5,GRC1,GRC2,GRC3,GRC4 calib_grf.dat

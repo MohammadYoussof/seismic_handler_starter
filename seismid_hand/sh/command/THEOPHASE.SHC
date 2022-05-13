@@ -1,0 +1,117 @@
+
+! file THEOPHASE.SHC
+!      =============
+!
+! version 1, 7-Jul-93
+!
+! marks theoretical arrival times on specified trace
+! K. Stammler, 7-Jul-93
+
+! local variables
+sdef def_distance       ! default distance in deg
+sdef def_depth          ! default depth in km
+sdef cnt 1              ! phase counter
+sdef maxphase           ! maximum phase number
+sdef phase              ! current phase
+sdef ttime              ! travel time in sec
+sdef origin             ! origin time
+sdef onset              ! phase onset time
+sdef timeok             ! computing of travel time ok
+sdel labelpos 1.0       ! current label position
+
+! first part of parameters of procedure
+default 1 1             trace number
+default 2 phaselist     phase list file
+default 3 0.2           label increment
+
+! compute defaults of distance & depth
+switch cmderrstop off
+switch noerrmsg on
+calc r &def_distance = ^distance(#1)
+if  $status eqi 0  goto/forward distance_ok:
+   calc s &def_distance = 0.0
+distance_ok:
+calc r &def_depth = ^depth(#1)
+if  $status eqi 0  goto/forward depth_ok:
+   calc s &def_depth = 0.0
+depth_ok:
+calc s &origin = ^origin(#1)
+if  $status eqi 0  goto/forward origin_ok:
+   calc s &origin = ;
+origin_ok:
+switch noerrmsg off
+switch cmderrstop on
+if  #origin eqs _existsnot_  goto/forward no_origin:
+   calc s &origin = #origin
+no_origin:
+
+! second part of parameters of procedure
+default 4 "def_distance distance in deg
+default 5 "def_depth    depth in km
+
+! third part of parameters, handling of origin time
+if  "origin nes ;;  goto/forward origin_computed:
+   switch capcnv off
+   DEFAULT 6 P reference phase (mind upper- and lowercase)
+   SWITCH CAPCNV ON
+   ! determine origin time
+@  ECHO select phase #6 with graphic cursor
+   time &origin
+   call travel #6 #4 #5 &ttime
+   calc r &ttime = 0.0 - "ttime
+   calc t &origin = "origin tadd "ttime
+@  ECHO computed origin time "ORIGIN
+origin_computed:
+
+calc i &maxphase = %#2(0)
+
+! now origin time, distance and depth are known
+! -> loop for phases in phase list
+
+loop_start:
+   if  "cnt gti "maxphase  goto/forward loop_exit:
+   calc s &phase = %#2("cnt)
+   switch cmderrstop off
+   switch noerrmsg on
+   call travel "phase #4 #5 &ttime
+   calc i &timeok = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "timeok eqi 0  goto/forward mark_phase:
+@     ECHO phase "PHASE at distance #4 depth #5 could not be computed
+      goto/forward mark_end:
+   mark_phase:
+      calc t &onset = "origin tadd "ttime
+      mark/abs/label="phase/pos="labelpos #1 "onset
+      calc r &labelpos = "labelpos - #3
+      if  "labelpos gtr 0.6  goto/forward lpos_ok:
+         calc r &labelpos = 1.0
+      lpos_ok:
+   mark_end:
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+if  #noset eqs _novalue_  goto/forward do_noset:
+if  #insert eqs _novalue_ goto/forward insert_file:
+
+set #1 distance #4
+set #1 depth #5
+return
+
+do_noset:
+@ECHO distance, depth and origin time are not inserted to trace info
+return
+
+insert_file:
+if  ^fromq(#1) eqs y  goto/forward do_insert:
+@  ECHO *** info values cannot be inserted because trace is not from Q-file ***
+   return
+do_insert:
+@ECHO insert distance #4 to trace #1
+set/file #1 distance #4
+@ECHO insert depth #5 to trace #1
+set/file #1 depth #5
+@ECHO insert origin "ORIGIN to trace #1
+set/file #1 origin "origin
+return

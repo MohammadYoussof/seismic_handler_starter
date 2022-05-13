@@ -1,0 +1,35 @@
+
+! file external_processes.txt
+!      ======================
+!
+! version 1, 18-Jan-2002
+!
+! Configuration file for Processes menu of SHM.
+! Each line defines one execution step of an external process.
+! It is of the format
+! <cmd> <pnum> <parameter>
+! where <cmd> describes the action and <pnum> is the integer number of the
+! process.  All steps of the same process have the same number <pnum>.
+! <parameter> is a parameter depending on <cmd>.  Possible values of <cmd> are:
+!   label      : Name of the Process, appears in the menu.  Giving a name
+!                enables the menu entry. <parameter> contains the text, Blanks
+!                must be replaced by '_'.
+!   currwindow : Writes the absolute start time (line 1) and length in s 
+!                (line 2) of the current time window to a file named <parameter>.
+!   writeevt   : Writes evt-file with the current analysis parameters to disk.
+!                <parameter> contains the file name, Output path is $SH_SCRATCH.
+!   shell      : execute shell command.  <parameter> contains the name of the
+!                shell command.  Default path is the private directory.
+!   bgshell    : a 'shell' given for this process is started in background.
+!                <parameter> is not used.
+!   resetpar   : Delete all analysis parameters.  <parameter> not used.
+!   remtheo    : Delete all theoretical phases.  <parameter> not used.
+!   readevt    : reads in evt-file.  Takes phases and location and
+!                overwrites the existing values.  <parameter> contains the
+!                name of the input evt-file.
+!   waveform   : write waveform data in ASCII file to disk.  <parameter>
+!                contains the name of the output file.  Output path is
+!                $SH_SCRATCH.
+!   shcfile    : Call SH-script.  <parameter> contains the name of the script.
+! K. Stammler, 18-Jan-2002
+

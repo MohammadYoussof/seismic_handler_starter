@@ -1,0 +1,54 @@
+! file readcd.shc
+!      ==========
+!
+! version 1, 9-apr-96
+!
+! reads GRF/GRSN from CD traces with automatic mounting
+! K. Stammler, 4-Sep-92
+
+default 1 %cdrom          device
+default 2 1-jan-80_0:0:0  start time
+default 3 60.0            length in sec
+default 4 bfo,wet         station list
+default 5 z,n,e           component list
+default 6 bh              channel chars
+
+sdef need_volume      ! volume needed
+sdef curr_volume      ! current volume
+sdef first_station    ! first station in list
+sdef cmd              ! shell command
+sdef stream           ! stream string
+
+switch noerrmsg on
+switch cmderrstop off
+
+! find first station name
+if  #4 eqs all  goto/forward station_all:
+if  #4 eqs grsn  goto/forward station_grsn:
+if  #4 eqs grf  goto/forward station_grf:
+fct terminators |$blank|$slash|%semicolon|,|
+calc s &first_station = #4 parse 1
+fct terminators |$blank|$slash|%semicolon|
+goto/forward station_ok:
+station_grf:
+   calc s &first_station = gra1
+   goto/forward station_ok:
+station_all:
+   calc s &first_station = bfo
+   goto/forward station_ok:
+station_grsn:
+   calc s &first_station = bfo
+   goto/forward station_ok:
+station_ok:
+
+! build stream string
+calc s &stream = #5 extract 1 1
+calc s &stream = |"first_station|-|#6|-|"stream|
+
+fct local getenv:seed_prog &cmd
+@CALC S &CMD = |"CMD|$SLASH|szgrf_cd_mount.csh|$BLANK|"STREAM|$BLANK|#2|
+system "cmd
+
+reads #1 #2 #3 #4 #5 #6
+
+return

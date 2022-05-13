@@ -1,0 +1,5 @@
+sdef name
+calc s &name = ^station qname ^start
+echo "name
+calc s &g1 = "name
+return

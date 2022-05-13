@@ -1,0 +1,41 @@
+! file STATLIST_GRF.STX
+!      ================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for GRF/GRSN stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 13 GRF
+set2: 14 29 GRSN
+
+* GRA1
+* GRAX
+* GRA2
+* GRA3
+* GRA4
+* GRB1
+* GRB2
+* GRB3
+* GRB4
+* GRB5
+* GRC1
+* GRC2
+* GRC3
+* GRC4
+* STU
+* BFO
+* BRG
+* BRNL
+* BUG
+* CLL
+* CLZ
+* FUR
+* GRFO
+* GSH
+* BSEG
+* RGN
+* MOX
+* TNS
+* WET
+* IBBN

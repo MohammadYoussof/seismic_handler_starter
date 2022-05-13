@@ -1,0 +1,20 @@
+! file READSRTH.SHC
+!      ============
+!
+! version 1, 13-Apr-97
+!
+! Reads resampled traces from output file of srth program (*.sm-files).
+! K. Stammler, 13-Apr-97
+
+default 1 ;;       srth-file
+default 2 0.05     new sample distance
+
+sdef listfile srthlist.stx    ! listfile for reada
+
+system |%csh_cvt_and_resample|$blank|#1|$blank|#2|$blank|"listfile|
+reada_list "listfile
+
+! remove input file (are big !)
+@SYSTEM |rm|$BLANK|*.[0-9][0-9][0-9]_RES|
+
+return

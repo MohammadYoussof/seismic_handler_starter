@@ -1,0 +1,26 @@
+! file readbor.shc
+!      ===========
+!
+! version 1, 14-NOV-91
+!
+! reads borovoje data
+! K., Stammler, 14-NOV-91
+
+default 1 ;;     file name
+default 2 0.2    sample distance in sec
+default 3 600    number of samples
+
+sdef dno         ! twice of #3
+sdef hdt         ! half of #2
+
+calc i &dno = #3 * 2
+calc r &hdt = #2 div 2.0
+
+nr
+reada #1 "hdt "dno
+mirror _created
+resample _created #2
+mirror _created
+rd
+
+return

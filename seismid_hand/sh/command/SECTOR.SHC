@@ -1,0 +1,20 @@
+! file SECTOR.SHC
+default 1 0     from azimuth
+default 2 90    to azimuth
+
+sdef trcno
+
+del all
+dtw
+nr
+display h:all 1
+hide _azimuth~(#1:#2)
+rd
+echo $dsptrcs
+calc i &trcno = $dsptrcs
+nr
+stack;;40
+prep_stack
+set 1 comment |#1|-|#2|,|"trcno|
+rd
+return

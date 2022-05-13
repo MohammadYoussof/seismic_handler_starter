@@ -1,0 +1,4 @@
+#! /bin/csh
+setenv DISPLAY '!:1':0
+setenv OPENWINHOME /usr/openwin
+setenv LD_LIBRARY_PATH '/usr/lib:/usr/openwin/lib'

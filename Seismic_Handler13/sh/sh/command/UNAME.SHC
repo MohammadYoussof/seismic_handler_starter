@@ -1,0 +1,19 @@
+! file UNAME.SHC
+!      =========
+!
+! version 1, 13-Aug-99
+!
+! Returns 'uname' output in 'ret'
+! K. Stammler, 13-Aug-99
+
+sdef tmpfile
+sdef cmd
+
+fct getpath scratch &tmpfile
+calc s &tmpfile = |"tmpfile|uname_|$sh_id|.stx|
+@CALC S &CMD = |uname|$BLANK|>|"TMPFILE|
+system "cmd
+calc s &ret = %"tmpfile upper
+fct oscall fdelete "tmpfile
+
+return

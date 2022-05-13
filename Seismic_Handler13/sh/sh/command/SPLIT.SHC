@@ -1,0 +1,34 @@
+! file split.shc
+!      =========
+!
+! version 1, 7-Jan-93
+!
+! split up trace in pieces
+! K. Stammler, 7-Jan-93
+
+default 1 1   trace
+default 2 20  width
+
+sdef lo 0.0    ! lo bound
+sdef hi #2     ! hi bound
+sdef length    ! length of trace
+
+calc r &length = ^delta(#1) * ^length(#1)
+
+nr
+loop_start:
+   copy #1
+   cut $dsptrcs "lo "hi
+   if  "hi gtr "length  goto/forward loop_exit:
+   calc r &lo = "lo + #2
+   calc r &hi = "hi + #2
+   goto loop_start:
+goto loop_start:
+loop_exit:
+
+del #1
+set all t-origin 0.0
+
+rd
+
+return

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Setup</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Setup</em></H2>
+
+<P>Temporary setting of some parameters of SHM. Possible values
+are listed in an option button menu. The <em>default</em> value
+means that the parameter
+takes the value out of the <A HREF="menu_configure.html">Configure</A>
+setting and has not yet been changed. Changes made her are lost
+after restarting SHM.</P>
+
+<P><em>hardcopy</em></P>
+
+<DL>
+  <DD>Method of creating hardcopy on printer. Currently there is
+  no real choice. <em>fast</em>
+  calls the script <em>$SH_UTIL/sd_xwd.csh</em>
+  which makes use of the X-Window command
+  <em>xwd</em>. This should available on all
+  platforms. <em>quality</em>
+  calls <em>$SH_UTIL/sd_screendump.csh</em>
+  which has been an interface to the <em>screendump</em>
+  command of Sun Solaris 1. This is not available any more. If
+  somebody knows a method of making good hardcopies, he may implement
+  it using this script.
+</DL>
+
+<P><em>max. cursor</em></P>
+
+<DL>
+  <DD>Selection of last mode of waveform cursors. Clicking the
+  middle mouse button changes the cursor until the selected mode
+  and then returns to <I>no cursor</I>. See <A HREF="mouse_buttons.html">The
+  use of mouse buttons</A> for details.
+</DL>
+
+<P><em>normalization</em></P>
+
+<DL>
+  <DD>Tells how the traces should be normalised on screen.
+  <DD><em>constant</em>:
+  amplification of traces with a constant value. All traces on
+  display have comparable amplitudes. The displayed amplitude still
+  depends on the number of traces on the display. Two different
+  plots with the same number of traces on display have comparable
+  amplitudes.
+  <DD><em>all (tot)</em>:
+  all traces on the display have the same amplification, the absolute
+  size depends on the largest value read in. I.e. all traces on
+  display have the comparable amplitudes, also different time windows
+  of the same traces, but different traces read in later have different
+  magnification.
+  <DD><em>all (wdw)</em>:
+  all traces on the display have the same amplification, the absolute
+  size depends on the largest value within the visible window.
+  I.e. all traces on display have comparable amplitudes, but different
+  time windows of the same traces may have different magnification.
+  <DD><em>single (tot)</em>:
+  the normalization for each trace on display is different, so
+  that the maximum value of the whole trace appears with the same
+  amplitude on screen.
+  <DD><em>single (wdw)</em>:
+  the normalization for each trace on display is different, so
+  that the maximum value of the visible window appears with the
+  same amplitude on screen.
+</DL>
+
+<P><em>trace order</em></P>
+
+<DL>
+  <DD>Order of traces down-top or top-down.
+</DL>
+
+<P><em>filter type</em></P>
+
+<DL>
+  <DD>Which filter type should be used for filtering: FFT or recursive.
+  See command <A HREF="menu_filter.html">filter</A> for details.
+</DL>
+
+<P><em>default filter</em></P>
+
+<DL>
+  <DD>Which filter should be applied automatically after read in
+  with <em>Read New</em>
+  from command <A HREF="menu_read.html">Read</A>. Saves some mouseclicks
+  if you usually apply the same filter after reading
+  new traces.
+</DL>
+
+<P><em>parameter list</em></P>
+
+<DL>
+  <DD>Tells whether the verbose form or the brief form of the analysis
+  parameters should be displayed on the Show parameters
+  and Final parameters commands.
+</DL>
+
+<P><em>phase names</em></P>
+
+<DL>
+  <DD>Tells whether the full phase name including onset type (e
+  or i) and sign (c or d) should appear on the phase marks or only
+  the plain phase name.
+</DL>
+
+<P>display size rulers</P>
+
+<DL>
+  <DD>Changes the size of the main window display. This sizes independently
+  from the frame. If the display size is larger than the frame,
+  scrollbars are added to the window. This enables the user e.g.
+  to work with many traces with a reasonable resolution if he uses
+  vertical scroll bars for the display. Be careful: if you make
+  the window size larger than possible with the current amount
+  of free memory SHM just crashes. This is an internal feature
+  of X-Window, I did not yet find a way to prevent this.
+</DL>
+
+<P><small>This page last modified 15-Oct-2006</small></P>
+
+</BODY>
+</HTML>

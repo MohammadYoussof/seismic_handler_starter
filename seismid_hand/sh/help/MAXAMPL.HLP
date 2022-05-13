@@ -1,0 +1,31 @@
+command MAXAMPL <trc-list> <ampl> [<lo-bound> <hi-bound>]
+===============
+
+key: cut amplitudes
+
+Cut the amplitudes of the traces in the trace list down to a
+specified value <ampl>.  All values larger than <ampl> are replaced
+by <ampl>, all values smaller than -<ampl> replaced by -<ampl>.
+If <lo-bound> and <hi-bound> are specified the modifications are
+restricted to this time window.  Modifies existing traces instead of
+creating new traces.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be modified.
+
+<ampl> --- parameter type: real
+   Maximum amplitude
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time window (relative to time axis) for modifying traces.  If omitted
+   the whole traces are searched.
+
+
+Example
+
+   MAXAMPL 1-3 100.0    ! replaces all amplitude values larger than 100
+                        ! by 100 on the first three traces
+

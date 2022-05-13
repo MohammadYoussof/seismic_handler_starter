@@ -1,0 +1,145 @@
+
+! file GRFO_AUTO_ONLINE.SHC
+!      ====================
+!
+! version 4, 28-Jul-2000
+!
+! automatically displays online data
+! K. Stammler, 28-Aug-96
+
+default 1 grfo_online parfile
+
+!default 1 bh     channel
+!default 2 zne    component list
+!default 3 300    read length in sec
+!default 4 60     sleep time in sec
+!default 5 8.0e-4 zoom factor
+!default 6 ;;     filter
+!default 7 0.0    split length
+!default 8 r      filter type
+
+sdef xfile       ! file which controls lifetime
+sdef pf          ! local parameter file
+sdef cmd         ! shell command
+sdef currtime    ! current time
+sdef endtime     ! end of display window
+sdef tdiff       ! time difference
+sdef trcno       ! number of traces
+sdef cnt         ! counter
+sdef fullhour    ! full hour
+sdef tmp         ! scratch
+sdef hostname    ! name of this host
+
+switch/global chatty off
+!switch verify on
+
+# get name of host
+hostname
+calc s &hostname = "ret
+
+! create xfile
+fct getpath scratch &xfile
+calc s &pf = "xfile
+calc s &xfile = |"xfile|grfo_auto_online.stx|
+echo_ch/new "xfile
+echo %#1(1)
+echo_ch
+calc s &pf = |"pf|grfo_auto_|$sh_id|.stx|
+
+! set colors, do this later now
+! fct setstyle 2 color %red
+! fct setstyle 3 color %blue
+
+norm c
+
+loop_start:
+   ! copy user parameter file to local parameter file
+@  CALC S &CMD = |cp|$BLANK|#1|.STX|$BLANK|"PF|
+   system "cmd
+   nr
+   del all
+	nop %"xfile
+   read_online_data %"pf(9) %"pf(1) %"pf(2) %"pf(3)
+   if  $dsptrcs gti 0  goto/forward read_ok:
+      unix_time
+      title 1 |no|$blank|traces|$blank|at|$blank|"g1|
+      rd
+@     CALC S &CMD = |sleep|$BLANK|%"PF(4)|
+      system "cmd
+      goto loop_start:
+   read_ok:
+   if  %"pf(6) eqs ;;  goto/forward filter_ok:
+      calc i &trcno = $dsptrcs
+      fili %"pf(8) %"pf(6)
+      filter %"pf(8) all
+      del |1-|"trcno|
+   filter_ok:
+	report_events %"pf(6)
+   unix_time
+   calc s &currtime = "g1
+   calc t &tdiff = "currtime tdiff ^start
+   calc r &tdiff = "tdiff - $dsp_w
+   calc r &tdiff = "tdiff - 7200  ! 2 hours in summer
+!   calc r &tdiff = "tdiff - 3600  ! 1 hour in winter
+   calc r &tdiff = "tdiff div 60.0  ! show minutes
+   calc r &tdiff = "tdiff /fmt=<%5.1@f>
+   calc t &endtime = ^start tadd $dsp_w
+   fct setstyle 4 color %black
+   fct setstyle 2 color %red
+   fct setstyle 3 color %blue
+   if  "tdiff ltr 15.0  goto/forward delay_ok:
+      fct setstyle 4 color %gold
+      fct setstyle 2 color %gold
+      fct setstyle 3 color %gold
+   delay_ok:
+   title 3 |^STATION|$BLANK|online|$BLANK|"HOSTNAME|$BLANK|%"pf(6)|$BLANK|%"pf(5)|
+@  TITLE 1 |^START|$BLANK(4)|to|$BLANK(4)|"ENDTIME|
+@  TITLE 2 |delay|$BLANK|"TDIFF|$BLANK|min|
+   zoom all %"pf(5)
+   if  %"pf(7) eqr 0.0  goto/forward  split_ok:
+      ! find even hour, loop all traces
+      calc i &cnt = 1
+      trc_loop_start:
+         if  "cnt gti $dsptrcs  goto/forward trc_loop_end:
+         calc s &fullhour = ^start("cnt) extract 1 14
+         calc t &tdiff = ^start("cnt) tdiff "fullhour
+         calc r &tdiff = 3600.0 - "tdiff
+         calc r &tdiff = "tdiff + ^delta("cnt)  ! to have the right labelling
+         cut "cnt "tdiff $dsp_xmax
+         calc i &cnt = "cnt + 1
+      goto trc_loop_start:
+      trc_loop_end:
+      set all t-origin 0.0
+      if  $dsptrcs eqi 1  goto/forward  do_one:
+         split 1 %"pf(7)
+         split 1 %"pf(7)
+      do_one:
+      split 1 %"pf(7)
+		zoom all %"pf(5)
+      ! set trc output
+      calc i &cnt = 1
+      trc_loop_start2:
+         if  "cnt gti $dsptrcs  goto/forward trc_loop_end2:
+         calc s &tmp = ^time("cnt) extract 1 5
+         set "cnt comment |^comp("cnt)|$blank|"tmp|
+         calc i &cnt = "cnt + 1
+      goto trc_loop_start2:
+      trc_loop_end2:
+      trctxt ^comment($x)
+		! set colors
+      set _comp(z) attrib 4
+      set _comp(n) attrib 2
+      set _comp(e) attrib 3
+		reverse_traces
+      ! time scale in min
+      calc r &tmp = ^delta div 60.0
+      set/priv all delta "tmp
+   split_ok:
+   rd
+@  CALC S &CMD = |sleep|$BLANK|%"PF(4)|
+   system "cmd
+goto loop_start:
+loop_exit:
+
+
+return

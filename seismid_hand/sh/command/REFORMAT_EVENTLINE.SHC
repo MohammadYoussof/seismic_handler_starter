@@ -1,0 +1,42 @@
+! file reformat_eventline.shc
+!      ======================
+!
+! version 1, 10-Sep-92
+!
+! reformats event line
+! K. Stammler, 10-Sep-92
+
+sdef year
+sdef month
+sdef day
+sdef hour
+sdef min
+sdef sec
+sdef tmp
+
+calc s &year = "ret extract 1 2
+calc s &month = "ret extract 5 2
+calc s &day = "ret extract 8 2
+calc s &hour = "ret extract 16 2
+calc s &min = "ret extract 19 2
+calc s &sec = "ret extract 22 2
+
+calc s &g1 = |"day|,|"month|,|"year|,|"hour|,|
+calc s &g1 = |"g1|"min|,|"sec|
+calc t &g1 = "g1 tadd 0.
+calc s &g1 = |1)|$blank|"g1|
+
+calc s &tmp = "ret extract 27 6
+calc s &g1 = |"g1|$blank|"tmp|
+calc s &tmp = "ret extract 34 7
+calc s &g1 = |"g1|$blank|"tmp|
+calc s &tmp = "ret extract 42 4
+calc s &g1 = |"g1|$blank|"tmp|
+calc s &tmp = "ret extract 47 3
+calc s &g1 = |"g1|$blank|"tmp|
+calc s &tmp = "ret extract 51 5
+calc s &g1 = |"g1|$blank|"tmp|
+calc s &tmp = "ret extract 64 6
+calc s &g1 = |"g1|$blank|"tmp|
+
+return

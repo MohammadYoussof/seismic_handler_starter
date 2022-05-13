@@ -1,0 +1,22 @@
+! file ERR_4400.MSG
+!      ============
+!
+! version 4, 1-Jun-2001
+!
+! error messages of module mfexec.c
+! K. Stammler, 11-Jan-94
+!
+*** MX-01 program bug ***
+*** MX-02 option not implemented ***
+*** MX-03 no GSE file found ***
+*** MX-04 string overflow ***
+*** MX-05 illegal analyst's initials ***
+*** MX-06 no traces found ***
+*** MX-07 illegal parameter to external routine ***
+*** MX-08 error opening input file ***
+*** MX-09 too many traces selected ***
+*** MX-10 no traces selected ***
+*** MX-11 no phases found ***
+*** MX-12 no magnitude ml found on trace ***
+*** MX-13 no stations selected ***
+*** MX-14 no channels selected ***

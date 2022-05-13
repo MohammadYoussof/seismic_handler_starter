@@ -1,0 +1,12 @@
+! file ERR_9200.MSG
+!      ============
+!
+! version 1, 27-Aug-2003
+!
+! error messages of module gsedata
+! K. Stammler, 27-Aug-2003
+!
+*** GSE-01 read error on input file ***
+*** GSE-02 allocation block size too small ***
+*** GSE-03 error opening file for input ***
+*** GSE-04 no GSE file opened ***

@@ -1,0 +1,16 @@
+! file ERR_9400.MSG
+!      ============
+!
+! version 1, 12-Sep-97
+!
+! error messages of module lineparse
+! K. Stammler, 12-Sep-97
+!
+*** LP-01 line too short ***
+*** LP-02 error reading int ***
+*** LP-03 string overflow ***
+*** LP-04 error reading float ***
+*** LP-05 illegal info type ***
+*** LP-06 error writing int ***
+*** LP-07 error writing float ***
+*** LP-08 error writing string ***

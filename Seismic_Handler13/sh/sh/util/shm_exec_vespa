@@ -1,0 +1,33 @@
+#! /bin/csh
+#
+# file shm_exec_vespa
+#      ==============
+#
+# version 1, 11-Jul-96
+#
+# executes vespa display
+# K. Stammler, 11-Jul-96
+
+if  ("$6" == "")  then
+	echo "Usage: $0 <vespafile> <colnum> <abstime> <timewdw> <slolo> <slohi>"
+	exit
+endif
+
+# get parameters
+set vespafile=$1
+set colnum=$2
+set abstime=$3
+set timewdw=$4
+set slolo=$5
+set slohi=$6
+
+# set constants
+set map_exec_dir=$SH_SOURCE/img
+setenv UIDPATH $map_exec_dir/mapmatrix.uid
+chdir $SH_SCRATCH
+
+# display matrix
+#$map_exec_dir/mapmatrix -ymin=$slolo -ymax=$slohi -xtime=$abstime \
+#	-nogrid -square -r=200 $vespafile $colnum $timewdw
+$map_exec_dir/mapmatrix -ymin=$slolo -ymax=$slohi \
+	-nogrid -square -r=200 $vespafile $colnum $timewdw

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry amplitude-period zero-peak</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Ampl &amp;Period auto Zero</em></H2>
+
+<P>Measure absolute amplitude on waveform. Amplitude and period
+ist determined automatically by SHM within a given time window.
+After calling this menu entry the next two phase clicks (left
+mouse button) are used for setting this time window, unless the
+entry <A HREF="menu_abort_selection.html">Abort Selection</A>
+is activated. Select the time window by clicking on its left and
+right border with the left mouse button, like selecting phases.
+The algorithm finds minimum and maximum within the window which
+are not at the windows border. Then it searches for the zero line
+crossings of the waveform next to each extremum in left and right
+direction. If these cannot be found within the marked time window
+it aborts with an error message. If these are found for both extrema,
+it takes the extremum with the larger absolute value. The found
+extremum is taken as plain amplitude, twice the time difference
+between the zero crossings are taken as signal period. From the
+plain amplitude the absolute amplitudes of ground velocity and
+ground displacement are estimated dividing by the transfer function
+of the current simulation filter applied at the measured period
+(see <A HREF="fil_simulation.html">Work with simulation filters</A>).
+Amplitude determination works currently only after application
+of simulation filters. The results of the amplitude determination
+are written to the terminal window where SHM was called or may
+be viewed with menu entry Show Parameters.</P>
+
+<P><small>This page last modified 14-Jul-2000</small></P>
+
+</BODY>
+</HTML>

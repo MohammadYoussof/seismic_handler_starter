@@ -1,0 +1,26 @@
+command procedure ROTINCI <zr-list> <inci>
+=========================
+
+key: cp:2-D incidence rotation
+
+2-dimensional rotation of Z,R components by angle of incidnce
+<inci>.  The output traces get the component names L,Q.  The
+input traces remain unchanged.
+
+parameters:
+
+<zr-list>  ---  parameter type: trace list
+   Trace list of the two (another list length results in an error)
+   input traces.  Should be Z and R components.  Please check the
+   correct succession.
+
+<inci>  ---  parameter type: real
+   Rotation angle in degrees.
+
+
+Example:
+
+   ROTINCI 1,2 18.6  ! rotates traces 1 and 2 (Z and R component,
+                     ! check succession) by angle of incidence
+                     ! of 18.6 deg
+

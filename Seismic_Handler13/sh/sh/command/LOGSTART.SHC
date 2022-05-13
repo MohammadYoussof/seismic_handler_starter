@@ -1,0 +1,13 @@
+! file LOGSTART.SHC
+!      ============
+!
+! version 1, 5-Sep-92
+!
+! initializes logplot
+! K. Stammler, 5-Sep-91
+
+wdw create/attribs=nfms x4h 22.9 13.6 12. 12.
+log wdw x4h
+log labshift -0.02 -0.05 -0.03 -0.015
+
+return

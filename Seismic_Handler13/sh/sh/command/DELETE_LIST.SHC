@@ -1,0 +1,22 @@
+! file DELETE_LIST.SHC
+!      ===============
+!
+! version 1, 2-Mar-2005
+!
+! Deletes a list of stations given in a file
+! K. Stammler, 2-Mar-2005
+
+default 1 ;;   list file
+
+sdef cnt 1     ! line counter
+sdef stat      ! station name
+
+loop_start:
+   if  "cnt gti %#1(0)  goto/forward loop_exit:
+   calc s &stat = %#1("cnt)
+   del _station("stat)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

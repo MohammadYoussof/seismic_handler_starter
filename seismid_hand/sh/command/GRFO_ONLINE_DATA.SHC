@@ -1,0 +1,35 @@
+
+! file GRFO_ONLINE_DATA.SHC
+!      ====================
+!
+! version 1, 28-Aug-96
+!
+! reads last possible data of GRFO
+! K. Stammler, 28-Aug-96
+
+default 1 bh        channel
+default 2 zne       component list
+default 3 300       length backward in sec
+
+sdef exec_path      ! path to update-executable
+sdef cmd            ! command line
+sdef sfdfile |SFD_|$SH_ID|.SFD|        ! name of sfdfile
+sdef reqtime        ! request time
+
+!switch verify on
+
+calc i &reqtime = #3 ! + 1
+
+fct local getenv:dprog &exec_path
+@CALC S &EXEC_PATH = |"EXEC_PATH|\| DOSLASH
+@CALC S &CMD = |"EXEC_PATH|grfo_online_sfd.csh|$BLANK|"SFDFILE|
+system "cmd
+
+nr
+reads /sfd="sfdfile %here online #3 grfo #2 #1
+demean all
+rd
+
+fct oscall fdelete "sfdfile
+
+return

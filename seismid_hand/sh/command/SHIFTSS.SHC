@@ -1,0 +1,32 @@
+! file SHIFTSS.SHC
+!      ===========
+!
+! version 1, 11-Dec-91
+!
+! shifts all traces on dispplay by travel time difference between SS and
+! underside reflections
+! K. Stammler, 11-Dec-91
+
+default 1 640    conversion depth (km)
+
+sdef cnt 1       ! trace counter
+sdef ttss        ! travel time of SS (zero depth)
+sdef ttssp       ! travel time of precursor
+sdef dist2       ! half of distance
+
+nr
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc r &dist2 = ^distance("cnt) div 2.0
+   call travel S "dist2 0. &ttss
+   call travel S "dist2 #1 &ttssp
+   calc r &ttss = "ttss - "ttssp
+   calc r &ttss = "ttss * 2.0
+   echo trace "cnt shift "ttss
+   shift "cnt "ttss
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

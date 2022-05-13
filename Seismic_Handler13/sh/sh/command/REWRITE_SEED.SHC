@@ -1,0 +1,39 @@
+! file REWRITE_SEED.SHC
+!      ================
+!
+! version 1, 14-Sep-98
+!
+! Reads and writes back out MiniSEED data.  Input is a file with time windows.
+! K. Stammler, 14-Sep-98
+
+default 1 sfd:    path to sfdfile
+default 2 brnl    station
+default 3 bh      channel
+default 4 z       component
+default 5 ;;      window list
+default 6 1       first line
+default 7 %#5(0)  last line
+
+sdef cnt #6       ! counter
+sdef line         ! current line of file
+sdef stime        ! start time
+sdef etime        ! end time
+sdef rlth         ! read length
+
+switch verify on
+
+loop_start:
+   if  "cnt gti #7  goto/forward loop_exit:
+   calc s &line = %#5("cnt)
+   calc s &stime = "line parse 1
+   calc s &etime = "line parse 2
+   calc t &rlth = "etime tdiff "stime
+   del all_dh
+   dtw
+   reads %#1 "stime "rlth #2 #4 #3
+   writeseed
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

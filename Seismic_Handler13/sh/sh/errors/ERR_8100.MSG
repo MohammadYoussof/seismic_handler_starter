@@ -1,0 +1,20 @@
+! file ERR_8100.MSG
+!      ===========
+!
+! version 2, 3-Nov-92
+!
+! error messages of GSE input routine
+! K. Stammler, 3-Nov-92
+!
+*** GS-01  error opening GSE file ***
+*** GS-02  error reading GSE file ***
+*** GS-03  too many traces in GSE file ***
+*** GS-04  zero or negative sample rate found ***
+*** GS-05  station name too long ***
+*** GS-06  no checksum found ***
+*** GS-07  checksum didn't match ***
+*** GS-08  illegal trace ***
+*** GS-09  attempt to read trace twice ***
+*** GS-10  no sample rate specified ***
+*** GS-11  no calibration specified ***
+

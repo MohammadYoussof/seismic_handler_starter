@@ -1,0 +1,24 @@
+command procedure SAVE <entry> <file>
+======================
+
+key: cp:save info entry
+
+Saves the values of a given info entry <entry> of all traces
+of the display to a given output file <file>.  These entry values
+can be restored again with the RESTORE command procedure.
+
+
+parameters:
+
+<entry>  ---  parameter type: info entry
+   Name of info entry to be saved.
+
+<file>  ---  parameter type: filename (without extension)
+   Name of the output file.
+
+
+Example:
+
+   SAVE T-ORIGIN TO_BJI  ! saves the time origin of all traces of
+                         ! the display to the file TO_BJI.STX
+

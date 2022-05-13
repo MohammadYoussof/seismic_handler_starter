@@ -1,0 +1,28 @@
+! file stalta_all.shc
+!      ==============
+!
+! version 1, 10-Mar-2005
+!
+! computes envelope of all traces on display
+! K. Stammler, 10-Mar-2005
+
+default 1 10   sta length
+default 2 100  lta length
+
+sdef trcno $dsptrcs
+sdef cnt 1
+
+switch chatty off
+nr
+loop_start:
+   if  "cnt gti "trcno  goto/forward loop_exit:
+   stalta "cnt #1 #2
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+echo
+
+del |1-|"trcno|
+rd
+
+return

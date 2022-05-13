@@ -1,0 +1,47 @@
+# ######################################################
+# Makefile fuer Programm    bbfk
+# ######################################################
+#fflags = -g -C
+fflags = -O2 -C
+cflags = -O -sun4
+prog = bbfk
+obj1 = bbfk.o 
+obj2 = norms.o ieee_hand.o tle.o
+obj3 = slbbfk.o slsubi.o slfout.o slcent.o sldir3.o slfkms.o slfkqa.o
+obj4 = chzero.o chmove.o slfit2.o slfft.o ic0len.o
+$(prog) : $(obj1) $(obj2) $(obj3) $(obj4)
+	f77 $(fflags) -o $(prog) $(obj1) $(obj2) $(obj3) $(obj4) -Bstatic $(lib1) $(lib2)
+	mv $(prog) ../bin
+	rm *.o
+bbfk.o : bbfk.f
+	f77 -c $(fflags) bbfk.f
+slbbfk.o : slbbfk.f
+	f77 -c $(fflags) slbbfk.f
+chzero.o : chzero.f
+	f77 -c $(fflags) chzero.f
+slsubi.o : slsubi.f
+	f77 -c $(fflags) slsubi.f
+slfout.o : slfout.f
+	f77 -c $(fflags) slfout.f
+slcent.o : slcent.f
+	f77 -c $(fflags) slcent.f
+sldir3.o : sldir3.f
+	f77 -c $(fflags) sldir3.f
+slfkms.o : slfkms.f
+	f77 -c $(fflags) slfkms.f
+slfkqa.o : slfkqa.f
+	f77 -c $(fflags) slfkqa.f
+chmove.o : chmove.f
+	f77 -c $(fflags) chmove.f
+slfit2.o : slfit2.f
+	f77 -c $(fflags) slfit2.f
+slfft.o : slfft.f
+	f77 -c $(fflags) slfft.f
+ic0len.o : ic0len.f
+	f77 -c $(fflags) ic0len.f
+ieee_hand.o : ieee_hand.f
+	f77 -c $(fflags) ieee_hand.f
+tle.o : tle.f
+	f77 -c $(fflags) tle.f
+norms.o : norms.f
+	f77 -c $(fflags) norms.f

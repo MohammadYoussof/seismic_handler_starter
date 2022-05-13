@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Phase Diff</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Phase Diff</em></H2>
+
+<P>Computes epicentral distance using travel time differences
+between pairs of phases. SHM needs to know which phase pairs should
+be processed if available. This phase pair list must be specified
+in the Configure option> (parameter
+number 3). Changing the list given here means to retype the complete
+list including or excluding your changes. Please check for typos
+and do not use blanks in the list, just separate the phases within
+the pair with hyphens and the pairs with commas. Phase pairs not
+listed here are not processed for distance determination. Selecting
+<em>Phase Diff</em> makes
+SHM scan all traces for such phase pairs. Each phase pair is assigned
+a distance by fitting the travel time difference using the travel
+time tables in <em>$SH_INPUTS</em>.
+All distances found are averaged and the mean distance is written
+to the <A HREF="parambox.html">analysis parameter box</A>.</P>
+
+<P>Known bug: a phase pair has to be selected on the same trace,
+a P on Z and an S on E are not recognized as a pair. Workaround:
+select S temporarily also on Z and delete it after the depth determination.</P>
+
+<P><small>This page last modified 13-Jul-2000</small></P>
+
+</BODY>
+</HTML>

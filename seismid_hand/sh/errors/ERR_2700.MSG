@@ -1,0 +1,19 @@
+! file ERR_2700.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module TRAVTIME.C
+! K. Stammler, 8-JUL-91
+!
+*** TT-01 error opening input file ***
+*** TT-02 error reading file ***
+*** TT-03 this is not a velocity file ***
+*** TT-04 conversion too deep for table ***
+*** TT-05 illegal start angle ***
+*** TT-06 no velocity table read in ***
+*** TT-07 unknown phase ***
+*** TT-08 depth out of range ***
+*** TT-09 distance out of range ***
+*** TT-10 string overflow ***
+*** TT-11 unknown phase difference ***

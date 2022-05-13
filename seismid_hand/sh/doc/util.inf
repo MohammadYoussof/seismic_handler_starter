@@ -1,0 +1,157 @@
+
+
+SH utilities
+============
+
+   K. Stammler, 7-Aug-92
+
+
+
+locdiff
+-------
+
+   Computes difference between two locations.  The correction for ellipticity
+   of the earth is applied.  The locations may be specified either directly
+   or by a station name.
+
+   Syntax:
+      locdiff <lat1> <lon1> <lat2> <lon2>
+      locdiff <lat> <lon> <station>
+      locdiff <station1> <station2>
+
+   Please note that no hyphens are allowed in the command line (Actually hyphens
+   are used for identification of qualifiers --> UNIX).  Negative angles must
+   be specified by a preceding "s" or "w" for latitude and longitude,
+   respectively.
+
+   Examples:
+      locdiff s30.3 w80.5 49.7 11.2
+      locdiff s30.3 w80.5 n49.7 e11.2
+      locdiff s30.3 w80.5 gra1
+      locdiff khc gra1
+
+
+
+locadd
+------
+
+   Adds distance and azimuth to a given location.  No correction is applied
+   for ellipticity of the earth.  The input location may be specified
+   either directly or by a station name.  Result is an output location
+   (latitude, longitude) and the name of the Flinn-Engdahl-Region.
+
+   Syntax:
+      locadd <lat> <lon> <distance> <azimuth>
+      locadd <station> <distance> <azimuth>
+
+   Please note that no hyphens are allowed in the command line (Actually,
+   hyphens are used for identification of qualifiers --> UNIX).  Negative
+   angles must be specified by a preceding "s" or "w" for latitude and
+   longitude, respectively.
+
+   Examples:
+      locadd s30.3 w80.5 100.3 271.1
+      locadd gra1 100.3 271.1
+
+
+
+fereg
+-----
+
+   Returns name of Flinn-Engdahl-Region for a specified location.  The
+   location must be specified directly.
+
+   Syntax:
+      fereg <lat> <lon>
+
+   Please note that no hyphens are allowed in the command line (Actually,
+   hyphens are used for identification of qualifiers --> UNIX).  Negative
+   angles must be specified by a preceding "s" or "w" for latitude and
+   longitude, respectively.
+
+   Example:
+      fereg s30.3 w80.5
+
+
+
+statloc
+-------
+
+   Returns location of a specified station as noted in the file
+   SHC_INPUTS:STATLOC.DAT.  The first two numbers of the output line
+   are station latitude and longitude, respectively.
+
+   Syntax:
+      statloc <station>
+
+   Examples:
+      statloc gra1
+      statloc stu
+
+
+
+pde_select
+----------
+
+   Selects events from PDE files.  Output is a list of events written to screen
+   or to a file.  The list contains one line per event with information
+   about origin time, location, depth, magnitude, distance, azimuth and
+   back-azimuth.  The selection is done by specifying limits for distance,
+   depth, magnitude and year of event.  Distance, azimuth and back-azimuth
+   a referred to a receiving station which has to be entered.  It is
+   possible to specify two cross-reference lists, named "bad events" and
+   "used events", which should also be event lists (created earlier).
+   The events of these two lists are marked in the new created output list
+   if they are selected.  If you don't want to use cross-reference lists
+   enter <Return> on the according prompts.  If no output file is specified
+   the list is printed on the screen.  An output file should be entered
+   without extension.  The default extension for these event files is
+   ".evl"
+
+   Example:
+      pde_select
+         enter name of receiving station: grf
+         enter minimum, maximum distance (in deg.): 40 100
+         enter minimum, maximum depth: 100 200
+         enter minimum, maximum mb: 6 8
+         enter minimum, maximum year: 1989 1991
+            bad events :
+            used events:
+         enter output filename (<CR>=screen): event89_91
+         number of events =            4
+
+   This example creates an output file "event89_91.evl".  The events listed
+   are sorted by date.  The file may be resorted by one of the following
+   sorting routines.
+
+
+
+pdesort_baz
+-----------
+
+   Sorts an ".evl"-file by back-azimuth.  The input file must be specified
+   without extension (it is assumed to be ".evl").  The input file is not
+   changed, as output a new ".evl" file is created.  The name of the
+   output file is the name if the input file, extended by the string "_baz".
+
+   Syntax:
+      pdesort_baz <event-list>
+
+   Example:
+      pdesort_baz event91
+
+   This example reads the file "event91.evl" and creates a resorted output
+   file "event91_baz.evl".
+
+
+
+pdesort_dist
+pdesort_depth
+pdesort_mag
+pdesort_date
+------------
+
+   Analoguous to "pdesort_baz", but resorting is done for distance, depth,
+   magnitude or date, respectively.  The input filenames are extended by
+   the strings "_dist", "_depth", "_mag" or "_date", respectively, to form
+   the output filename.

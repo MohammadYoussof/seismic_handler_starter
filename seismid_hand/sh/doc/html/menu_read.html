@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Read</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;9405000">
+	<META NAME="CHANGED" CONTENT="20050910;15305600">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu Entry <em>Read</em></H2>
+<P>The menu entry <em>Read</em>
+is the interface to MiniSEED formatted data. It opens a dialog box to
+let the user select the requested data streams and time window.
+Necessary information is station list, channel, component, start
+time, length of time window and location of the directory file
+<em>sfdfile.sfd</em>:</P>
+
+<H3>Station list</H3>
+<P>There is a fixed number of 30 buttons for specifying the list of
+stations. The stations may be selected either directly one by one or
+by hitting one of the two subset buttons below these 30 buttons. The
+<em>Next</em>
+button switches to another set of stations if defined (see below).
+The <em>all</em>
+button is obsolete and should not be used.</P>
+
+<H3>Component</H3>
+<P>Component to read in. The three components can be selected
+independently. Most common: <em>z</em>
+or <em>z</em>,<em>n</em>,<em>e</em>.</P>
+
+<H3>Channel</H3>
+<P>Channel to read in. Select one or more out of <em>LH</em>,
+<em>BH</em>, <em>HH</em>
+or an editable field. The channel name is given by the MiniSEED file.
+Usually <em>LH</em>
+data are sampled up to 1Hz, <em>BH</em>
+is up to 40Hz and <em>HH</em>
+is more than 40 Hz.</P>
+
+<H3>Start time</H3>
+<P>The start time is given by two editable fields holding date and
+time. It may be edited directly, but please keep to the format
+<em>&lt;day&gt;-&lt;textmonth&gt;-&lt;year&gt;</em>
+and <em>&lt;hour&gt;:&lt;min&gt;:&lt;sec&gt;</em>,
+where <em>&lt;textmonth&gt;</em>
+is a three-character abbreviation of the month. More convenient it is
+to use the arrow buttons above and below the edit field changing day,
+month, year, hour, minutes and seconds separately. If you have a
+detection list in a text file you may use this text file as an input
+to the start time field. The text file must have one time per line in
+the <A HREF="timeformat.html">SH time format</A>. By clicking
+on the text field below the start time field (initially set to
+<em>eventlist</em>)
+a file selection box appears, where the detections text file must be
+specified. Then the arrow buttons left and right to the
+eventlist-field let the user scan through all detection times of the
+text file.
+A second string in such a time entry, separated by one or more blanks,
+may exist and contain the (absolute) path and name of an existing
+<A HREF="evt_file_format.html">evt-file</A>.  Then a <I>Read New</I>
+on this line will automatically read the content of this evt-file into
+SHM.  This includes an automatic display of all given phases in the evt-file.
+</P>
+
+<H3>Read length</H3>
+<P>The read length is specified in minutes, preferably by dragging
+the ruler right to the start time field. The range of values is from
+1 to 60 minutes. Other values may be entered by editing the read
+length text field above the ruler.</P>
+<H3>Location of the directory file <em>sfdfile.sfd</em></H3>
+<P>The MiniSEED interface needs a directory file named <em>sfdfile.sfd</em>
+listing all available MiniSEED files. This file can be created by the
+<em>sfdlist</em>
+utility (see <A HREF="miniseed.html">Reading MiniSEED files</A>).
+Its location must be entered into the sfd text field in the lower
+right corner of the dialog box. It is recommended to define an
+environment variable pointing to the directory holding <em>sfdfile.sfd</em>
+before starting SHM (e.g. <em>setenv
+SFD /home/gonzo/data</em>). This environment variable (here
+<em>SFD</em>)
+should be entered into the sfd text field.</P>
+<H3>Additional options</H3>
+<P>Button <em>Keep Traces</em>:
+does not delete the traces on display before reading new ones. Useful
+if data are distributed in different files of different formats. Use
+this option with care and avoid reading the same stations into SHM
+twice. Button <em>PC-Sun
+Sfd</em>: read data on a PC (Linux) using an sfdfile.sfd
+which was generated on a Sun. Button <em>Fbox</em>:
+if this button is selected a click on the sfd edit field (to the
+right of it) opens a file selection box. In this file selection box
+an <em>sfdfile.sfd</em>
+may be specified which is used for reading MiniSEED data.</P>
+<H3>Buttons <em>Read Again</em>
+and <em>Read New</em></H3>
+<P>These two buttons perform the reading command of MiniSEED data
+with the settings made in this dialog box. The difference is that
+<em>Read Again</em>
+keeps all analysis parameters derived before this read command while
+<em>Read New</em>
+deletes all previous information (phase readings, beam parameters,
+source locations). <em>Read
+Again</em> is used for reading additional stations or a
+different time window while working on the same event, <em>Read
+New</em> is used for reading a new event. For safety reasons
+<em>Read New</em>
+is allowed only after either <em>Final
+Parameters</em> (LinkNeeded) or <em>Cancel
+Parameters</em> (from the menu title <em>Work</em>)
+has been selected for the previous event.</P>
+<H3>Button <em>Cancel</em></H3>
+<P>Closes the dialog box without any action.</P>
+<H3>Button <em>Reset</em></H3>
+<P>Resets the buttons of this dialog box to some default value (not
+configurable yet, sorry).</P>
+<P><BR><BR>
+</P>
+
+<H3>Using your own stations (SHM versions 2.4 and later)</H3>
+<P>Please read the <a href="own_stations.html">web page on including own
+stations</a>.</P>
+
+<H3>Using your own stations (SHM versions prior to 2.4)</H3>
+<P>If you have SHM version 2.4 or newer this section is outdated.
+Please read the documentation of the <a href="shm_setup.html">SHM setup file</a>
+instead.  For SHM version prior to 2.4 the names of the 30 station buttons
+and the 2 subset buttons are
+read in from a file <em>$SH_GLOBALS/STATLIST_DEFAULT.STX</em>
+when starting SHM. A click on the <em>Next</em>
+button of the Read dialog box switches from this file to
+<em>$SH_GLOBALS/STATLIST_01.STX</em>.
+Another click on <em>Next</em>
+switches to <em>$SH_GLOBALS/STATLIST_02.STX</em>
+and so on. If a file <em>STATLIST_xx.STX</em>
+does not exist it switches back to <em>STATLIST_01.STX</em>.
+The format of the <em>STATLIST_...</em>
+files is:</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0in">all lines starting with an
+	exclamation sign <em>!</em>
+	are comments and ignored 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in"><em>set1:
+	&lt;start&gt; &lt;end&gt; &lt;name&gt;</em> This line
+	defines the name and range of the first subset button (<em>&lt;start&gt;</em>
+	number of first button, starting with 0, <em>&lt;end&gt;</em>
+	number of last button, <em>&lt;name&gt;</em>
+	label of button). A click on this button selects/deselects all
+	station buttons within the specified range. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in"><em>set2:
+	&lt;start&gt; &lt;end&gt; &lt;name&gt;</em> Name and range
+	of the second subset button. Syntax as above. 
+	</P>
+	<LI><P><em>* &lt;name&gt;</em>
+	30 lines of this shape, defining the labels of the 30 station
+	buttons. Please use names less than 5 characters. A name of three
+	hyphens (<em>---</em>)
+	disables the button. 
+	</P>
+</UL>
+<P>Please see the existing files as examples. A reasonable setup of
+the <em>STATLIST_...</em>
+files in <em>$SH_GLOBALS</em>
+would be: <em>STATLIST_DEFAULT.STX</em>
+is a link to <em>STATLIST_01.STX</em>.
+This <em>STATLIST_01.STX</em>
+contains your station list. <em>STATLIST_02.STX</em>
+holds an alternative list of stations. Then SHM would start up with
+your stations as default, the <em>Next</em>
+button would switch between the two station lists of <em>STATLIST_01.STX</em>
+and <em>STATLIST_02.STX</em>.</P>
+<P><BR><BR>
+</P>
+
+<P><B>What if the number of buttons is not enough? (SHM versions prior to 2.4)</B></P>
+<P>If you have SHM version 2.4 or newer this section is outdated.
+Please read the documentation of the <a href="shm_setup.html">SHM setup file</a>
+instead. For version prior to 2.4 use the <em>Next</em>
+button option as described above or you should create your own
+station list buttons, i.e. these are buttons which address more than
+one station. Station list button have names starting with an
+underscore (like '_N') and have a corresponding station list file in
+<em>$SH_GLOBALS</em>
+with extension <em>.STA
+</em>(e.g. <em>$SH_GLOBALS/_N.STA</em>)
+. This corresponding text file contains the station list, one station
+per line (no commas). '_N' could stand for the northern part of you
+station network. In this way you could create similar buttons '_S',
+'_W' or '_SW'. Please note that SHM does currently not accept more
+than one station list button to be selected at a time. If you want to
+read in more than one station list, repeat reading with always one
+button while having the <em>Keep
+Traces</em> button switched on.</P>
+<P><BR><BR>
+</P>
+<P><B>To summarize, the steps to insert new stations to SHM are
+(SHM versions prior to 2.4):</B></P>
+<OL>
+	<LI><P STYLE="margin-bottom: 0in">insert station code and
+	coordinates into <em>$SH_INPUTS/STATINF.DAT</em>
+	(see <A HREF="statloc.html">How to put station
+	information into SH/SHM</A>)
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">Modify a <em>STATLIST</em>-file
+	in <em>$SH_GLOBALS</em>
+	and include the new stations so that you get a button to select for
+	each. If you have only one <em>STATLIST</em>,
+	this is <em>$SH_GLOBALS/STATLIST_DEFAULT.STX</em>
+	(at least in more recent SHM versions).
+		</P>
+	<LI><P STYLE="margin-bottom: 0in">Create files
+	<em>$SEED_INPUTS/seedcalib_&lt;station&gt;-&lt;chan&gt;-&lt;comp&gt;</em>
+	(e.g. for a station <em>GRFO</em>
+	create one file for each channel in <em>$SEED_INPUTS</em>:
+	<em>seedcalib_grfo-bh-z</em>,
+	<em>seedcalib_grfo-bh-n</em>,
+	<em>seedcalib_grf-bh-e</em>,
+	also for other channels like, <em>lh</em>
+	or <em>hh</em>
+	if necessary). In this file you put the time window where the
+	calibration is valid and the calibration value into one line, you
+	can add several lines, one for each time window. Have a look at the
+	existing files for details (NeedLink). 
+	</P>
+	<LI><P>Add the streams of this stations to the file
+	<em>$SH_INPUTS/filter_lookup.txt</em>
+	or create appropriate filter files in <em>$SH_FILTER</em>.
+	Read about <A HREF="fil_simulation.html">working with simulation filters</A>
+   for details. 
+	</P>
+</OL>
+<P><small>This page last modified 9-Oct-2006</small></P>
+
+</BODY>
+</HTML>

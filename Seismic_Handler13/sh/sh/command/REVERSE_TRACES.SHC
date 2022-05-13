@@ -1,0 +1,20 @@
+! file REVERSE_TRACES.SHC
+!      ==================
+!
+! version 1, 14-Jan-93
+!
+! reverses trace order on display
+! K. Stammler, 14-Jan-93
+
+sdef cnt $dsptrcs
+
+nr
+loop_start:
+   calc i &cnt = "cnt - 1
+   if  "cnt lei 0  goto/forward loop_exit:
+   display "cnt $dsptrcs
+goto loop_start:
+loop_exit:
+rd
+
+return

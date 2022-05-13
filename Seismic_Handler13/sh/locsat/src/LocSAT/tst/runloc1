@@ -1,0 +1,1 @@
+LocSAT -s test.sta -d $1.dat -c test.cntrl -o $1.out

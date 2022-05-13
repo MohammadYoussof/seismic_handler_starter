@@ -1,0 +1,26 @@
+default 1 kls_pde_select     read procedure for next origin time
+default 2 dub6:              device name of optical disk
+default 3 od6:               directory of k-files
+default 4 all_z              station list
+default 5 -20.0              lower bound of time window
+default 6 100.0              upper bound of time window
+default 7 xxx                event list file
+default 8 0                  event counter offset
+switch capcnv off
+DEFAULT 9 P                  reference phase (mind upper- and lowercase)
+SWITCH CAPCNV ON
+
+echo_ch/new sys$login:kls_setup
+echo #1
+echo #2
+echo #3
+echo #4
+echo #5
+echo #6
+echo #7
+echo #9
+echo_ch/new sys$login:kls_counter
+echo #8
+echo_ch
+
+return

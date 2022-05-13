@@ -1,0 +1,43 @@
+
+! file AUTOROT.SHC
+!      ===========
+!
+! version 2, 31-OCT-91
+!
+! rotates three traces by given azimuth and automatically determined
+! angle of incidence (within a given time window)
+! corrects angles of incidence outside the range 0..30 deg
+! K. Stammler, 30-JUL-91
+
+default 1 1            z-comp
+default 2 2            n-comp
+default 3 3            e-comp
+default 4 ^azimuth     azimuth
+default 5 0            lo-wdw
+default 6 2            hi-wdw
+
+sdef trcno $dsptrcs   ! trace pointer
+sdef inci             ! computed angle of incidence
+sdef corrected n      ! inci corrected
+
+nr
+rotaz |#2|,|#3| #4
+calc i &trcno = "trcno + 1
+mdir |#1|,|"trcno| #5 #6 &inci
+calc r &inci = 0 - "inci
+del _created
+if  "inci ltr 0.0  goto/forward bad_inci:
+if  "inci gtr 30.0  goto/forward bad_inci:
+goto/forward inci_ok:
+bad_inci:
+   echo/no_crlf inci corrected from "inci |to|$blank|
+   call incidence ^distance(#1) ^depth(#1) &inci
+   echo "inci
+   calc s &corrected = y
+inci_ok:
+rot3 |#1|,|#2|,|#3| #4 "inci
+set all corrinci "corrected
+calc r &g1 = "inci
+rd
+
+return

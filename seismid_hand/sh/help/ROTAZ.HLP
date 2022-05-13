@@ -1,0 +1,25 @@
+command procedure ROTAZ <ne-list> <azimuth>
+=======================
+
+key: cp:2-D azimuth rotation
+
+2-dimensional rotation of N,E components by azimuth <azimuth>.
+The output traces get the component names R,T.  The input traces
+remain unchanged.
+
+parameters:
+
+<ne-list>  ---  parameter type: trace list
+   Trace list of the two (another list length results in an error)
+   input traces.  Should be N and E components.  Please check the
+   correct succession.
+
+<azimuth>  ---  parameter type: real
+   Rotation angle in degrees.
+
+
+Example:
+
+   ROTAZ 2,3 277.6   ! rotates traces 2 and 3 (N and E component,
+                     ! check succession) by azimuth of 277.6 deg
+

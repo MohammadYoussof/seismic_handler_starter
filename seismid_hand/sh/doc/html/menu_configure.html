@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Configure</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Configure</em></H2>
+
+<P>In SHM version 2.4 and later this opens a text editor on the
+<a href="configuration-file.html">configuration file</a>.  See this
+description for details.</P>
+<P><b>Only for older versions of SHM the following
+information is valid:</b></P>
+
+<P>Permanent setting of parameters of SHM. The analysis program
+has quite a number of parameters for configuration. Most of them
+can be set by commands in the private startup file
+<em>$HOME/sh/private/SHM_USER_STARTUP.SHC</em>
+which is run every time you start SHM. For almost every parameter
+you need a separate command and their syntax is partly somewhat
+complicated. To have a more userfriendly interface the
+<em>Configure</em> option reads an existing
+private startup file, lists all parameters with their current
+values and let the user change the parameters. After exiting the
+<em>Configure</em> menu
+a new startup file is written. Since all values are saved into
+the startup file, all changes in <em>Configure</em>
+are permanent. Also it is recommended to restart SHM after
+<em>Configure</em>, since only
+then the value change takes effect for all parameters. Even if
+the user interface is better than editing the user startup file
+it is far from fool-proof. It is a typing interface, there are
+no checks for typos or inconsistent parameters. So be careful
+when using this option. You may permanently disable SHM, it won't
+start with some strange parameter settings ! If you cannot start
+SHM any more, try to start <em>Configure</em>
+from the shell with <em>$SH_UTIL/shm_configure.csh</em>.
+If all else fails delete the private startup file and then call
+<em>Configure</em> again.
+It will come up with the 'factory' setup. If you have your favourite
+setup, save the user startup file to another name, so you may
+restore it if needed.</P>
+
+<P>After selecting <em>Configure</em>
+an xterm window pops up displaying a text menu. The menu is rather
+long and to get it on the screen completely, use small scriptsize
+and a large window. The parameters are numbered (currently there
+are more than 70), followed by a short description and its current
+value. To change a value enter the number (not the name) and
+<em>&lt;return&gt;</em>. You
+will be prompted with <em>value:</em>,
+there enter the new value and <em>&lt;return&gt;</em>
+(be sure you got the right parameter number, it is not repeated).
+Then the menu is redisplayed with the new parameter setting. When
+finished with changing parameters enter <em>q</em> and
+<em>&lt;return&gt;</em>.
+This will write a new startup file and exit the xterm menu.</P>
+
+<P>The most important parameters of <em>Configure</em>
+are explained in other parts of this documentation.</P>
+
+<P>Kown bug: <em>Configure</em>
+crashes on Sun Solaris 1 systems, probably because there are too
+many variables in the shell. As a remedy I know only to install
+Solaris 2, sorry for this.</P>
+
+<P><small>This page last modified 15-Oct-2006</small></P>
+
+</BODY>
+</HTML>

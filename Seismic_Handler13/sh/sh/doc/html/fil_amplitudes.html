@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+  <TITLE>fil_amplitudes</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Measuring amplitudes in SHM</H2>
+
+<P>Determination of displacement amplitudes is an important part
+in routine analysis of waveforms. Since true ground motion has
+to be estimated, the transfer function of the recording instrument
+must be taken into account. In former times only narrow-banded
+instruments were available. From such records amplitudes and magnitudes
+were determined. For reasons of continuity the common magnitude
+determinations still use simulations of such historical standard
+instruments. The body wave magnitude mb is read from WWSSN-SP
+records, the surface wave magnitude Ms from SRO-LP and the local
+magnitude Ml from Wood-Anderson simulations. Together with the
+amplitude of the recorded (or better: simulated) signal also its
+period must be estimated. Dividing the signal amplitude by the
+value of the transfer function at the given period gives a rough
+estimation of the ground motion at this period.</P>
+
+<P>In order to perform this operations the transfer function of
+the recording system must be presented to SHM in some form. The
+way it is implemented is via an FFT filter file (.FLF-file). For
+each simulated instrument which will be used for amplitude determination
+such a filter file must exist in <em>$SH_FILTER</em>.
+The naming convention is <em>TF_DSP_S+&lt;instrname&gt;.FLF</em>
+(e.g. <em>TF_DSP_S+SRO_LP.FLF</em>,
+for <em>SRO-LP</em> instruments).
+If also <em>TF_VEL_S+&lt;instrname&gt;.FLF</em>
+is specified (the velocity transfer function, which differs by
+an integration from the <em>DSP</em>-version)
+the velocity amplitude is additionally computed. If the record
+has been created by a simulation filter, the transfer function
+has been already used in this simulation filter (see <A HREF="fil_simulation.html">Working
+with simulation filters</A>). That means the same transfer function
+that went into the simulation filter (which was there multiplied
+with the inverse of the recording system) is the content of these
+<em>TF_DSP_S+&lt;instrname&gt;.FLF</em>
+and <em>TF_VEL_S+&lt;instrname&gt;.FLF</em>
+files.</P>
+
+<P>Please have a look at the existing files in
+<em>$SH_FILTER</em>. For example a set of files
+is <em>TF_DSP_S+WWSSN_LP.FLF</em>,
+<em>TF_VEL_S+WWSSN_LP.FLF</em>,
+<em>TF_VEL_GRSN.FLF</em>,
+<em>GRSN_S+WWSSN_LP.FLF</em>.
+You may also view such files with the <A HREF="fil_graphics.html">filter
+display</A> option.</P>
+
+<P><small>This page last modified 13-Jul-2000</small></p>
+
+</BODY>
+</HTML>

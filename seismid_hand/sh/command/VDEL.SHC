@@ -1,0 +1,5 @@
+! file VDEL.SHC
+wdw/gc=x4
+del all
+wdw/global/gc=x1 delete x4
+return

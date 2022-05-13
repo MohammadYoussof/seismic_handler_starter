@@ -1,0 +1,68 @@
+command WRITEA <ascii-file> <trc-list> [<i1> [<i2> [<i3> ... ]]]
+==============
+
+key: write ASCII file
+
+Writes traces to ASCII file.  If more than one trace is specified
+then the ASCII data are concatenated.  From each trace info entries
+can be inserted to the ASCII file.  The info's DELTA and LENGTH are
+written automatically to the ASCII file.  The parameters <iN> can
+contain additional info entry description strings.  Name and value
+of the info are then inserted to the output file.  Each information
+is placed in a separate line.  The sample data are written in
+exponential format, eight numbers per line (to change this, see
+qualifiers).  If an ASCII file of the name <ascii-file> exists
+already, the new data file is appended.  This means that you can
+write your own header of the ASCII file using the commands "echo_ch"
+and "echo".
+
+
+parameters:
+-----------
+
+<ascii-file>  ---  parameter type: filename
+   Name of the ASCII file to be created.
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be written to the ASCII file.
+
+<i1>, <i2>, ...  ---  parameter type: info entry
+   Additional info entries which should be inserted to the ASCII file
+   for each trace.
+
+
+qualifiers
+----------
+
+/npl=<number>
+   Numbers per line in ASCII file.  Default is eight.
+
+/fmt=<format>
+   Format of the floating point samples to be written to the ASCII
+   file.  The default format is "%e " (to be entered as /fmt=<%@e_>).
+   The angle brackets must be specified in this case to denote
+   a format string in SH.  The "@"-character makes the next character
+   lowercase (remember the automatic case conversion of the command
+   line) and the "_" is translated into a blank.  If you omit the "_",
+   then the output numbers are concatenated without separation
+   characters if the numbers overflow the given format.
+
+
+examples
+--------
+
+   writea myascii 1 distance depth
+      writes trace 1 to ASCII file "myascii".  Before the sample data
+      there are four info lines containing LENGTH, DELTA, DISTANCE and
+      DEPTH.
+
+	writea/npl=4 myascii 1-3
+      writes first three traces to ASCII file "myascii".  Each trace
+      is preceded by two info lines containing LENGTH and DELTA.  The
+      ASCII file has 4 samples per line.
+
+	writea/fmt=<%8.3@f_> myascii 1
+      writes first trace to ASCII file.  The samples are preceded by
+      two info lines containing LENGTH and DELTA.  The samples are
+      written in floating point format with three decimal digits.
+

@@ -1,0 +1,675 @@
+! file shm_setup.uil
+!      =============
+!
+! version 6, 17-Jun-2006
+!
+! some setup settings via menu
+! K. Stammler, 26-Oct-94
+
+
+
+object
+   setup_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'setup';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard setup_input_box;
+         XmRowColumn     setup_main_button_box;
+      };
+   };
+
+object
+   setup_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_setup_main_buttons;
+         XmNy = k_pos_y_setup_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_setup_hide;
+      };
+   };
+
+object
+   button_setup_hide: XmPushButton {
+      arguments {
+         XmNlabelString = 'Hide';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_hide );
+      };
+   };
+
+object
+   setup_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'setup input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu    setup_hc_option;
+         XmOptionMenu    setup_maxcrsr_option;
+         XmOptionMenu    setup_norm_option;
+         XmOptionMenu    setup_topdown_option;
+         XmOptionMenu    setup_filtyp_option;
+         XmOptionMenu    setup_deffil_option;
+         XmOptionMenu    setup_evtview_option;
+			XmOptionMenu    setup_phasename_option;
+         XmScale         setup_dh_scale;
+         XmScale         setup_dw_scale;
+      };
+   };
+
+object
+   setup_hc_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_hc_option;
+         XmNy = k_pos_y_setup_hc_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'hardcopy      ';
+         XmNmenuHistory = XmPushButton button_setup_hc_default;
+      };
+      controls {
+         XmPulldownMenu setup_hc_menu;
+      };
+   };
+
+object
+   setup_hc_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_hc_default;
+         XmPushButton   button_setup_hc_fast;
+         XmPushButton   button_setup_hc_qual;
+      };
+   };
+
+object
+   button_setup_hc_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_hc_fast: XmPushButton {
+      arguments {
+         XmNlabelString = 'fast';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_hc_fast );
+      };
+   };
+
+object
+   button_setup_hc_qual: XmPushButton {
+      arguments {
+         XmNlabelString = 'quality';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_hc_qual );
+      };
+   };
+
+object
+   setup_maxcrsr_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_maxcrsr_option;
+         XmNy = k_pos_y_setup_maxcrsr_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'max. cursor   ';
+         XmNmenuHistory = XmPushButton button_setup_maxcrsr_default;
+      };
+      controls {
+         XmPulldownMenu setup_maxcrsr_menu;
+      };
+   };
+
+object
+   setup_maxcrsr_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_maxcrsr_default;
+         XmPushButton   button_setup_maxcrsr_crosshair;
+         XmPushButton   button_setup_maxcrsr_waveform;
+         XmPushButton   button_setup_maxcrsr_negwave;
+         XmPushButton   button_setup_maxcrsr_hilbert;
+         XmPushButton   button_setup_maxcrsr_neghilb;
+      };
+   };
+
+object
+   button_setup_maxcrsr_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_maxcrsr_crosshair: XmPushButton {
+      arguments {
+         XmNlabelString = 'crosshair';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_maxcrsr_cross );
+      };
+   };
+
+object
+   button_setup_maxcrsr_waveform: XmPushButton {
+      arguments {
+         XmNlabelString = 'waveform';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_maxcrsr_waveform );
+      };
+   };
+
+object
+   button_setup_maxcrsr_negwave: XmPushButton {
+      arguments {
+         XmNlabelString = 'negwave';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_maxcrsr_negwave );
+      };
+   };
+
+object
+   button_setup_maxcrsr_hilbert: XmPushButton {
+      arguments {
+         XmNlabelString = 'hilbert';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_maxcrsr_hilbert );
+      };
+   };
+
+object
+   button_setup_maxcrsr_neghilb: XmPushButton {
+      arguments {
+         XmNlabelString = 'neghilb';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_maxcrsr_neghilb );
+      };
+   };
+
+object
+   setup_norm_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_norm_option;
+         XmNy = k_pos_y_setup_norm_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'normalization ';
+         XmNmenuHistory = XmPushButton button_setup_norm_default;
+      };
+      controls {
+         XmPulldownMenu setup_norm_menu;
+      };
+   };
+
+object
+   setup_norm_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_norm_default;
+         XmPushButton   button_setup_norm_c;
+         XmPushButton   button_setup_norm_af;
+         XmPushButton   button_setup_norm_aw;
+         XmPushButton   button_setup_norm_sf;
+         XmPushButton   button_setup_norm_sw;
+      };
+   };
+
+object
+   button_setup_norm_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_norm_c: XmPushButton {
+      arguments {
+         XmNlabelString = 'constant';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_norm_c );
+      };
+   };
+
+object
+   button_setup_norm_af: XmPushButton {
+      arguments {
+         XmNlabelString = 'all (tot)';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_norm_af );
+      };
+   };
+
+object
+   button_setup_norm_aw: XmPushButton {
+      arguments {
+         XmNlabelString = 'all (wdw)';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_norm_aw );
+      };
+   };
+
+object
+   button_setup_norm_sf: XmPushButton {
+      arguments {
+         XmNlabelString = 'single (tot)';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_norm_sf );
+      };
+   };
+
+object
+   button_setup_norm_sw: XmPushButton {
+      arguments {
+         XmNlabelString = 'single (wdw)';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_norm_sw );
+      };
+   };
+
+object
+   setup_topdown_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_topdown_option;
+         XmNy = k_pos_y_setup_topdown_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'trace order   ';
+         XmNmenuHistory = XmPushButton button_setup_topdown_default;
+      };
+      controls {
+         XmPulldownMenu setup_topdown_menu;
+      };
+   };
+
+object
+   setup_topdown_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_topdown_default;
+         XmPushButton   button_setup_topdown_top;
+         XmPushButton   button_setup_topdown_down;
+      };
+   };
+
+object
+   button_setup_topdown_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_topdown_top: XmPushButton {
+      arguments {
+         XmNlabelString = 'top';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_topdown_top );
+      };
+   };
+
+object
+   button_setup_topdown_down: XmPushButton {
+      arguments {
+         XmNlabelString = 'down';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_topdown_down );
+      };
+   };
+
+object
+   setup_filtyp_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_filtyp_option;
+         XmNy = k_pos_y_setup_filtyp_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'filter type   ';
+         XmNmenuHistory = XmPushButton button_setup_filtyp_default;
+      };
+      controls {
+         XmPulldownMenu setup_filtyp_menu;
+      };
+   };
+
+object
+   setup_filtyp_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_filtyp_default;
+         XmPushButton   button_setup_filtyp_recursive;
+         XmPushButton   button_setup_filtyp_fft;
+      };
+   };
+
+object
+   button_setup_filtyp_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_filtyp_recursive: XmPushButton {
+      arguments {
+         XmNlabelString = 'recursive';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_filtyp_recursive );
+      };
+   };
+
+object
+   button_setup_filtyp_fft: XmPushButton {
+      arguments {
+         XmNlabelString = 'fft';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_filtyp_fft );
+      };
+   };
+
+object
+   setup_deffil_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_deffil_option;
+         XmNy = k_pos_y_setup_deffil_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'default filter';
+         XmNmenuHistory = XmPushButton button_setup_deffil_default;
+      };
+      controls {
+         XmPulldownMenu setup_deffil_menu;
+      };
+   };
+
+object
+   setup_deffil_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_deffil_default;
+         XmPushButton   button_setup_deffil_none;
+         XmPushButton   button_setup_deffil_standard_bp;
+         XmPushButton   button_setup_deffil_wwssn_sp;
+         XmPushButton   button_setup_deffil_but_bp;
+      };
+   };
+
+object
+   button_setup_deffil_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_deffil_none: XmPushButton {
+      arguments {
+         XmNlabelString = 'none';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_deffil_none );
+      };
+   };
+
+object
+   button_setup_deffil_standard_bp: XmPushButton {
+      arguments {
+         XmNlabelString = 'Standard BP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_deffil_std_bp );
+      };
+   };
+
+object
+   button_setup_deffil_wwssn_sp: XmPushButton {
+      arguments {
+         XmNlabelString = 'WWSSN-SP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_deffil_wwssn_sp );
+      };
+   };
+
+object
+   button_setup_deffil_but_bp: XmPushButton {
+      arguments {
+         XmNlabelString = 'Butterworth BP';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_deffil_but_bp );
+      };
+   };
+
+object
+   setup_evtview_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_evtview_option;
+         XmNy = k_pos_y_setup_evtview_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'parameter list';
+         XmNmenuHistory = XmPushButton button_setup_evtview_default;
+      };
+      controls {
+         XmPulldownMenu setup_evtview_menu;
+      };
+   };
+
+object
+   setup_evtview_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_evtview_default;
+         XmPushButton   button_setup_evtview_full;
+         XmPushButton   button_setup_evtview_brief;
+      };
+   };
+
+object
+   button_setup_evtview_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_evtview_full: XmPushButton {
+      arguments {
+         XmNlabelString = 'full';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_evtview_full );
+      };
+   };
+
+object
+   button_setup_evtview_brief: XmPushButton {
+      arguments {
+         XmNlabelString = 'brief';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_evtview_brief );
+      };
+   };
+
+object
+   setup_phasename_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_setup_phasename_option;
+         XmNy = k_pos_y_setup_phasename_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'phase names   ';
+         XmNmenuHistory = XmPushButton button_setup_phasename_default;
+      };
+      controls {
+         XmPulldownMenu setup_phasename_menu;
+      };
+   };
+
+object
+   setup_phasename_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_setup_phasename_default;
+         XmPushButton   button_setup_phasename_full;
+         XmPushButton   button_setup_phasename_brief;
+      };
+   };
+
+object
+   button_setup_phasename_default: XmPushButton {
+      arguments {
+         XmNlabelString = 'default';
+			XmNsensitive = false;
+      };
+   };
+
+object
+   button_setup_phasename_full: XmPushButton {
+      arguments {
+         XmNlabelString = 'full';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_phasename_full );
+      };
+   };
+
+object
+   button_setup_phasename_brief: XmPushButton {
+      arguments {
+         XmNlabelString = 'brief';
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_setup_phasename_brief );
+      };
+   };
+
+
+!object
+!   setup_..._label: XmLabel {
+!      arguments {
+!         XmNx = k_pos_x_setup_iterations_label;
+!         XmNy = k_pos_y_setup_iterations_label;
+!         XmNlabelString = 'max. iterations: ';
+!      };
+!   };
+!
+!object
+!   setup_..._text: XmText {
+!      arguments {
+!         XmNx = k_pos_x_setup_..._text;
+!         XmNy = k_pos_y_setup_..._text;
+!         XmNwidth = 80;
+!         XmNunitType = XmPIXELS;
+!         XmNmaxLength = 4;
+!         XmNvalue = '20';
+!      };
+!      callbacks {
+!         MrmNcreateCallback =
+!            procedure xm_call_create_widget( k_widget_setup_iterations_text );
+!         XmNmodifyVerifyCallback =
+!            procedure xm_call_text_input( k_widget_setup_iterations_text );
+!      };
+!   };
+
+
+object
+   setup_dh_scale: XmScale {
+      arguments {
+         XmNx = k_pos_x_setup_dh_scale;
+         XmNy = k_pos_y_setup_dh_scale;
+         XmNunitType = XmPIXELS;
+         XmNminimum = -10;
+         XmNmaximum = 50;
+         XmNwidth = 240;
+         XmNborderWidth = 0;
+         XmNtitleString = 'display height';
+         XmNshowValue = true;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNscaleMultiple = 1;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_setup_dh_scale );
+         XmNvalueChangedCallback =
+            procedure xm_call_scale( k_scale_setup_dh );
+      };
+   };
+
+object
+   setup_dw_scale: XmScale {
+      arguments {
+         XmNx = k_pos_x_setup_dw_scale;
+         XmNy = k_pos_y_setup_dw_scale;
+         XmNunitType = XmPIXELS;
+         XmNminimum = -10;
+         XmNmaximum = 50;
+         XmNwidth = 240;
+         XmNborderWidth = 0;
+         XmNtitleString = 'display width';
+         XmNshowValue = true;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNscaleMultiple = 1;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_setup_dw_scale );
+         XmNvalueChangedCallback =
+            procedure xm_call_scale( k_scale_setup_dw );
+      };
+   };
+

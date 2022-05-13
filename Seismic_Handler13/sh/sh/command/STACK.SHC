@@ -1,0 +1,34 @@
+default 1 |1-|$dsptrcs|    traces to be stacked
+default 2 80.0             depth steps
+default 3 801.0            maximum depth
+
+sdef depth
+sdef trace $dsptrcs
+sdef tmp
+sdef inputtrcno $dsptrcs
+
+switch chatty off
+echo/no_lf "inputtrcno traces
+
+nr
+dtw
+calc/fmt=<%3.0@f> r &depth = 0.
+
+loop_start:
+   set #1 t-origin 0.0
+   shift #1 ps_delay "depth slowness
+   sum #1
+   set $dsptrcs comment |depth|$blank|"depth|
+   echo/no_lf depth "depth passed
+   calc/fmt=<%3.0@f> r &depth = "depth + #2
+   if  "depth gtr #3  goto/forward loop_exit:
+goto loop_start:
+loop_exit:
+
+echo/no_lf $blank(40)
+set #1 t-origin 0.0
+hide #1
+echo "inputtrcno traces stacked
+rd
+
+return

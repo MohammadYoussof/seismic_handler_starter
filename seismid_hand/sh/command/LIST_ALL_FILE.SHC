@@ -1,0 +1,37 @@
+
+! file LIST_ALL_FILE.SHC
+!      =================
+!
+! version 1, 11-Jul-2002
+!
+! lists given info entry of all traces on display into file
+! K. Stammler, 30-JUL-91
+
+default 1 ;;     info entry
+default 2 ;;     output file
+
+sdef cnt 1     ! trace counter
+sdef value     ! value of info
+sdef status    ! operation status
+
+echo_ch #2
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   switch cmderrstop off
+   switch noerrmsg on
+   calc s &value = ^#1("cnt)
+   calc i &status = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "status eqi 0  goto/forward value_ok:
+      calc s &value = |not|$blank|specified|
+   value_ok:
+   echo "cnt : "value
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+echo_ch
+
+return

@@ -1,0 +1,4 @@
+wdw/gc=t/main create tc 0.0 0.0 25.9 19.5
+! wdw/gc=tc/main create tc 0.0 0.0 33.9 22.0
+wdwsetup
+return

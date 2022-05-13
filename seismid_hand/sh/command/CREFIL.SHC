@@ -1,0 +1,22 @@
+default 1 f     fft or recursive filter [f|r]
+default 2 but   filter type
+
+if  #1 eqs r  goto/forward  recfilter:
+if  #2 nes but  goto/forward nobutf:
+   system
+      run shc_filter:butterworth_freq
+   return
+nobutf:
+
+echo nothing done
+return
+
+recfilter:
+if  #2 nes but  goto/forward nobutr:
+   system
+      run shc_filter:butterworth_rec
+   return
+nobutr:
+
+echo nothing done
+return

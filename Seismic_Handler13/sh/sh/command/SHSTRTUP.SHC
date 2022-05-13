@@ -1,0 +1,228 @@
+! file SHSTRTUP.SHC
+!      ============
+!
+! version 7, 17-Aug-93
+!
+! common startup file of SH
+! K. Stammler, 18-Sep-92
+
+! variables
+sdef path          ! path name
+sdef ostype        ! type of operating system
+sdef file          ! file name
+
+! this is a startup file
+switch startup off
+
+! get type of operating system
+fct get_os &ostype
+
+! setup output channels
+if  "ostype eqs atari-tos  goto/forward atari_out:
+   wdw/dc=s/ic=s/main
+   wdw/ic=s
+   goto/forward output_ok:
+atari_out:
+   ! create DeskJet channel
+   wdw create d 0 0 100 100
+   hc/default=d
+   ! create text window
+   wdw/dc=g1/ic=g1/main/attribs=nfms create g1 2.5 0.0 33.1 3.6
+   ! create graphics window
+   wdw/gc=g2h/main/attribs=nfms create g2h 2.5 4.0 33.1 21.0
+   ! set local windows
+   wdw/ic=g1/gc=g2d
+output_ok:
+
+
+! do setup for all types of operating system
+!@ECHO
+!@ECHO SeismicHandler, version $VERSION (K. Stammler)
+!@ECHO processing startup file ...
+!@ECHO
+fct axis timeaxis vpos -0.1
+fct axis timeaxis lab1cnt 1
+fct axis timeaxis labcnt 5
+fct axis timeaxis tick_lth 0.025
+fct axis timeaxis ltick_lth 0.05
+fct axis timeaxis labshift -0.02
+fct axis timeaxis labdist -0.1
+fct axis timeaxis style 7
+fct axis timeaxis plot on
+fct axis timeaxis labfmt <%4.1@f>
+fct axis y-axis vpos -0.03
+fct axis y-axis lab1cnt 1
+fct axis y-axis labcnt 4
+fct axis y-axis tick_lth 0.013
+fct axis y-axis ltick_lth 0.026
+fct axis y-axis labshift -0.01
+fct axis y-axis labdist -0.1
+fct axis y-axis style 7
+fct axis y-axis plot off
+fct axis y-axis labfmt <%4.1@f>
+trctxtp -.13 -.02
+trctxt |$x|:| ^station($x) ^comp($x)
+log labshift -0.015 -0.04 -0.05 -0.015
+title/wdw=1 1;;0 -.3
+title/wdw=1 2;;0 -.4
+title/wdw=1 3;;1.15 0.05
+fct corrmode 3
+switch cmderrstop on
+sdef/global ret x
+sdef/global g1
+sdef/global g2
+sdef/global g3
+entry define sign      i  6 11
+entry define eventno   i  7 12
+entry define mark      i  8 14
+entry define calib     r  1 26
+entry define distance  r  2 11
+entry define azimuth   r  4 12
+entry define slowness  r  3 18
+entry define inci      r 12 13
+entry define depth     r 13 14
+entry define magnitude r 14 15
+entry define lat       r 15 16
+entry define lon       r 16 17
+entry define signoise  r 17 22
+entry define pwdw      r 18 23
+entry define dcvreg    r 19 24
+entry define dcvinci   r 20 25
+entry define filter    s 10 11
+entry define quality   s 11 12
+entry define p-onset   t  1 22
+entry define s-onset   t  2 23
+entry define origin    t  3 24
+! entry define reverse   f  0 10
+! entry define corrinci  f  1 11
+
+! delete all logicals
+delalog
+
+! character sizes
+fct getpath userdir &path
+usp_charsize |"path|sh_user_text_size|
+
+
+! now branch to system specific stuff
+if  "ostype eqs UNIX       goto/forward os_unix:
+if  "ostype eqs VAX-VMS    goto/forward os_vms:
+if  "ostype eqs ATARI-TOS  goto/forward os_atari:
+if  "ostype eqs MS-DOS     goto/forward os_dos:
+echo $blank
+@ECHO unknown operating system: "ostype
+@ECHO aborting program
+this will abort SH
+
+
+
+!-------------------------------------
+!      this is UNIX stuff
+!-------------------------------------
+
+os_unix:
+
+!echo
+!@ECHO processing UNIX startup
+!@ECHO reading IASP91 mantle velocities
+fct local getenv:sh_inputs &path
+fct read_vel |"path|iasp91_efa|
+!@ECHO set paths for input files
+fct tt_table "path
+fct fername |"path|fername.dat|
+fct ferindex |"path|fereg.dat|
+fct inci_table |"path|pinci.dat|
+!fct locfile |"path|statinf.dat|
+
+! define logicals
+fct local getenv:home &path
+calc s &path = |"path|$slash|
+deflog home "path
+fct local getenv:sh_scratch &path
+deflog scratch "path
+goto/forward do_user_startup:
+
+
+
+os_vms:
+
+!-------------------------------------
+!      this is VAX/VMS stuff
+!-------------------------------------
+
+echo
+@ECHO processing VAX-VMS startup
+@ECHO reading IASP91 mantle velocities
+fct read_vel shc_inputs:iasp91_efa
+@ECHO set paths for input files fername,ferindex,inci_table,locfile
+fct fername shc_inputs:fername.dat
+fct ferindex shc_inputs:fereg.dat
+fct inci_table shc_inputs:pinci.dat
+fct locfile shc_inputs:statinf.dat
+fct tt_table shc_inputs:
+fct path inputs shc_inputs:
+goto/forward do_user_startup:
+
+
+
+os_atari:
+
+!-------------------------------------
+!      this is ATARI stuff
+!-------------------------------------
+
+echo
+@ECHO processing ATARI startup
+fct setstyle $titlestyle charsize_atari 13
+fct setstyle $pmstyle charsize_atari 6
+fct setstyle $timeaxisstyle charsize_atari 6
+fct setstyle $trcinfostyle charsize_atari 6
+fct setstyle $zerotrcstyle linestyle 3
+fct margin b .25
+fct margin l .2
+fct margin r .05
+fct margin t .08
+fct axis timeaxis vpos -0.03  ! -0.1
+trctxtp -.18 -.005
+title/wdw=2 1;;0 -0.18
+title/wdw=2 2;;0 -0.225
+title/wdw=2 3;;0 1.03
+@ECHO reading mantle velocities ...
+fct read_vel shc_inputs:iasp91
+fct tt_table_old shc_inputs:travtime.dat
+fct tt_table shc_inputs:
+fct inci_table shc_inputs:pinci.dat
+goto/forward do_user_startup:
+
+
+
+os_dos:
+
+!-------------------------------------
+!      this is MS-DOS stuff
+!-------------------------------------
+
+goto/forward do_user_startup:
+
+
+do_user_startup:
+
+! user setup
+! ----------
+!
+! try to find user startup
+switch sherrstop off
+switch cmderrstop off
+switch noerrmsg on
+fct getpath userdir &path
+|"path|sh_user_startup|
+if  $status eqi 0  goto/forward user_startup_ok:
+!   echo $blank
+!@  ECHO no user startup available
+!   echo $blank
+user_startup_ok:
+switch noerrmsg off
+switch cmderrstop on
+switch sherrstop on
+
+return

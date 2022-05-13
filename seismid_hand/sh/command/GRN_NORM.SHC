@@ -1,0 +1,16 @@
+! file grn_norm.shc
+!      ============
+
+nr
+zoom _station(bfo) 3.901108e-03
+zoom _station(brnl) 3.1e-4
+zoom _station(brl) 3.1e-4
+zoom _station(bug) 2.037518e-03
+zoom _station(clz) 4.187925e-03
+zoom _station(fur) 2.194634e-03
+zoom _station(ham) 7.686840e-05
+zoom _station(tns) 3.468870e-03
+zoom _station(wet) 4.944477e-03
+zoom/rel all 0.5
+rd
+return

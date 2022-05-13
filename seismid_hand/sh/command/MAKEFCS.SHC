@@ -1,0 +1,43 @@
+
+! file MAKEFCS.SHC
+!      ===========
+!
+! version 4, 3-SEP-91
+!
+! creates stacked noise traces with gauss signal
+! K. Stammler, 7-AUG-91
+
+default 1 0.3   amplitude of gauss signal
+default 2 20    number of input traces to summation
+default 3 10    number of stack traces (passes)
+default 4 npf   name of output file
+default 5 0.0   half-width of gauss distribution
+
+default 6 ;;    name of plain sum file
+default 7 ;;    name of difference file
+
+switch/global chatty off
+
+sdef cnt 1
+sdef wrtrc   ! number of trace to be written
+sdef tstroutine noisetst
+
+if  #5 eqr 0.0  goto/forward routine_ok:
+   calc s &tstroutine = noiststg    ! use another test procedure
+routine_ok:
+
+calc i &wrtrc = #2 + 1
+
+norm sf
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   echo pass "cnt
+   filnoise #2
+   "tstroutine #1 #5 #6 #7
+   write #4 1     !  changed in version 4 (before: write #4 "wrtrc)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return
+

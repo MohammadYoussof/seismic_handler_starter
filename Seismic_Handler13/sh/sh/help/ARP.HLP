@@ -1,0 +1,46 @@
+command ARP <trc-list> <N> <c1> <c2> ... <cN> [<s1> <s2> ... <sN>]
+===========
+
+key: autoregressive process
+! version 1, 5-May-92
+
+Generates autoregressive process of order <N> on all traces
+specified in <trc-list>:
+
+   smp[k] = smp[k] + sum{i=1..N} c[i]*smp[k-i]  (k=0,1,..,K-1),
+
+where N=<N> and c[i] (i=1,2,..,N) are given by <c1>,<c2>,..,<cN>.
+The N start values c[-1],c[-2],..,c[-N] are given by <s1>,<s2>,..,<sN>
+respectively.
+
+Improper values of <c1>..<cN> may result in a floating overflow
+error and crash the program.  So be careful in selecting parameters.
+
+The process operates on the samples of a trace and does not care
+for the sample rate.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be processed.
+
+<N>  ---  parameter type: integer
+   Order of autoregressive process.
+
+<c1>,<c2>,..,<cN>  ---  parameter type: real
+   Coefficents of autoregressive process.  The program does not
+   check for improper values, they may result in a floating
+   overflow error.
+
+<s1>,<s2>,..,<sN>  --   parameter type: real
+   Start values of autoregressive process.  If not specified
+   they are assumed to be zero.
+
+
+example
+-------
+
+   arp 1-3 2 1.8 -0.9     ! traces 1,2,3 are processed with order 2
+

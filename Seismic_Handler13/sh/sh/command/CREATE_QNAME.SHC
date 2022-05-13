@@ -1,0 +1,8 @@
+default 1 1   trace number
+
+sdef qfile
+calc s &qfile = ^station(#1) qname ^start(#1)
+echo writing ^comp(#1) to "qfile
+write "qfile #1
+
+return

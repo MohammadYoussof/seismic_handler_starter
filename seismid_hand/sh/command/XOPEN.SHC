@@ -1,0 +1,11 @@
+default 1 1      window number
+default 2 0.0    x-pos
+default 3 6.8    y-pos
+default 4 33.9   width
+default 5 22.0   height
+
+sdef channels |xh|#1|
+
+wdw/gc=x1h/main create "channels #2 #3 #4 #5
+wdwsetup
+return

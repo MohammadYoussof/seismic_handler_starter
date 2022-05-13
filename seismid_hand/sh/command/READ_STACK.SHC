@@ -1,0 +1,23 @@
+! file READ_STACK.SHC
+!      ==============
+!
+! version 1, 17-JUL-91
+!
+! reads stack q-file (written with WRITE_STACK procedure) and
+! repositions traces
+
+default 1 ;;      input q-file
+default 2 -100.0  zoom factor
+
+nr
+del all
+dtw
+norm c
+trctxt ^comment($x)
+read #1 all
+shift all time_al %default_time
+zoom all #2
+stw -20 90
+rd
+
+return

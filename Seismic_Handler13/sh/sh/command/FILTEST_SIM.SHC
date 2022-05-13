@@ -1,0 +1,38 @@
+! file FILTEST_SIM.SHC
+!      ===============
+!
+! version 1, 2-Dec-94
+!
+! tests seismograph simulations with recursive filters
+! K. Stammler, 2-Dec-94
+
+default 1 grf         instrument 1
+default 2 grsn        instrument 2
+default 3 ;;          tf-appendix
+default 4 20          sample rate (hz)
+default 5 g_wwssn_sp  simulated instrument
+
+sdef tf1num           ! trace number of first tf
+sdef tf2num           ! trace number of second tf
+
+! apply 1. transfer function to 1. trace
+fili f |tf_vel_|#1|#3|
+filter f 1
+calc i &tf1num = $dsptrcs
+set "tf1num station |tf-|#1|
+
+! apply 2. transfer function to 1. trace
+fili f |tf_vel_|#2|#3|
+filter f 1
+calc i &tf2num = $dsptrcs
+set "tf2num station |tf-|#2|
+
+! apply 1. simulation filter
+fili r |#4|hz_|#1|_s+|#5|
+filter r "tf1num
+
+! apply 2. simulation filter
+fili r |#4|hz_|#2|_s+|#5|
+filter r "tf2num
+
+return

@@ -1,0 +1,3 @@
+fct sethc ccrot lr
+fct sethc ccpar |$slash|par=(0.6061674,1.5232066,0.0,-4.0)|
+return

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Depth</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Depth</em></H2>
+
+<P>Determination of source depth of teleseismic events using depth
+phases. SHM searches for pairs of depth phases and corresponding
+main phases. SHM needs to know which depth phases should be processed
+if they are picked. This list of depth phases has to be specified
+in the <A HREF="menu_configure.html">Configure</A> option (parameter
+number 1). Changing the existing parameter entry means to retype
+the complete list of phases including or excluding your changes.
+Please check for typos and do not use blanks, just separate the
+phases by commas, there is no check implemented ! Phases not listed
+here will be ignored in the depth determination. Selecting the
+<em>Depth</em> entry makes
+SHM scan all traces for pairs of known phases. Each pair is assigned
+a depth by fitting the time distance between the phase pair using
+the <A HREF="travel_time_tables.html">travel time tables</A> in
+<em>$SH_INPUTS</em>. All
+depths found are averaged, the resulting mean depth is written
+to the <A HREF="parambox.html">analysis parameter box</A>.</P>
+
+<P><small>This page last modifed 13-Jul-2000</small></P>
+
+</BODY>
+</HTML>

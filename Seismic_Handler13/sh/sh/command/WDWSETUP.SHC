@@ -1,0 +1,13 @@
+fct setstyle $titlestyle charsize .014
+fct setstyle $trcinfostyle charsize .012
+fct setstyle $timeaxisstyle charsize .012
+fct setstyle $markstyle color 1.0,0.0,0.0
+fct setstyle $zerotrcstyle linestyle 3
+fct margin b .4
+fct margin t .1
+fct margin l .15
+fct margin r .1
+title 1;;0 -.3
+title 2;;0 -.38
+title 3;;0 1.05
+return

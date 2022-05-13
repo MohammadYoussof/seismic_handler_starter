@@ -1,0 +1,208 @@
+! file shm_partmotion.uil
+!      ==================
+!
+! version 1, 16-Nov-98
+!
+! particle motion window
+! K. Stammler, 1-Nov-98
+
+
+object
+   pmotion_window_box: XmFormDialog {
+      arguments {
+         XmNwidth = 500;
+         XmNheight = 533;
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmMenuBar       menu_pmotion;
+         XmDrawingArea   pmotion_window_area;
+      };
+   };
+
+object
+   pmotion_window_label: XmLabel {
+      arguments {
+         XmNlabelString = 'particle motion window';
+      };
+   };
+
+object
+   pmotion_window_area: XmDrawingArea {
+      arguments {
+         XmNy = 33;
+         XmNwidth = 500;
+         XmNheight = 500;
+         XmNtopAttachment = XmATTACH_WIDGET;
+			XmNtopWidget = menu_pmotion;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+         XmNbottomAttachment = XmATTACH_FORM;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_pmwdw );
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback =
+            procedure xm_call_resize_object(k_widget_pmwdw);
+      };
+   };
+
+object
+   menu_pmotion: XmMenuBar {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing     = 15;  /* Pixels between items in menu */
+         XmNtopAttachment = XmATTACH_FORM;
+         XmNleftAttachment = XmATTACH_FORM;
+         XmNrightAttachment = XmATTACH_FORM;
+      };
+      controls {
+         XmCascadeButton menutitle_pm;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_menu_pm);
+      };
+   };
+
+object
+   menutitle_pm: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_pm_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_pm;
+      };
+   };
+
+object
+   menu_pm: XmPulldownMenu {
+      controls {
+         XmPushButton   entry_pm_lincol;
+         XmPushButton   entry_pm_linmono;
+         XmPushButton   entry_pm_plot1;
+         XmPushButton   entry_pm_plot3;
+         XmPushButton   entry_pm_zoom_on;
+         XmPushButton   entry_pm_zoom_off;
+         XmPushButton   entry_pm_screendump;
+         XmPushButton   entry_pm_quit;
+      };
+   };
+
+object
+   entry_pm_quit: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_quit_text;
+         XmNaccelerator = k_acc_pm_quit;
+         XmNacceleratorText = k_acct_pm_quit;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_quit);
+      };
+   };
+
+object
+   entry_pm_screendump: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_screendump_text;
+         XmNaccelerator = k_acc_pm_screendump;
+         XmNacceleratorText = k_acct_pm_screendump;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_screendump);
+      };
+   };
+
+object
+   entry_pm_lincol: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_lincol_text;
+         XmNaccelerator = k_acc_pm_lincol;
+         XmNacceleratorText = k_acct_pm_lincol;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_lincol);
+      };
+   };
+
+object
+   entry_pm_linmono: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_linmono_text;
+         XmNaccelerator = k_acc_pm_linmono;
+         XmNacceleratorText = k_acct_pm_linmono;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_linmono);
+      };
+   };
+
+object
+   entry_pm_plot1: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_plot1_text;
+         XmNaccelerator = k_acc_pm_plot1;
+         XmNacceleratorText = k_acct_pm_plot1;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_plot1);
+      };
+   };
+
+object
+   entry_pm_plot3: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_plot3_text;
+         XmNaccelerator = k_acc_pm_plot3;
+         XmNacceleratorText = k_acct_pm_plot3;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_plot3);
+      };
+   };
+
+object
+   entry_pm_zoom_on: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_zoom_on_text;
+         XmNaccelerator = k_acc_pm_zoom_on;
+         XmNacceleratorText = k_acct_pm_zoom_on;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_zoom_on);
+      };
+   };
+
+object
+   entry_pm_zoom_off: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pm_zoom_off_text;
+         XmNaccelerator = k_acc_pm_zoom_off;
+         XmNacceleratorText = k_acct_pm_zoom_off;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_pm_zoom_off);
+      };
+   };
+

@@ -1,0 +1,45 @@
+! file NXTC.SHC
+! reads next file
+default 1 used     file name (middle)
+sdef listname |sao_|#1|_may91|
+! echo $sys_time
+if  $dsptrcs eqi 0  goto/forward noins:
+if  #1 eqs used  goto/forward useit:
+if  #1 eqs notused  goto/forward useit:
+if  #1 eqs local  goto/forward useit:
+if  #1 eqs cont goto/forward useit:
+if  #1 eqs frag goto/forward useit:
+if  #1 eqs noise goto/forward useit:
+if  #1 eqs strange goto/forward useit:
+if  #1 eqs check goto/forward useit:
+   echo illegal parameter #1
+   return
+useit:
+applist_name "listname" 1
+noins:
+nr
+
+!echo suspending odw-job
+!system
+!set proc/id=967/suspend
+
+del all
+next shc_qlist:sao_all
+echo checking file "g1
+switch cmderrstop off
+extract "g1 1 p-onset &g2
+calc i &g2 = $status
+switch cmderrstop on
+if  "g2 nei 0  goto/forward  noinfo:
+   same_in shc_qlist:sao_all
+noinfo:
+
+!echo resuming odw-job
+!system
+!set proc/id=967/resume
+
+echo removing mean value ...
+!shift all time_al
+demean all
+rd
+return

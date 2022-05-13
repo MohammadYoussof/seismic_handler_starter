@@ -1,0 +1,22 @@
+command NORM <kind>
+============
+
+key: normalisation of traces
+
+Sets normalisation of traces in the current display window.
+
+parameter:
+
+<kind>  ---  parameter type: keyword
+   Type of normalisation.  Valid values are
+
+   SF     traces separately, full length
+   SW     traces separately, window length
+   AF     all traces together, full length (default)
+   AW     all traces together, window length
+
+
+example
+
+   NORM SF       ! display each trace on display with the same amplitude
+

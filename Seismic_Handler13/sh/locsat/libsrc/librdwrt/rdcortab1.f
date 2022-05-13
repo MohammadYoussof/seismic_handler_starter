@@ -1,0 +1,235 @@
+
+c NAME
+c	rdcortab1 -- Read station correction data from a single file.
+
+c FILE
+c	rdcortab1.f
+
+c SYNOPSIS
+c	Read station-correction tables for a given wave, region and station
+c	from a individual correction file.
+
+c DESCRIPTION
+c	Subroutine.  Do acutal reading of station correction information
+c	here.  For each correction type, station, region and wave type,
+c	read source-specific station corrections defined at lat/lon nodes.
+c	Origin of source-specific station correction lies in the northwest
+c	corner of the model.
+ 
+c	---- Indexing ----
+c	k = 1, nwav;
+
+c	---- On entry ----
+c	filnam:		Name of source-specific station correction file to 
+c			be read
+c	nwav:		Number of phases in list
+c	nsta:		Number of stations
+c	iarea:		Regional area index (1 = regional; 2 = local)
+c	ista:		Station index
+c	jtype:		Correction-type index
+c	indx(2):	Specific-correction index; regional (1) or local (2)
+c	wavid(k):	List of all acceptible phases for arrival time and
+c			slowness data
+ 
+c	---- On return ----
+c	ierr:	Error flag;	0: No error
+c				1: File won't open
+c				2: Unexpected End-Of-File
+ 
+c DIAGNOSTICS
+c	Complains if it cannot open a requested file.
+
+c FILES
+c	Reads all source-specific station correction files here.
+
+c NOTES
+c	If file, filnam will not open, then arrays, ntbd() and ntbz() 
+c	are returned as zero.
+c	Remember to initialize cumulsrcs()!
+
+c SEE ALSO
+c	Complementary function, rdcortab().
+
+c AUTHOR
+c	Walter Nagy, October 1990.
+
+
+      subroutine rdcortab1 (filnam, wavid, nwav, indx, jtype, ista,
+     &                      iarea, ierr)
+ 
+      implicit none  ! K.S. 1-Dec-97, changed 'undefined' to 'none'
+
+      common /sccsrdcortab1/ sccsid
+      character*80 sccsid
+      data sccsid /'@(#)rdcortab1.f	44.1	9/20/91'/
+ 
+      include "rdcor.h"
+
+
+c     ---- On entry ----
+
+      integer*4 iarea, ierr, indx(2), isave, ista, jtype, nwav
+      character*(*) filnam, wavid(nwav)
+
+c     ---- On return ----
+
+c      integer*4 indx(2)
+
+c     ---- Internal variables ----
+
+      integer*2 isrc(maxphs), nln, nlt, nodetot, nphz
+      integer*4 i, ind, ios, iphz(maxphs), isln, islt, j, j1, j2, jend
+      integer*4 k, lnblnk, n
+      real*4    dist, sln(maxnode), slt(maxnode), xlon, xlat
+      character phases*200, phz(maxphs)*8, string*100
+
+
+      ierr = 0
+
+      if (ista.eq.1)        isave = 0
+      if (indx(iarea).ne.0) isave = indx(iarea)
+
+c     Open merged station correction files with stations from station list
+ 
+      k = lnblnk(filnam)
+      open (iunit, file = filnam, status = 'old', iostat = ios)
+      if (ios.ne.0) then
+         ierr        = 1
+         indx(iarea) = 0
+         return
+      end if
+      rewind (iunit)
+      indx(iarea) = isave + 1
+      ind         = indx(iarea)
+ 
+c     Read title of the table
+      read (iunit, '(a/)', end = 9000) string
+ 
+      nphz = 0
+      do 1000 i = 1, nwav
+         iphz(i) = 0
+         isrc(i) = 0
+         numsrcs(jtype,ind,iarea,i)   = 0
+         cumulsrcs(jtype,ind,iarea,i) = 0
+ 1000 continue
+
+c     Determine the applicable phase-types and the number of associated
+c     source regions
+ 
+      read (iunit, '(a200)', end = 9000) phases
+      do 1020 i = 1, maxphs
+         call clitok (phases, i, phz(i), n)
+         if (phz(i).ne.' ') then
+            j1 = lnblnk(phz(i))
+            do 1010 k = 1, nwav
+               j2 = lnblnk(wavid(k))
+               do 1012 j = 1, j2
+                  if (lgt('$', wavid(k)(j:j))) then
+                     j2 = j-1
+                     goto 1014
+                  end if
+ 1012          continue
+ 1014          if (j1.eq.j2 .and. phz(i)(1:j1).eq.wavid(k)(1:j2)) then
+                  nphz       = nphz + 1
+                  iphz(nphz) = k
+                  goto 1020
+               end if
+ 1010       continue
+         end if
+ 1020 continue
+      if (nphz.eq.0) then
+         ierr        = 1
+         indx(iarea) = 0
+         return
+      end if
+      read (iunit, '(20(i2,6x))') (isrc(iphz(i)), i = 1, nphz)
+
+      do 1030 i = 1, nphz
+ 1030 numsrcs(jtype,ind,iarea,iphz(i)) = isrc(iphz(i))
+
+      cumulsrcs(jtype,ind,iarea,iphz(1)) = isrc(iphz(1))
+      do 1040 i = 2, nphz
+ 1040 cumulsrcs(jtype,ind,iarea,iphz(i)) = 
+     &      cumulsrcs(jtype,ind,iarea,iphz(i-1)) + isrc(iphz(i))
+
+c     Read station corrections
+ 
+      nodetot = 0
+      jend    = cumulsrcs(jtype,ind,iarea,iphz(nphz))
+      if (jend.gt.maxtab) then
+         print*, 'Number of tables for this station > parameter, maxtab'
+         stop
+      end if
+      do 1100 j = 1, jend
+         nodecumul(jtype,ind,iarea,j) = nodetot
+
+         read (iunit, '(/a)', end = 9000) string
+         read (iunit, '(2f9.3)') xlat, xlon
+         read (iunit, '(2i4)')   nlt, nln
+
+         xlat1(jtype,ind,iarea,j) = xlat
+         xlon1(jtype,ind,iarea,j) = xlon
+         nlats(jtype,ind,iarea,j) = nlt
+         nlons(jtype,ind,iarea,j) = nln
+
+         j1   = j-1
+         islt = nlt-1
+         isln = nln-1
+
+         read (iunit, '(20f8.3)') (slt(i), i = 1, islt)
+         read (iunit, '(20f8.3)') (sln(i), i = 1, isln)
+
+         do 1050 i = 1, islt
+ 1050    splat(jtype,ind,iarea,j1*islt + i) = slt(i)
+         do 1060 i = 1, isln
+ 1060    splon(jtype,ind,iarea,j1*isln + i) = sln(i)
+
+         dist = slt(1)
+         do 1070 i = 2, islt
+ 1070    dist = dist + slt(i)
+         if (dist.gt.180.0) then
+            j2 = lnblnk(filnam)
+            print*, '- SSSC model bounds for lat. exceed 180 deg. in'
+            print*, '  file: ', filnam(1:j2), 
+     &              ' --> Phase-type: ', wavid(iphz(j))
+            stop
+         end if
+         xlat2(jtype,ind,iarea,j) = xlat - dist
+
+         dist = sln(1)
+         do 1080 i = 2, isln
+ 1080    dist = dist + sln(i)
+         if (dist.gt.360.0) then
+            j2 = lnblnk(filnam)
+            print*, '- SSSC model bounds for lon. exceed 360 deg. in'
+            print*, '  file: ', filnam(1:j2), 
+     &              ' --> Phase-type: ', wavid(iphz(j))
+            stop
+         end if
+         xlon = xlon + dist
+         if (xlon.gt.180.0) then
+            xlon2(jtype,ind,iarea,j) = xlon - 360.0
+         else
+            xlon2(jtype,ind,iarea,j) = xlon
+         end if
+
+         read (iunit, *)
+         do 1090 k = 1, nlt
+            read (iunit, '(20i6)', end = 9000) 
+     &            (stacor(jtype,ind,iarea,nodetot+i), i = 1, nln)
+            nodetot = nodetot + nln
+ 1090    continue
+ 1100 continue
+ 
+      close (iunit)
+      ierr = 0
+      return
+ 
+ 9000 write (0, '(2a)') ' Unexpected End-Of-File for file: ',
+     &                  filnam(1:k)
+      close (iunit)
+      ierr = 2
+
+      return
+      end
+

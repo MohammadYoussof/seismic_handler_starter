@@ -1,0 +1,28 @@
+command SDEL <name>
+============
+
+key: delete symbol
+
+Deletes a previously defined symbol in the current local symbol set or,
+if qualifier /GLOBAL is entered, in the global symbol set.  The whole
+local symbol set is deleted also by the RETURN statement.
+
+
+parameters
+
+<name>  ---  parameter type: string
+   Name of symbol to be deleted.
+
+
+qualifiers
+
+/GLOBAL
+   The symbol is deleted in the global symbol set.
+
+
+examples:
+
+   SDEL OLDSYM         ! deletes local symbol "OLDSYM"
+
+   SDEL/GLOBAL OLDSYM  ! deletes global symbol "OLDSYM"
+

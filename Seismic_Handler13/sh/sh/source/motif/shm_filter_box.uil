@@ -1,0 +1,724 @@
+! file shm_filter_box.uil
+!      ==================
+!
+! version 7, 17-Jun-2006
+!
+! filter selection box
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   filter_selection_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'filter selection';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+!         XmNx = 600;
+!         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard filter_selection;
+         XmBulletinBoard filter_edit_box;
+         XmBulletinBoard filter_autocut_box;
+         XmBulletinBoard filter_butpar_box;
+         XmRowColumn     filter_main_button_box;
+      };
+   };
+
+object
+   filter_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = 200;
+         XmNy = 460;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_filter_ok;
+         XmPushButton     button_filter_cancel;
+      };
+   };
+
+object
+   button_filter_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_ok );
+      };
+   };
+
+object
+   button_filter_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_cancel );
+      };
+   };
+
+object
+   filter_selection:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Filter Selection';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmRadioBox     filter_radiobox;
+      };
+   };
+
+object
+   filter_radiobox: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_filter_none;
+         XmToggleButton     button_filter_standard_bp;
+         XmToggleButton     button_filter_wwssn_sp;
+         XmToggleButton     button_filter_lrsm_sp;
+         XmToggleButton     button_filter_woodand;
+         XmToggleButton     button_filter_kirnos;
+         XmToggleButton     button_filter_sro_lp;
+         XmToggleButton     button_filter_wwssn_lp;
+!         XmToggleButton     button_filter_lrsm_lp;
+         XmToggleButton     button_filter_but_bp;
+         XmToggleButton     button_filter_but_lp;
+         XmToggleButton     button_filter_but_hp;
+         XmToggleButton     button_filter_displace;
+         XmToggleButton     button_filter_other;
+      };
+   };
+
+object
+   button_filter_none: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'None';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_none );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_none );
+      };
+   };
+
+object
+   button_filter_other: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Other';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_other );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_other );
+      };
+   };
+
+object
+   button_filter_wwssn_sp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'WWSSN-SP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_wwssn_sp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_wwssn_sp );
+      };
+   };
+
+object
+   button_filter_wwssn_lp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'WWSSN-LP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_wwssn_lp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_wwssn_lp );
+      };
+   };
+
+object
+   button_filter_lrsm_sp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'LRSM-SP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_lrsm_sp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_lrsm_sp );
+      };
+   };
+
+object
+   button_filter_lrsm_lp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'LRSM-LP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_lrsm_lp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_lrsm_lp );
+      };
+   };
+
+object
+   button_filter_kirnos: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'KIRNOS';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_kirnos );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_kirnos );
+      };
+   };
+
+object
+   button_filter_woodand: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Wood-Anderson';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_woodand );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_woodand );
+      };
+   };
+
+object
+   button_filter_standard_bp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Standard BP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_standard_bp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_standard_bp );
+      };
+   };
+
+object
+   button_filter_sro_lp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'SRO LP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_sro_lp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_sro_lp );
+      };
+   };
+
+object
+   button_filter_but_bp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Butterworth BP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_but_bp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_but_bp );
+      };
+   };
+
+object
+   button_filter_but_lp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Butterworth LP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_but_lp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_but_lp );
+      };
+   };
+
+object
+   button_filter_but_hp: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Butterworth HP';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_but_hp );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_but_hp );
+      };
+   };
+
+object
+   button_filter_displace: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = 'Displacement';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_filter_displace );
+         XmNvalueChangedCallback =
+            procedure xm_call_activate( k_button_filter_displace );
+      };
+   };
+
+object
+   filter_edit_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Filter Edit';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+         XmNx = 260;
+         XmNy = 248;
+      };
+      controls {
+         XmLabel    filter_edit_label;
+         XmText     filter_edit_text;
+      };
+   };
+
+object
+   filter_edit_label: XmLabel {
+      arguments {
+         XmNlabelString = 'filter name';
+      };
+   };
+
+object
+   filter_edit_text: XmText {
+      arguments {
+         XmNy = 40;
+         XmNwidth = 140;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_edit_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_filter_edit_text );
+      };
+   };
+
+object
+   filter_autocut_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Filter Cut Window';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+         XmNx = 260;
+         XmNy = 367;
+      };
+      controls {
+!         XmLabel    filter_autocut_label;
+         XmOptionMenu    filter_autocut_option;
+      };
+   };
+
+!object
+!   filter_autocut_label: XmLabel {
+!      arguments {
+!         XmNlabelString = 'filter cut window (sec)';
+!      };
+!   };
+
+!object
+!   filter_autocut_scale: XmScale {
+!      arguments {
+!!         XmNx = k_pos_x_read_grsn_length;
+!!         XmNy = k_pos_y_read_grsn_length+50;
+!         XmNunitType = XmPIXELS;
+!         XmNminimum = 0;
+!         XmNmaximum = 120;
+!         XmNwidth = 120;
+!         XmNborderWidth = 0;
+!         XmNtitleString = 'offset (sec)';
+!         XmNshowValue = true;
+!         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNscaleMultiple = 1;
+!      };
+!      callbacks {
+!         MrmNcreateCallback =
+!            procedure xm_call_create_widget( k_widget_filter_autocut_scale );
+!         XmNvalueChangedCallback =
+!            procedure xm_call_scale(k_scale_filter_autocut);
+!      };
+!   };
+
+object
+   filter_autocut_option: XmOptionMenu {
+      arguments {
+!         XmNx = k_pos_x_filter_autocut;
+!         XmNy = k_pos_y_filter_autocut;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'autocut';
+         XmNmenuHistory = XmPushButton filter_autocut_5sec;
+      };
+      controls {
+         XmPulldownMenu filter_autocut_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_option );
+      };
+   };
+
+object
+   filter_autocut_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   filter_autocut_0;
+         XmPushButton   filter_autocut_5sec;
+         XmPushButton   filter_autocut_20sec;
+         XmPushButton   filter_autocut_1min;
+         XmPushButton   filter_autocut_3min;
+         XmPushButton   filter_autocut_5min;
+         XmPushButton   filter_autocut_10min;
+      };
+   };
+
+object
+   filter_autocut_0: XmPushButton {
+      arguments {
+         XmNlabelString = ' 0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_0 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_0 );
+      };
+   };
+
+object
+   filter_autocut_5sec: XmPushButton {
+      arguments {
+         XmNlabelString = ' 5 sec';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_5sec );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_5sec );
+      };
+   };
+
+object
+   filter_autocut_20sec: XmPushButton {
+      arguments {
+         XmNlabelString = '20 sec';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_20sec );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_20sec );
+      };
+   };
+
+object
+   filter_autocut_1min: XmPushButton {
+      arguments {
+         XmNlabelString = ' 1 min';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_1min );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_1min );
+      };
+   };
+
+object
+   filter_autocut_3min: XmPushButton {
+      arguments {
+         XmNlabelString = ' 3 min';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_3min );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_3min );
+      };
+   };
+
+object
+   filter_autocut_5min: XmPushButton {
+      arguments {
+         XmNlabelString = ' 5 min';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_5min );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_5min );
+      };
+   };
+
+object
+   filter_autocut_10min: XmPushButton {
+      arguments {
+         XmNlabelString = '10 min';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_autocut_10min );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_filter_autocut_10min );
+      };
+   };
+
+object
+   filter_butpar_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Butterworth';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+         XmNx = 260;
+      };
+      controls {
+         XmLabel        filter_butpar_lo_label;
+         XmArrowButton  button_filter_butpar_lo_up;
+         XmArrowButton  button_filter_butpar_lo_down;
+         XmText         filter_butpar_lo_text;
+         XmLabel        filter_butpar_hi_label;
+         XmArrowButton  button_filter_butpar_hi_up;
+         XmArrowButton  button_filter_butpar_hi_down;
+         XmText         filter_butpar_hi_text;
+         XmLabel        filter_butpar_order_label;
+         XmArrowButton  button_filter_butpar_order_up;
+         XmArrowButton  button_filter_butpar_order_down;
+         XmText         filter_butpar_order_text;
+      };
+   };
+
+object
+   filter_butpar_lo_label: XmLabel {
+      arguments {
+         XmNx = 50;
+         XmNy = 20;
+         XmNlabelString = 'lower bound';
+      };
+   };
+
+object
+   button_filter_butpar_lo_up: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 30;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_lo_up );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_lo_up );
+      };
+   };
+
+object
+   button_filter_butpar_lo_down: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 50;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_lo_down );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_lo_down );
+      };
+   };
+
+object
+   filter_butpar_lo_text: XmText {
+      arguments {
+         XmNx = 50;
+         XmNy = 40;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+!         XmNvalue = '100s';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_lo_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_filter_butpar_lo_text );
+      };
+   };
+
+object
+   filter_butpar_hi_label: XmLabel {
+      arguments {
+         XmNx = 50;
+         XmNy = 80;
+         XmNlabelString = 'upper bound';
+      };
+   };
+
+object
+   button_filter_butpar_hi_up: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 90;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_hi_up );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_hi_up );
+      };
+   };
+
+object
+   button_filter_butpar_hi_down: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 110;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_hi_down );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_hi_down );
+      };
+   };
+
+object
+   filter_butpar_hi_text: XmText {
+      arguments {
+         XmNx = 50;
+         XmNy = 100;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+!         XmNvalue = '1Hz';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_hi_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_filter_butpar_hi_text );
+      };
+   };
+
+object
+   filter_butpar_order_label: XmLabel {
+      arguments {
+         XmNx = 50;
+         XmNy = 140;
+         XmNlabelString = 'order';
+      };
+   };
+
+object
+   button_filter_butpar_order_up: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 150;
+         XmNarrowDirection = XmARROW_UP;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_order_up );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_order_up );
+      };
+   };
+
+object
+   button_filter_butpar_order_down: XmArrowButton {
+      arguments {
+         XmNx = 20;
+         XmNy = 170;
+         XmNarrowDirection = XmARROW_DOWN;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_ord_down );
+         XmNarmCallback =
+            procedure xm_call_activate( k_button_filter_butpar_ord_down );
+      };
+   };
+
+object
+   filter_butpar_order_text: XmText {
+      arguments {
+         XmNx = 50;
+         XmNy = 160;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+!         XmNvalue = '3';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_filter_butpar_ord_text);
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_filter_butpar_ord_text );
+      };
+   };
+

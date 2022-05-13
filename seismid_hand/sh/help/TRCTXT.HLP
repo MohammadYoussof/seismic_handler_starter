@@ -1,0 +1,35 @@
+command TRCTXT <text1>[;<text2>[;...;<textN>]]
+==============
+
+key: trace info text
+
+Changes information text at traces.  Each text parameter <textX> is
+printed at every trace, separated by spaces.  If a parameter equals
+to "\" (backslash) a new line is started (the backslash is not printed).
+
+There is a special option for accessing info entry values of the
+traces.  If the index value of the info entry descriptor equals
+to "$x", the info entry of the current plotted trace is substituted,
+e.g. "trctxt ^comment($x)" means that at each trace the correspondent
+comment string is displayed.
+
+The style block number used for trace info output is $trcinfostyle.
+
+
+parameters
+----------
+
+<text1>, <text2>, ..., <textN>  ---  parameter type: string
+   Information text displayed at each trace.  All parameters are
+   concatenated with a separation blank in between.  Backslashes ("\")
+   start a new line.
+
+
+example
+-------
+
+   trctxt ^station($x) ^comp($x) \ ^start($x) \ ^comment($x)
+        Specifies three lines for each trace.  The first line
+        contains station and component, the second the start time
+        and the last is a comment on the trace.
+

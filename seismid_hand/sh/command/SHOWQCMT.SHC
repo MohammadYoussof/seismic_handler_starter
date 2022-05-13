@@ -1,0 +1,29 @@
+
+! file SHOW_CMT.SHC
+!      ============
+!
+! version 1, 6-JUN-91
+!
+! displays comment lines of a q-file
+! K. Stammler, 6-JUN-91
+
+default 1 ;;       q-file name:
+
+sdef maxline       ! number of comment lines in q-file
+sdef qhdr          ! name of q-header file
+sdef linecnt 2     ! line counter
+
+calc s &qhdr = |#1|.qhd|
+calc s &maxline = %"qhdr(1) parse 2
+if  "maxline gti 1  goto/forward cont:
+   echo no comment in file #1
+   return
+cont:
+loop_start:
+   echo %"qhdr("linecnt)
+   calc i &linecnt = "linecnt + 1
+   if  "linecnt gti "maxline  goto/forward loop_exit:
+goto loop_start:
+loop_exit:
+
+return

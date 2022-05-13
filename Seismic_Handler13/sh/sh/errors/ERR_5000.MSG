@@ -1,0 +1,26 @@
+! file ERR_5000.MSG
+!      ============
+!
+! version 1, 3-Sep-92
+!
+! error messages of modules READGRN
+! K. Stammler, 3-Sep-92
+!
+*** GRN-01 error opening GRN file ***
+*** GRN-02 error reading GRN file ***
+*** GRN-03 no data record ***
+*** GRN-04 specified time before file start ***
+*** GRN-05 file too short ***
+*** GRN-06 error in file positioning ***
+*** GRN-07 memory overflow ***
+*** GRN-08 bug in program (this should not happen) ***
+*** GRN-09 zero length array ***
+*** GRN-10 end of file detected ***
+*** GRN-11 illegal GRN filename ***
+*** GRN-12 error opening WORM directory ***
+*** GRN-13 illegal sample rate ***
+*** GRN-14 time not on volume ***
+*** GRN-15 station & sample rate not found ***
+*** GRN-16 string overflow ***
+*** GRN-17 label file not found ***
+*** GRN-18 time not found in label file ***

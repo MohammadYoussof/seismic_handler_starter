@@ -1,0 +1,78 @@
+! file WRITEGSE.SHC
+!      ============
+!
+! version 3, 24-Nov-94
+!
+! writes traces in GSE INTV format (no differences)
+! K. Stammler, 8-Jul-93
+
+sdef outname      ! name of output file
+sdef station      ! station name
+sdef cnt 1        ! counter
+sdef tmp          ! scratch
+sdef cmd          ! system command
+sdef ostype       ! operating system
+
+calc s &station = ^station
+if  "station eqs grf-a1  goto/forward make_grf:
+if  "station eqs grf-b1  goto/forward make_grf:
+if  "station eqs grf-c1  goto/forward make_grf:
+if  "station eqs gra1  goto/forward make_grf:
+if  "station eqs grb1  goto/forward make_grf:
+if  "station eqs grc1  goto/forward make_grf:
+goto/forward name_ok:
+make_grf:
+   calc s &station = grf
+name_ok:
+calc s &outname = "station qname ^start
+calc s &outname = "outname extract 3 20
+calc s &outname = |"outname|.gse|
+
+default 1 "outname    output file
+default 2 all         trace list
+default 3 ;;          calibration (<CR>,a,number)
+default 4 ;;          instrument
+
+! check whether from k-file
+calc i &tmp = 0
+if  ^file nes from-k-file  goto/forward no_k:
+   calc i &tmp = 1
+no_k:
+echo writing scratch q-file gse_input
+fct oscall fdelete gse_input.qbn
+fct oscall fdelete gse_input.qhd
+write gse_input #2
+if  "tmp nei 1  goto/forward no_info_copy:
+   echo save calibration constants to q-header
+   copy_info_f opinfo calib
+!   calib_loop:
+!      if  "cnt gti $dsptrcs  goto/forward calib_loop_exit:
+!      calc r &tmp = ^opinfo("cnt) * 1000.0
+!      set/file "cnt calib "tmp
+!      calc i &cnt = "cnt + 1
+!   goto calib_loop:
+!   calib_loop_exit:
+no_info_copy:
+
+fct get_os &ostype
+calc s &cmd = ;
+if  "ostype eqs vax-vms  goto/forward command_cont:
+   fct getpath extprog &cmd
+command_cont:
+@CALC S &CMD = |"CMD|q2gse|$BLANK|-l|$BLANK|-f="INTV"|$BLANK|
+if  #3 nes a  goto/forward no_auto_calib:
+@  CALC S &CMD = |"CMD|-a|$BLANK|
+no_auto_calib:
+if  #3 eqs ;;  goto/forward no_extern_calib:
+@  CALC S &CMD = |"CMD|-e=|#3|$BLANK|
+no_extern_calib:
+if  #4 eqs ;;  goto/forward no_instrument:
+@  CALC S &CMD = |"CMD|-s=|#4|$BLANK|
+no_instrument:
+calc s &cmd = |"cmd|gse_input|$blank|#1|
+@ECHO creating GSE file #1
+system "cmd
+fct oscall fdelete gse_input.qbn
+fct oscall fdelete gse_input.qhd
+
+return

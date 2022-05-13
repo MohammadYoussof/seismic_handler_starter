@@ -1,0 +1,32 @@
+command MERGE <trc1> <trc2>
+=============
+
+key: merges two traces together
+! version 1, 26-Jul-2006
+
+Merges two traces <trc1> and <trc2>.  Both traces must have the same sample
+rate.  The input traces remain unchanged.  The (new) output trace in general
+contains samples of <trc1> and <trc2> and are properly aligned in time.  Three
+cases are distinguished:
+(1) The time span of one trace is completely contained in the time span of the
+    other.  Then the output trace is a copy of the long trace.
+(2) In all other cases where we have overlapping traces, the samples of the
+    trace with the later start time overwrite the samples of the other trace.
+(3) The traces do not overlap in time.  Then the gap is filled with samples
+    of constant values (value of the first sample of the later trace).
+The output trace will have the same station information as the trace starting
+earlier in time.  The station information of the other trace is ignored.  You
+may merge two traces with different names and components.
+
+parameters
+----------
+
+<trc1>, <trc2>  ---  parameter type: trace
+   Traces to be merged.
+
+
+example
+-------
+
+   merge 1 2     ! merges trace 1 and 2
+

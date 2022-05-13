@@ -1,0 +1,23 @@
+! file WSASCII.SHC
+!      ===========
+!
+! version 1, 3-Dec-1991
+!
+! writes stack traces to ASCII files
+! K. Stammler, 3-Dec-1991
+
+default 1 ;;      output file (without extension)
+
+sdef cnt 01    ! counter
+sdef outfile   ! output file
+
+loop_start:
+	if  "cnt gti $dsptrcs  goto/forward loop_exit:
+	calc s &outfile = |#1|.a|"cnt|
+	echo writing trace "cnt to file "outfile
+	writea/npl=4 "outfile "cnt start station comp
+	calc/fmt=<%02@d> i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

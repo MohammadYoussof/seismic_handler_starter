@@ -1,0 +1,12 @@
+! file PHC_PM.SHC
+!      ==========
+!
+! version 1, 2-Jun-97
+!
+! squared hardcopy of particle motion window
+! K. Stammler, 2-Jun-97
+
+!wdw size p 0 0 10 10
+phc x3h
+
+return

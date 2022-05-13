@@ -1,0 +1,64 @@
+command SPECTRUM <trc-list> <n> [<lo-t> <hi-t>] <lo-f> <hi-f> <f-steps>
+================
+
+key: MEM power spectrum
+
+Computes power spectrum of traces given by <trc-list>.  <n> specifies
+the number of poles used for the approximation.  <lo-t>,<hi-t>
+selects a time window on the input traces.  If omitted the trace
+window on the current display is used.  <lo-f>,<hi-f> specifies
+the frequency range (in Hz) for the resulting output traces.
+<f-steps> is the number of samples on the output traces.  For the
+output trace the horizontal axis gives the frequency in Hz, unless
+the "/log" qualifier is specified.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to compute power spectrum.
+
+<n>  ---  parameter type: integer
+   Number of poles (order of approximation).
+
+<lo-t>, <hi-t>  ---  parameter type: real
+   Time window on input traces.  If not specified the current
+   display window is used.  If <lo-t> is an astrisk ("*")
+   you can select the window by graphic cursor.
+
+<lo-f>, <hi-f>  ---  parameter type: real
+   Frequency range to compute the output traces (in Hz).
+
+<f-steps>  ---  parameter type: integer
+   Number of samples on output traces.  The output traces range
+   from <lo-f> Hz to <hi-f> Hz using <f-steps> equidistant
+   sample values.
+
+
+qualifiers
+----------
+
+/log
+   The spectrum is computed in logarithmic steps.  Be sure that
+   in this case <lo-t> is not zero.  For the output trace the
+   horizontal axis gives the logarithm of the frequency (in Hz).
+
+
+examples
+--------
+
+   spectrum all 50 0. 50. .05 3. 200
+        ! computes power spectrum of all traces on display in the
+        ! time window between 0 and 50 seconds.  The output traces
+        ! range from .05 Hz (20 sec) to 3 Hz using 200 samples.
+
+   spectrum 1 30 *;; .1 4. 300
+        ! computes power spectrum of first trace on display from
+        ! 10 sec to 4 Hz using 300 samples.  The time window on the
+        ! input trace must be selected by graphic cursor.
+
+   spectrum/log 1 30 *;; .1 100. 300
+        ! Similar to above command except the frequency window and
+        ! the logarithmic frequency steps.
+

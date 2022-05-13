@@ -1,0 +1,33 @@
+default 1 1    trace number
+default 2 20.  window width
+default 3 5.   noise window offset
+
+sdef signallo              ! lower bound of signal window
+sdef signalhi              ! upper bound of signal window
+sdef noiselo               ! lower bound of noise window
+sdef noisehi               ! upper bound of noise window
+sdef signallev             ! signal amplitude
+sdef noiselev              ! noise amplitude
+sdef station ^station(#1)  ! station name
+
+calc t &signallo = ^p-onset(#1) tdiff ^start(#1)
+calc r &noisehi = "signallo - #3
+calc r &noiselo = "noisehi - #2
+calc r &signalhi = "signallo + #2
+
+fct setstyle $markstyle color %blue
+mark #1 "noiselo
+mark #1 "noisehi
+fct setstyle $markstyle color %green
+mark #1 "signallo
+mark #1 "signalhi
+fct setstyle $markstyle color %red
+
+am/abs #1 "noiselo "noisehi &noiselev
+am/abs #1 "signallo "signalhi &signallev
+
+calc r &noiselev = "signallev div "noiselev
+echo station "station signal-noise ratio "noiselev
+set/file _station("station) signoise "noiselev
+
+return

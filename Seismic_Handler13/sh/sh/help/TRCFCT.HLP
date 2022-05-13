@@ -1,0 +1,39 @@
+command TRCFCT <trc-list> <function> [<p1>]
+==============
+
+key: trace functions
+
+Manipulates traces.  Action depends on <function>.  Valid values
+for <function> see below.  All input traces are changed, that means
+no additional output traces are created.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be manipulated.
+
+<function>  ---  parameter type: string
+   Function name.  Valid values are:
+
+   mul           multiplication with <p1>
+   add           add <p1> to all samples
+   square        square all data samples
+   ssquare       square all samples, preserving the sign
+   spower        takes <p1>-th power of all samples, preserving the sign
+   abs           take absolute value
+
+
+examples
+--------
+
+   trcfct all mul 10.0
+      amplifies all traces on display by factor of 10.0.  The result
+      is similar to the command "zoom/rel all 10.0", but here the
+      sample values are changed, not only the display.
+
+   trcfct all spower 0.25
+      Takes 4-th root of each sample of every trace on display
+      preserving the sign.
+

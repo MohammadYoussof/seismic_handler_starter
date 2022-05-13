@@ -1,0 +1,202 @@
+! file shm_refstation.uil
+!      ==================
+!
+! version 2, 17-Jun-2006
+!
+! selection of reference station
+! K. Stammler, 11-Oct-95
+
+object
+   refstation_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'reference station';
+         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard refstat_input_box;
+         XmRowColumn     refstat_main_button_box;
+      };
+   };
+
+
+object
+   refstat_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_refstat_main_buttons;
+         XmNy = k_pos_y_refstat_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_refstat_ok;
+      };
+   };
+
+object
+   button_refstat_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_ok );
+      };
+   };
+
+object
+   refstat_input_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'refstat input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmOptionMenu    refstat_station_option;
+         XmLabel         refstat_edit_label;
+         XmText          refstat_edit_text;
+      };
+   };
+
+object
+   refstat_station_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_refstat_option;
+         XmNy = k_pos_y_refstat_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Ref. Station';
+         XmNmenuHistory = XmPushButton button_refstat_station_1;
+      };
+      controls {
+         XmPulldownMenu refstat_station_menu;
+      };
+   };
+
+object
+   refstat_station_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_refstat_station_1;
+         XmPushButton   button_refstat_station_2;
+         XmPushButton   button_refstat_station_3;
+         XmPushButton   button_refstat_station_4;
+         XmPushButton   button_refstat_station_5;
+         XmPushButton   button_refstat_station_edit;
+      };
+   };
+
+object
+   button_refstat_station_1: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX1';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_1 );
+      };
+   };
+
+object
+   button_refstat_station_2: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX2';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_1+1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_1+1 );
+      };
+   };
+
+object
+   button_refstat_station_3: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX3';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_1+2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_1+2 );
+      };
+   };
+
+object
+   button_refstat_station_4: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX4';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_1+3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_1+3 );
+      };
+   };
+
+object
+   button_refstat_station_5: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX5';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_1+4 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_1+4 );
+      };
+   };
+
+object
+   button_refstat_station_edit: XmPushButton {
+      arguments {
+         XmNlabelString = 'XXX6';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_refstat_station_last );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_refstat_station_last );
+      };
+   };
+
+object
+   refstat_edit_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_refstat_edit_label;
+         XmNy = k_pos_y_refstat_edit_label;
+         XmNlabelString = 'edit: ';
+      };
+   };
+
+object
+   refstat_edit_text: XmText {
+      arguments {
+         XmNx = k_pos_x_refstat_edit_text;
+         XmNy = k_pos_y_refstat_edit_text;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = 'XXXX';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_refstat_edit_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_refstat_edit_text );
+      };
+   };
+

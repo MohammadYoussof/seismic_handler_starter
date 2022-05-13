@@ -1,0 +1,70 @@
+! file HDF_PARSE.SHC
+!      =============
+!
+! version 1, 9-apr-96
+!
+! reads HDF line and returns origin time, distance (to GRA1) and depth
+! in G1 G2 and G3 as well as the HDF line in RET.
+
+default 1 ;;      list file
+default 2 1       increment
+
+sdef line
+sdef fpath
+
+fct local getenv:home &fpath
+calc s &fpath = |"fpath|$slash|
+
+sdef cnt %|"fpath|kls_counter|
+sdef year
+sdef month
+sdef day
+sdef hour
+sdef min
+sdef sec
+sdef slat      ! station latitude
+sdef slon      ! station longitude
+sdef elat      ! event latitude
+sdef elon      ! event longitude
+sdef tmp       ! scratch
+sdef distance  ! distance to gra1
+sdef azim      ! back-azimuth to gra1
+
+calc i &cnt = "cnt + #2
+echo_ch/new |"fpath|kls_counter|
+echo "cnt
+echo_ch
+
+!echo >>>>>> reading event of line "cnt in file #1 <<<<<<
+calc s &line = %#1("cnt)
+calc s &year = "line extract 5 4
+calc s &month = "line extract 9 2
+calc s &day = "line extract 11 2
+calc s &hour = "line extract 13 2
+calc s &min = "line extract 15 2
+calc s &sec = "line extract 17 2
+calc s &g1 = |"day|,|"month|,|"year|,|
+calc s &g1 = |"g1|"hour|,|"min|,|"sec|
+
+! get latitude & longitude
+calc s &elat = "line extract 20 5
+calc r &elat = "elat div 1000
+calc s &tmp = "line extract 25 1
+if  "tmp eqs n  goto/forward lat_ok:
+   calc r &elat = 0.0 - "elat
+lat_ok:
+calc s &elon = "line extract 26 6
+calc r &elon = "elon div 1000
+calc s &tmp = "line extract 32 1
+if  "tmp eqs e  goto/forward lon_ok:
+   calc r &elon = 0.0 - "elon
+lon_ok:
+
+call statloc gra1 &slat &slon
+call locdiff "elat "elon "slat "slon &distance &azim
+calc r &g2 = "distance
+
+calc s &g3 = "line extract 33 3     ! depth
+calc s &ret = "line
+
+return

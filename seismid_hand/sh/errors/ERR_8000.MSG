@@ -1,0 +1,12 @@
+! file ERR_8000.MSG
+!      ===========
+! version 2, 31-AUG-91
+!
+! error messages of foreign input routines
+! K. Stammler, 31-AUG-91
+!
+*** FR-01  error opening input file ***
+*** FR-02  read error on input file / EOF found ***
+*** FR-03  unknown entry name ***
+*** FR-04  string overflow ***
+

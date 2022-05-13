@@ -1,0 +1,18 @@
+! file ERR_1100.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module CMDPARSE.C
+! K. Stammler, 8-JUL-91
+!
+*** CP-01 too many parameters ***
+*** CP-02 too many qualifiers ***
+*** CP-03 no qualifier term char specified ***
+*** CP-04 too many terminators ***
+*** CP-05 number of parameters exceeded ***
+*** CP-06 attempt to access not existing parameter ***
+*** CP-07 output string too short ***
+*** CP-08 float conversion error ***
+*** CP-09 int conversion error ***
+*** CP-10 verify output too long ***

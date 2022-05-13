@@ -1,0 +1,41 @@
+! file STATLIST_VOGT.STX
+!      ===================
+!
+! version 1, 4-Jan-2001
+!
+! setup of dialog box for Vogtland stations
+! K. Stammler, 4-Jan-2001
+
+set1: 0 20 VOGT
+set2: 0 0 ---
+
+* NALB
+* WERN
+* GUNZ
+* TANN
+* SBG
+* KLIN
+* BOH1
+* BEC
+* SELB
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* EIL

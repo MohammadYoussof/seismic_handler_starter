@@ -1,0 +1,27 @@
+! file LABEL.SHC
+!      =========
+!
+! version 1, 29-JUN-91
+!
+! changes trace labeling
+! K. Stammler, 29-JUN-91
+
+default 1 default        label name
+
+if  #1 nes default  goto/forward no_default:
+   trctxt |$x|:| ^station($x) ^comp($x)
+   return
+no_default:
+
+if  #1 nes comment  goto/forward no_comment:
+   trctxt ^comment($x)
+   return
+no_comment:
+
+if  #1 nes position goto/forward no_position:
+   trctxt $x
+   return
+no_position:
+
+echo *** illegal label name ***
+return

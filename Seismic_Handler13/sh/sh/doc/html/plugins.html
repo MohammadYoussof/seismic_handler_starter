@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Plugins in SHM</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Plugins</H2>
+<P>SHM provides an interface for the integration of external
+programs. These external programs may operate on the parameter data
+gathered so far or on waveform data exported in ASCII data files.
+Parameter data can also be reimported into SHM. Parameter data
+exchange format is the text based evt-File format. Typical examples
+of such programs are mapping tools for epicentres or own location
+programs. But, of course, many more types of applications can be
+implemented by the user.</P>
+<P><A NAME="Anker2408454"></A>The interface is controlled by a text
+file located in the user's private directory:
+<em>$SH_USERDIR/external_processes.txt</em>.
+Configurable are the twenty (ten up to version SHM-2.3a) plugin entries
+of the <em>Plugin</em>
+submenu under <em>Specials</em>,
+one of the two location buttons of the <em>LocSAT</em>
+dialog box and routines executed after activation of <em>Read
+New</em> and <em>Final
+Parameters</em>. The syntax of the file entries is:</P>
+<P><em>&lt;command&gt;
+&lt;iface-number&gt; &lt;parameter&gt;</em></P>
+<P>Lines beginning with <em>!</em>
+are comments and are ignored. The items specified on the lines must
+be separated by one or more blanks. The items itself therefore must
+not contain any blanks.</P>
+<P>
+</P>
+<P><em>&lt;iface-number&gt;</em></P>
+<P>Integer number specifying the interface number. The numbers 1 to
+20 (10 up to version 2.3a) refer to the twenty menu entries of the plugin
+submenu (from top to bottom). Number 21 (11 up to version 2.3a) stands for
+the second location button in the
+LocSAT dialog box. This is preferably connected with a location
+program (which is not checked, however). Number 22 (12 up to version 2.3a)
+is a routine called after <em>Read New</em>
+of the read dialog box has been selected, number 23 (13 up to version 2.3a)
+is a routine called after <em>Final
+Parameters</em> has been activated. By default, all plugin
+entries are empty, i.e. no action is associated. Usually several
+commands are associated with a plugin interface, which means that
+several lines exist for each interface number in the
+<em>external_processes.txt</em>
+file. Even if not required by the software, it is recommended to
+group the commands sorted by interface number.</P>
+<P><em>&lt;command&gt;</em>
+and <em>&lt;parameter&gt;</em></P>
+<P STYLE="margin-bottom: 0in">Available commands are:</P>
+<DL>
+	<DD><BR>
+	</DD><DD>
+	<em>label</em></DD><DD>
+	Set name of the entry, this name appears in the menu entry and in
+	the button (number 21), for interface number 22 and 23 this has no
+	meaning. <em>&lt;parameter&gt;</em>
+	is a text string containing the name. Please replace all blanks in
+	the name by underscores '_'.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>writeevt</em></DD><DD>
+	Write out evt-file with the current analysis parameters to the
+	<em>$SH_SCRATCH</em>
+	directory. <em>&lt;parameter&gt;</em>
+	contains the name of the evt-file.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>shell</em></DD><DD>
+	Call external program and pass an eventually written file (<em>writeevt</em>)
+	as parameter. <em>&lt;parameter&gt;</em>
+	contains the name of the program called. Default path is the user's
+	private directory <em>$SH_USERDIR</em>,
+	otherwise absolute paths have to be used.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>bgshell</em></DD><DD>
+	Flag. Indicates whether a separately specified shell command of this
+	interface number should be executed in background. Default behaviour
+	(without this flag) is that SHM waits until the shell command has
+	finished. <em>&lt;parameter&gt;</em>
+	is not used.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>resetpar</em></DD><DD>
+	Deletes all analysis parameters and phase picks of SHM. Usually this
+	command is called before a <em>readevt</em>
+	command to have the parameter set cleared. Please make sure that the
+	following <em>readevt</em>
+	command is successful, otherwise the analysis done so far is lost.
+	That means the external program should provide at least the input
+	evt-file for reading (created by <em>writeevt</em>)
+	if some problem during execution arises. <em>&lt;parameter&gt;</em>
+	is not used.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>remtheo</em></DD><DD>
+	Delete theoretical phases in the display window. <em>&lt;parameter&gt;</em>
+	is not used. This action is included in <em>resetpar</em>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>waveform</em></DD><DD>
+	Write the content of the current display window (waveform data) in
+	ASCII format to disk. <em>&lt;parameter&gt;</em>
+	specifies the name of the output file. Default path is <em>$SH_SCRATCH</em>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>currwindow</em></DD><DD>
+	Write out the currently set display time window into a text file.
+	The name of the text file is given in <em>&lt;parameter&gt;</em>.</DD><DD>
+	<BR>
+	</DD><DD>
+	<em>shcfile</em></DD><DD>
+	Call SH-script. <em>&lt;parameter&gt;</em>
+	contains the name of the script (.SHC-file). Only recommended for SH
+	experts.</DD><DD><BR>
+   <em>readevt</em></DD><DD>
+   Read in evt-file.  Return event information into SHM.  This file is usually
+   created by an external program, e.g. called in a <em>shell</em> command.
+   Please note the remarks given in <em>resetpar</em>.
+	</DD><DD><BR>
+   <em>reread</em></DD><DD>
+   Available since version SHM 2.3c (9-Mar-2006).
+   Reread the plugin definitions from <em>external_processes.txt</em>.  In case
+   that you want to change the plugin entries on the fly you can reread your
+   changed definitions here.
+	</DD>
+</DL>
+	
+
+<p>
+Please note that there is only one command of a type per plugin entry available.
+If you specify e.g. two <em>shell</em> commands within one iface-number then the
+second <em>shell</em> overwrites the first.  The order of execution is also
+fixed to: <em>writeevt</em>, <em>waveform</em>, <em>shcfile</em>,
+<em>remtheo</em>, <em>resetpar</em>, <em>readevt</em>, <em>reread</em>.
+</p>
+
+<P>An example entry in
+<em>external_processes.txt</em>
+would look like:</P>
+<P><pre>
+label    1 Preview_Map
+writeevt 1 epimap.evt
+shell    1 preview_map.csh
+</pre></P>
+<P>The first line sets the name in the first menu entry
+to <em>Preview Map</em>,
+the second creates an output file <em>$SH_SCRATCH/epimap.evt</em>
+and the third line calls a plotting program to create a map around
+the epicentre found in <em>epimap.evt</em>.
+The program needs to read and interpret the evt-file format.</P>
+<P>In case of a location program the lines would look
+similar to</P>
+<p><pre>
+label    21 Hypocenter
+writeevt 21 hypo.evt
+shell    21 call_hypo.csh
+resetpar 21
+readevt  21 hypout.evt
+</pre></P>
+<p>If you have a version 2.3a or earlier replace number 21 by 11.</p>
+<P>The additional entries <em>resetpar</em>
+and <em>readevt</em>
+replace the original parameter set and phase picks.  The <em>hypout.evt</em>
+is an output of the <em>call_hypo.csh</em>
+program.  This program must be able to read and write evt-files.  The
+<em>hypout.evt</em>
+file should include all information passed by <em>hypo.evt</em>
+plus an added/modified epicenter location.</P>
+<P>
+</P>
+<P><small>This page last modified 9-Mar-2006</small></P>
+</BODY>
+</HTML>

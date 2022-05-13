@@ -1,0 +1,15 @@
+! file ERR_2100.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module UTILITY.C
+! K. Stammler, 8-JUL-91
+!
+*** UT-01 number string too long ***
+*** UT-02 too many integers ***
+*** UT-03 conversion error ***
+*** UT-04 two consecutive separators ***
+*** UT-05 illegal character in list string ***
+*** UT-06 string ends with separator ***
+*** UT-07 string overflow ***

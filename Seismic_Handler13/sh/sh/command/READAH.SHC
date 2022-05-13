@@ -1,0 +1,35 @@
+
+! file READAH.SHC
+!      ==========
+!
+! version 2, 29-Oct-97
+!
+! reads AH format
+! K. Stammler, 26-Aug-93
+
+default 1 ;;     AH file
+default 2 1      trace list in file
+
+sdef path     ! inputs path
+sdef corr     ! sensitivity correction
+sdef trc $dsptrcs ! number of traces on display
+sdef ncal     ! new calibration
+
+fct getpath inputs &path
+readf/fmt=3/entries=|"path|ah_entries.txt| #1 #2
+
+calc r &corr = 2.0 * $pi
+trcfct _created mul "corr
+
+loop_start:
+   calc i &trc = "trc + 1
+   if  "trc gti $dsptrcs  goto/forward loop_exit:
+   calc r &ncal = ^calib("trc) * "corr
+   set "trc calib "ncal
+   goto loop_start:
+loop_exit:
+
+if  #quiet nes _existsnot_  return
+@ECHO given AH sens multiplied by 2*pi; correct only for velocity data
+
+return

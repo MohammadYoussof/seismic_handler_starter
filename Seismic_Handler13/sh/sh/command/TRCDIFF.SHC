@@ -1,0 +1,33 @@
+! file TRCDIFF.SHC
+!      ===========
+!
+! version 1, 14-Jun-2002
+!
+! Returns rms trace difference of two traces, one multiplied by a factor
+! K. Stammler, 14-Jun-2002
+
+default 1 1     trace 1
+default 2 2     trace 2
+default 3 0.1   factor for trace 1
+
+sdef xa #3    ! magnification 1
+sdef idx      ! trace index
+sdef adiff    ! trace difference 1
+
+set #1 weight 1.0
+set #2 weight -1.0
+
+copy #1
+calc i &idx = $dsptrcs
+trcfct "idx mul "xa
+sum/nonorm |#2|,|$dsptrcs|
+del "idx
+trcfct $dsptrcs square
+int $dsptrcs
+calc r &adiff = ^maxval($dsptrcs) sqrt
+del $dsptrcs
+del $dsptrcs
+calc r &ret = "adiff
+echo "xa "adiff
+
+return

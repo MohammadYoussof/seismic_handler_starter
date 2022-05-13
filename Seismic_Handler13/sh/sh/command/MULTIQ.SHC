@@ -1,0 +1,21 @@
+! file multiq.shc
+!      ==========
+
+default 1 ;;   file list
+
+sdef cnt 1
+sdef max %#1(0)    ! number of files in #1
+sdef qfile
+
+nr
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   calc s &qfile = %#1("cnt)
+   echo reading file "qfile
+   read "qfile all
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry LocSAT</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>LocSAT</em></H2>
+
+<P>Interface to the location program of Steve Bratt and Walter
+Nagy. This program is not part of the distribution of SH/SHM.
+It must be copied and installed separately. The code is a mixture
+of Fortran and C. For some platforms executable version are available
+on <A HREF="ftp://ftp.szgrf.bgr.de/software">our ftp server</A>.
+Calling this entry writes all phases which are picked and have
+a quality factor (see <A HREF="phasebox.html">phase dialog box</A>)
+of at least 2 (!) into a scratch file which is passed to LocSAT
+and run. The output of LocSAT is displayed in a text window and
+the location results also read into SHM. If the location program
+does not work, please check first the quality factor of your phases.</P>
+
+<P>The dialog box of  LocSAT has the following options:</P>
+
+<UL>
+  <LI><em>Depth</em>: If
+  the value is set to <em>free</em>
+  the location algorithm inverts also for depth. This can cause
+  instabilities. Fixing it to a value sometimes improves the location,
+  if the depth can be guessed. But fixing to a completely wrong
+  value also makes the inversion instable (and makes the location
+  bad).
+  <LI><em>Auto start loc</em>:
+  A value of <em>yes</em>
+  causes LocSAT to compute a starting location by itself,
+  <em>no</em> means LocSAT takes
+  the closest station as the starting location.
+  <LI><em>Table prefix</em>:
+  Prefix of the travel time tables used for the inversion. The
+  tables are located in <em>$SH_LOCSAT/tables</em>
+  (LocSAT does not use the travel time tables of SH/SHM). The tables
+  with the prefix <em>tab</em>
+  are created with the IASP91 velocity model. Provide your own
+  tables with another prefix, then you may switch between the tables.
+  <LI><em>Deg. of freedom</em>:
+  Degrees of freedom. I don't really know ...
+  <LI><em>Max iterations</em>:
+  Maximum number of iterations. After this number of iterations
+  the location algorithm is stopped, it does not converge, at least
+  not fast enough.
+  <LI><em>Brief output</em>:
+  Tells whether the output file of LocSAT should be shown as original
+  (<em>no</em>, rather lengthy)
+  or should be reduced to the most important results (<em>yes</em>).
+</UL>
+
+<P>Installation of the LocSAT tar file has to be done in
+<em>$SH_UTIL</em>:<BR CLEAR="ALL">
+<em>cd $SH_UTIL; tar xvf &lt;locsat-tarfile&gt;<BR
+CLEAR="ALL"></em>A man page of LocSAT itself is then found in
+<em>$SH_UTIL/locsat/doc/man/man1</em>.
+To read it enter in a C-shell:<BR CLEAR="ALL">
+<em>setenv MANPATH ${MANPATH}:$SH_UTIL/locsat/doc/man<BR
+CLEAR="ALL">man LocSAT</em></P>
+
+<P>For debugging: what happens is:</P>
+
+<UL>
+  <LI>SHM writes three files in <em>$SH_SCRATCH</em>:
+  <em>locsat_c.txt</em>
+  with control information, <em>locsat_s.txt</em>
+  with station information and <em>locsat_d.txt</em>
+  with phase readings.
+  <LI>It calls the command (in <em>$SH_SCRATCH</em>):<BR
+  CLEAR="ALL"><em>$SH_UTIL/LocSAT
+  -c locsat_c.txt -s locsat_s.txt -d locsat_d.txt -o locsat_r.txt</em><BR
+  CLEAR="ALL">which creates the output file
+  <em>locsat_r.txt</em>. All these files remain
+  on <em>$SH_SCRATCH</em>
+  until they are overwritten by the next call to LocSAT. There
+  they may be examined to find any errors in processing.
+  <LI>The output file <em>locsat_r.txt</em>
+  is reformatted to <em>locsat_edit.txt</em>
+  if not switched off in the LocSAT dialog box (option
+  <em>brief output</em>).
+  <LI><em>locsat_edit.txt</em>
+  or (<em>locsat_r.txt</em>)
+  is displayed on screen and the location results put to the <A
+  HREF="parambox.html">analysis parameter box</A>.
+</UL>
+
+<P>Please note a bug in LocSAT: if the path to the travel time
+table files (given as <em>$SH_LOCSAT</em>
+in <em>$SH_ROOT/setup/shsetup</em>)
+is too long (more than 22 characters) the program crashes. If
+your path is longer then you have to use a link to your LocSAT
+tables directory which is shorter and 22 characters. This link
+you have to specify in the definition of <em>$SH_LOCSAT</em> in
+<em>$SH_ROOT/setup/shsetup</em>. Do not change
+the definition of <em>$SH_LOCSAT_EXEC</em>.</P>
+
+<P><small>This page last modified 13-Jul-2000</small></P>
+
+</BODY>
+</HTML>

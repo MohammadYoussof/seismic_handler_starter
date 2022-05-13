@@ -1,0 +1,41 @@
+! file ULHC.SHC
+!      ========
+!
+! version 1, 21-Dec-92
+!
+! Unix HP-GL hardcopy
+! K. Stammler, 21-Dec-92
+
+default 1 ;;       hc window
+default 2 a4       paper size
+
+sdef hcfile        ! name of hardcopy file
+sdef cmd           ! print command
+sdef wdvdir        ! WDV directory
+
+!fct local getenv:~klaus &wdvdir
+@CALC S &WDVDIR = \home\b3sn06\klaus\wdv\ DOSLASH
+
+hc #1 l &hcfile
+
+if  #2 eqs a4  goto/forward do_a4:
+if  #2 eqs a3  goto/forward do_a3:
+echo illegal paper size #2
+return
+
+do_a4:
+@  CALC S &CMD = |dnilpr|$BLANK|-q|$BLANK|szmv02::lta15:|$BLANK|"WDVDIR|A4LPAPER.WDV|
+   goto/forward format_ok:
+do_a3:
+@  CALC S &CMD = |dnilpr|$BLANK|-q|$BLANK|szmv02::lta15:|$BLANK|"WDVDIR|A3PAPER.WDV|
+format_ok:
+system "cmd
+@CALC S &CMD = |dnilpr|$BLANK|-q|$BLANK|szmv02::lta15:|$BLANK|"WDVDIR|TO_HPGL.WDV|
+system "cmd
+
+@CALC S &CMD = |dnilpr|$BLANK|-q|$BLANK|szmv02::lta15:|$BLANK|"HCFILE|
+system "cmd
+@CALC S &CMD = |dnilpr|$BLANK|-q|$BLANK|szmv02::lta15:|$BLANK|"WDVDIR|TO_WDV.WDV
+system "cmd
+
+return

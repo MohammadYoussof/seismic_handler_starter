@@ -1,0 +1,51 @@
+
+! file fitdepth.shc
+!      ============
+!
+! version 1, 24-May-92
+!
+! determines depth (km) from difference time between two phases
+! return value given in "g1
+! K. Stammler, 24-May-92
+
+default 1 ;;    distance (deg)
+default 2 ;;    difference time (sec)
+switch capcnv off
+DEFAULT 3 P     first phase
+DEFAULT 4 pP    second phase
+SWITCH CAPCNV ON
+default 5 0.1   depth accuracy (km)
+
+sdef mindepth 0      ! minimum depth
+sdef maxdepth 800    ! maximum depth
+sdef loopcnt 1       ! loop counter
+sdef t1              ! phase 1 travel time
+sdef t2              ! phase 2 travel time
+sdef depth           ! current depth
+
+loop_start:
+   if  "loopcnt gti 20  goto/forward loop_exit:
+   calc r &depth = "mindepth + "maxdepth
+   calc/fmt=<%4.2@f> r &depth = "depth div 2.0
+   call travel #3 #1 "depth &t1
+   call travel #4 #1 "depth &t2
+   calc/fmt=<%5.3@f> r &t1 = "t2 - "t1
+   if  "t1 ltr #2  goto/forward lowbound:
+      calc r &maxdepth = "depth
+      goto/forward bound_ok:
+   lowbound:
+      calc r &mindepth = "depth
+   bound_ok:
+   echo time approx: "t1 --- #2 $blank(4) depth: "depth
+   calc r &depth = "maxdepth - "mindepth
+   if  "depth gtr #5  goto/forward continue:
+      calc r &g1 = "mindepth + "maxdepth
+      calc r &g1 = "g1 div 2.0
+      echo found depth "g1
+      return
+   continue:
+   calc i &loopcnt = "loopcnt + 1
+goto loop_start:
+loop_exit:
+
+return

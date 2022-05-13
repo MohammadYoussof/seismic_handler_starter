@@ -1,0 +1,37 @@
+! file SHM_CMD_MAKE_ALIGN.SHC
+!      ======================
+!
+! version 1, 13-Aug-93
+!
+! Aligns traces to phase name given in phase dialog box.  Shift times are
+! computed by SHM and put into info entry OPINFO.  This procedure aligns traces
+! and computes summation trace
+! K. Stammler, 13-Aug-93
+
+default 1 all       summation list
+
+sdef cnt 1        ! trace counter
+sdef tpos         ! time position
+
+switch chatty off
+
+nr
+set all t-origin 0.0
+shift all time_al
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc r &tpos = ^t-origin("cnt)
+   calc r &tpos = "tpos - ^opinfo("cnt)
+   set "cnt t-origin "tpos
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+sum #1
+set _created station align
+set $dsptrcs zoom ^zoom
+
+rd
+
+return

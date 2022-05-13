@@ -1,0 +1,49 @@
+! file READ_EVENT_PHASE.SHC
+!      ====================
+!
+! version 1, 17-Mar-2006
+!
+! Reads phase of a given event from event list
+! K. Stammler, 17-Mar-2006
+
+default 1 1                 event number
+default 2 evlist.stx        event list
+default 3 pkpvdvf           phase
+default 4 z                 component
+default 5 300               window length
+default 6 60                offset time
+default 7 grf_s+g_wwssn_sp  filter
+default 8 5.0               cut time
+default 9 jk:               miniseed path
+default 10 statlist.stx     station list
+
+sdef evline          ! event line
+sdef orig            ! origin time
+sdef lat             ! latitude
+sdef lon             ! longitude
+sdef depth           ! depth
+
+calc s &evline = %#2(#1)
+calc s &orig = "evline parse 1
+calc s &lat = "evline parse 2
+calc s &lon = "evline parse 3
+calc s &depth = "evline parse 4
+
+echo_ch/new evpar.stx
+echo #9
+echo "orig
+echo "lat
+echo "lon
+echo "depth
+echo #3
+echo #4
+echo #5
+echo #6
+echo #7
+echo #8
+echo_ch
+
+del all
+read_phases #10 evpar 
+
+return

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Recover Status</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060312;16215400">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Menu entry <EM>Recover Status</EM></H2>
+<P>Restores picks and analysis parameters from a previously saved
+binary file in the <I>$SH_SCRATCH</I> directory (with <A HREF="menu_final_params.html"><SPAN STYLE="font-style: normal">Final
+Parameters</SPAN></A>). This option allows to recover a previous
+event analysis.  The binary file contains the event ID number.  The
+desired file has to be selected using the file selection box.  The
+difference to <A HREF="menu_recover_evtfile.html">Recover Evt-File</A>
+is that also the event ID number is recovered and a following call to
+<I>Final Parameters</I> overwrites the previous version of the binary
+status file and the evt-file.  This way a data analysis can be
+continued.</P>
+<P>Please note that the binary status files are not appropriate for
+permanent archiving since the binary format may change with every
+version upgrade of SHM.  Binary status files of older SHM version
+cannot be used any more.  For permanent archiving use the evt text
+files.</P>
+<P><small>This page last modified 12-Mar-2006</small></P>
+</BODY>
+</HTML>

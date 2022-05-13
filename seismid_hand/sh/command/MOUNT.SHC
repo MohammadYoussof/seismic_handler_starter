@@ -1,0 +1,12 @@
+! file MOUNT.SHC      mount device
+default 1 dub6:     device
+default 2 ;;        label
+echo $blank
+echo $blank
+echo >>>>>>****************<<<<<<
+echo >>>>>> mounting #1 <<<<<<
+echo >>>>>>****************<<<<<<
+echo $blank
+echo $blank
+system |mount|%slash|nowrite|$blank|#1|$blank|#2|
+return

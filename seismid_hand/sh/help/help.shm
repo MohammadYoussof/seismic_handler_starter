@@ -1,0 +1,13 @@
+! file help.shm
+!      ========
+!
+! version 1, 13-Aug-94
+!
+! help text about menu option 'Help'
+! K. Stammler, 13-Aug-4
+!
+Menu Entry  'Help'
+
+Opens window for help texts.  This window remains open until it is
+closed again with 'Help' menu option.  An opened help window displays
+corresponding help texts when the user selects a menu item.

@@ -1,0 +1,43 @@
+! file vhc.shc
+!      =======
+!
+! version 1, 9-Oct-92
+!
+! makes VWS hardcopy
+! K. Stammler, 9-Oct-92
+
+default 1 ;;   hc window
+
+sdef hcfile               ! name of hardcopy file
+sdef hcfile_noext         ! name of hardcopy without extension
+sdef strlth               ! length of hardcopy name
+
+if  #rot eqs _existsnot_  goto/forward no_rot:
+   calc s &outdev = lr
+no_rot:
+
+echo writing hardcopy file
+hc #1 v &hcfile
+calc s &strlth = "hcfile strlen
+calc i &strlth = "strlth - 4
+calc s &hcfile_noext = "hcfile extract 1 "strlth
+
+echo setup print job for "hcfile
+echo_ch/new "hcfile_noext
+if  #verify eqs _existsnot_  goto/forward no_verify:
+   echo |$dollar|$blank|set|$blank|verify|
+no_verify:
+echo/no_crlf |$dollar|$blank|define|$slash|user|$blank|
+echo         |sys$output|$blank|$sh_id|.xxx|
+echo |$dollar|$blank|render|$slash|dev=ln03p|$blank|"hcfile|
+echo/no_crlf |$dollar|$blank|print|$slash|pass|$slash|queue=grf10|
+echo         |$slash|delete|$blank|"hcfile_noext|.ren|
+echo |$dollar|$blank|delete|$slash|noconfirm|$blank|"hcfile|%semicolon|
+echo/no_crlf |$dollar|$blank|delete|$slash|noconfirm|$blank|
+echo         |$sh_id|.xxx|%semicolon|*|
+echo |$dollar|$blank|purge|$slash|nolog|$blank|"hcfile_noext|.stx|
+echo_ch
+system |sb0|$blank|"hcfile_noext|.stx|
+echo
+
+return

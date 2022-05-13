@@ -1,0 +1,20 @@
+! file ERR_3600.MSG
+!      ============
+!
+! version 1, 24-May-92
+!
+! error messages of module BGCH.C
+! K. Stammler, 24-May-92
+!
+*** BG-01 attempt to initialize twice ***
+*** BG-02 illegal world coordinates ***
+*** BG-03 no more windows ***
+*** BG-04 error on string input ***
+*** BG-05 illegal window coordinates ***
+*** BG-06 set font failed ***
+*** BG-07 error opening file ***
+*** BG-08 redraw file: unknown command ID ***
+*** BG-09 string overflow ***
+*** BG-10 illegal style number ***
+*** BG-11 unknown style item ***
+*** BG-12 illegal value ***

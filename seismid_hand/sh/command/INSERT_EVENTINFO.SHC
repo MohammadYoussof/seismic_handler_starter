@@ -1,0 +1,42 @@
+! file insert_eventinfo.shc
+!      ====================
+!
+! version 1, 10-Sep-92
+!
+! inserts event information retrieved by KLS (or IDENTIFY) to q-file
+! Traces must be written to q-file before
+! K. Stammler, 10-Sep-92
+
+default 1 all    trace list
+
+sdef origin
+sdef lat
+sdef lon
+sdef depth
+sdef magn
+sdef dist
+sdef baz
+
+calc s &origin = "g1 parse 2
+calc s &lat = "g1 parse 3
+calc s &lon = "g1 parse 4
+calc s &depth = "g1 parse 5
+calc s &magn = "g1 parse 6
+calc s &dist = "g1 parse 7
+calc s &baz = "g1 parse 8
+
+echo inserting origin "origin
+set/file #1 origin "origin
+echo inserting latitude and longitude "lat "lon
+set/file #1 lat "lat
+set/file #1 lon "lon
+echo inserting depth "depth
+set/file #1 depth "depth
+echo inserting magnitude "magn
+set/file #1 magnitude "magn
+echo inserting distance "dist
+set/file #1 distance "dist
+echo inserting (back-)azimuth "baz
+set/file #1 azimuth "baz
+
+return

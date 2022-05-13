@@ -1,0 +1,27 @@
+Station code           : GRA1
+Onset time             : 28-OCT-2002_13:34:44.421
+Onset type             : emergent
+Phase name             : PKP
+Event Type             : teleseismic quake
+Applied filter         : G_WWSSN_SP
+Component              : Z
+Quality number         : 2
+Weight                 : 4
+Beam-Slowness (sec/deg):  2.86
+Beam-Azimuth (deg)     :   20.20
+Distance (deg)         : 145.036
+Latitude               : -16.01
+Longitude              : +179.30
+Depth (km)             :  33.0
+Depth type             : (n) preset
+Origin time            : 28-OCT-2002_13:15:05.000
+Region Table           : Flinn-Engdahl
+Region ID              : 182
+Source region          : FIJI ISLANDS
+Location quality       : reliable
+Reference Location Name: GRA1
+Source of Information  : neic-a
+Phase Flags            : T
+--- End of Phase ---
+
+

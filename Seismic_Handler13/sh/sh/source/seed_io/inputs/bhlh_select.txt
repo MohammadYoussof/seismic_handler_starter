@@ -1,0 +1,31 @@
+! example of SEED stream selection file
+! =====================================
+!
+!
+! The following rules are important:
+!
+!    i)  Each stream list must start with a line "streams:"
+!   ii)  Each time window list must start with a line "time window list:"
+!  iii)  Each time window list must be terminated by a blank line
+!   iv)  A stream line looks like <station>-<channel>-<component>
+!    v)  The wildcards "*" or "all" may be used in place of
+!        the <station>, <channel> and <component> fields
+!   vi)  The array name may be used in place of the <station> field
+!  vii)  A time list of a single "*" or "all" selects all times
+!   ix)  The selection file should be terminated by a line reading "end:"
+
+
+!----------------------------------------------------------
+
+streams:
+*-vbb-*
+*-lp-*
+*-vlp-*
+
+time window list:
+*
+
+!----------------------------------------------------------
+
+
+end:

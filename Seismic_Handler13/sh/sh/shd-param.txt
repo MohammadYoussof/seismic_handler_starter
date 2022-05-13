@@ -1,0 +1,9 @@
+# file shd-param.txt
+#
+# version 1, 10-Jul-2006
+
+debug-level       10
+logfile           shd.log
+baseport          19000
+maxsessions       6
+mainport          18005

@@ -1,0 +1,42 @@
+command CUT <trc-list> <lo-bound> <hi-bound>
+===========
+
+key: cut traces
+
+Changes length of traces.  All data samples of the specified traces
+in <trc-list> not within the given time window from <lo-bound> to
+<hi-bound> are deleted from memory.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be cut.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time window (relative to time axis) for cutting traces.
+
+
+qualifers
+
+/POS=<time-info>
+   Changes the reference time of the time window
+   [<lo-bound>..<hi-bound>] to the value of the info entry
+   <time-info>.  In this case <time-info> must be of time type.
+   If <time-info> is of real type it is assumed to be a distance
+   value which is used in combination with the value of a
+   "/VEL=<velocity>" qualifier to compute reduced velocity time
+   windows.
+
+
+Example
+
+   CUT 1-3 40 100       ! cuts traces 1,2,3 to time window from 40 sec
+                        ! to 100 sec
+
+   CUT/POS=P-ONSET ALL -20 100
+                        ! cuts all traces 20 sec before p-onset and
+                        ! 100 sec after it.
+
+   CUT/POS=DISTANCE/VEL=6.0 ALL 40 100
+                        ! reduced time window (velocity 6.0)

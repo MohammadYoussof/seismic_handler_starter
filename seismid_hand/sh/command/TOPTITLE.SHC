@@ -1,0 +1,18 @@
+! file TOPTITLE.SHC
+!      ============
+!
+! version 1, 16-JUL-91
+!
+! creates title on top of page
+! K. Stammler, 16-JUL-91
+
+default 1 gra1       station
+default 2 ;;         number of input traces
+default 3 c-1000     norm
+default 4 ai2        computation type
+
+sdef line |$blank(2)|#1|$blank(2)|#2|$blank|trcs|$blank(2)|
+calc s &line = |"line|norm|$blank|#3|$blank(2)|#4|
+
+title 3 "line
+return

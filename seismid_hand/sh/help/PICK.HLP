@@ -1,0 +1,58 @@
+command PICK <trace> [<start-time> <end-time>] [<onset-var>]
+============
+
+key: phase picker
+! version 1, 14-May-97
+
+Implementation of M. Baer's and U. Kradolfer's phase picker (An Automatic
+Phase Picker for Local and Teleseismic Events, BSSA, Vol. 77, No. 4,
+pp. 1437-1445, Aug. 87).  Within the specified time window (relative times)
+on trace <trace> the onset time of the first phase found is marked and
+returned (absolute time) in variable <onset-var> if specified.  If no time
+window is given the whole trace is used.  The parameters of the picker can
+be set via qualifiers /DURATION, /BREAKLTH and /THRESHOLD (see below).
+
+
+parameters
+----------
+
+<trace>  ---  parameter type: trace
+   Selected trace.
+
+<start-time>, <end-time>  ---  parameter type: real
+   Start and end time of window in which a phase is searched.  If not specified
+   the whole trace is used.
+
+<onset-var>  ---  parameter type: symbol address
+   Variable where to store the onset time found.  Is empty if no onset can
+   be detected.
+
+
+qualifiers
+----------
+
+/DURATION=<duration>
+   Selects the minimum duration (in sec) the signal on the characteristic
+   function must be over the threshold.  Default is 1 sec.
+
+/BREAKLTH=<breaklth>
+   Selects the maximum allowed break length within <duration> where the signal
+   is allowed to fall below the threshold.  Default is 0 sec (no interruptions
+   of the signal within <duration> allowed).
+
+/THRESHOLD=<threshold>
+   Detection threshold.  Default is 10.
+
+/KEEP
+   Keeps envelope (in power of 4) and characteristic function as additional
+   traces on screen.
+
+
+example
+-------
+
+   pick 1 80.0 110.0 &g1  /duration=0.3    ! searches phase on trace 1 within
+                                           ! time window from 80 to 110 sec
+                                           ! and puts result to variable g1.
+                                           ! Uses duration of 0.3 sec.
+

@@ -1,0 +1,67 @@
+! file GLSCD.SHC
+!      =========
+!
+! version 1, 9-apr-96
+!
+! GRN list read routine
+! K. Stammler, 9-apr-96
+
+default 1 1      counter increment
+
+sdef travtim      ! travel time in seconds
+sdef t-origin     ! origin time
+sdef t-start      ! start time
+sdef wdwlth       ! length of time window
+sdef distance     ! distance in degrees
+sdef fpath        ! parameter file path
+
+fct local getenv:home &fpath
+calc s &fpath = |"fpath|$slash|
+
+sdef wdwstart %|"fpath|gls_setup|(5)     ! start of time window
+sdef wdwend   %|"fpath|gls_setup|(6)     ! end of time window
+sdef device   %|"fpath|gls_setup|(2)     ! directory
+sdef stations %|"fpath|gls_setup|(3)     ! station list
+sdef comps    %|"fpath|gls_setup|(4)
+sdef getnext  %|"fpath|gls_setup|(1)     ! routine to get next event
+sdef listfile %|"fpath|gls_setup|(7)     ! list file
+sdef phase    %|"fpath|gls_setup|(8)     ! reference phase
+
+del all_dh
+dtw
+
+"getnext "listfile #1     ! get next event
+calc r &distance = "g2
+
+if  "phase nes first  goto/forward phase_ok:
+   if  "distance gtr 30.0  goto/forward stay_here:
+      return
+   stay_here:
+   calc s &phase = p
+   if  "distance ler 97.0  goto/forward phase_ok:
+@  CALC S &PHASE = Pdiff
+   if  "distance ler 117.0  goto/forward phase_ok:
+@  CALC S &PHASE = PKPdf
+phase_ok:
+
+calc s &t-origin = "g1
+call travel "phase "g2 "g3 &travtim
+calc t &t-start = "t-origin tadd "travtim
+calc t &t-start = "t-start tadd "wdwstart
+calc/fmt=<%@f> r &wdwlth = "wdwend - "wdwstart
+
+if  "device eqs print-par  goto/forward print_par:
+
+echo >>>>>> reading "device "t-start "wdwlth "stations ( phase "phase ) <<<<<<
+nr
+readcd "device "t-start "wdwlth "stations "comps bh
+echo removing mean value
+demean all
+title 1 ^start
+rd
+return
+
+print_par:
+
+echo "t-start "wdwlth
+return

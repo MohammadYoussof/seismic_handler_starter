@@ -1,0 +1,62 @@
+! file YKW_STATISTICS.SHC
+
+default 1 ykw_names  list file
+default 2 1          first line
+default 3 %#1(0)     last line
+default 4 ;;         output file
+
+sdef evcnt #2
+sdef eventstr
+sdef statcnt
+sdef qfile
+sdef qexist
+sdef cexist
+sdef cmt
+sdef out
+
+echo_ch #4
+
+event_loop_start:
+   if  "evcnt gti #3  goto/forward event_loop_exit:
+   calc s &eventstr = %#1("evcnt)
+   echo/no_crlf $blank "eventstr $blank
+   calc i &statcnt = 1
+   stat_loop_start:
+      if  "statcnt gti 4  goto/forward stat_loop_exit:
+      calc s &qfile = |q_ykw|"statcnt|_|"eventstr|
+      switch noerrmsg on
+      switch cmderrstop off
+      extract "qfile 1 length &cmt
+      calc i &qexist = $status
+      extract "qfile 1 comment &cmt
+      calc i &cexist = $status
+      switch cmderrstop on
+      switch noerrmsg off
+      calc s &out = o     ! "O" for file does not exist
+      if  "qexist nei 0  goto/forward q_existsnot:
+         calc s &out = .   ! "." for data ok
+         if  "cexist nei 0  goto/forward  isok:
+            if  "cmt nes data-error  goto/forward isok:
+               calc s &out = x   ! "X" for data error
+         isok:
+         switch noerrmsg on
+         switch cmderrstop off
+         extract "qfile 1 p-onset &cmt
+         calc i &cexist = $status
+         switch cmderrstop on
+         switch noerrmsg off
+         if  "cexist nei 0  goto/forward q_existsnot:
+            calc s &out = *   ! "*" for p-onset found
+      q_existsnot:
+      echo/no_crlf "out
+      calc i &statcnt = "statcnt + 1
+   goto stat_loop_start:
+   stat_loop_exit:
+   echo $blank
+   calc i &evcnt = "evcnt + 1
+goto event_loop_start:
+event_loop_exit:
+
+echo_ch
+
+return

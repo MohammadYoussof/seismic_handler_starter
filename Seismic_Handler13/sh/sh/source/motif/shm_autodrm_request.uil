@@ -1,0 +1,382 @@
+! file shm_autodrm_request.uil
+!      =======================
+!
+! version 3, 20-Jan-2002
+!
+! Autodrm request box
+! K. Stammler, 17-Jun-2006
+
+
+
+object
+   adrm_selection_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'AutoDRM Request';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+!         XmNx = 600;
+!         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard adrm_selection;
+         XmBulletinBoard adrm_time;
+         XmRowColumn     adrm_main_button_box;
+      };
+   };
+
+object
+   adrm_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = 50;
+         XmNy = 650;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_adrm_configure;
+         XmPushButton     button_adrm_ok;
+         XmPushButton     button_adrm_cancel;
+      };
+   };
+
+object
+   button_adrm_configure: XmPushButton {
+      arguments {
+         XmNlabelString = 'Configure';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_adrm_configure );
+      };
+   };
+
+object
+   button_adrm_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_adrm_ok );
+      };
+   };
+
+object
+   button_adrm_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+!         XmNborderColor = color(k_bg_colour1,foreground);
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_adrm_cancel );
+      };
+   };
+
+object
+   adrm_selection:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'AutoDRM Selection';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmRadioBox     adrm_box;
+      };
+   };
+
+object
+   adrm_box: XmRadioBox {
+      arguments {
+         XmNunitType = XmPIXELS;
+         XmNorientation = XmVERTICAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 1;
+         XmNisHomogeneous = false;
+      };
+      controls {
+         XmToggleButton     button_adrm_1;
+         XmToggleButton     button_adrm_2;
+         XmToggleButton     button_adrm_3;
+         XmToggleButton     button_adrm_4;
+         XmToggleButton     button_adrm_5;
+         XmToggleButton     button_adrm_6;
+         XmToggleButton     button_adrm_7;
+         XmToggleButton     button_adrm_8;
+         XmToggleButton     button_adrm_9;
+         XmToggleButton     button_adrm_10;
+         XmToggleButton     button_adrm_11;
+         XmToggleButton     button_adrm_12;
+         XmToggleButton     button_adrm_13;
+         XmToggleButton     button_adrm_14;
+         XmToggleButton     button_adrm_15;
+      };
+   };
+
+object
+   button_adrm_1: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-1-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_1 );
+      };
+   };
+
+object
+   button_adrm_2: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-2-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_2 );
+      };
+   };
+
+object
+   button_adrm_3: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-3-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_3 );
+      };
+   };
+
+object
+   button_adrm_4: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-4-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_4 );
+      };
+   };
+
+object
+   button_adrm_5: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-5-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_5 );
+      };
+   };
+
+object
+   button_adrm_6: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-6-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_6 );
+      };
+   };
+
+object
+   button_adrm_7: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-7-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_7 );
+      };
+   };
+
+object
+   button_adrm_8: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-8-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_8 );
+      };
+   };
+
+object
+   button_adrm_9: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '-9-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_9 );
+      };
+   };
+
+object
+   button_adrm_10: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '10-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_10 );
+      };
+   };
+
+object
+   button_adrm_11: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '11-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_11 );
+      };
+   };
+
+object
+   button_adrm_12: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '12-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_12 );
+      };
+   };
+
+object
+   button_adrm_13: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '13-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_13 );
+      };
+   };
+
+object
+   button_adrm_14: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '14-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_14 );
+      };
+   };
+
+object
+   button_adrm_15: XmToggleButton {
+      arguments {
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNlabelString = '15-------------------    ';
+      };
+      callbacks {
+         MrmNcreateCallback = procedure
+            xm_call_create_widget( k_widget_adrm_15 );
+      };
+   };
+
+object
+   adrm_time:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Time Selection';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+!         XmNborderColor = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+			XmNx = 0;
+			XmNy = 520;
+      };
+      controls {
+			XmLabel        adrm_reqtime_label;
+			XmText         adrm_reqtime_text;
+			XmLabel        adrm_readlth_label;
+			XmText         adrm_readlth_text;
+      };
+   };
+
+object
+   adrm_reqtime_label: XmLabel {
+      arguments {
+         XmNlabelString = 'start time';
+      };
+   };
+
+object
+   adrm_reqtime_text: XmText {
+      arguments {
+         XmNx = 10;
+         XmNy = 50;
+         XmNwidth = 140;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 20;
+         XmNvalue = 'from-display';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_adrm_reqtime_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_adrm_reqtime_text );
+      };
+   };
+
+object
+   adrm_readlth_label: XmLabel {
+      arguments {
+         XmNlabelString = 'lth (min)';
+			XmNx = 200;
+      };
+   };
+
+object
+   adrm_readlth_text: XmText {
+      arguments {
+         XmNx = 200;
+         XmNy = 50;
+         XmNwidth = 60;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 4;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_adrm_readlth_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_adrm_readlth_text );
+      };
+   };
+

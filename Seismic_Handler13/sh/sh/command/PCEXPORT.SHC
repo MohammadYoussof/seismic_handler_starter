@@ -1,0 +1,27 @@
+! file PCEXPORT.SHC
+!      ============
+!
+! version 1, 25-Mar-98
+!
+! Exports content of current window into HPGL-File on home directory of
+! ersn01
+! K. Stammler 25-Mar-98
+
+default 1 ;;   name [no extension, is converted to lowercase]
+
+sdef tmpfile      ! temporay file
+sdef outfile      ! final output file
+sdef path         ! output path
+sdef cmd          ! shell command
+
+fct local getenv:s01 &path
+@CALC S &PATH = |"PATH|$SLASH|pcexport|
+calc s &outfile = #1 lowercase
+
+hc ;; l &tmpfile
+
+@CALC S &CMD = |mv|$BLANK|"TMPFILE|$BLANK|"PATH|$SLASH|"OUTFILE|.hgl|
+echo "cmd
+system "cmd
+
+return

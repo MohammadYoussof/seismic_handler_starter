@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Magnitude Ml</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>ml</em></H2>
+
+<P>Determination of local (Richter) magnitude ml. This operation
+must needs Wood-Anderson <A HREF="fil_simulation.html">simulated
+seismograms</A> (see menu entry <A HREF="menu_filter.html">Filter</A>).
+Also needed is a source location, done e.g. by
+<A HREF="menu_locsat.html">LocSAT</A>
+or by writing a known location into the <A HREF="parambox.html">analysis
+parameter box</A> followed by <A HREF="menu_external_loc.html">External
+Loc</A>. After selecting this ml entry the next two phase picks
+(clicks with the left mouse button) are used to define a time
+window. This time window must be marked on a horizontal trace
+(either N or E component, this doesn't matter). The program then
+finds the second horizontal component of the selected station
+and determines the maximum amplitude (zero-peak) independently
+on both horizontal components within the selected time window.
+Then it takes the arithmetic mean of both values, <em>a</em>,
+and uses the formula:</P>
+
+<PRE>ml = log10(a) + sigma(distance[km])</PRE>
+
+<P><em>sigma</em> is a tabulated function
+of epicentral distance in km (see below). SHM interpolates this
+function linearly. Since SHM attaches magnitude information to
+phases, at least one (local) phase must be found on each station
+record.</P>
+
+<PRE>   sigma  1.4 1.4 1.5 1.6 1.7 1.9 2.1 2.3 2.4 2.5 2.6 2.7 2.8 2.8 2.8
+distance  0   5   10  15  20  25  30  35  40  45  50  55  60  65  70
+
+   sigma  2.8 2.9 2.9 3.0 3.0 3.0 3.1 3.1 3.2 3.2 3.3 3.3 3.4 3.4 3.5
+distance  75  80  85  90  95  100 110 120 130 140 150 160 170 180 190
+
+   sigma  3.5 3.6 3.7 3.7 3.7 3.8 3.8 3.9 3.9 4.0 4.0 4.1 4.1 4.2 4.2
+distance  200 210 220 230 240 250 260 270 280 290 300 310 320 330 340
+
+   sigma  4.3 4.3 4.3 4.4 4.4 4.5 4.5 4.5 4.6 4.6 4.6 4.6 4.7 4.7 4.7
+distance  350 360 370 380 390 400 410 420 430 440 450 460 470 480 490
+
+   sigma  4.7 4.8 4.8 4.8 4.8 4.8 4.9 4.9 4.9 4.9 4.9 5.2 5.4 5.5 5.7
+distance  500 510 520 530 540 550 560 570 580 590 600 700 800 900 1000</PRE>
+
+<P><small>This page last modified 26-Jul-2000</small></P>
+
+</BODY>
+</HTML>

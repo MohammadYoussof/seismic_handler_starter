@@ -1,0 +1,12 @@
+sdef endtime     ! end of p-wave
+sdef pwdw        ! length of p-wave train in sec
+
+mark 1 ^p-onset
+echo select end of p-wave
+time &endtime
+calc t &pwdw = "endtime tdiff ^p-onset
+
+echo inserting pwdw "pwdw
+set/file 1 pwdw "pwdw
+
+return

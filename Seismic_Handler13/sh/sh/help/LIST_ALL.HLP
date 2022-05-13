@@ -1,0 +1,19 @@
+command procedure LIST_ALL <entry-name>
+
+key: cp:list info entry
+
+Lists a given info entry <entry-name> of all traces of the display.
+
+
+parameter
+
+<entry-name>  ---  parameter type: info entry
+   Name of info entry to be listed.
+
+
+Examples:
+
+   LIST_ALL DISTANCE     ! lists the distance value of all traces
+
+   LIST_ALL START        ! lists the start times of all traces
+

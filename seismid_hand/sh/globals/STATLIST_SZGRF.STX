@@ -1,0 +1,41 @@
+! file STATLIST_GRF_KLI.STX
+!      ================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for GRF/GRSN stations
+! K. Stammler, 18-Aug-94
+! K. Klinge Aenderung 8-apr-99
+set1: 0 12 GRF
+set2: 13 29 GRSN
+
+* GRA1
+* GRA2
+* GRA3
+* GRA4
+* GRB1
+* GRB2
+* GRB3
+* GRB4
+* GRB5
+* GRC1
+* GRC2
+* GRC3
+* GRC4
+* GRFO
+* RGN
+* RUE
+* BUG
+* BSEG
+* IBBN
+* WLF
+* BFO
+* CLZ
+* TNS
+* STU
+* FUR
+* MOX
+* CLL
+* BRG
+* WET
+* GEC2

@@ -1,0 +1,21 @@
+CFLAGS      =	-g -DBASECNST=\"/home/b3sn06/klaus/sh/source/basecnst.h\" -Xc -vc
+CC          =	acc
+LD          =	acc
+LDFLAGS     =
+LIBS        =	-lm
+
+ALL			= ev2bull ev2telex
+
+EV2BULL_OBJ = ev2bull.o evbullet.o evtelex.o eventdsc.o ../timeconv.o \
+					../utility.o
+
+EV2TELEX_OBJ = ev2telex.o evtelex.o eventdsc.o ../timeconv.o ../utility.o
+
+all:
+		make $(ALL)
+
+ev2bull:	$(EV2BULL_OBJ)
+		$(LINK.c) -o $@ $(EV2BULL_OBJ)
+
+ev2telex:	$(EV2TELEX_OBJ)
+		$(LINK.c) -o $@ $(EV2TELEX_OBJ)

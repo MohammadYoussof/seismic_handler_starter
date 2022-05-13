@@ -1,0 +1,12 @@
+! file t-align.shc
+!      ===========
+!
+! version 1, 29-Mar-96
+!
+! align all traces correct in time
+! K. Stammler, 29-Mar-96
+
+set all t-origin 0.0
+shift all time_al
+
+return

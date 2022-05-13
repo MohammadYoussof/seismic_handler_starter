@@ -1,0 +1,25 @@
+! file GRFPWDW.SHC
+
+sdef trccnt 1
+sdef trc2
+sdef tend
+sdef pwdw
+
+fct setstyle $markstyle color %green
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   calc i &trc2 = "trccnt + 2
+   mark/abs "trccnt ^p-onset("trccnt)
+   echo select end of p-wdw "trccnt
+   time/interactive &tend
+   calc t &pwdw = "tend tdiff ^p-onset("trccnt)
+   echo inserting pwdw "pwdw to traces |"trccnt|-|"trc2|
+   set/file |"trccnt|-|"trc2| pwdw "pwdw
+   calc i &trccnt = "trccnt + 3
+goto loop_start:
+loop_exit:
+
+fct setstyle $markstyle color %red
+
+return

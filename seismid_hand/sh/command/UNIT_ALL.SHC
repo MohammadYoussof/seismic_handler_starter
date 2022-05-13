@@ -1,0 +1,21 @@
+
+! file UNIT_ALL.SHC
+!      ============
+!
+! version 1, 30-JUL-91
+!
+! sets the maximum amplitude to 1 of all traces on display (within given
+! time window.
+! K. Stammler, 30-JUL-91
+
+default 1 ;;      lo-wdw
+default 2 ;;      hi-wdw
+
+sdef trccnt 1     ! trace counter
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   unit "trccnt #1 #2
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+return

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Minmax Pick</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Min/Max Pick</em></H2>
+
+<P>This is a simple phase picking algorithm for picking coherent
+phases on rather strong teleseismic events. The resulting phases
+are used for subsequent slowness/azimuth determinations (menu
+entry <A HREF="menu_plane_wave.html">Plane Wave</A>). It is an
+alternative to pick coherent phases manually or to determine slowness
+and azimuth by menu entry <A HREF="menu_fk.html">FK</A>. The phases
+created by this procedure are named <em>beam</em>.
+These are pseudo-phases which are used for slowness determination
+only. They need not to mark the onset of a phase but only a coherent
+point on the waveform. The algorithm used here marks either a
+minimum for all traces or a maximum for all traces within a given
+time window. The following steps should be executed:</P>
+
+<UL>
+  <LI>Select an appropriate time window using the right mouse button
+  and menu entry <em>Set Time Window</em> so
+  that you have a reasonable resolution in time in the main display
+  window.
+  <LI>Choose a reference trace (which can be any trace on display)
+  and drag a time window on it (with the right mouse button). The
+  minimum/maximum search on all traces will be restricted to this
+  time window.
+  <LI>Select the menu entry <em>Min/Max Pick</em>.
+</UL>
+
+<P>The algorithm first scans the reference trace for the minimum
+and maximum within the specified time window. It takes the extremum
+with the larger absolute values if its position is not at the
+boundary of the time window and marks it. Then it searches all
+other traces for the same extremum (minimum or maximum) and marks
+it if it is not at the time window boundary. This operation may
+be repeated arbitrarily. Aleady existing <em>beam</em>-phases are
+deleted before executing
+this procedure. It also may be iterated in combination with the
+<A HREF="menu_beam.html">Beam</A> command which performs alignment
+of coherent phases.</P>
+
+<P><small>This page last modified 6-Jul-2000</small></P>
+
+</BODY>
+</HTML>

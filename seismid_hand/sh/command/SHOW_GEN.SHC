@@ -1,0 +1,20 @@
+! file SHOW_GEN.SHC
+!      ============
+!
+! version 1, 8-Jun-93
+!
+! display generator constants of traces read in
+! K. Stammler, 8-Jun-93
+
+sdef cnt 1            ! trace counter
+sdef gen              ! generator constant
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc/fmt=<%5.1@f> r &gen = 477.3 div ^calib("cnt)
+   echo ^station("cnt) ^comp("cnt) : "gen
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,2130 @@
+! file shm_main_window.uil
+!      ===================
+!
+! version 46, 5-May-2007
+!
+! main window of SHM
+! K. Stammler, 15-Jul-94
+
+object
+  window_main : XmMainWindow {
+     arguments {
+         XmNx = 100;
+         XmNy = 100;
+         XmNwidth = 900;
+         XmNheight = 630;
+     };
+     controls {
+        XmMenuBar        menu_main;
+        /*XmDrawingArea    drawing_area;*/
+        XmScrolledWindow scrolled_window;
+        unmanaged XmFileSelectionDialog filesel_dialog;
+     };
+      callbacks {
+      };
+
+  };
+
+object scrolled_window: XmScrolledWindow {
+	arguments {
+      XmNx = 0;
+      XmNy = 0;
+!      XmNwidth = 900;
+!      XmNheight = 630;
+      XmNscrollBarDisplayPolicy = XmAS_NEEDED;
+      XmNscrollingPolicy = XmAUTOMATIC;
+		XmNspacing = 0;
+   };
+   controls {
+      XmDrawingArea      drawing_area;
+   };
+};
+
+object filesel_dialog : XmFileSelectionDialog {
+    arguments {
+        XmNautoUnmanage = true;
+        XmNdialogTitle = 'FileSelectionDialog';
+        XmNselectionLabelString = 'Selection';
+        XmNlistLabelString = 'List';
+        XmNdirListLabelString = 'Directories';
+        XmNfileListLabelString = 'Files';
+        XmNfilterLabelString = 'Filter';
+        XmNnoMatchString = ' [    ] ';
+        XmNokLabelString = 'Load';
+        XmNapplyLabelString = 'Filter';
+        XmNcancelLabelString = 'Cancel';
+        XmNlistVisibleItemCount = 6;
+        XmNtextFontList = k_text_font;
+        XmNlabelFontList = k_label_font;
+    };
+    controls {
+!        Xm_Help unmanaged { };
+!        unmanaged XmSeparator { }; ! First, a dummy work area child
+!        XmMenuBar fileMenuBar;
+!        XmPushButton { arguments { XmNlabelString = fileMergeText; }; };
+!        XmPushButton { arguments { XmNlabelString = fileRemoveText; }; };
+    };
+    callbacks {
+!         XmNunmapCallback = procedure UnmapCb();
+         MrmNcreateCallback = procedure xm_call_create_widget(k_widget_filesel);
+         XmNokCallback = procedure xm_call_file_selection();
+    };
+};   
+
+
+! Drawing Area (main)
+! -------------------
+
+object
+   drawing_area: XmDrawingArea {
+      arguments {
+         XmNwidth = 896;
+         XmNheight = 593;
+      };
+      callbacks {
+         MrmNcreateCallback = procedure xm_call_create_widget(k_widget_draw);
+         XmNexposeCallback = procedure xm_call_expose_drawingarea();
+         XmNresizeCallback = procedure xm_call_resize_object(k_widget_draw);
+!         XmNinputCallback = procedure xm_call_drawing_input();
+      };
+   };
+
+
+! Menu Bar
+! --------
+
+object
+   menu_main: XmMenuBar {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing     = 15;  /* Pixels between items in menu */
+      };
+      controls {
+         XmCascadeButton menutitle_file;
+         XmCascadeButton menutitle_work;
+         XmCascadeButton menutitle_window;
+         XmCascadeButton menutitle_array;
+         XmCascadeButton menutitle_locate;
+         XmCascadeButton menutitle_mparam;
+         XmCascadeButton menutitle_ampl;
+         XmCascadeButton menutitle_list;
+         XmCascadeButton menutitle_save;
+         XmCascadeButton menutitle_special;
+         XmCascadeButton menutitle_extproc;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget(k_widget_menu_main);
+      };
+   };
+
+
+! Menu Titles
+! -----------
+
+object
+   menutitle_file: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_file_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_file;
+      };
+   };
+
+object
+   menutitle_work: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_work_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_work;
+      };
+   };
+
+object
+   menutitle_window: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_window_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_window;
+      };
+   };
+
+object
+   menutitle_array: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_array_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_array;
+      };
+   };
+
+object
+   menutitle_locate: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_locate_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_locate;
+      };
+   };
+
+object
+   menutitle_ampl: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_ampl_text;
+!         XmNmnemonic    = keysym("W");
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_ampl;
+      };
+   };
+
+object
+   menutitle_mparam: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_mparam_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_mparam;
+      };
+   };
+
+object
+   menutitle_list: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_list_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_list;
+      };
+   };
+
+object
+   menutitle_save: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_save_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_save;
+      };
+   };
+
+object
+   menutitle_special: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_special_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_special;
+      };
+   };
+
+object
+   menutitle_extproc: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_menutitle_extproc_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_extproc;
+      };
+   };
+
+
+! Pulldown Menues
+! ---------------
+
+object
+   menu_file: XmPulldownMenu {
+      controls {
+         XmPushButton entry_read;
+!         XmPushButton entry_readgse;
+         XmPushButton entry_readgse2;
+         XmPushButton entry_readah;
+         XmPushButton entry_readq;
+         XmPushButton entry_readrfmt;
+         XmPushButton entry_adrm_request;
+         XmPushButton entry_write_mseed;
+         XmPushButton entry_write_gse;
+			XmSeparator  entry_sep;
+         XmPushButton entry_quit;
+      };
+   };
+
+object
+   menu_work: XmPulldownMenu {
+      controls {
+         XmPushButton entry_filter;
+         XmPushButton entry_rotate;
+         XmPushButton entry_pmotion;
+         XmPushButton entry_polarfil;
+         XmPushButton entry_spectrum;
+         XmPushButton entry_spectrogram;
+         XmPushButton entry_gencomment;
+         XmPushButton entry_info_source;
+!         XmPushButton entry_parameters;
+			XmSeparator  entry_sep;
+         XmPushButton entry_dump_params;
+         XmPushButton entry_final_params;
+         XmPushButton entry_cancel_params;
+!         XmPushButton entry_short_info;
+      };
+   };
+
+object
+   menu_window: XmPulldownMenu {
+      controls {
+         XmPushButton entry_stw;
+         XmPushButton entry_dtw;
+         XmPushButton entry_wdw_move_right;
+         XmPushButton entry_wdw_move_left;
+         XmPushButton entry_wdw_grow_right;
+         XmPushButton entry_wdw_grow_left;
+			XmSeparator  entry_sep;
+         XmPushButton entry_wdw_3traces;
+      };
+   };
+
+object
+   menu_ampl: XmPulldownMenu {
+      controls {
+         XmPushButton entry_amplper_p;
+         XmPushButton entry_amplper_z;
+         XmPushButton entry_ampl_man;
+         XmPushButton entry_per_man;
+         XmPushButton entry_ampl_surface;
+         XmPushButton entry_abort_selection;
+!			XmPushButton entry_magn_sep;
+			XmSeparator  entry_sep;
+         XmPushButton entry_magn_mb;
+         XmPushButton entry_magn_ms_plain;
+   		XmCascadeButton centry_magn_maba;
+         XmPushButton entry_magn_ml;
+         XmPushButton entry_magn_del_ml;
+      };
+   };
+
+object
+   menu_list: XmPulldownMenu {
+      controls {
+         XmPushButton entry_trc_delete;
+         XmPushButton entry_trc_del_horiz;
+         XmPushButton entry_trc_del_badqual;
+         XmPushButton entry_trc_keep_r;
+         XmPushButton entry_trc_keep_t;
+         XmPushButton entry_trc_demean;
+         XmPushButton entry_trc_despike;
+         XmPushButton entry_trc_trend;
+         XmPushButton entry_trc_refml;
+         XmPushButton entry_trc_hide;
+         XmPushButton entry_trc_invhide;
+			XmPushButton entry_trc_sort_d;
+			XmPushButton entry_trc_sort_a;
+      };
+   };
+
+object
+   menu_array: XmPulldownMenu {
+      controls {
+         XmPushButton entry_planewave;
+         XmPushButton entry_align;
+         XmPushButton entry_beam;
+         XmPushButton entry_fixbeam;
+         XmPushButton entry_autopick1;
+         XmPushButton entry_corrpick;
+         XmPushButton entry_onsetpick;
+         XmPushButton entry_calib;
+!         XmPushButton entry_residcorr;
+!         XmPushButton entry_residdel;
+         XmPushButton entry_fk;
+         XmPushButton entry_vespa;
+      };
+   };
+
+object
+   menu_locate: XmPulldownMenu {
+      controls {
+         XmPushButton entry_locate_tele;
+         XmPushButton button_param_hypoloc;
+         XmPushButton button_param_locsat;
+         XmPushButton button_param_depth;
+         XmPushButton entry_phase_difference;
+         XmPushButton entry_source_region;
+         XmPushButton entry_ext_location;
+         XmPushButton entry_match_location;
+         XmPushButton entry_identify_phase;
+			XmSeparator  entry_sep;
+         XmPushButton button_param_theo;
+         XmPushButton button_param_theo_ext;
+         XmPushButton entry_deltheo;
+      };
+   };
+
+object
+   menu_mparam: XmPulldownMenu {
+      controls {
+         XmPushButton entry_mparam_sn_auto;
+         XmPushButton entry_mparam_sn_repeat;
+         XmPushButton entry_mparam_sn_delete;
+         XmPushButton entry_mparam_sn_clear;
+      };
+   };
+
+object
+   menu_special: XmPulldownMenu {
+      controls {
+         XmPushButton entry_cmd_screendump;
+         XmPushButton entry_userdef;
+         XmPushButton entry_command;
+         XmPushButton entry_opick_setup;
+         XmPushButton entry_setup;
+         XmPushButton entry_configure;
+         XmPushButton entry_refstat;
+         XmPushButton entry_help;
+      };
+   };
+
+object
+   menu_save: XmPulldownMenu {
+      controls {
+         XmPushButton entry_params_save;
+         XmPushButton entry_params_restore;
+         XmPushButton entry_params_recover;
+         XmPushButton entry_params_evt;
+      };
+   };
+
+
+! Menu Entries
+! ------------
+
+object
+	entry_sep: XmSeparator {
+	};
+
+object
+   entry_read: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_read_text;
+         XmNaccelerator = k_acc_read;
+         XmNacceleratorText = k_acct_read;
+!         XmNmnemonic = keysym("R");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_read_grsn);
+      };
+   };
+
+object
+   entry_readgse: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_readgse_text;
+         XmNaccelerator = k_acc_readgse;
+         XmNacceleratorText = k_acct_readgse;
+!         XmNmnemonic = keysym("G");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_readgse);
+      };
+   };
+
+object
+   entry_readgse2: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_readgse2_text;
+         XmNaccelerator = k_acc_readgse2;
+         XmNacceleratorText = k_acct_readgse2;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_readgse2);
+      };
+   };
+
+object
+   entry_readah: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_readah_text;
+         XmNaccelerator = k_acc_readah;
+         XmNacceleratorText = k_acct_readah;
+!         XmNmnemonic = keysym("A");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_readah);
+      };
+   };
+
+object
+   entry_readq: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_readq_text;
+         XmNaccelerator = k_acc_readq;
+         XmNacceleratorText = k_acct_readq;
+!         XmNmnemonic = keysym("Q");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_readq);
+      };
+   };
+
+object
+   entry_adrm_request: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_adrm_request_text;
+         XmNaccelerator = k_acc_adrm_request;
+         XmNacceleratorText = k_acct_adrm_request;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_adrm_request);
+      };
+   };
+
+object
+   entry_readrfmt: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_readrfmt_text;
+         XmNaccelerator = k_acc_readrfmt;
+         XmNacceleratorText = k_acct_readrfmt;
+!         XmNmnemonic = keysym("Q");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_readrfmt);
+      };
+   };
+
+object
+   entry_write_mseed: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_write_mseed_text;
+         XmNaccelerator = k_acc_write_mseed;
+         XmNacceleratorText = k_acct_write_mseed;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_write_mseed);
+      };
+   };
+
+object
+   entry_write_gse: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_write_gse_text;
+         XmNaccelerator = k_acc_write_gse;
+         XmNacceleratorText = k_acct_write_gse;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure
+            xm_call_menu_select(k_entry_write_gse);
+      };
+   };
+
+object
+   entry_quit: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_quit_text;
+         XmNaccelerator = k_acc_quit;
+         XmNacceleratorText = k_acct_quit;
+!         XmNmnemonic = keysym("Q");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_button_quit );
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_quit);
+      };
+   };
+
+object
+   entry_filter: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_filter_text;
+         XmNaccelerator = k_acc_filter;
+         XmNacceleratorText = k_acct_filter;
+!         XmNmnemonic = keysym("F");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_filter);
+      };
+   };
+
+object
+   entry_rotate: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_rotate_text;
+         XmNaccelerator = k_acc_rotate;
+         XmNacceleratorText = k_acct_rotate;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_rotate);
+      };
+   };
+
+object
+   entry_pmotion: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_pmotion_text;
+         XmNaccelerator = k_acc_pmotion;
+         XmNacceleratorText = k_acct_pmotion;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_pmotion);
+      };
+   };
+
+object
+   entry_polarfil: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_polarfil_text;
+         XmNaccelerator = k_acc_polarfil;
+         XmNacceleratorText = k_acct_polarfil;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_polarfil);
+      };
+   };
+
+object
+   entry_spectrum: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spectrum_text;
+         XmNaccelerator = k_acc_spectrum;
+         XmNacceleratorText = k_acct_spectrum;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_spectrum);
+      };
+   };
+
+object
+   entry_spectrogram: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_spectrogram_text;
+         XmNaccelerator = k_acc_spectrogram;
+         XmNacceleratorText = k_acct_spectrogram;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_spectrogram);
+      };
+   };
+
+object
+   entry_amplper_p: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_amplper_p_text;
+         XmNaccelerator = k_acc_amplper_p;
+         XmNacceleratorText = k_acct_amplper_p;
+!         XmNmnemonic = keysym("X");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_amplper_p);
+      };
+   };
+
+object
+   entry_amplper_z: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_amplper_z_text;
+         XmNaccelerator = k_acc_amplper_z;
+         XmNacceleratorText = k_acct_amplper_z;
+!         XmNmnemonic = keysym("Z");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_amplper_z);
+      };
+   };
+
+object
+   entry_ampl_man: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_ampl_man_text;
+         XmNaccelerator = k_acc_ampl_man;
+         XmNacceleratorText = k_acct_ampl_man;
+!         XmNmnemonic = keysym("A");
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_ampl_man);
+      };
+   };
+
+object
+   entry_per_man: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_per_man_text;
+         XmNaccelerator = k_acc_per_man;
+         XmNacceleratorText = k_acct_per_man;
+!         XmNmnemonic = keysym("P");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_per_man);
+      };
+   };
+
+object
+   entry_ampl_surface: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_ampl_surface_text;
+         XmNaccelerator = k_acc_ampl_surface;
+         XmNacceleratorText = k_acct_ampl_surface;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_ampl_surface);
+      };
+   };
+
+object
+   entry_abort_selection: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_abort_sel_text;
+         XmNaccelerator = k_acc_abort_sel;
+         XmNacceleratorText = k_acct_abort_sel;
+!         XmNmnemonic = keysym("Q");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_abort_selection);
+      };
+   };
+
+object
+   entry_magn_mb: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_mb_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_mb;
+         XmNacceleratorText = k_acct_magn_mb;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_mb );
+      };
+   };
+
+!object
+!   entry_magn_sep: XmPushButton {
+!      arguments {
+!         XmNlabelString = k_entry_magn_sep_text;
+!         XmNfontList = k_menu_font;
+!			XmNsensitive = false;
+!      };
+!   };
+
+object
+   entry_magn_ms_plain: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ms_plain_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ms_plain;
+         XmNacceleratorText = k_acct_magn_ms_plain;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ms_plain );
+      };
+   };
+
+object
+   centry_magn_maba: XmCascadeButton {
+      arguments {
+         XmNlabelString = k_cascade_maba_text;
+         XmNfontList = k_menu_font;
+      };
+      controls {
+         XmPulldownMenu menu_magn_maba;
+      };
+   };
+
+object
+   menu_magn_maba: XmPulldownMenu {
+      controls {
+         XmPushButton entry_magn_ms_c_na;
+         XmPushButton entry_magn_ms_c_eu;
+         XmPushButton entry_magn_ms_c_o;
+         XmPushButton entry_magn_ms_o;
+      };
+   };
+
+object
+   entry_magn_ms_c_na: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ms_c_na_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ms_c_na;
+         XmNacceleratorText = k_acct_magn_ms_c_na;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ms_c_na );
+      };
+   };
+
+object
+   entry_magn_ms_c_eu: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ms_c_eu_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ms_c_eu;
+         XmNacceleratorText = k_acct_magn_ms_c_eu;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ms_c_eu );
+      };
+   };
+
+object
+   entry_magn_ms_c_o: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ms_c_o_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ms_c_o;
+         XmNacceleratorText = k_acct_magn_ms_c_o;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ms_c_o );
+      };
+   };
+
+object
+   entry_magn_ms_o: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ms_o_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ms_o;
+         XmNacceleratorText = k_acct_magn_ms_o;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ms_o );
+      };
+   };
+
+object
+   entry_magn_ml: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_ml_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_ml;
+         XmNacceleratorText = k_acct_magn_ml;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_ml );
+      };
+   };
+
+object
+   entry_magn_del_ml: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_magn_del_ml_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_magn_del_ml;
+         XmNacceleratorText = k_acct_magn_del_ml;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_magn_del_ml );
+      };
+   };
+
+object
+   menu_extproc: XmPulldownMenu {
+      controls {
+         XmPushButton entry_eproc1;
+         XmPushButton entry_eproc2;
+         XmPushButton entry_eproc3;
+         XmPushButton entry_eproc4;
+         XmPushButton entry_eproc5;
+         XmPushButton entry_eproc6;
+         XmPushButton entry_eproc7;
+         XmPushButton entry_eproc8;
+         XmPushButton entry_eproc9;
+         XmPushButton entry_eproc10;
+         XmPushButton entry_eproc11;
+         XmPushButton entry_eproc12;
+         XmPushButton entry_eproc13;
+         XmPushButton entry_eproc14;
+         XmPushButton entry_eproc15;
+         XmPushButton entry_eproc16;
+         XmPushButton entry_eproc17;
+         XmPushButton entry_eproc18;
+         XmPushButton entry_eproc19;
+         XmPushButton entry_eproc20;
+         XmSeparator  entry_sep;
+         XmPushButton entry_add_plugin;
+         XmSeparator  entry_sep;
+         XmPushButton entry_cmd_speccmd;
+      };
+   };
+
+object
+   entry_eproc1: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc1_text;
+         XmNaccelerator = k_acc_eproc1;
+         XmNacceleratorText = k_acct_eproc1;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc1 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc1);
+      };
+   };
+
+object
+   entry_eproc2: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc2_text;
+         XmNaccelerator = k_acc_eproc2;
+         XmNacceleratorText = k_acct_eproc2;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc2 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc2);
+      };
+   };
+
+object
+   entry_eproc3: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc3_text;
+         XmNaccelerator = k_acc_eproc3;
+         XmNacceleratorText = k_acct_eproc3;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc3 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc3);
+      };
+   };
+
+object
+   entry_eproc4: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc4_text;
+         XmNaccelerator = k_acc_eproc4;
+         XmNacceleratorText = k_acct_eproc4;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc4 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc4);
+      };
+   };
+
+object
+   entry_eproc5: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc5_text;
+         XmNaccelerator = k_acc_eproc5;
+         XmNacceleratorText = k_acct_eproc5;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc5 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc5);
+      };
+   };
+
+object
+   entry_eproc6: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc6_text;
+         XmNaccelerator = k_acc_eproc6;
+         XmNacceleratorText = k_acct_eproc6;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc6 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc6);
+      };
+   };
+
+object
+   entry_eproc7: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc7_text;
+         XmNaccelerator = k_acc_eproc7;
+         XmNacceleratorText = k_acct_eproc7;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc7 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc7);
+      };
+   };
+
+object
+   entry_eproc8: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc8_text;
+         XmNaccelerator = k_acc_eproc8;
+         XmNacceleratorText = k_acct_eproc8;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc8 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc8);
+      };
+   };
+
+object
+   entry_eproc9: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc9_text;
+         XmNaccelerator = k_acc_eproc9;
+         XmNacceleratorText = k_acct_eproc9;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc9 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc9);
+      };
+   };
+
+object
+   entry_eproc10: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc10_text;
+         XmNaccelerator = k_acc_eproc10;
+         XmNacceleratorText = k_acct_eproc10;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc10 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc10);
+      };
+   };
+
+object
+   entry_eproc11: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc11_text;
+         XmNaccelerator = k_acc_eproc11;
+         XmNacceleratorText = k_acct_eproc11;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc11 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc11);
+      };
+   };
+
+object
+   entry_eproc12: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc12_text;
+         XmNaccelerator = k_acc_eproc12;
+         XmNacceleratorText = k_acct_eproc12;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc12 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc12);
+      };
+   };
+
+object
+   entry_eproc13: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc13_text;
+         XmNaccelerator = k_acc_eproc13;
+         XmNacceleratorText = k_acct_eproc13;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc13 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc13);
+      };
+   };
+
+object
+   entry_eproc14: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc14_text;
+         XmNaccelerator = k_acc_eproc14;
+         XmNacceleratorText = k_acct_eproc14;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc14 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc14);
+      };
+   };
+
+object
+   entry_eproc15: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc15_text;
+         XmNaccelerator = k_acc_eproc15;
+         XmNacceleratorText = k_acct_eproc15;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc15 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc15);
+      };
+   };
+
+object
+   entry_eproc16: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc16_text;
+         XmNaccelerator = k_acc_eproc16;
+         XmNacceleratorText = k_acct_eproc16;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc16 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc16);
+      };
+   };
+
+object
+   entry_eproc17: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc17_text;
+         XmNaccelerator = k_acc_eproc17;
+         XmNacceleratorText = k_acct_eproc17;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc17 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc17);
+      };
+   };
+
+object
+   entry_eproc18: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc18_text;
+         XmNaccelerator = k_acc_eproc18;
+         XmNacceleratorText = k_acct_eproc18;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc18 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc18);
+      };
+   };
+
+object
+   entry_eproc19: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc19_text;
+         XmNaccelerator = k_acc_eproc19;
+         XmNacceleratorText = k_acct_eproc19;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc19 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc19);
+      };
+   };
+
+object
+   entry_eproc20: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_eproc20_text;
+         XmNaccelerator = k_acc_eproc20;
+         XmNacceleratorText = k_acct_eproc20;
+         XmNfontList = k_menu_font;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_eproc20 );
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_eproc20);
+      };
+   };
+
+object
+   entry_add_plugin: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_add_plugin_text;
+         XmNaccelerator = k_acc_add_plugin;
+         XmNacceleratorText = k_acct_add_plugin;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_add_plugin);
+      };
+   };
+
+object
+   entry_cmd_speccmd: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_cmd_speccmd_text;
+         XmNaccelerator = k_acc_cmd_speccmd;
+         XmNacceleratorText = k_acct_cmd_speccmd;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_cmd_speccmd);
+      };
+   };
+
+object
+   entry_trc_del_horiz: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_del_horiz_text;
+         XmNaccelerator = k_acc_trc_del_horiz;
+         XmNacceleratorText = k_acct_trc_del_horiz;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_del_horiz);
+      };
+   };
+
+object
+   entry_trc_del_badqual: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_del_badqual_text;
+         XmNaccelerator = k_acc_trc_del_badqual;
+         XmNacceleratorText = k_acct_trc_del_badqual;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_del_badqual);
+      };
+   };
+
+object
+   entry_trc_keep_r: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_keep_r_text;
+         XmNaccelerator = k_acc_trc_keep_r;
+         XmNacceleratorText = k_acct_trc_keep_r;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_keep_r);
+      };
+   };
+
+object
+   entry_trc_keep_t: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_keep_t_text;
+         XmNaccelerator = k_acc_trc_keep_t;
+         XmNacceleratorText = k_acct_trc_keep_t;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_keep_t);
+      };
+   };
+
+object
+   entry_cmd_screendump: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_cmd_screendump_text;
+         XmNaccelerator = k_acc_cmd_screendump;
+         XmNacceleratorText = k_acct_cmd_screendump;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_cmd_screendump);
+      };
+   };
+
+object
+   entry_command: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_command_text;
+         XmNaccelerator = k_acc_command;
+         XmNacceleratorText = k_acct_command;
+!         XmNmnemonic = keysym("K");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_command);
+      };
+   };
+
+object
+   entry_opick_setup: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_opick_setup_text;
+         XmNaccelerator = k_acc_opick_setup;
+         XmNacceleratorText = k_acct_opick_setup;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_opick_setup );
+      };
+   };
+
+object
+   entry_setup: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_setup_text;
+         XmNaccelerator = k_acc_setup;
+         XmNacceleratorText = k_acct_setup;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_setup);
+      };
+   };
+
+object
+   entry_configure: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_configure_text;
+         XmNaccelerator = k_acc_configure;
+         XmNacceleratorText = k_acct_configure;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_configure);
+      };
+   };
+
+object
+   entry_refstat: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_refstation_text;
+         XmNaccelerator = k_acc_refstation;
+         XmNacceleratorText = k_acct_refstation;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_refstation);
+      };
+   };
+
+object
+   entry_help: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_help_text;
+         XmNaccelerator = k_acc_help;
+         XmNacceleratorText = k_acct_help;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_help);
+      };
+   };
+
+object
+   entry_params_save: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_params_save_text;
+         XmNaccelerator = k_acc_params_save;
+         XmNacceleratorText = k_acct_params_save;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_params_save );
+      };
+   };
+
+object
+   entry_params_restore: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_params_restore_text;
+         XmNaccelerator = k_acc_params_restore;
+         XmNacceleratorText = k_acct_params_restore;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_params_restore );
+      };
+   };
+
+object
+   entry_params_recover: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_params_recover_text;
+         XmNaccelerator = k_acc_params_recover;
+         XmNacceleratorText = k_acct_params_recover;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_params_recover );
+      };
+   };
+
+object
+   entry_params_evt: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_params_evt_text;
+         XmNaccelerator = k_acc_params_evt;
+         XmNacceleratorText = k_acct_params_evt;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_params_evt );
+      };
+   };
+
+object
+   entry_stw: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_stw_text;
+         XmNaccelerator = k_acc_stw;
+         XmNacceleratorText = k_acct_stw;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_stw);
+      };
+   };
+
+object
+   entry_dtw: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_dtw_text;
+         XmNaccelerator = k_acc_dtw;
+         XmNacceleratorText = k_acct_dtw;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback = procedure xm_call_menu_select(k_entry_dtw);
+      };
+   };
+
+object
+   entry_wdw_move_right: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_wdw_move_right_text;
+         XmNaccelerator = k_acc_wdw_move_right;
+         XmNacceleratorText = k_acct_wdw_move_right;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_wdw_move_right);
+      };
+   };
+
+object
+   entry_wdw_move_left: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_wdw_move_left_text;
+         XmNaccelerator = k_acc_wdw_move_left;
+         XmNacceleratorText = k_acct_wdw_move_left;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_wdw_move_left);
+      };
+   };
+
+object
+   entry_wdw_grow_right: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_wdw_grow_right_text;
+         XmNaccelerator = k_acc_wdw_grow_right;
+         XmNacceleratorText = k_acct_wdw_grow_right;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_wdw_grow_right);
+      };
+   };
+
+object
+   entry_wdw_grow_left: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_wdw_grow_left_text;
+         XmNaccelerator = k_acc_wdw_grow_left;
+         XmNacceleratorText = k_acct_wdw_grow_left;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_wdw_grow_left);
+      };
+   };
+
+object
+   entry_wdw_3traces: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_wdw_3traces_text;
+         XmNaccelerator = k_acc_wdw_3traces;
+         XmNacceleratorText = k_acct_wdw_3traces;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+				procedure xm_call_menu_select(k_entry_wdw_3traces);
+      };
+   };
+
+object
+   entry_parameters: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_params_text;
+         XmNaccelerator = k_acc_params;
+         XmNacceleratorText = k_acct_params;
+!         XmNmnemonic = keysym("L");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_parameters );
+      };
+   };
+
+object
+   entry_gencomment: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_gencomment_text;
+         XmNaccelerator = k_acc_gencomment;
+         XmNacceleratorText = k_acct_gencomment;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_gencomment );
+      };
+   };
+
+object
+   entry_info_source: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_info_source_text;
+         XmNaccelerator = k_acc_info_source;
+         XmNacceleratorText = k_acct_info_source;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_info_source );
+      };
+   };
+
+object
+   entry_dump_params: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_dump_params_text;
+         XmNaccelerator = k_acc_dump_params;
+         XmNacceleratorText = k_acct_dump_params;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_dump_params );
+      };
+   };
+
+object
+   entry_final_params: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_final_params_text;
+         XmNaccelerator = k_acc_final_params;
+         XmNacceleratorText = k_acct_final_params;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_final_params);
+      };
+   };
+
+object
+   entry_cancel_params: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_cancel_params_text;
+         XmNaccelerator = k_acc_cancel_params;
+         XmNacceleratorText = k_acct_cancel_params;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_cancel_params);
+      };
+   };
+
+!object
+!   entry_short_info: XmPushButton {
+!      arguments {
+!         XmNlabelString = k_entry_short_info_text;
+!         XmNaccelerator = "<Key>t";
+!         XmNacceleratorText = 't';
+!!         XmNmnemonic = keysym("T");
+!         XmNfontList = k_menu_font;
+!      };
+!      callbacks {
+!         XmNactivateCallback =
+!            procedure xm_call_menu_select(k_entry_short_info);
+!      };
+!   };
+
+object
+   entry_trc_delete: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_delete_text;
+         XmNaccelerator = k_acc_trc_delete;
+         XmNacceleratorText = k_acct_trc_delete;
+!         XmNmnemonic = keysym("");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_delete);
+      };
+   };
+
+object
+   entry_trc_demean: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_demean_text;
+         XmNaccelerator = k_acc_trc_demean;
+         XmNacceleratorText = k_acct_trc_demean;
+!         XmNmnemonic = keysym("");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_demean);
+      };
+   };
+
+object
+   entry_trc_despike: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_despike_text;
+         XmNaccelerator = k_acc_trc_despike;
+         XmNacceleratorText = k_acct_trc_despike;
+!         XmNmnemonic = keysym("");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_despike);
+      };
+   };
+
+object
+   entry_trc_trend: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_trend_text;
+         XmNaccelerator = k_acc_trc_trend;
+         XmNacceleratorText = k_acct_trc_trend;
+!         XmNmnemonic = keysym("");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_trend);
+      };
+   };
+
+object
+   entry_trc_refml: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_refml_text;
+         XmNaccelerator = k_acc_trc_refml;
+         XmNacceleratorText = k_acct_trc_refml;
+!         XmNmnemonic = keysym("");
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_refml);
+      };
+   };
+
+object
+   entry_trc_hide: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_hide_text;
+         XmNaccelerator = k_acc_trc_hide;
+         XmNacceleratorText = k_acct_trc_hide;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_hide);
+      };
+   };
+
+object
+   entry_trc_invhide: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_invhide_text;
+         XmNaccelerator = k_acc_trc_invhide;
+         XmNacceleratorText = k_acct_trc_invhide;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_invhide);
+      };
+   };
+
+object
+   entry_trc_sort_d: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_sort_d_text;
+         XmNaccelerator = k_acc_trc_sort_d;
+         XmNacceleratorText = k_acct_trc_sort_d;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_sort_d);
+      };
+   };
+
+object
+   entry_trc_sort_a: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_trc_sort_a_text;
+         XmNaccelerator = k_acc_trc_sort_a;
+         XmNacceleratorText = k_acct_trc_sort_a;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_trc_sort_a);
+      };
+   };
+
+object
+   entry_ext_location: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_ext_location_text;
+         XmNaccelerator = k_acc_ext_location;
+         XmNacceleratorText = k_acct_ext_location;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_ext_location);
+      };
+   };
+
+object
+   entry_match_location: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_match_location_text;
+         XmNaccelerator = k_acc_match_location;
+         XmNacceleratorText = k_acct_match_location;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_match_location);
+      };
+   };
+
+object
+   entry_identify_phase: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_identify_phase_text;
+         XmNaccelerator = k_acc_identify_phase;
+         XmNacceleratorText = k_acct_identify_phase;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_identify_phase);
+      };
+   };
+
+object
+   entry_planewave: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_planewave_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_planewave;
+         XmNacceleratorText = k_acct_planewave;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_planewave );
+      };
+   };
+
+object
+   entry_align: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_align_text;
+!         XmNborderWidth = 5;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_align;
+         XmNacceleratorText = k_acct_align;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_align );
+      };
+   };
+
+object
+   entry_beam: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_beam_text;
+!         XmNborderWidth = 5;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_beam;
+         XmNacceleratorText = k_acct_beam;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_beam );
+      };
+   };
+
+object
+   entry_fixbeam: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_fixbeam_text;
+!         XmNborderWidth = 5;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_fixbeam;
+         XmNacceleratorText = k_acct_fixbeam;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_fixbeam );
+      };
+   };
+
+object
+   entry_autopick1: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_autopick_text;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_autopick1;
+         XmNacceleratorText = k_acct_autopick1;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_autopick1 );
+      };
+   };
+
+object
+   entry_corrpick: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_corrpick_text;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_corrpick;
+         XmNacceleratorText = k_acct_corrpick;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_corrpick );
+      };
+   };
+
+object
+   entry_onsetpick: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_onsetpick_text;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_onsetpick;
+         XmNacceleratorText = k_acct_onsetpick;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_onsetpick );
+      };
+   };
+
+object
+   entry_calib: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_calibration_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_calib;
+         XmNacceleratorText = k_acct_calib;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_calib );
+      };
+   };
+
+object
+   entry_residcorr: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_residcorr_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_residcorr;
+         XmNacceleratorText = k_acct_residcorr;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_residcorr );
+      };
+   };
+
+object
+   entry_residdel: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_residdel_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_residdel;
+         XmNacceleratorText = k_acct_residdel;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_residdel );
+      };
+   };
+
+object
+   entry_fk: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_fk_text;
+         XmNaccelerator = k_acc_fk;
+         XmNacceleratorText = k_acct_fk;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_fk);
+      };
+   };
+
+object
+   entry_vespa: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_vespa_text;
+         XmNaccelerator = k_acc_vespa;
+         XmNacceleratorText = k_acct_vespa;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_vespa);
+      };
+   };
+
+object
+   entry_userdef: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_cmd_userdef_text;
+         XmNaccelerator = k_acc_cmd_userdef;
+         XmNacceleratorText = k_acct_cmd_userdef;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_cmd_userdef);
+      };
+   };
+
+object
+   entry_source_region: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_source_region_text;
+         XmNaccelerator = k_acc_source_region;
+         XmNacceleratorText = k_acct_source_region;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_source_region);
+      };
+   };
+
+object
+   entry_phase_difference: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_phase_difference_text;
+         XmNaccelerator = k_acc_phase_difference;
+         XmNacceleratorText = k_acct_phase_difference;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_phase_difference);
+      };
+   };
+
+object
+   entry_mparam_sn_auto: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_mparam_sn_auto_text;
+         XmNaccelerator = k_acc_mparam_sn_auto;
+         XmNacceleratorText = k_acct_mparam_sn_auto;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_mparam_sn_auto);
+      };
+   };
+
+object
+   entry_mparam_sn_repeat: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_mparam_sn_repeat_text;
+         XmNaccelerator = k_acc_mparam_sn_repeat;
+         XmNacceleratorText = k_acct_mparam_sn_repeat;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_mparam_sn_repeat);
+      };
+   };
+
+object
+   entry_mparam_sn_clear: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_mparam_sn_clear_text;
+         XmNaccelerator = k_acc_mparam_sn_clear;
+         XmNacceleratorText = k_acct_mparam_sn_clear;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_mparam_sn_clear);
+      };
+   };
+
+object
+   entry_mparam_sn_delete: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_mparam_sn_delete_text;
+         XmNaccelerator = k_acc_mparam_sn_delete;
+         XmNacceleratorText = k_acct_mparam_sn_delete;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_mparam_sn_delete);
+      };
+   };
+
+object
+   entry_locate_tele: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_location_text;
+         XmNaccelerator = k_acc_localize;
+         XmNacceleratorText = k_acct_localize;
+         XmNfontList = k_menu_font;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select(k_entry_locate_tele);
+      };
+   };
+
+
+

@@ -1,0 +1,33 @@
+! file SORT_BY_DISTANCE.SHC
+!      ====================
+!
+! version 1, 30-Sep-2005
+!
+! Sorts all traces on display by distance
+! Distance entry must be set before
+! K. Stammler, 30-Sep-2005
+
+sdef cnt     ! trace counter
+sdef nxt      ! next trace
+sdef sorted   ! sort flag
+
+
+not_sorted:
+
+calc i &cnt = 1
+calc i &sorted = 1
+loop_start:
+   calc i &nxt = "cnt + 1
+   if  "nxt gti $dsptrcs  goto/forward loop_exit:
+   if  ^distance("nxt) ger ^distance("cnt)  goto/forward dist_ok:
+      !echo "cnt ^distance("cnt) ^distance("nxt)
+      display "nxt "cnt
+      calc i &sorted = 0
+   dist_ok:
+   calc i &cnt = "nxt
+goto loop_start:
+loop_exit:
+
+if  "sorted eqi 0  goto not_sorted:
+
+return

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>fil_simulation</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20051205;7274700">
+	<META NAME="CHANGED" CONTENT="20051205;9174000">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Working with simulation filters</H2>
+<P>Simulation filters transform records of an instrument, preferably
+a broadband instrument, into a simulated record of another
+instrument. Before generating such simulation filters it should be
+cleared whether the transfer function of the recording instrument
+allows the simulation of the desired one. The recording system must
+provide enough signal energy in all frequency ranges of the simulated
+instrument. E.g. from records of STS-2 seismometers simulations of
+short- and longperiod instruments like WWSSN-SP and SRO-LP may be
+computed, but inversely, e.g. from WWSSN-SP to STS-1 is definitely
+not possible. In principle, the construction of simulation filters is
+rather simple if we use the poles-and-zeros definition of filters.
+These numbers can be directly written into an SH-FFT-filter file (see
+<A HREF="fil_format.html">filter formats</A>). A simulation filter is
+created by taking the transfer function of the recording instrument
+(e.g. an <A HREF="fil_tf_vel_sts2.html">STS-2</A>), inverting it
+(take reciprocal value of the normalization, exchange poles and
+zeros), multiply it with the transfer function of the simulated
+instrument (e.g. <A HREF="fil_tf_vel_wwssn_sp.html">WWSSN-SP</A>) and
+shorten all possible values of the rational expression. The resulting
+filter (example: <A HREF="fil_sts2_to_wwssn_sp.html">STS2-to-WWSSN-SP</A>)
+may be used for application in SHM. Please make sure that all
+elements (normalization constants, poles-and-zeros definition of the
+filter) refer to the same recording input (usually either velocity or
+displacement). In practice, this is quite often a reason for
+confusion. For a quick view of the amplitude response of your FFT
+filters use <A HREF="fil_graphics.html">graphic display of FFT
+filters</A>. If you want to create recursive simulation filters, use
+the utility programs of SH/SHM (in <em>$SH_UTIL</em>,
+programs <em>butrec</em>,
+<em>simrec</em>)
+for some standard cases or follow instructions for computing
+recursive filters given e.g. in ???.  A <A HREF="fil_create_simset.html" NAME="create simset">tool</A>
+for creating a set of FFT filters for your recording equipment is
+provided in <em>$SH_UTIL</em>.</P>
+<P>When using SHM, the filter files need to match a naming convention
+so that the files can be found on request. The filter files must be
+located either in <em>$PWD</em>
+or in <em>$SH_FILTER</em>.
+Looking for the filter files SHM assumes file names of a defined
+format:</P>
+<P>FFT-files: <em>&lt;rec-instr&gt;_S+&lt;sim-filter&gt;.FLF</em></P>
+<DL>
+	<DD><em>&lt;rec-instr&gt;</em>
+	Descriptor of the recording instrument. By default this is
+	<em>&lt;station&gt;:&lt;channel&gt;:&lt;comp&gt;</em>
+		</DD><DD>
+	<em>&lt;station&gt;</em>
+	Station name (examples: <em>BFO</em>,
+	<em>GEC2</em>) 
+	</DD><DD>
+	<em>&lt;channel&gt;</em>
+	2-character SEED channel code (examples: <em>BH</em>,
+	<em>HH</em>) 
+	</DD><DD>
+	<em>&lt;comp&gt;</em>
+	Component (examples: <em>Z</em>,
+	<em>N</em>) 
+	</DD><DD STYLE="margin-bottom: 0.5cm">
+	<em>&lt;sim-filter&gt;</em>
+	Descriptor of simulated instrument (examples: <em>WOODAND</em>,
+	<em>G_WWSSN_SP</em>)
+		</DD></DL>
+<P>
+recursive files: <em>&lt;smprate&gt;HZ_&lt;rec-instr&gt;_S+&lt;sim-filter&gt;.FLR</em></P>
+<DL>
+	<DD><em>&lt;smprate&gt;</em>
+	Integer sample rate in Hz (examples: <em>20</em>,
+	<em>40</em>) 
+	</DD><DD>
+	<em>&lt;rec-instr&gt;</em>
+	See above 
+	</DD><DD STYLE="margin-bottom: 0.5cm">
+	<em>&lt;sim-filter&gt;</em>
+	See above 
+	</DD></DL>
+<P>
+All filenames must have uppercase letter only ! Hyphens in filter
+filenames are not supported by SHM. As an example, a legal filename
+for an FFT simulation filter for <em>WWSSN-LP</em>
+recorded at station <em>RAR-BH-Z</em>
+would be <em>RAR:BH:Z_S+WWSSN_LP.FLF</em>.
+Since it is rather inconvenient to have separate filter files for
+each stream, it is possible to combine several streams to a single
+class name within a lookup table. Class names found in the lookup
+table replace the individual stream names within the filenames. SHM
+searches two lookup tables: an internal table (implemented in the
+source code) and an external table in the file
+<em>$SH_INPUTS/filter_lookup.txt</em>.
+The internal table maps all GRF-BH-streams (e.g. <em>GRA1-BH-Z</em>,
+<em>GRB1-BH-N</em>)
+to the name <em>GRF</em>,
+all GRSN-BH-streams (e.g. <em>BFO-BH-Z</em>,
+<em>CLZ-BH-E</em>)
+to the name <em>GRSN</em>
+and all GERESS-HH-streams (e.g. <em>GEA0-HH-Z</em>)
+to the name <em>GERESS</em>.
+Due to this lookup table the simulation filter for <em>WWSSN-LP</em>
+on stream <em>BFO-BH-Z</em>
+is <em>GRSN_S+WWSSN_LP.FLF</em>
+instead of <em>BFO:BH:Z_S+WWSSN_LP.FLF</em>.
+In the external lookup table arbitrary mappings of additional
+stations can be added. For example if you have two stations <em>XYZ</em>
+and <em>XXX</em>,
+both with an instrument <em>CMG40T</em>
+which has the same transfer function for all three components then
+you should add the lines</P>
+<DL>
+	<DD>
+	<em>XYZ-BH-Z CMG40T</em></DD><DD>
+	<em>XYZ-BH-N CMG40T</em></DD><DD>
+	<em>XYZ-BH-E CMG40T</em></DD><DD>
+	<em>XXX-BH-Z CMG40T</em></DD><DD>
+	<em>XXX-BH-N CMG40T</em></DD><DD>
+	<em>XXX-BH-E CMG40T</em></DD>
+</DL>
+<P>
+to the external table. Then the appropriate simulation filter for
+<em>WWSSN-LP</em>
+would be <em>CMG40T_S+WWSSN_LP.FLF</em>.</P>
+
+<P>
+The general systax of a line in <em>filter_lookup.txt</em> is since version
+SHM-2.2f:
+<DL>
+	<DD>
+		<em>&lt;chan&gt; &lt;filname&gt; [[&lt;stime&gt; &lt;etime&gt;] &lt;flags&gt;]</em>
+	</DD>
+</DL>
+where <em>&lt;chan&gt;</em> is the channel string (like <em>XYZ-BH-Z</em> in
+example above), <em>&lt;filname&gt;</em> is the name given to the filter
+(like <em>CMG40T</em> in the example above), <em>&lt;stime&gt;</em> and
+<em>&lt;etime&gt;</em> specifies the valid time window (start and end time
+in <a href="timeformat.html">SH time format</a>) of the information given in
+this line.  Three dots (...) as time value indicate an empty time, which
+means no time boundary. If the equipment at a station site changes at some time a new
+entry for this station has to be added in <em>filter_lookup.txt</em>.
+<em>&lt;flags&gt;</em> may contain the following strings:
+</P>
+<DL>
+	<DD>
+	<em>-FORCETAB-</em> indicates that the simulation filters of this station
+   are given as tabulated (FAP) filter files (.FLT-files).  A utility for
+	creating these files is <em>$SH_UTIL/make_sim4fap.csh</em>.
+	</DD>
+	<DD>
+	<em>-FORCEFFT-</em> indicates that the simulation filters of this station
+	are given as FFT filter files (.FLF-files) regardless of what default
+	filter type is set.
+	</DD>
+	<DD>
+	<em>-ALERT-</em> marks output traces of this filter entry in red.  This
+	could be used to remind the user that this entry is possibly incorrect if
+	you are testing filters or if you have incomplete information on your
+	recording system.
+	</DD>
+</DL>
+<P>
+</P>
+<P>
+Example entries of a <em>filter_lookup.txt</em> file are given below:
+<DL>
+	<DD><em>XYZ-BH-Z CMG40T ... 23-Jul-2002</em></DD>
+	<DD><em>XYZ-BH-Z STS2 23-Jul-2002 ...</em></DD>
+	<DD><em>OLD-SH-Z OLDINSTR ... ... -FORCETAB-ALERT-</em></DD>
+</DL>
+</P>
+
+<P><small>This page last modified 6-May-2006</small></P>
+</BODY>
+</HTML>

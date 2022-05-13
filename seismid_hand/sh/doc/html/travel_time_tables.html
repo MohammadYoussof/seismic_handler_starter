@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Travel Time Tables</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;14385200">
+	<META NAME="CHANGED" CONTENT="20050910;14410200">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>The travel time tables of SH/SHM</H2>
+<P>For several options SH/SHM use its own travel time tables. All the
+file must reside in <em>$SH_INPUTS</em>
+and have an extension <em>.TTT</em>.
+For historic reasons (the VAX/VMS origin of the program) the travel
+time table filenames use all uppercase letters. To translate a
+phasename with lowercase letters in it to the corresponding filename
+convert the lowercase letter to uppercase and precede it by an
+uppercase <em>V</em>.
+E.g. the phase <em>pPcP</em>
+translates into the filename <em>VPPVCP.TTT</em>.
+The format of the files is described below. The travel time tables
+supplied in the distribution are based on the IASP91 velocity model
+(for teleseismic phases). They were created using the program <em>ttimes</em>
+of Ray Buland. You may replace the existing files by your own version
+(but keep a copy of your files on a private directory, so you can
+restore them after making a complete update of SH/SHM) or add travel
+times tables of new phases to the directory. SHM makes no
+restrictions on using arbitrary phasenames, except phases starting
+with lowercase <em>b</em>
+and phases with <em>V</em>
+or <em>v</em> in
+the name (see above).</P>
+<P>The format of the files</P>
+<UL>
+	<LI><P>Lines at the beginning of the file
+	starting with an exclamation sign <em>!</em>
+	are regarded as comment and ignored. 
+	</P>
+	<LI><P>The first data line contains the
+	three characters <em>TTT</em>.
+		</P>
+	<LI><P>The next line is ignored. It
+	usually contains the distance bounds.</P>
+	<LI><P>The next line contains two
+	floating point numbers, separated by blank(s), specifying the
+	interval of epicentral distance (lower and upper bound in degrees)
+	where this table has travel time values. 
+	</P>
+	<LI><P>The next line is ignored. It
+	usually contains the depth steps of the travel times lines.</P>
+	<LI><P>The next line starts with an
+	integer <em>N</em>,
+	specifying the number of depths steps following in this line.
+	Appended are <em>N</em>
+	floating point numbers giving the depth grid points of the following
+	table. They need not to be equidistant, but most of them are. All
+	numbers must be separated by blanks. 
+	</P>
+	<LI><P>The following lines hold the travel time information for the
+	phase. The first (floating point) number in each line tells the
+	distance value, followed by <em>N</em>
+	travel times (floating point, in s), one for each depth specified in
+	the depth line above. A value of <em>0</em>
+	indicates that there could be no travel time computed for this
+	distance/depth combination. The distance grid needs not to be
+	equidistant, however it should span the distance interval specified
+	in the beginning of the file. 
+	</P>
+</UL>
+<P>When a travel time is computed, SHM reads the table of the phase
+and interpolates linearly in both variables, distance and depth.</P>
+<P><small>This page last modified 10-Sep-2005</small></P>
+</BODY>
+</HTML>

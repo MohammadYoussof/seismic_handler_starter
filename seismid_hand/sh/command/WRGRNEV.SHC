@@ -1,0 +1,32 @@
+! file wrgrnev.shc
+!      ===========
+!
+! version 1, 30-sep-92
+!
+! write GRN event file
+! K. Stammler, 30-sep-92
+
+default 1 grnnames    name of station list file
+
+sdef max %#1(0)     ! number of stations in file
+sdef cnt 1          ! station counter
+sdef station        ! current station
+sdef fname          ! name of output file
+
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   hide all
+   calc s &stat = %#1("cnt)
+   display _station("station)
+   if  $dsptrcs lti 3  goto/forward no_write:
+      calc s &fname = ^station qname ^start
+      echo write traces to file "fname
+      write "fname all
+   no_write:
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+display h:all
+
+return

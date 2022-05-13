@@ -1,0 +1,61 @@
+! file SHM_CMD_CORRPICK.SHC
+!      ====================
+!
+! version 1, 25-Feb-2001
+!
+! Automatic phase picking by crosscorrelation
+! K. Stammler, 25-Feb-2001
+
+default 1 ref trace
+default 2 window start
+default 3 window end
+
+sdef trcno $dsptrcs  ! number of traces on display
+sdef cnt 1           ! counter
+sdef ame             ! end of am window
+sdef corrl 50        ! correlation length
+sdef corrmax         ! maximum value of correlation
+sdef corrpos         ! position of correlation maximum
+sdef outfile         ! output file
+
+fct getpath scratch &outfile
+calc s &outfile = |"outfile|corrpick.stx|
+
+!echo #1 #2 #3 "outfile
+
+! set correlation window and mode
+fct corrmode 2
+corrl |-|"corrl| "corrl
+
+! loop all stations and correlate
+calc i &cnt = 1
+loop_start:
+   if  "cnt gti "trcno  goto/forward loop_exit:
+   echo correlating ^station(#1) with ^station("cnt)
+   corr #1 #2 #3 "cnt
+   set _created station ^station("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+! loop all correlation traces
+echo_ch/new "outfile
+calc r &ame = 2.0 * "corrl
+cloop_start:
+   if  "cnt gti $dsptrcs  goto/forward cloop_exit:
+   if  ^station("cnt) eqs ^station(#1) goto/forward skip:
+      am "cnt 0.0 "ame ;; &corrmax ;; &corrpos
+      calc r &corrpos = "corrpos - "corrl
+      echo ^station("cnt) "corrpos "corrmax
+   skip:
+   calc i &cnt = "cnt + 1
+goto cloop_start:
+cloop_exit:
+
+echo_ch
+
+! delete correlation traces
+calc i &trcno = "trcno + 1
+del |"trcno|-|$dsptrcs|
+
+return

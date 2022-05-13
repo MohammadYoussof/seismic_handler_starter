@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>installation</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;13283800">
+	<META NAME="CHANGED" CONTENT="20050910;13373400">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Installing SH/SHM on UNIX machines</H2>
+<H3>With installation script</H3>
+<P>For Solaris/Linux an
+<A HREF="ftp://ftp.szgrf.bgr.de/pub/software/SHM-install.csh">installation
+script</A> is available. It installs and configures SH/SHM on Solaris
+or Linux machines. It was tested on Solaris 7/8 and Suse Linux 8.1/9.3/10.x
+using the gcc compiler. Please '<em>chmod
+a+x SHM-install.csh</em>' after copying it. Please make sure
+that you are an in a (t)csh and have the openmotif libraries
+including development package installed on your system (and, of
+course, the C-compiler gcc). The compiler packages are not in the
+default packages of Suse distributions any more).  A path where to
+get the openmotif development packages would be e.g.
+http://download.opensuse.org/distribution/SL-10.1/inst-source for
+Suse 10.1.
+</P>
+<P>
+If you want to run the SH/SHM installation from different accounts then
+you have to manually edit the file <em>$SH_ROOT/setup/shsetup</em> after the
+installation script has completed.  Please change the line where the userroot
+is defined.  An example would be: change
+<em>set userroot=/myhome/myname/shfiles</em> to
+<em>set userroot=$HOME/shfiles</em>.  If you do not make this edit then
+users other than the installer will get a not writable scratch directory
+and SH/SHM will stop immediately.
+</P>
+
+<H3>Without installation script</H3>
+
+<P>
+If the installation script does not work or for some reason you don't want
+to use it, the manual installation without this script is as follows:</P>
+<OL>
+	<LI><P STYLE="margin-bottom: 0in">select parent for SH directory
+	tree<BR>% <em>cd
+	&lt;parent-dir&gt;</em> 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">tar all files from tar archive to
+	this directory, uncompress with <em>gzip</em>
+	before if necessary<BR>% <em>gzip
+	-d &lt;tarfile&gt;.gz</em><BR>% <em>tar xvf &lt;tarfile&gt;</em> 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">change directory to new created sh
+	directory<BR>% <em>cd shfiles</em> 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">Edit the file <em>setup/shsetup</em>
+	and set the root path <em>shcroot</em>
+	to the actual value. If you need to compile the source you also
+	should set the correct compiler (must be an ANSI compiler like <em>gcc</em>
+	or <em>acc</em>)
+	and the appropriate compiler switches.<BR>% <em>vi setup/shsetup</em> 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">run <em>shsetup</em>.
+	This should create two directories <em>~/shfiles/shscratch</em>
+	and <em>~/shfiles/private</em>
+	and define environment variables <em>SH_...</em>
+	This works on (t)csh-shells only, sorry for this.<BR>% <em>source
+   setup/shsetup</em><BR>If you
+	are able to use the executables (if provided in the tar-file) you
+	are finished with installation and should be able to run the program
+	by typing <em>SH</em>.
+	If you have to recompile the source you have to continue. 
+	</P>
+	<LI><P><em>cd</em>
+	to the root directory and make SH<BR>for SH alone:<BR>% <em>cd $SH_ROOT</em><BR>
+   % <em>make depend</em><BR>% <em>make</em><BR>%
+	<em>make world</em><BR>for SH and SHM:<BR>% <em>cd $SH_ROOT</em><BR>
+   % <em>make depend_shm</em><BR>% <em>make shm</em><BR>%
+	<em>make world</em> 
+	</P>
+</OL>
+<P>Now you may start <em>shc_world</em>
+by the alias <em>SH</em>
+and <em>shc</em>
+by <em>SH_N</em>.
+Similarly, use <em>SHM</em>
+for <em>shm_world</em>
+and <em>SHM_N</em>
+for <em>shm</em>.
+Please note that two menu entries of <em>SHM</em>,
+<em>LocSAT</em>
+and <em>FK</em>,
+call external programs. These external programs are not part of the
+<em>SHM</em>-distribution.
+Some precompiled versions of these programs may be downloaded
+separately from our ftp server. Available are currently versions for
+Sun (Solaris 2) and HP and Linux. 
+</P>
+<P><small>This page last modified 5-May-2007</small>
+</P>
+</BODY>
+</HTML>

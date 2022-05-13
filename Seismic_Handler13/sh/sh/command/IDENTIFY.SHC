@@ -1,0 +1,54 @@
+! file identify.shc
+!      ============
+
+SWITCH CAPCNV OFF
+DEFAULT 1 P    phase
+SWITCH CAPCNV ON
+
+sdef ptime
+sdef cmd
+sdef max
+sdef cnt 1
+sdef origin       ! origin time
+sdef dist         ! distance
+sdef depth        ! depth of event
+
+echo mark phase #1
+time &ptime
+!calc s &cmd = |findev|$blank|^station|$blank|$quotes|#1|$quotes|$blank|"ptime|
+@CALC S &CMD = |$DOLLAR|SH_UTIL|$SLASH|findevnt|$BLANK|^STATION|
+@CALC S &CMD = |"CMD|$BLANK|$QUOTES|#1|$QUOTES|$BLANK|"PTIME|
+switch capcnv off
+CALC S &CMD = |"CMD|$BLANK|$QUOTES|-o=XPID.STX|$QUOTES|
+IF  #TOL EQS _EXISTSNOT_  GOTO/FORWARD NO_TOL:
+   CALC S &CMD = |"CMD|$BLANK|$QUOTES|-t=|#TOL|$QUOTES|
+NO_TOL:
+SWITCH CAPCNV ON
+echo "cmd
+system "cmd
+
+calc s &g1 = %xpid
+calc i &max = %xpid(0)
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   echo %xpid("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+if  ^fromq eqs N  return
+if  #nofile nes _existsnot_  return
+if  #file nes _existsnot_  goto/forward insert:
+enter &cmd insert to q-file ? [y|n]:
+if  "cmd nes Y  return
+insert:
+
+calc s &origin = "g1 parse 2
+calc s &dist = "g1 parse 7
+calc s &depth = "g1 parse 5
+echo insert info values to q-file for all traces
+set/file all origin "origin
+set/file all distance "dist
+set/file all depth "depth
+
+return

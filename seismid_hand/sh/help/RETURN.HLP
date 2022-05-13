@@ -1,0 +1,9 @@
+command RETURN
+==============
+
+key: return to parent cmd level
+
+Valid only in command procedures.  Exits a command procedure and returns
+to the parent command level.  The current local symbol set is deleted
+and the parent one is restored.
+

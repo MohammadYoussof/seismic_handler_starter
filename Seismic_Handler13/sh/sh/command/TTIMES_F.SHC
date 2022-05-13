@@ -1,0 +1,86 @@
+! file TTIMES.SHC
+!      ==========
+!
+! version 2, 11-JUL-91
+!
+! computes and marks travel times of various phases
+
+default 1 1        trace
+default 2 n        correct times by p-onset ? [y|n]
+default 3 0.0      label step
+
+sdef outfile sys$login:phasefile_tmp   ! scratch file
+sdef cmdfile sys$login:phasefile_cmd   ! command file
+sdef linecnt 35                        ! line counter
+sdef line                              ! current line
+sdef phase xxx                         ! current phase
+sdef ttime                             ! travel time
+sdef ppos 3                            ! phase position
+sdef tpos 4                            ! time position
+sdef mark 0                            ! label flag
+sdef corr 0.                           ! correction time
+sdef lpos 1.                           ! label positioning
+sdef lposdiff #3                       ! label position step
+
+switch capcnv off
+SDEF FIRSTPHASE P
+SWITCH CAPCNV ON
+
+echo depth ^depth(#1) distance ^distance(#1)
+
+! create command file
+echo_ch/new "cmdfile
+echo %dollar |def|%slash|user| sys$output |"outfile|.stx|
+echo %dollar ttimes
+echo all
+echo $blank
+echo ^depth(#1)
+echo ^distance(#1)
+echo -1
+echo -1
+echo_ch
+
+! run command file
+system |@|"cmdfile|.stx|
+
+line_loop_start:
+   switch noerrmsg on
+   switch cmderrstop off
+   calc s &line = %"outfile("linecnt)
+   if  $status nei 0  goto/forward line_loop_exit:
+   calc s &phase = "line parse "ppos
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "phase nes "firstphase  goto/forward no_p:
+      calc i &mark = 1
+      if  #2 eqs n  goto/forward no_p:
+      calc s &ttime = "line parse "tpos
+      calc t &ttime = ^origin(#1) tadd "ttime
+      calc t &corr = ^p-onset(#1) tdiff "ttime
+      echo correction time "corr
+   no_p:
+   if  "mark eqi 0  goto/forward no_mark:
+      if  "line eqs ;;  goto/forward line_loop_exit:
+      calc s &phase = "line parse "ppos
+      calc s &ttime = "line parse "tpos
+      calc t &ttime = ^origin(#1) tadd "ttime
+      calc t &ttime = "ttime tdiff ^start
+      calc r &ttime = "ttime + "corr
+      if  "ttime gtr $dsp_xmax  goto/forward no_label:
+      if  "ttime ltr $dsp_x  goto/forward no_label:
+         mark #1 "ttime /label="phase /pos="lpos
+      no_label:
+      calc r &lpos = "lpos - "lposdiff
+      if  "lpos gtr 0.6  goto/forward labpos_ok:
+         calc r &lpos = 1.
+      labpos_ok:
+      calc i &ppos = 2
+      calc i &tpos = 3
+   no_mark:
+   calc i &linecnt = "linecnt + 1
+goto line_loop_start:
+line_loop_exit:
+switch cmderrstop on
+switch noerrmsg off
+
+return

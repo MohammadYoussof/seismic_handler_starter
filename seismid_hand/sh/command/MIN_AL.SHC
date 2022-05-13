@@ -1,0 +1,26 @@
+
+! file MIN_AL.SHC
+!      ==========
+!
+! version 1, 30-JUL-91
+!
+! aligns all traces on display to minimum value in given time window
+! K. Stammler, 30-JUL-91
+
+default 1 0      time window start:
+default 2 100    time window end:
+
+sdef trccnt 1    ! trace counter
+sdef min         ! time of minimum
+sdef torig       ! t-origin
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   am "trccnt #1 #2;;;&min
+   calc r &torig = ^t-origin("trccnt) - "min
+   set "trccnt t-origin "torig
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,90 @@
+! file TTIMES_new.SHC
+!      ==========
+!
+! version 2, 11-JUL-91
+!
+! computes and marks travel times of various phases
+! different procedure to recognize start of phase data
+! K. Stammler, 11-JUL-91
+
+default 1 1                      trace
+default 2 0.0                    label step
+default 3 3-jul-91_2:30:10.234   origin time
+default 4 100.0                  distance (in deg)
+default 5 33.0                   depth (in km)
+
+sdef outfile sys$login:phasefile_tmp   ! scratch file
+sdef cmdfile sys$login:phasefile_cmd   ! command file
+sdef linecnt 30                        ! line counter
+sdef line                              ! current line
+sdef phase xxx                         ! current phase
+sdef ttime                             ! travel time
+sdef ppos 3                            ! phase position
+sdef tpos 4                            ! time position
+sdef mark 0                            ! label flag
+sdef corr 0.                           ! correction time
+sdef lpos 1.                           ! label positioning
+sdef lposdiff #2                       ! label position step
+
+switch capcnv off
+SDEF MARKLINE |Enter|$BLANK|delta:|$BLANK(2)|
+SWITCH CAPCNV ON
+
+switch capcnv off
+SDEF FIRSTPHASE P
+SWITCH CAPCNV ON
+
+echo depth #5 distance #4
+
+! create command file
+echo_ch/new "cmdfile
+echo %dollar |def|%slash|user| sys$output |"outfile|.stx|
+echo %dollar ttimes
+echo all
+echo $blank
+echo #5
+echo #4
+echo -1
+echo -1
+echo_ch
+
+! run command file
+system |@|"cmdfile|.stx|
+
+line_loop_start:
+   switch noerrmsg on
+   switch cmderrstop off
+   calc s &line = %"outfile("linecnt)
+   if  $status nei 0  goto/forward line_loop_exit:
+   switch cmderrstop on
+   switch noerrmsg off
+   if  "line nes "markline goto/forward no_p:
+      calc i &mark = 1
+      calc i &linecnt = "linecnt + 2
+      calc s &line = %"outfile("linecnt)
+   no_p:
+   if  "mark eqi 0  goto/forward no_mark:
+      if  "line eqs ;;  goto/forward line_loop_exit:
+      calc s &phase = "line parse "ppos
+      calc s &ttime = "line parse "tpos
+      calc t &ttime = #3 tadd "ttime
+      calc t &ttime = "ttime tdiff ^start
+      calc r &ttime = "ttime + "corr
+      if  "ttime gtr $dsp_xmax  goto/forward no_mark_x:
+      if  "ttime ltr $dsp_x  goto/forward no_mark_x:
+         mark #1 "ttime /label="phase /pos="lpos
+      no_mark_x:
+      calc r &lpos = "lpos - "lposdiff
+      if  "lpos gtr 0.6  goto/forward labpos_ok:
+         calc r &lpos = 1.
+      labpos_ok:
+      calc i &ppos = 2
+      calc i &tpos = 3
+   no_mark:
+   calc i &linecnt = "linecnt + 1
+goto line_loop_start:
+line_loop_exit:
+switch cmderrstop on
+switch noerrmsg off
+
+return

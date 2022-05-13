@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>fil_simulation</TITLE>
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20051205;7274700">
+	<META NAME="CHANGED" CONTENT="20051205;9124900">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Creating a set of FFT simulation filters</H2>
+<P>If you have GMT (generic mapping tool) installed on your system
+you may use the tool <em>$SH_UTIL/prep_simfilters.csh</em>
+for creating a set of FFT simulation filters for your recording
+equipment.  Before starting the tool program you need to create a
+filter file describing your recording system in poles and zeroes. 
+You should find this information in the manual of your seismometer. 
+Give a name &lt;recsys&gt; to your system and create the file
+<em>$SH_FILTER/TF_VEL_S+&lt;recsys&gt;.FLF</em>.
+ The format of the filter files is described <A HREF="fil_format.html" NAME="filter format">here</A>.
+ Examples you find in <em>$SH_FILTER</em>,
+e.g. <em>TF_VEL_S+GRSN.FLF</em>
+or <em>TF_VEL_S+CMG40T.FLF</em>.
+ Please normalise your transfer function to 1.0 at the reference
+frequency (usually 1 Hz for broadband and most short period
+instruments).  Please note that this is a transfer function for
+velocity input.  The displacement transfer function should go into
+<em>TF_DSP_S+&lt;recsys&gt;</em>,
+which has just one more zero at 0.0.  It is recommended to create a
+new temporary directory for running <em>prep_simfilters.csh</em>,
+because it will create a new GMT defaults file in it which can make
+you very unhappy if done in the home directory. <em>cd</em>
+to this new directory and enter <em>$SH_UTIL/prep_simfilters.csh
+&lt;recsys&gt;</em>.  It will read your
+<em>TF_VEL_S+&lt;recsys&gt;.FLF</em>
+file and create the simulation filters by dividing
+<em>TF_VEL_S+&lt;simfil&gt;.FLF</em>
+by <em>TF_VEL_S+&lt;recsys&gt;.FLF</em>.
+ The amplitude spectrum of the resulting file <em>&lt;recsys&gt;_S+&lt;simfil&gt;.FLF</em>
+will be displayed on screen using GMT and a PostScript viewer.  The
+plot will contain three graphs in different colours.  The recording
+instrument <em>TF_VEL_S+&lt;recsys&gt;.FLF</em>
+is shown in red, the simulated instrument <em>TF_VEL_S+&lt;simfil&gt;.FLF</em>
+in blue and the resulting simulation filter <em>&lt;recsys&gt;_S+&lt;simfil&gt;.FLF</em>
+in green.  Check the behaviour of the green function at both ends,
+high and low frequencies.  It should be constant or go to zero.  An
+increasing filter function for high or low frequencies is instable
+and cannot be used, it would produce weird seismograms or could even
+crash SHM.  If the instability of the filter is far outside of the
+range of interesting frequencies, the filter can be cured by applying
+an additional highpass, lowpass or bandpass filter.  If a substantial
+part of the simulation filter cannot be described the simulation
+filter should be deleted.  After creating and showing the new
+simulation filter the programs offers a number of possible commands:</P>
+<DL>
+	<DD>hp: apply an additional highpass filter to the simulation to cut
+	off an instability at low frequencies</DD><DD>
+	lp: apply an additional lowpass filter to the simulation to cut off
+	an instability at high frequencies</DD><DD>
+	bp: apply an additional bandpass filter to the simulation to cut off
+	instabilities at high and low frequencies</DD><DD>
+	a: accept the simulation filter as it is now and proceed to the next
+	filter</DD><DD>
+	d: the simulation filter cannot be used, delete it and proceed to
+	the next filter</DD></DL>
+<P>
+<BR><BR>
+</P>
+<P>The corner frequencies of possibly applied filters are prompted
+after entering hp, lp or bp.  Please note that highpass filters take
+the corner period in s, lowpass and bandpass filters take the corner
+frequencies in Hz.  Close the PostScript display window before
+entering the command, otherwise the windows will fill up your screen.
+ After looping all necessary filters the program exits.  The
+resulting filter files can be found in the current directory.  They
+should be moved to <em>$SH_FILTER</em>
+before starting SHM.</P>
+<P><small>This page last modified 5-Dec-2005</small></P>
+</BODY>
+</HTML>

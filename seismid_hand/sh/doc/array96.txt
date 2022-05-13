@@ -1,0 +1,120 @@
+
+Quick Guide to SH (Array Course 1996)
+=====================================
+
+
+General Remarks
+---------------
+
+- command line interpreter is not case-sensitive
+- command line consists of command-verb, parameters and qualifiers
+- separation characters are blanks " " or semicolons ";"
+- qualifiers are preceded by a slash.
+- delete scratch files in directory shscratch from time to time
+
+
+Some Commands
+-------------
+
+
+- start SH
+   SH
+
+- open graphics window
+   XOPEN;;              on X-Window system
+
+- exiting from SH
+   QUIT
+
+- help
+   HELP                 directory of (almost all) available commands
+   HELP HELP            explanation of HELP command
+   HELP/KEY             directory with brief description
+   HELP/CALL            directory with calling syntax
+   HELP <cmd>           detailed help on command <cmd>, example: HELP HELP
+
+- read & write commands
+	READS <path> <time> <seclength> <stations> <comps> <chan>
+                        reads from Mini-SEED files (special SH subformat)
+   READ <q-file> <list> reads data from q-file (private SH data format)
+   WRITE <q-file> <list>
+                        writes data to q-file
+
+- redraw display
+   RD                   redraws display
+   NR                   disables automatic redrawing (re-enable with RD)
+
+- set & delete time windows
+   STW                  set time window
+   DTW                  delete time window
+
+- pick time position on traces
+   TIME                 gives absolute and relative time, also difference
+                        time to last pick, exit with "E"-key
+
+- delete traces
+   DEL <list>           deletes all traces of <list>
+
+- shift traces
+   SHIFT <list> <time>  shift all traces in <list> by <time> seconds
+   SHIFT ALL TIME_AL    shift traces according to their position in absolute
+                        time
+   T-ALIGN              repositions all traces correct in time
+
+
+- trace amplitudes
+    NORM AF             default setting.  Traces are normalized to the maximum
+                        value of all traces on the display
+    NORM SF             all traces are displayed with the same amplitude
+    ZOOM <list> <f>     all traces in <list> are amplified by a factor of <f>
+                        this is independent from the NORM command
+
+- filtering traces (FFT filters)
+   FILI F <filter>      read in filter file (contains poles and zeroes)
+   FILTER F <list>      filters list of traces
+   MAKEF                calls external program to create filter files
+
+- location of events
+   LOCATE               computes azimuth and slowness for picked phase
+                        exit with "E"-key
+                        Traces MUST have the correct position in time !
+                        ensure with the command T-ALIGN.
+
+- beaming of traces
+   DELAY+SUM <list> <a> <s>
+                        shifts traces to align a phase coming from an azimuth
+                        of <a> and a slowness of <s>.  Traces are aligned
+                        in time automatically before operation.
+
+- summing of traces
+   SUM <list>           sums all traces specified in <list>
+
+- hardcopy
+   PHC                  creates PostScript file and sends it to laser printer
+   TITLE <n> <t>        puts a title line on the display
+
+- rotation of traces
+   ROTAZ <list> <azim>  rotates horizontal traces to R and T
+
+- particle motion diagrams
+   PMSTART <wdwsize>    opens separate window of size <wdwsize> x <wdwsize> cm.
+   PM/MWDW <list> <wd>  particle motion diagrams of N pairs of traces given by
+                        2N elements in <list>.  <wd> is width of time window.
+   PM3 <wd>             abbreviation of PM/MWDW 2,1,3,2,3,1 <wd>
+                        if 3 traces are on the display, same for 6 and 9 traces
+   PMEND                closes PM window
+                        Before using the PM command, set an appropriate time
+                        window with the STW command.
+
+- utilities
+   DEMEAN <list>        removes mean value
+   TREND <list>         removes linear trend
+   DESPIKE <list> <f>   removes spikes
+   DECIMATE <list> <f>  decimate traces (average deleted samples)
+   CUT <list> <lo> <hi> cuts traces at the specified time bounds
+   MARK <trc> <time>    marks trace (marks can be labelled, see HELP MARK)
+   SYSTEM               access to UNIX shell
+   @                    execute single command case sensitive
+
+
+

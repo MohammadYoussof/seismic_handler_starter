@@ -1,0 +1,207 @@
+! file shm_multiplication_box.uil
+!      ==========================
+!
+! version 2, 17-Jun-2006
+!
+! multiplication box
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   multiplication_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'multiplication box';
+         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+!         XmNx = 600;
+!         XmNy = 200;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmLabel         multipli_input_value_label;
+         XmRowColumn     multipli_default_box;
+         XmBulletinBoard multipli_edit_box;
+      };
+   };
+
+object
+   multipli_input_value_label: XmLabel {
+      arguments {
+         XmNlabelString = 'value 0.34567e+01';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_multipli_value_label );
+      };
+   };
+
+object
+   multipli_default_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+!         XmNx = 110;
+         XmNy = 40;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_multipli_1_3;
+         XmPushButton     button_multipli_1_2;
+         XmPushButton     button_multipli_1;
+         XmPushButton     button_multipli_2;
+         XmPushButton     button_multipli_3;
+         XmPushButton     button_multipli_4;
+      };
+   };
+
+object
+   button_multipli_1_3: XmPushButton {
+      arguments {
+         XmNlabelString = ':3';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_1_3 );
+      };
+   };
+
+object
+   button_multipli_1_2: XmPushButton {
+      arguments {
+         XmNlabelString = ':2';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_1_2 );
+      };
+   };
+
+object
+   button_multipli_1: XmPushButton {
+      arguments {
+         XmNlabelString = '*1';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_1 );
+      };
+   };
+
+object
+   button_multipli_2: XmPushButton {
+      arguments {
+         XmNlabelString = '*2';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_2 );
+      };
+   };
+
+object
+   button_multipli_3: XmPushButton {
+      arguments {
+         XmNlabelString = '*3';
+          XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_3 );
+      };
+   };
+
+object
+   button_multipli_4: XmPushButton {
+      arguments {
+         XmNlabelString = '*4';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_4 );
+      };
+   };
+
+object
+   multipli_edit_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Multiplication Factor Edit';
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+!         XmNx = 110;
+         XmNy = 100;
+      };
+      controls {
+         XmLabel       multipli_edit_label;
+         XmText        multipli_edit_text;
+         XmPushButton  button_multipli_edit_mul;
+         XmPushButton  button_multipli_edit_div;
+      };
+   };
+
+object
+   multipli_edit_label: XmLabel {
+      arguments {
+         XmNlabelString = 'other factor';
+      };
+   };
+
+object
+   multipli_edit_text: XmText {
+      arguments {
+!         XmNx = k_pos_x_read_grsn_date;
+         XmNy = 40;
+         XmNwidth = 120;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 60;
+!         XmNvalue = 'NONE';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_multipli_edit_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_multipli_edit_text );
+      };
+   };
+
+object
+   button_multipli_edit_mul: XmPushButton {
+      arguments {
+         XmNlabelString = 'multiply';
+         XmNborderWidth = 5;
+         XmNx = 150;
+         XmNy = 0;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_edit_mul );
+      };
+   };
+
+object
+   button_multipli_edit_div: XmPushButton {
+      arguments {
+         XmNlabelString = 'divide';
+         XmNborderWidth = 5;
+         XmNx = 150;
+         XmNy = 40;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_multipli_edit_div );
+      };
+   };
+

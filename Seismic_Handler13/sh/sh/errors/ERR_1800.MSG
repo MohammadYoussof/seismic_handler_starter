@@ -1,0 +1,28 @@
+! file ERR_1800.MSG
+!      ============
+!
+! version 2, 8-SEP-91
+!
+! special error messages of SeismicHandler
+! K. Stammler, 8-JUL-91
+! 
+*** SP-01 too less traces to locate ***
+*** SP-02 locate: trafo matrix has zero determinant ***
+*** SP-03 locate: zero normalisation ***
+*** SP-04 attempt to delete active window ***
+*** SP-05 attempt to delete non-empty window ***
+*** SP-06 error in window specifier ***
+*** SP-07 invalid title line ***
+*** SP-08 even list length only ***
+*** SP-09 too many particle motion diagrams ***
+*** SP-10 moving window too large ***
+*** SP-11 no nore overlay lists ***
+*** SP-12 overlay list too long ***
+*** SP-13 trace already in overlay list ***
+*** SP-14 not a CURVE file ***
+*** SP-15 cannot convert ASCII array to binary ***
+*** SP-16 error reading VLP data ***
+*** SP-17 mend error ***
+*** SP-18 order of ARP too large ***
+*** SP-19 length of trace must be greater than 4 ***
+*** SP-20 this is not a startup file ***

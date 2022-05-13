@@ -1,0 +1,19 @@
+! file RELPPOS.SHC
+!      ===========
+!
+! version 1, 4-NOV-91
+!
+! returns position #2 relative to p-onset
+! K. Stammler, 4-NOV-91
+
+default 1 1     trace number
+default 2 0     relative position of maximum
+
+sdef relstart
+
+calc t &relstart = ^p-onset(#1) tdiff ^start(#1)
+calc r &ret = #2 - "relstart
+echo rel: "ret
+
+return
+

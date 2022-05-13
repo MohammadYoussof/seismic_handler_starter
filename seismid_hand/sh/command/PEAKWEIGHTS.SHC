@@ -1,0 +1,25 @@
+! file PEAKWEIGHTS.SHC
+
+default 1 ;;      window center
+default 2 ;;      window width
+
+sdef wstart       ! window start
+sdef wend         ! window end
+sdef ww2          ! half of window width
+sdef trccnt 1     ! trace counter
+sdef wgt          ! weight
+
+calc r &ww2 = #2 div 2
+calc r &wstart = #1 - "ww2
+calc r &wend = #1 + "ww2
+
+loop_start:
+   if  "trccnt gti $dsptrcs  goto/forward loop_exit:
+   am/abs "trccnt "wstart "wend ;;&wgt
+   calc r &wgt = 1.0 div "wgt
+   set "trccnt weight "wgt
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

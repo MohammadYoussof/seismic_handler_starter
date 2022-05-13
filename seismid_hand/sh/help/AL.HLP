@@ -1,0 +1,47 @@
+command AL [<trc-list> <time-info>] [<time-pos>]
+==========
+
+key: align traces
+! version 1, 5-May-92
+
+Aligns traces along points selected by values of the specified time
+info entries.  Only traces given in <trc-list> are affected.  If
+parameters one and two are omitted you have to select the traces and
+time points by graphic cursor.  Cursor selection is finished by the
+"E"-key.
+
+After the (automatic) redraw each trace has its selected point at
+time position <time-pos> (if <time-pos> is omitted it is set to zero).
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+  List of traces to be aligned.  If omitted, traces must be selected
+  by graphic cursor.
+
+<time-info>  ---  parameter type: info entry
+  Name of time info entry to be used for aligning traces.
+
+<time-pos>  ---  parameter type: real
+  Picked points of traces are positioned at this time.  If the parameter
+  is omitted, it is set to zero.
+
+
+qualifiers
+----------
+
+/nomark
+   Only valid if <trc-list> & <time-info> are omitted.  The
+   selected time points are not marked.
+
+
+examples
+--------
+
+   al              ! align all selected points (selected interactivly
+                   ! by graphic cursor) at zero time
+
+   al all p-onset  ! aligns all P-onsets at zero time
+

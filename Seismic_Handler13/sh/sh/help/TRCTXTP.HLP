@@ -1,0 +1,29 @@
+command TRCTXTP <x-pos>;<y-pos>
+===============
+
+key: position of trace text
+
+Sets the position of the trace info text (see "trctxt" command).
+The positioning is entered relative to the trace origin (left end
+of trace, at zero height).  <x-pos> must be given in units of
+the display width and <y-pos> in units of the display height.
+This positioning affects all traces on the display.
+
+
+parameters
+----------
+
+<x-pos>  ---  parameter type: real
+   Horizontal positioning relative to the left end of the trace
+   in units of display width.
+
+<y-pos>  ---  parameter type: real
+   Vertical positioning relative to the zero line of the trace
+   in units of display height.
+
+
+example
+-------
+
+   trctxtp -.18 -.03
+

@@ -1,0 +1,63 @@
+command HELP [<cmds>]
+============
+
+key: help utility
+
+Displays help information about seismhandler commands.  It is
+possible to get a directory of all commands available (HELP/DIR),
+a command menu with short catchwords (HELP/KEY), a list of lines
+containing command verb and its parameters (HELP/CALL) or detailed
+information about one or more commands specified by <cmds> (without
+qualifier).
+
+parameters:
+
+<cmds>  ---  parameter type: string
+   Name of command or wild card expression ("*" is wild card for
+   arbitrary text).  The HELP command without parameter is equivalent
+   to the command "HELP/DIR *", it displays the directory of all
+   help items available.
+
+qualifiers:
+
+/DIR
+   Displays all command verbs matching the wild card expression <cmds>.
+   The HELP command without any parameter is equivalent to "HELP/DIR *".
+
+/CALL
+   Displays all commands matching the wild card expression <cmds> with
+   their parameter lists (without description of parameters).
+
+/KEY
+   Displays a menu of commands matching the wild card expression <cmds>
+   with a very short description of the command.
+
+
+examples:
+
+   HELP                    ! displays a list of all available command
+                           ! verbs
+
+   HELP FILTER             ! displays the whole information about the
+                           ! FILTER command
+
+   HELP FIL*               ! displays the whole information about all
+                           ! commands beginning with "FIL"
+
+   HELP/KEY                ! displays a list of all available command
+                           ! verbs with catch words
+
+   HELP/KEY FIL*           ! same as above restricted to commands
+                           ! beginning with "FIL"
+
+   HELP/DIR FIL*           ! list of all command verbs beginning with
+                           ! "FIL"
+
+   HELP/DIR *              ! equivalent to plain "HELP"
+
+   HELP/CALL               ! displays all available commands with
+                           ! parameter list
+
+   HELP/CALL FIL*          ! displays commands beginning with "FIL"
+                           ! with parameter list
+

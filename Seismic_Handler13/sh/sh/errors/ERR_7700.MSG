@@ -1,0 +1,29 @@
+! file ERR_7700.MSG
+!      ============
+!
+! version 2, 26-Oct-2004
+!
+! error messages of GCF modules
+! K. Stammler, 19-Oct-2003
+!
+*** GCF-01 error reading file ***
+*** GCF-02 illegal tap code ***
+*** GCF-03 EOF found ***
+*** GCF-04 error allocating memory ***
+*** GCF-05 checksum error ***
+*** GCF-06 string overflow ***
+*** GCF-07 error opening input file ***
+*** GCF-08 stream not found in gfdfile ***
+*** GCF-09 next file returned ***
+*** GCF-10 error reading gfdfile ***
+*** GCF-11 channel output range ***
+*** GCF-12 positioned to next possible time ***
+*** GCF-13 seek error in GCF file ***
+*** GCF-14 program bug ***
+*** GCF-15 file not open ***
+*** GCF-16 data not available ***
+*** GCF-17 zero length request ***
+*** GCF-18 double data found ***
+*** GCF-19 illegal byte order ***
+*** GCF-20 error in tapcode file ***
+*** GCF-21 illegal tapcode ***

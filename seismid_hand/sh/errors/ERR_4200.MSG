@@ -1,0 +1,12 @@
+! file ERR_4200.MSG
+!      ============
+!
+! version 1, 13-Aug-93
+!
+! error messages of module phaseinf.c
+! K. Stammler, 13-Aug-93
+!
+*** PI-01 phase already in list ***
+*** PI-02 phase not found ***
+*** PI-03 illegal phase number ***
+*** PI-04 empty phase name ***

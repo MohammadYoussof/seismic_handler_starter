@@ -1,0 +1,144 @@
+station:  bfo
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.258352 -0.258352
+end
+
+station:  brg
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.208312 -0.208312
+end
+
+station:  bseg
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.571658 0.571658
+end
+
+station:  ham
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.571658 0.571658
+end
+
+station:  bug
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.118342 -0.118342
+end
+
+station:  cll
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.418342  -0.418342 
+end
+
+station:  clz
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.441698 0.441698
+end
+
+station:  fur
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.011668 0.011668 
+end
+
+station:  grfo
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.610 0.610
+end
+
+station:  ibbn
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.201 0.201
+end
+
+station:  mox
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.238342 -0.238342
+end
+
+station:  stu
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -1.079 -1.079
+end
+
+station:  tns
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.021658 0.021658
+end
+
+station:  wet
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.078312 -0.078312
+end
+
+station:  gec2
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.029 -0.029
+end
+
+station:  rue
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.018332 -0.018332
+end
+
+station:  brnl
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    -0.018332 -0.018332
+end
+
+station:  lid
+phases:   P,PP
+slowness: 4.3 - 12.0
+entries:  2
+azim:     0.000000 360.000000
+resid:    0.291658 0.291658
+end
+

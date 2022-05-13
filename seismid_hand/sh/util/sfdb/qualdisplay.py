@@ -1,0 +1,5 @@
+XSym
+0041
+6c9f9500d5048dee4b96380533782df6
+/programs/linux/dprog/sfdb/qualdisplay.py
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table newfilescmd</H2>
+<P>
+<ul>
+   <li><b>id</b>         INTEGER,
+   <li><b>m_cmd</b>      VARCHAR(255),
+   <li><b>d_cmd</b>      VARCHAR(255),
+   <li>PRIMARY KEY(id)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>id</b>:         path ID; description see 'pathid' in table sftab
+<li><b>m_cmd</b>:      command to find new data files in path 'id' wich are modified
+            within the last N minutes.  In the resulting command string
+            the string '__TIME__' has to be replaced by the number N.  Example:
+            <i>ssh rtpdserv "(cd /home/sysop/seiscomp_2_5/seiscomp/acquisition/archive; find . -type f -mmin -__TIME__ -print)"</i>
+<li><b>d_cmd</b>:      command to find new data files in path 'id' wich are modified
+            within the last M days.  In the resulting command string
+            the string '__TIME__' has to be replaced by the number M. Example:
+            <i>ssh ersn23 "(chdir /r06p4/arch_bh; find . -type f -mtime -__TIME__ -print)"</i>
+</ul>
+</P>
+
+<P>This page last modified 27-Dec-2006</P>
+</BODY>
+</HTML>

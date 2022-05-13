@@ -1,0 +1,20 @@
+! file ERR_1600.MSG
+!      ============
+!
+! version 1, 8-JUL-91
+!
+! error messages of module GRAPHCH.C
+! K. Stammler, 8-JUL-91
+!
+*** GC-01 attempt to initialise twice ***
+*** GC-02 illegal world coordinates ***
+*** GC-03 no more windows available ***
+*** GC-04 read error in window ***
+*** GC-05 illegal window size & pos ***
+*** GC-06 set font failed ***
+*** GC-07 open file error ***
+*** GC-08 unknown command ID in graphics buffer ***
+*** GC-09 string overflow ***
+*** GC-10 illegal style number ***
+*** GC-11 unknown style item ***
+*** GC-12 illegal value ***

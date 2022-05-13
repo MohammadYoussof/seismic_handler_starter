@@ -1,0 +1,44 @@
+command MDIR <trc-list> <wdw-lo> <wdw-hi> [<azim>] [<inci>]
+============
+
+key: direction of polarisation
+
+Determines the direction of maximum polarisation in two or three
+dimensions.  The direction is determined by diagonalising the
+coherence matrix of the specified traces in the given time window.
+The direction of the eigenvector with the largest eigenvalue is
+the desired direction.  The output angles can be used directly
+as input values for a rotation (ROT command) to get an optimum
+separation of components.  The MDIR command operates in 2-dim or
+3-dim mode depending on the length of <trc-list> (2 or 3 traces).
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of 2 or 3 traces to determine direction of polarisation.
+
+<wdw-lo>, <wdw-hi>  ---  parameter type: real
+   Time window for computation of direction of polarisation.
+
+<azim>  ---  parameter type: symbol address
+   Symbol to receive the value of azimuth (2- or 3-dimensional mode).
+
+<inci>  ---  parameter type: symbol address
+   Symbol to receive value of angle of incidence.  Valid only in
+   3-dimensional mode.
+
+
+examples:
+
+   MDIR 1,2 100.0 110.0         ! computes rotation angle in time
+                                ! window from 100.0 to 110.0 sec
+                                ! the result is displayed.
+
+   MDIR 1,2 100.0 110.0 &AZIM   ! computes rotation angle in time
+                                ! window from 100.0 to 110.0 sec
+                                ! the result is stored in symbol "AZIM"
+
+   MDIR 1-3 10.0 20.0 &A &I     ! computes two rotation angles in
+                                ! time window from 10.0 to 20.0.  The
+                                ! results are stored in "A" and "I".
+

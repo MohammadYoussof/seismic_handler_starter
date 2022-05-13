@@ -1,0 +1,67 @@
+! file READ_PHASE_WINDOW.SHC
+!      =====================
+!
+! version 2, 1-Oct-2005
+!
+! Reads time window around specified phase for a given station and hypocenter
+! K. Stammler, 15-Feb-2005
+
+default 1 JK:     miniseed path
+default 2 1-jan-99_11:22  origin time
+default 3 0.0     epicenter latitude
+default 4 0.0     epicenter longitude
+default 5 33.0    depth in km
+default 6 grfo    reference station name
+default 7 p       phase name
+default 8 #6      stations to read
+
+sdef ttrav        ! travel time
+sdef slat         ! station latitude
+sdef slon         ! station longitude
+sdef dist         ! distance
+sdef azim         ! azimuth
+sdef bazim        ! back azimuth
+sdef rtime        ! read time
+sdef oname        ! output file name
+
+call statloc #6 &slat &slon
+call locdiff #3 #4 "slat "slon &dist &azim
+call locdiff "slat "slon #3 #4 &dist &bazim
+call travel #7 "dist #5 &ttrav
+
+if  "ttrav ner 0.0  goto/forward ttrav_ok:
+   echo no travel time for #7 , distance "dist , depth #5
+   return
+ttrav_ok:
+
+calc t &rtime = #2 tadd "ttrav
+
+! go back offset 50 sec
+calc t &rtime = "rtime tadd -50
+
+!! go back filter offset 30 sec
+!calc t &rtime = "rtime tadd -30
+
+! 
+reads #1 "rtime 140 #8 zne hh
+demean all 0 20
+
+rotaz 2,3 "azim
+del 2,3
+
+int/mode=int all
+del 1-3
+
+echo "rtime  azim "azim  bazim "bazim
+
+calc s &oname = ^station qname #2
+
+write |"oname|_z| 1
+write |"oname|_r| 2
+write |"oname|_t| 3
+
+set/file all azimuth "azim
+set/file all distance "dist
+set/file all origin #2
+
+return

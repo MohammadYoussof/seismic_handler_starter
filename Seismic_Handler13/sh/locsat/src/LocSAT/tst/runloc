@@ -1,0 +1,1 @@
+/home/johannes/loc_sat/bin/LocSAT -s brd.sta -d $1.dat -c lubin.cntrl -o $1.out

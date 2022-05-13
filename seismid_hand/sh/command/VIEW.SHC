@@ -1,0 +1,36 @@
+! file VIEW.SHC
+
+default 1 dd1:            device
+default 2 1-jan-91_0:0:0  start time
+default 3 3600            length of each trace in sec
+default 4 24              number of traces
+default 5 1               trace list
+
+sdef trccnt 1
+sdef dummy
+sdef start
+
+calc t &dummy = #2 tadd -43200
+calc s &start = #2
+
+nr
+del all
+dtw
+norm c
+trctxt ^time($x)
+set/default all reduction 8
+loop_start:
+   if  "trccnt gti #4  goto/forward loop_exit:
+   echo reading trace "trccnt "start
+   readk #1 "start #3 #5
+   readk #1 "dummy 60 1
+   del _created
+   calc t &start = "start tadd #3
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+zoom all .8
+title 1 ^date
+rd
+
+return

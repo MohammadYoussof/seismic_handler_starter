@@ -1,0 +1,27 @@
+! file READ1.SHC
+!      =========
+!
+! version 1, 13-Dec-91
+!
+! reads first trace of each file in file list
+! K. Stammler, 13-Dec-91
+
+default 1 ;;       file list
+default 2 1        first file
+default 3 %#1(0)   last file
+
+sdef cnt #2
+sdef qfile
+
+nr
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("cnt)
+   echo reading trace 1 of file "qfile
+   read "qfile 1
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+rd
+
+return

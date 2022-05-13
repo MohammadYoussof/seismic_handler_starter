@@ -1,0 +1,31 @@
+! file convert_list_len2seed.shc
+!      =========================
+!
+! version 1, 7-Jun-95
+!
+! K. Stammler, 7-Jun-95
+
+default 1 ;;     list of lennartz files
+
+sdef cnt 1       ! file counter
+sdef max %#1(0)  ! number of lennartz files in list
+sdef lenfile     ! name of current lennartz file
+
+loop_start:
+   if  "cnt gti "max  goto/forward loop_exit:
+   del all
+   dtw
+   calc s &lenfile = %#1("cnt)
+@  ECHO reformat file "LENFILE
+   readf/fmt=4 "lenfile all
+   set 1-3 calib 1.14e-9
+   set 4-6 calib 5e-9
+   set 1-3 chan1 s
+   set 4-6 chan1 b
+   set 1-6 chan2 h
+   writeseed
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

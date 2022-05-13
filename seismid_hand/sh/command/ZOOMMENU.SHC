@@ -1,0 +1,81 @@
+! file ZOOMMENU.SHC
+!      ============
+!
+! version 1, 26-Feb-2007
+!
+! Menu options for LH display
+! K. Stammler, 17-Dec-99
+
+! local variables
+sdef key     ! key pressed
+sdef trc     ! trace selected
+sdef amplicut
+
+calc r &amplicut = 100.0
+
+! do not exit on errors
+switch cmderrstop off
+
+loop_start:
+
+	! wait for next key
+   time;;;;&trc;&key
+
+   ! Q -> exit
+   if  "key eqs q  goto/forward loop_exit:
+
+   ! P make hardcopy
+   if  "key nes p  goto/forward l1:
+      phc;;
+      goto loop_start:
+   l1:
+
+   ! O create PS file
+   if  "key nes o  goto/forward l1a:
+      hc ;; p &tmp
+      echo created file "tmp
+      goto loop_start:
+   l1a:
+
+   ! U increase amplitudes
+   if  "key nes u  goto/forward l2:
+      zoom/rel "trc 1.2
+      goto loop_start:
+   l2:
+
+   ! D decrease amplitudes
+   if  "key nes d  goto/forward l3:
+      zoom/rel "trc 0.8
+      goto loop_start:
+   l3:
+
+   ! A set/delete amplicut
+   if  "key nes a  goto/forward l10:
+      calc r &amplicut = 0.0 - "amplicut
+      if  "amplicut ler 0.0  goto/forward l10unset:
+         set all amplicut y
+         goto/forward l10amplok:
+      l10unset:
+         set all amplicut n
+      l10amplok:
+      rd r
+   l10:
+
+   ! V decrease amplicut value
+   if  "key nes v  goto/forward l11:
+      calc r &amplicut = "amplicut div 2
+      fct amplicut "amplicut
+      rd r
+   l11:
+
+   ! G increase amplicut value
+   if  "key nes g  goto/forward l12:
+      calc r &amplicut = "amplicut * 2
+      fct amplicut "amplicut
+      rd r
+   l12:
+
+   goto loop_start:
+loop_exit:
+
+return

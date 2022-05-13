@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry Mb</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>mb</em></H2>
+
+<P>Determines body wave magnitude for teleseismic signals. It
+needs an amplitude measurement on one or more P waves before,
+by convention read from WWSSN-SP simulated traces. The steps to
+perform to come to a magnitude determination are:</P>
+
+<UL>
+  <LI>Make a source location (e.g. using <A HREF="menu_locate_tele.html">Locate
+  Tele</A>) or enter a known location into the <A HREF="parambox.html">analysis
+  parameter box</A>.
+  <LI>Apply the WWSSN-SP <A HREF="fil_simulation.html">simulation
+  filter</A>.
+  <LI>Measure amplitudes of P waves (<A HREF="menu_ampl_per_p.html">Ampl
+  &amp; Period auto Peak</A>, <A HREF="menu_ampl_per_z.html">Ampl
+  &amp; Period auto Zero</A>)
+  <LI>Select the menu entry <em>mb</em>.
+</UL>
+
+<P>From all P amplitudes determined a magnitude will be computed.
+The formula applied is</P>
+
+<PRE>mb = log10(ampl/period) + sigma(distance)</PRE>
+
+<P>where <em>sigma</em> is (from 16 deg
+to 120 deg in steps of 1 deg):</P>
+
+<PRE>		5.9,5.9,5.9,6.0,6.0,6.1,6.2,6.3,6.3,6.5,6.4,6.5,6.6,
+		6.6,6.6,6.7,6.7,6.7,6.7,6.7,6.6,6.5,6.5,6.4,6.4,6.5,6.5,6.5,6.5,
+		6.7,6.8,6.9,6.9,6.8,6.7,6.7,6.7,6.7,6.8,6.8,6.8,6.8,6.8,6.8,6.8,
+		6.6,7.0,6.9,7.0,7.0,7.0,7.0,7.0,7.0,6.9,6.9,6.9,6.9,6.8,6.8,6.9,
+		6.9,6.9,6.8,6.7,6.8,6.9,7.0,7.0,7.0,6.9,6.9,7.1,7.0,7.0,7.1,7.1,
+		7.2,7.1,7.2,7.3,7.4,7.5,7.5,7.4,7.3,7.4,7.5,7.6,7.7,7.8,7.9,7.9,
+		8.0,8.1,8.2,8.2,8.4,8.6,8.7,8.8,8.9,9.0,9.0,9.0</PRE>
+
+<P>&nbsp;</P>
+
+<P><small>This page last modified 26-Jul-2000</small></P>
+
+</BODY>
+</HTML>

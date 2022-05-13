@@ -1,0 +1,63 @@
+command BEAM <trc-list> <azimuth> <slowness>
+============
+
+key: beam traces
+! version 1, 5-May-92
+
+Delays traces specified in <trc-list> to align seismic phases
+with the same azimuth and slowness.  The computed delays are added
+to already existing delays of the traces unless the "/abs" qualifier
+is specified.
+
+SH needs to know the station names where the traces in
+<trc-list> were recorded.  If not all station names are given,
+an error occurs.  SH uses a location file to look for
+the location of a station.  If a station name is not listed in
+this file, an error occurs.  In this case the unknown station
+must be inserted to the location file using the "fct station" command.
+For each station latitude and longitude (in degrees) must be
+entered.  SH uses this information to compute the
+relative distances between the stations.  Therefore the location
+information must be accurate enough.  For station arrays there can
+be specified an array-relative location (in km) and an array ID
+number.  If all stations of <trc-list> belong to the same array
+(same array ID number), SH uses the array relative
+location to shift the traces rather than the latitude,longitude
+information.  The the "/noarray" qualifier forces seismhandler to
+use latitude,longitude information instead of using the relative
+positions (if specified).  More detailed informations are given
+in the SH documentation.
+
+
+parameters
+----------
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be beamed.
+
+<azimuth>  ---  parameter type: real
+   Azimuth of phase to be aligned given in degrees.
+
+<slowness>  ---  parameter type: real
+   Slowness of phase to be aligned given in sec/degree.
+
+
+qualifiers
+----------
+
+/noarray
+   The stations are assumed to be no array even if array coordinates
+   are given for all stations in the location file.  If no array
+   coordinates are given the qualifier has no effect.
+
+/abs
+   The delays computed are used as new delay values for each trace
+   and are not added to already existing delays.
+
+
+example
+-------
+
+   beam all 30.0 5.0        ! shift all traces to beam a phase of
+                            ! azimuth 30 degrees and slowness 5.0 sec/deg
+

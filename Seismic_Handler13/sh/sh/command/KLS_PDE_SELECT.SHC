@@ -1,0 +1,39 @@
+! file KLS_PDE_SELECT.SHC
+
+default 1 ;;      list file
+default 2 1       increment
+
+sdef line
+sdef cnt %sys$login:kls_counter
+sdef year
+sdef month
+sdef day
+sdef hour
+sdef min
+sdef sec
+
+calc i &cnt = "cnt + #2
+echo_ch/new sys$login:kls_counter
+echo "cnt
+echo_ch
+
+echo >>>>>> reading event of line "cnt in file #1 <<<<<<
+calc s &line = %#1("cnt)
+calc s &year = "line extract 1 2
+calc s &month = "line extract 5 2
+calc s &day = "line extract 8 2
+calc s &hour = "line extract 16 2
+calc s &min = "line extract 19 2
+calc s &sec = "line extract 22 2
+calc s &g1 = |"day|,|"month|,|"year|,|
+calc s &g1 = |"g1|"hour|,|"min|,|"sec|
+calc s &g2 = "line extract 51 5     ! distance
+calc s &g3 = "line extract 42 4     ! depth
+!calc s &ret = "line extract 64 5    ! back azimuth
+calc s &ret = "line
+
+!calc s &g1 = 21-aug-1989_01:09:05.700
+!calc r &g2 = 45.3
+!calc r &g3 = 10.0
+
+return

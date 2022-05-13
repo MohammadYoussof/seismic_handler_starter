@@ -1,0 +1,37 @@
+! file PDE_QLIST_NOEV.SHC
+!      ==================
+!
+! version 1, 16-JUL-91
+!
+! inserts event information from the PDE library into every trace of each
+! q-file listed in a given q-file list.  There is no event number generated
+! on the processed traces
+! K. Stammler, 16-JUL-91
+
+default 1 ;;        q-file list
+default 2 1         first q-file
+default 3 %#1(0)    last q-file
+default 4 ;;        output channel
+default 5 ;;        qualifiers
+
+sdef qcnt #2      ! q-file counter
+sdef qfile        ! current name
+sdef dclcmd       ! DCL command
+
+loop_start:
+   if  "qcnt gti #3  goto/forward loop_exit:
+   calc s &qfile = %#1("qcnt)
+   calc s &dclcmd = |@shd_pde:pde_insert_to_q_noev|$blank|"qfile|$blank|#4|
+   if  #5 eqs ;;  goto/forward noqual:
+      calc s &dclcmd = |"dclcmd|$blank|%quotes|%slash|#5|%quotes|
+   noqual:
+   echo_ch #4
+   echo ----------
+   echo |"qcnt|:| dcl "dclcmd
+   echo_ch
+   system "dclcmd
+   calc i &qcnt = "qcnt + 1
+goto loop_start:
+loop_exit:
+
+return

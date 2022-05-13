@@ -1,0 +1,33 @@
+! file shm_help.uil
+!      ============
+!
+! version 1, 5-Aug-94
+!
+! help box
+! K. Stammler, 5-Aug-94
+
+
+object
+   help_box: XmBulletinBoardDialog {
+      controls {
+!         XmLabel     command_label;
+         XmScrolledList  help_list;
+      };
+   };
+
+object
+   help_list: XmScrolledList {
+      arguments {
+         XmNwidth = 500;
+         XmNvisibleItemCount = 15;
+         XmNunitType = XmPIXELS;
+!         XmNlistSizePolicy = XmVARIABLE;
+         XmNlistSizePolicy = XmCONSTANT;
+			XmNlistSpacing = 2;
+         XmNscrollBarDisplayPolicy = XmSTATIC;
+            };
+      callbacks {
+         MrmNcreateCallback = 
+				procedure xm_call_create_widget( k_widget_help_scroll );
+      };
+   };

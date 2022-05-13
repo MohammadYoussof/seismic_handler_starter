@@ -1,0 +1,13 @@
+! file KLS_DISMOUNT.SHC
+
+sdef device %sys$login:kls_setup(2)      ! device name
+sdef currlabel %sys$login:kls_currlabel  ! current label
+
+switch cmderrstop off
+readk xx: 1,2,3,4,5 1 1
+switch cmderrstop on
+
+echo >>>>>> dismounting device "device <<<<<<
+system |dismount|$blank|"device|
+
+return

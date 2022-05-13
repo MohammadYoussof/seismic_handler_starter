@@ -1,0 +1,41 @@
+! file GLS.SHC
+!      =======
+!
+! version 2, 9-Oct-92
+!
+! GRN list read routine
+! K. Stammler, Sep-1992
+
+default 1 1      counter increment
+
+sdef travtim      ! travel time in seconds
+sdef t-origin     ! origin time
+sdef t-start      ! start time
+sdef wdwlth       ! length of time window
+sdef wdwstart %sys$login:gls_setup(5)     ! start of time window
+sdef wdwend   %sys$login:gls_setup(6)     ! end of time window
+sdef device   %sys$login:gls_setup(2)     ! directory
+sdef stations %sys$login:gls_setup(3)     ! station list
+sdef comps    %sys$login:gls_setup(4)
+sdef getnext  %sys$login:gls_setup(1)     ! routine to get next event
+sdef listfile %sys$login:gls_setup(7)     ! list file
+sdef phase    %sys$login:gls_setup(8)     ! reference phase
+
+del all_dh
+dtw
+
+"getnext "listfile #1     ! get next event
+calc s &t-origin = "g1
+call travel "phase "g2 "g3 &travtim
+calc t &t-start = "t-origin tadd "travtim
+calc t &t-start = "t-start tadd "wdwstart
+calc/fmt=<%@f> r &wdwlth = "wdwend - "wdwstart
+echo >>>>>> reading "device "t-start "wdwlth "stations <<<<<<
+nr
+readgrn "device "t-start "wdwlth "stations "comps 20
+echo removing mean value
+demean all
+title 1 ^start
+rd
+
+return

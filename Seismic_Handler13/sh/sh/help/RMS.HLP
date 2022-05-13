@@ -1,0 +1,28 @@
+command RMS <trc> <lo-bound> <hi-bound> [<symbol>]
+===========
+
+key: compute RMS
+
+Computes RMS value for a trace or a part of a trace (Sums all squared samples,
+takes square root and divides through number of samles).  The resulting value
+is copied to the symbol specified or written to screen.
+
+parameters
+
+<trc>  ---  parameter type: trace
+   Trace to compute rms.
+
+<lo-bound>, <hi-bound>  ---  parameter type: real
+   Time window used for RMS calculation, if not defined
+   all trace will be used.
+
+<symbol> ---  parameters type: output symbol
+   Variable to take the resulting rms value.
+
+
+
+Examples:
+
+   RMS 1 ;;; &g1    ! computed RMS value of whole trace 1 and puts result
+                    ! into variable G1
+

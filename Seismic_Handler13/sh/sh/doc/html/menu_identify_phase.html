@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML LANG="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>SHM menu entry Identify Phase</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20060309;20344900">
+	<META NAME="CHANGED" CONTENT="20060312;15073800">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<P><IMG SRC="shmlogo.gif" NAME="graphics1" ALT="SeismicHandler - Waveform Analysis Tool" ALIGN=BOTTOM WIDTH=837 HEIGHT=184 BORDER=0>
+</P>
+<H2>Menu entry <EM>Identify Phase</EM></H2>
+<P>Pick a phase and determine its slowness and azimuth using array
+methods. You can give any name <I>&lt;pname&gt;</I> to this phase.
+Then after activating this menu entry SHM searches several event
+lists available in the internet.  For each event a number of phases
+is tested to match the travel time, azimuth and slowness of the phase
+in question.  If any found, the best fitting event within some
+maximum tolerance limits is copied to the parameter box and all
+phases named <I>&lt;pname&gt;</I> are changed to the name of best
+matching phase.</P>
+<P>The event list searched are:</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0in">quake@ghtftp.cr.usgs.gov (NEIC
+	finger list)</P>
+	<LI><P STYLE="margin-bottom: 0in">http://www.emsc-csem.org/cgi-bin/ALERT_all_messages.sh
+	(EMSC event page)</P>
+	<LI><P STYLE="margin-bottom: 0in">http://www.seismo.ethz.ch/redpuma/redpuma_ami_list.html
+	(SED event page)</P>
+</UL>
+<P><BR><BR>
+</P>
+<P>The phases searched are: P, Pdiff, PcP, PP, PPP, PKPdf, PKPab,
+PKPbc, SP, PKKPdf, PKKPbc, PKKPab, SKKPdf, S, Sdiff, ScS, SS, SKSdf,
+SSS, SKKSac, SKKSdf.</P>
+<P><small>This page last modified 12-Mar-2006</small></P>
+</BODY>
+</HTML>

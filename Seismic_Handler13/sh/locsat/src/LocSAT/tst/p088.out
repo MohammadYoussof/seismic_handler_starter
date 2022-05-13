@@ -1,0 +1,268 @@
+
+ LocSAT LOCATION RESULTS
+ ============================================================================== 
+
+  First arrival detected at:  0: 0: 0.00 (GMT) on: Jan.  1, 1970
+
+ ============================================================================== 
+
+G-A3     49.7620   11.3190    0.0000
+G-A1     49.6920   11.2220    0.0000
+GRA1     49.6920   11.2220    0.0000
+G-A2     49.6550   11.3600    0.0000
+G-A4     49.5650   11.4360    0.0000
+G-B4     49.4690   11.5610    0.0000
+G-B1     49.3920   11.6540    0.0000
+G-B3     49.3440   11.8060    0.0000
+G-B2     49.2710   11.6690    0.0000
+G-B5     49.1110   11.6790    0.0000
+G-C4     49.0870   11.5270    0.0000
+G-C1     48.9960   11.5220    0.0000
+G-C3     48.8890   11.5850    0.0000
+G-C2     48.8680   11.3750    0.0000
+GEC2     48.8450   13.7020    0.0000
+ass      52.1310   10.6670    0.0000
+kon      52.1920   10.4060    0.0000
+bns      50.9640    7.1750    0.0000
+beg      50.9610    6.6560    0.0000
+bgg      50.2060    7.3360    0.0000
+esp      50.1000    7.7940    0.0000
+hat      50.8280    9.9440    0.0000
+jue      50.9140    6.4110    0.0000
+koe      50.4250    7.7310    0.0000
+kll      50.6470    6.3110    0.0000
+sin      50.9190    6.6640    0.0000
+stb      50.5940    6.8390    0.0000
+boc      51.4890    7.2140    0.0000
+brn      52.4190   13.2030    0.0000
+brl      52.4640   13.3000    0.0000
+bug      51.4440    7.2640    0.0000
+buh      48.6750    8.2280    0.0000
+abh      49.8810    7.5470    0.0000
+bfo      48.3310    8.3250    0.0000
+bir      49.7030    7.0610    0.0000
+efr      47.6750    7.5720    0.0000
+fel      47.8690    8.0170    0.0000
+klt      49.3190    8.0820    0.0000
+tro      49.6060    8.8030    0.0000
+krw      49.0220    8.3690    0.0000
+clz      51.8420   10.3750    0.0000
+fur      48.1670   11.2780    0.0000
+bhg      47.7220   12.8780    0.0000
+gap      47.4780   11.0640    0.0000
+hof      50.3140   11.8780    0.0000
+wet      49.1440   12.8810    0.0000
+oga      46.8640   11.0250    0.0000
+sce      47.0390   11.7110    0.0000
+gsh      50.7360    6.3780    0.0000
+jck      51.0360    6.4310    0.0000
+plh      51.0060    6.8190    0.0000
+gtt      51.5470    9.9640    0.0000
+ham      53.4640    9.9250    0.0000
+hlg      54.1860    7.8830    0.0000
+hoe      52.6920   10.2530    0.0000
+krl      49.0110    8.4110    0.0000
+mwg      51.9690    7.5970    0.0000
+stu      48.7720    9.1940    0.0000
+beu      48.5830    9.4220    0.0000
+hei      49.4000    8.7280    0.0000
+hun      48.0810    9.4080    0.0000
+msg      48.4000    9.0330    0.0000
+mss      48.1810    8.9670    0.0000
+ost      48.3000    8.8500    0.0000
+rav      47.7830    9.6140    0.0000
+tns      50.2250    8.4500    0.0000
+bhz      50.0890    8.3970    0.0000
+ffm      50.1220    8.6610    0.0000
+gls      50.4420    9.1610    0.0000
+ids      50.2170    8.1640    0.0000
+wdb      49.8560    9.0220    0.0000
+brg      50.8750   13.9470    0.0000
+cll      51.3090   13.0040    0.0000
+mox      50.6460   11.6160    0.0000
+
+ Ariv ID Statn  Phase    Type Atype  Observed    S.D. Err
+       3 GEC2   Pn       t    d         0.000   0.200   0
+       3 GEC2   Pn       a    d        31.230   2.000   0
+       3 GEC2   Pn       s    d        12.288   0.500   0
+       6 GEC2   Pg       t    d         5.980   0.300   0
+       6 GEC2   Pg       a    d        31.200   5.000   0
+       6 GEC2   Pg       s    d        16.498   0.500   0
+       9 GEC2   Sg       t    d        44.480   0.300   0
+       9 GEC2   Sg       a    d        30.810   4.000   0
+       9 GEC2   Sg       s    d        25.740   0.900   0
+      12 GEC2   Sg       t    d        54.980   0.500   0
+      12 GEC2   Sg       a    d        33.750   3.600   0
+      12 GEC2   Sg       s    d        25.740   0.900   0
+ ============================================================================== 
+ 
+ 
+- Iteration #  0   Number of Obs. (Data): 12
+- Lat:  50.000   Lon:   15.000   Depth:    1.000   To:   -18.232
+- Unwt. RMS Res.:  9.9727   Wt. RMS Res.: 25.3741   CNVGTST: 0.76994E-01
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+GEC2   Pn       t         0.00        9.02     -9.02      -45.10      1.43
+GEC2   Pn       a        31.23       35.76     -4.53       -2.26      1.43
+GEC2   Pn       s        12.29       14.08     -1.80       -3.59      1.43
+GEC2   Pg       t         5.98       10.32     -4.34      -14.47      1.43
+GEC2   Pg       a        31.20       35.76     -4.56       -0.91      1.43
+GEC2   Pg       s        16.50       20.00     -3.50       -7.00      1.43
+GEC2   Sg       t        44.48       29.14     15.34       51.12      1.43
+GEC2   Sg       a        30.81       35.76     -4.95       -1.24      1.43
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      1.43
+GEC2   Sg       t        54.98       29.14     25.84       51.67      1.43
+GEC2   Sg       a        33.75       35.76     -2.01       -0.56      1.43
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      1.43
+
+> Sighat:  1.331   NSSD: 29.300   dLat:  133.748   dLon:   85.473   dZ:    0.000
+> True Cond. Num.:   7.26       Effective Cond. Num.:   7.26    
+ 
+ 
+- Iteration #  1   Number of Obs. (Data): 12
+- Lat:  51.195   Lon:   16.222   Depth:    1.000   To:   -48.001
+- Unwt. RMS Res.:  4.3323   Wt. RMS Res.:  7.2090   CNVGTST: 0.27023E-02
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+GEC2   Pn       t         0.00       -0.31      0.31        1.54      2.86
+GEC2   Pn       a        31.23       33.68     -2.45       -1.23      2.86
+GEC2   Pn       s        12.29       13.95     -1.66       -3.32      2.86
+GEC2   Pg       t         5.98        9.02     -3.04      -10.12      2.86
+GEC2   Pg       a        31.20       33.68     -2.48       -0.50      2.86
+GEC2   Pg       s        16.50       19.65     -3.15       -6.30      2.86
+GEC2   Sg       t        44.48       46.39     -1.91       -6.37      2.86
+GEC2   Sg       a        30.81       33.68     -2.87       -0.72      2.86
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.86
+GEC2   Sg       t        54.98       46.39      8.59       17.18      2.86
+GEC2   Sg       a        33.75       33.68      0.07        0.02      2.86
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.86
+
+> Sighat:  1.030   NSSD:  8.324   dLat:    9.885   dLon:   -6.986   dZ:    0.000
+> True Cond. Num.:   14.0       Effective Cond. Num.:   14.0    
+ 
+ 
+- Iteration #  2   Number of Obs. (Data): 12
+- Lat:  51.284   Lon:   16.122   Depth:    1.000   To:   -48.996
+- Unwt. RMS Res.:  4.1508   Wt. RMS Res.:  7.1552   CNVGTST: 0.13928E-03
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+GEC2   Pn       t         0.00       -0.78      0.78        3.89      2.90
+GEC2   Pn       a        31.23       31.64     -0.41       -0.21      2.90
+GEC2   Pn       s        12.29       13.94     -1.65       -3.30      2.90
+GEC2   Pg       t         5.98        8.75     -2.77       -9.25      2.90
+GEC2   Pg       a        31.20       31.64     -0.44       -0.09      2.90
+GEC2   Pg       s        16.50       19.74     -3.24       -6.49      2.90
+GEC2   Sg       t        44.48       46.63     -2.15       -7.18      2.90
+GEC2   Sg       a        30.81       31.64     -0.83       -0.21      2.90
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.90
+GEC2   Sg       t        54.98       46.63      8.35       16.69      2.90
+GEC2   Sg       a        33.75       31.64      2.11        0.58      2.90
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.90
+
+> Sighat:  1.030   NSSD:  8.262   dLat:   -0.169   dLon:   -0.287   dZ:    0.000
+> True Cond. Num.:   13.8       Effective Cond. Num.:   13.8    
+ 
+ 
+- Iteration #  3   Number of Obs. (Data): 12
+- Lat:  51.282   Lon:   16.118   Depth:    1.000   To:   -48.977
+- Unwt. RMS Res.:  4.1578   Wt. RMS Res.:  7.1547   CNVGTST: 0.13774E-08
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+GEC2   Pn       t         0.00       -0.80      0.80        3.99      2.89
+GEC2   Pn       a        31.23       31.62     -0.39       -0.19      2.89
+GEC2   Pn       s        12.29       13.94     -1.65       -3.30      2.89
+GEC2   Pg       t         5.98        8.72     -2.74       -9.13      2.89
+GEC2   Pg       a        31.20       31.62     -0.42       -0.08      2.89
+GEC2   Pg       s        16.50       19.74     -3.24       -6.47      2.89
+GEC2   Sg       t        44.48       46.56     -2.08       -6.95      2.89
+GEC2   Sg       a        30.81       31.62     -0.81       -0.20      2.89
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.89
+GEC2   Sg       t        54.98       46.56      8.42       16.83      2.89
+GEC2   Sg       a        33.75       31.62      2.13        0.59      2.89
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.89
+
+> Sighat:  1.030   NSSD:  8.262   dLat:    0.006   dLon:    0.004   dZ:    0.000
+> True Cond. Num.:   13.8       Effective Cond. Num.:   13.8    
+ 
+ 
+- Iteration #  4   Number of Obs. (Data): 12
+- Lat:  51.282   Lon:   16.118   Depth:    1.000   To:   -48.979
+- Unwt. RMS Res.:  4.1578   Wt. RMS Res.:  7.1547   CNVGTST: 0.56247E-10
+
+       Phase    Data      Travel Times             Residuals      Distance
+Sta    Type     Type  Observed  Calculated      True  Normalized    (deg.)
+------ -------- ----  --------  ----------  --------  ----------  --------
+GEC2   Pn       t         0.00       -0.80      0.80        3.99      2.89
+GEC2   Pn       a        31.23       31.62     -0.39       -0.19      2.89
+GEC2   Pn       s        12.29       13.94     -1.65       -3.30      2.89
+GEC2   Pg       t         5.98        8.72     -2.74       -9.13      2.89
+GEC2   Pg       a        31.20       31.62     -0.42       -0.08      2.89
+GEC2   Pg       s        16.50       19.74     -3.24       -6.47      2.89
+GEC2   Sg       t        44.48       46.57     -2.09       -6.95      2.89
+GEC2   Sg       a        30.81       31.62     -0.81       -0.20      2.89
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.89
+GEC2   Sg       t        54.98       46.57      8.41       16.83      2.89
+GEC2   Sg       a        33.75       31.62      2.13        0.59      2.89
+GEC2   Sg       s        25.74       33.00     -7.26       -8.07      2.89
+
+> Sighat:  1.030   NSSD:  8.262   dLat:    0.000   dLon:    0.000   dZ:    0.000
+> True Cond. Num.:   13.8       Effective Cond. Num.:   13.8    
+
+ Location ran for  4 iterations ... Converged!
+
+ ============================================================================== 
+
+
+ Final location estimate (+/- S.D.):
+      Latitude:   51.282 deg. N +/-     4.980 km.
+     Longitude:   16.118 deg. E +/-     7.221 km.
+         Depth:    1.000  km.   +/-     0.000 km. (Fixed)
+ Relative O.T.:  -48.979 sec.   +/-     0.381 sec.
+ Absolute O.T.:  -48.979 sec.   +/-     0.381 sec.
+
+ Confidence region at 0.90 level:
+   Semi-major axis:    18.9  km. =  0.17 deg.
+   Semi-minor axis:     4.2  km. =  0.04 deg.
+ Major-axis strike:   123.5 deg. clockwise from North
+  Orig. time error:     0.6 sec.
+
+ Standard errors (sigma):
+              Prior:  1.00 (  9999 deg. of freedom)
+          Posterior:  1.03 ( 10008 deg. of freedom)
+          Posterior:  8.26 (Normalized sample S.D.)
+
+      Azimuthal weighting:  1.00
+ Effective rank of matrix:  3.00
+    Maximum azimuthal GAP:  360 deg.
+
+ ============================================================================== 
+                       Data           Residuals    Distance Azimuth   Data
+ Ariv ID Statn  Phase  Type at     True Normalized   (deg.)  (deg.)  Import Err
+ ============================================================================== 
+       3 GEC2   Pn     t     d    0.798      3.991    2.894  213.47   0.823   0
+      Slowness Vector Residual:   1.652
+       3 GEC2   Pn     s     d   -1.650     -3.299    2.894  213.47   0.000   0
+       3 GEC2   Pn     a     d   -0.389     -0.194    2.894  213.47   0.582   0
+       6 GEC2   Pg     t     d   -2.740     -9.134    2.895  213.47   0.222   0
+      Slowness Vector Residual:   3.240
+       6 GEC2   Pg     s     d   -3.238     -6.474    2.895  213.47   0.007   0
+       6 GEC2   Pg     a     d   -0.419     -0.084    2.895  213.47   0.093   0
+       9 GEC2   Sg     t     d   -2.085     -6.950    2.895  213.47   0.697   0
+      Slowness Vector Residual:   7.272
+       9 GEC2   Sg     s     d   -7.260     -8.066    2.895  213.47   0.000   0
+       9 GEC2   Sg     a     d   -0.809     -0.202    2.895  213.47   0.145   0
+      12 GEC2   Sg     t     d    8.415     16.830    2.895  213.47   0.251   0
+      Slowness Vector Residual:   7.340
+      12 GEC2   Sg     s     d   -7.260     -8.067    2.895  213.47   0.000   0
+      12 GEC2   Sg     a     d    2.131      0.592    2.895  213.47   0.180   0
+ ============================================================================== 
+
+ =  0, No problem, normal interpolation

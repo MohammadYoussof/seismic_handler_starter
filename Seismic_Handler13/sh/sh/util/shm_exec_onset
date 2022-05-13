@@ -1,0 +1,62 @@
+#! /bin/csh
+#
+# file shm_exec_onset
+#      ==============
+#
+# version 2, 20-Mar-95
+#
+# executes program 'onset' to compute travel times of phases
+# K. Stammler, 8-Dec-93
+#
+# parameter 1:  name of list file
+# parameter 2:  name of phase list file
+# parameter 3:  name of output file
+#
+# format of list file:
+# 1. line:          <latitude> <longitude> <depth> <origin-time>
+# following lines:  <station> <latitude> <longitude> <elevation>
+
+set onset_exe=$SH_UTIL/onset
+set tmpfile="$SH_SCRATCH/onset_input.txt"
+
+set arg=`cat $1`
+set selfile=$2
+set result=$3
+set epilat=$arg[1]
+set epilon=$arg[2]
+set epidep=$arg[3]
+set epitim=$arg[4]
+set tmp=`echo $epitim | sed s/:/' '/g`
+set origin=`echo $tmp | sed s/_/' '/g`
+set idx=5
+\rm -f $result
+
+if  ("$selfile" == "")  then
+   set selfile="$SH_INPUTS/onset_phase_selection.txt"
+endif
+if  ("$result" == "")  then
+   set result="$SH_SCRATCH/onset_result.txt"
+endif
+
+while ($idx < $#arg)
+   set station=$arg[$idx]
+   @ idx = $idx + 1
+   set stalat=$arg[$idx]
+   @ idx = $idx + 1
+   set stalon=$arg[$idx]
+   @ idx = $idx + 1
+   set staele=$arg[$idx]
+   @ idx = $idx + 1
+   \rm -f $tmpfile
+   echo $station > $tmpfile
+   echo $epilat >> $tmpfile
+   echo $epilon >> $tmpfile
+   echo $epidep >> $tmpfile
+   echo "$origin[2] $origin[3] $origin[4]" >> $tmpfile
+   echo "station $station"
+   set outfile="$SH_SCRATCH"/onset_"$station".onset_phases
+   \rm -f $outfile
+   $onset_exe < $tmpfile > $outfile
+   $SH_UTIL/onset_convert $station $epitim $selfile $outfile $result
+   \rm -f $outfile
+end

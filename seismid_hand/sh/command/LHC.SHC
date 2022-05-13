@@ -1,0 +1,50 @@
+! file lhc.shc
+!      =======
+!
+! version 2, 9-Oct-92
+!
+! makes HPGL-Hardcopy
+! K. Stammler, 29-Sep-92
+
+default 1 ;;      hc window
+default 2 a4      paper size
+
+sdef hcfile       ! name of hardcopy file
+sdef sizefile     ! name of wdv-file to set paper size
+
+if  #2 eqs a4  goto/forward do_a4:
+if  #2 eqs a3  goto/forward do_a3:
+echo illegal paper size #2
+return
+
+do_a4:
+   cm:la4
+   calc s &sizefile = shc_wdv:a4lpaper.wdv
+   goto/forward format_ok:
+do_a3:
+   cm:la3
+   calc s &sizefile = shc_wdv:a3paper.wdv
+format_ok:
+
+echo writing hardcopy file
+hc #1 l &hcfile
+
+echo setup print job
+echo_ch/new sys$login:lhc
+!echo |$dollar|$blank|set|$blank|verify|
+echo/no_crlf |$dollar|$blank|size=f$file(|$quotes|"hcfile|$quotes|,|
+echo |$quotes|alq|$quotes|)|
+echo/no_crlf |$dollar|$blank|write|$blank|sys$output|$blank|$quotes|
+echo |hardcopy|$blank|size:|$blank|''size'|$blank|blocks|$quotes|
+echo/no_crlf |$dollar|$blank|pr==|$quotes|print|$slash|pass|
+echo |$slash|queue=wdv|$quotes|
+echo |$dollar|$blank|pr|$blank|"sizefile|
+echo |$dollar|$blank|pr|$blank|shc_wdv:to_hpgl.wdv|
+echo |$dollar|$blank|pr|$slash|delete|$blank|"hcfile|
+echo |$dollar|$blank|pr|$blank|shc_wdv:to_wdv.wdv|
+echo |$dollar|$blank|purge|$slash|nolog|$blank|lhc.stx|
+echo_ch
+system @sys$login:lhc.stx
+echo
+
+return

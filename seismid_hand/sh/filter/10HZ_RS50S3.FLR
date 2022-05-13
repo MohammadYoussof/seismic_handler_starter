@@ -1,0 +1,21 @@
+! recursive filter file of a restitution filter
+! removes seismometer h0, T0 and applies Butterworth
+! highpass of order three at corner frequency 1/tc
+! h0: 0.707000
+! T0: 20.000000
+! tc: 50.000000
+!
+1357913578
+3
+1.000000e-01
+5.000000e-02
+4
+1.022460e+00
+-9.770468e-01
+-1.021473e+00
+9.780339e-01
+4
+1.012646e+00
+-3.012487e+00
+2.987355e+00
+-9.875122e-01

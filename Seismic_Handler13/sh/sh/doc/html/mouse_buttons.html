@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>Mouse Buttons in SHM</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Use of the mouse buttons</H2>
+
+<P>Each of the three mouse buttons has functionality in SHM. A
+trained user can perform the mouse operations very quickly and
+achieve high efficiency in working with the traces. Of course,
+the normal mouse functions of the X-Window interface are still
+valid in the program. The operations described here refer to activation
+of mouse buttons in one of the two display windows of SHM (see
+<A HREF="display.html">the display windows</A>). It is strongly
+recommended to set the X-Window focus policy to Focus Follows
+Mouse (i.e. the window is made active which has the mouse pointer
+on it, without clicking onto the window). Otherwise the necessary
+clicks on the windows to make it active slow down the operations
+and may lead to unexpected results. In particular when working
+with shortcuts (almost all menu entries may be activated by hitting
+a key on the keyboard, see the characters to the right of the
+menu entries) this is important. A shortcut must go into an active
+main window.</P>
+
+<H3>Mouse button 1 (left)</H3>
+
+<P>This button is used for creating and deleting phases on the
+traces. A single click creates a new phase (with properties taken
+from the <A HREF="phasebox.html">phase dialog box</A>), a double
+click on an existing phase deletes it. Dragging (= click and move)
+an existing phase moves it from one time position to another.
+A trace accepts only one phase of the same name, if the phase
+already exists the phase marker remains black and unlabeled. Please
+check for phases lying out of the visible window. Phase clicks
+are allowed in any of the two display windows (main and zoom).</P>
+
+<H3>Mouse button 2 (middle)</H3>
+
+<P>Used for changing the style of the mouse cursor. When starting
+up the program the mouse cursor is nothing but the usual arrow.
+Clicking the middle mouse button adds a crosshair cursor. This
+is useful for comparing times between traces or check amplitude
+values (e.g. against the zero line shown at the right border of
+the display). Clicking again replaces the crosshair cursor by
+a waveform cursor. It takes the waveform from the zoom window
+and attaches it to the mouse cursor. With this option you may
+compare waveforms between traces or use it for picking of coherent
+phases by overlaying a reference trace to the other traces while
+picking the onset time. There is a set of waveform cursors following
+after this, the complete sequence of cursors is: <em>none</em>
+(no cursor), <em>crosshair</em> (crosshair cursor), <em>waveform</em>
+(waveform taken from zoom window), <em>negwave</em>
+(negative waveform from zoom), <em>hilbert</em>
+(hilbert transformation of waveform) and <em>neghilb</em>
+(negative hilbert transformation
+of waveform). After clicking the second mouse button 6 times you
+come back to no cursor. Sometimes it is not desirable to click
+so often to come back to the inital state, therefore you can set
+the maximum cursor form in the Setup
+menu. If you select e.g. <em>crosshair</em>
+there, then the middle mouse button toggles between no cursor
+and crosshair.</P>
+
+<H3>Mouse button 3 (right)</H3>
+
+<P>Selects time windows on traces (drag box). Clicking and dragging with
+this button on a trace in the main window opens and resizes a
+drag box. The selected waveform is displayed in enhanced resolution
+in the zoom window. If a drag box already exists a click with
+the right button lets the box center jump to the mouse position.
+Dragging an existing box scrolls a time window of constant
+length through the zoom window. If you click on the right border
+of an existing drag box, you may resize it. The use of the
+3rd mouse button in the zoom window has no effect (up to SHM version 2.4f,
+see next paragraph).
+To set a time window defined by a drag window for all traces in the main
+display window use the command <A HREF="window_op.html#Anker2408454">Set Time
+Window</A>. <I>Set Time Window</I> and use the drag windows let you iterate
+to an appropriate time resolution.</P>
+<P>
+Since SHM version 2.4f the drag window may also be moved by the arrow keys.
+The up arrow key moves the drag window one trace up, similarly the down arrow
+key one trace down.  The left and right arrows move the window by 20% of its
+width to the left or right, respectively.  It is not possible to move the
+drag window out of display using the arrow keys.  In addition a right mouse
+click within the zoom window moves the drag window one trace up (same function
+as the up arrow key).  The advantage is that phase picking within the zoom
+window can be done much faster on a set of traces, because the mouse doesn't
+need to be moved between the zoom window and the main display window.  Before
+the cursor keys can be used, the keysym value of the keys must be known to
+SHM.  Please use the configuration parameters <I>keysym_arrow_up</I>,
+<I>keysym_arrow_down</I>, <I>keysym_arrow_left</I> and
+<I>keysym_arrow_right</I>.  To find the
+keysym values set the debug level (parameter <I>debug_level</I> in the
+<a href="configuration-file.html">configuration
+file</a>) to a value of 4 or higher.  All keystrokes then will be protocoled
+in the shell window including the keysym value.
+</P>
+
+<P><small>This page last modified 17-Oct-2006</small></P>
+
+</BODY>
+</HTML>

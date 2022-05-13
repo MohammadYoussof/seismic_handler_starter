@@ -1,0 +1,659 @@
+! file shm_parameter_box.uil
+!      =====================
+!
+! version 11, 17-Jun-2006
+!
+! analysis parameter box
+! K. Stammler, 15-Jul-94
+
+
+
+object
+   parameter_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'parameters';
+         XmNdialogStyle = XmDIALOG_MODELESS;
+         XmNmarginWidth = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard param_value_box;
+         XmBulletinBoard param_ctrl_box;
+         XmRowColumn     param_main_button_box1;
+      };
+   };
+
+object
+   param_main_button_box1: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+!         XmNspacing = 30;
+         XmNx = k_pos_x_param_main_buttons;
+         XmNy = k_pos_y_param_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+!         XmPushButton     button_param_dismiss;
+         XmPushButton     button_param_setslow;
+      };
+   };
+
+object
+   button_param_dismiss: XmPushButton {
+      arguments {
+         XmNlabelString = 'Hide';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_dismiss );
+      };
+   };
+
+object
+   button_param_setslow: XmPushButton {
+      arguments {
+         XmNlabelString = 'SetSlow';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_setslow );
+      };
+   };
+
+object
+   button_param_localize: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_location_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_localize;
+         XmNacceleratorText = k_acct_localize;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_localize );
+      };
+   };
+
+object
+   button_param_hypoloc: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_hypoellipse_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_hypo;
+         XmNacceleratorText = k_acct_hypo;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_hypoloc );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_hypoloc );
+      };
+   };
+
+object
+   button_param_locsat: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_locsat_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_locsat;
+         XmNacceleratorText = k_acct_locsat;
+!			XmNsensitive = false;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_locsat );
+      };
+   };
+
+object
+   button_param_theo: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_theo_tables_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_theo;
+         XmNacceleratorText = k_acct_theo;
+     };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_theo );
+      };
+   };
+
+object
+   button_param_theo_ext: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_theo_extprog_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_theo_ext;
+         XmNacceleratorText = k_acct_theo_ext;
+     };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_theo_ext );
+      };
+   };
+
+object
+   entry_deltheo: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_deltheo_text;
+         XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_deltheo;
+         XmNacceleratorText = k_acct_deltheo;
+     };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_menu_select( k_entry_deltheo );
+      };
+   };
+
+object
+   button_param_depth: XmPushButton {
+      arguments {
+         XmNlabelString = k_entry_depth_text;
+!         XmNborderWidth = 5;
+          XmNfontList = k_menu_font;
+         XmNaccelerator = k_acc_depth;
+         XmNacceleratorText = k_acct_depth;
+      };
+      callbacks {
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_depth );
+      };
+   };
+
+object
+   param_value_box:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'Parameters';
+         XmNmarginWidth = 3;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 3;
+         XmNshadowThickness = 1;
+      };
+      controls {
+         XmLabel    label_param_slowness;
+         XmText     text_param_slowness;
+         XmLabel    label_param_distance;
+         XmText     text_param_distance;
+         XmLabel    label_param_depth;
+         XmText     text_param_depth;
+         XmLabel    label_param_azimuth;
+         XmText     text_param_azimuth;
+         XmLabel    label_param_origin_d;
+         XmText     text_param_origin_d;
+         XmLabel    label_param_origin_t;
+         XmText     text_param_origin_t;
+         XmLabel    label_param_lat;
+         XmText     text_param_lat;
+         XmLabel    label_param_lon;
+         XmText     text_param_lon;
+			XmOptionMenu    param_locq_option;
+			XmOptionMenu    param_set_option;
+      };
+   };
+
+object
+   label_param_distance: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_distance;
+         XmNy = k_pos_y_param_distance;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'distance';
+      };
+   };
+
+object
+   text_param_distance: XmText {
+      arguments {
+         XmNx = k_pos_x_param_distance;
+         XmNy = k_pos_y_param_distance + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = '0.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_distance_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_distance_text );
+      };
+   };
+
+object
+   label_param_depth: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_depth;
+         XmNy = k_pos_y_param_depth;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'depth';
+      };
+   };
+
+object
+   text_param_depth: XmText {
+      arguments {
+         XmNx = k_pos_x_param_depth;
+         XmNy = k_pos_y_param_depth + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 6;
+         XmNvalue = '0.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_depth_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_depth_text );
+      };
+   };
+
+object
+   label_param_slowness: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_slowness;
+         XmNy = k_pos_y_param_slowness;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'slowness';
+      };
+   };
+
+object
+   text_param_slowness: XmText {
+      arguments {
+         XmNx = k_pos_x_param_slowness;
+         XmNy = k_pos_y_param_slowness + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+         XmNvalue = '0.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_slowness_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_slowness_text );
+      };
+   };
+
+object
+   label_param_azimuth: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_azimuth;
+         XmNy = k_pos_y_param_azimuth;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'azimuth';
+      };
+   };
+
+object
+   text_param_azimuth: XmText {
+      arguments {
+         XmNx = k_pos_x_param_azimuth;
+         XmNy = k_pos_y_param_azimuth + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 6;
+         XmNvalue = '0.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_azimuth_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_azimuth_text );
+      };
+   };
+
+object
+   label_param_origin_d: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_origin_d;
+         XmNy = k_pos_y_param_origin_d;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'date';
+      };
+   };
+
+object
+   text_param_origin_d: XmText {
+      arguments {
+         XmNx = k_pos_x_param_origin_d;
+         XmNy = k_pos_y_param_origin_d + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 11;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_origin_d_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_origin_d_text );
+      };
+   };
+
+object
+   label_param_origin_t: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_origin_t;
+         XmNy = k_pos_y_param_origin_t;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'time';
+      };
+   };
+
+object
+   text_param_origin_t: XmText {
+      arguments {
+         XmNx = k_pos_x_param_origin_t;
+         XmNy = k_pos_y_param_origin_t + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 12;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_origin_t_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_origin_t_text );
+      };
+   };
+
+object
+   label_param_lat: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_lat;
+         XmNy = k_pos_y_param_lat;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'Latitude';
+      };
+   };
+
+object
+   text_param_lat: XmText {
+      arguments {
+         XmNx = k_pos_x_param_lat;
+         XmNy = k_pos_y_param_lat + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_lat_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_lat_text );
+      };
+   };
+
+object
+   label_param_lon: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_lon;
+         XmNy = k_pos_y_param_lon;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNfontList = k_label_small_font;
+         XmNlabelString = 'Longitude';
+      };
+   };
+
+object
+   text_param_lon: XmText {
+      arguments {
+         XmNx = k_pos_x_param_lon;
+         XmNy = k_pos_y_param_lon + 15;
+         XmNwidth = 80;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 8;
+         XmNvalue = '';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_lon_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_param_lon_text );
+      };
+   };
+
+object
+   param_ctrl_box:  XmBulletinBoard {
+      arguments {
+			XmNx = k_pos_x_param_ctrl;
+			XmNy = k_pos_y_param_ctrl;
+         XmNdialogTitle = 'Display Control';
+         XmNmarginWidth = 3;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 3;
+         XmNshadowThickness = 1;
+      };
+      controls {
+!         XmLabel    label_param_ctrl_zoom;
+         XmScale    scale_param_ctrl_zoom;
+      };
+   };
+
+object
+   label_param_ctrl_zoom: XmLabel {
+      arguments {
+         XmNx = k_pos_x_param_ctrl_zoom;
+         XmNy = k_pos_y_param_ctrl_zoom;
+         XmNlabelString = 'zoom';
+      };
+   };
+
+object
+   scale_param_ctrl_zoom: XmScale {
+      arguments {
+         XmNx = k_pos_x_param_ctrl_zoom;
+         XmNy = k_pos_y_param_ctrl_zoom;
+         XmNunitType = XmPIXELS;
+         XmNminimum = -10;
+         XmNmaximum = 10;
+         XmNwidth = 80;
+         XmNborderWidth = 0;
+         XmNtitleString = 'zoom';
+         XmNshowValue = true;
+         XmNorientation = XmHORIZONTAL;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNscaleMultiple = 1;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_ctrl_zoom_scale );
+         XmNvalueChangedCallback =
+            procedure xm_call_scale( k_scale_param_ctrl_zoom );
+      };
+   };
+
+object
+   param_locq_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_param_locq_option;
+         XmNy = k_pos_y_param_locq_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Q';
+         XmNmenuHistory = XmPushButton button_param_locq_tooweak;
+      };
+      controls {
+         XmPulldownMenu param_locq_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_option );
+      };
+   };
+
+object
+   param_locq_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_param_locq_undefined;
+         XmPushButton   button_param_locq_tooweak;
+         XmPushButton   button_param_locq_incoherent;
+         XmPushButton   button_param_locq_nobearing;
+         XmPushButton   button_param_locq_region;
+         XmPushButton   button_param_locq_reliable;
+      };
+   };
+
+object
+   button_param_locq_undefined: XmPushButton {
+      arguments {
+         XmNlabelString = '0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_undefined );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_undefined );
+      };
+   };
+
+object
+   button_param_locq_tooweak: XmPushButton {
+      arguments {
+         XmNlabelString = 'wk';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_tooweak );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_tooweak );
+      };
+   };
+
+object
+   button_param_locq_incoherent: XmPushButton {
+      arguments {
+         XmNlabelString = 'ic';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_incoherent );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_incoherent );
+      };
+   };
+
+object
+   button_param_locq_nobearing: XmPushButton {
+      arguments {
+         XmNlabelString = 'dr';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_nobearing );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_nobearing );
+      };
+   };
+
+object
+   button_param_locq_region: XmPushButton {
+      arguments {
+         XmNlabelString = 'rg';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_region );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_region );
+      };
+   };
+
+object
+   button_param_locq_reliable: XmPushButton {
+      arguments {
+         XmNlabelString = 'rl';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_locq_reliable );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_locq_reliable );
+      };
+   };
+
+object
+   param_set_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_param_set_option;
+         XmNy = k_pos_y_param_set_option;
+         XmNunitType = XmPIXELS;
+			XmNorientation = XmVERTICAL;
+         XmNlabelString = 'Set';
+         XmNmenuHistory = XmPushButton button_param_set_1;
+      };
+      controls {
+         XmPulldownMenu param_set_menu;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_set_option );
+      };
+   };
+
+object
+   param_set_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_param_set_1;
+         XmPushButton   button_param_set_2;
+         XmPushButton   button_param_set_3;
+      };
+   };
+
+object
+   button_param_set_1: XmPushButton {
+      arguments {
+         XmNlabelString = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_set_1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_set_1 );
+      };
+   };
+
+object
+   button_param_set_2: XmPushButton {
+      arguments {
+         XmNlabelString = '2';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_set_2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_set_2 );
+      };
+   };
+
+object
+   button_param_set_3: XmPushButton {
+      arguments {
+         XmNlabelString = '3';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_param_set_3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_param_set_3 );
+      };
+   };

@@ -1,0 +1,23 @@
+command procedure LABEL <keyword>
+=======================
+
+key: cp:change trace text
+
+Changes the trace info text to some standard values.  List of
+valid keywords see below.
+
+
+parameter
+
+<keyword>  ---  parameter type:  string
+   Keyword specifying the label text.  Valid keywords are:
+   DEFAULT      trace text is:  <trace-number>: <station> <comp>
+   COMMENT      trace text is:  <comment>
+   POSITION     trace text is:  <trace-number>
+
+
+Example:
+
+   LABEL POSITION     ! the trace get only their position numbers
+                      ! as info text
+

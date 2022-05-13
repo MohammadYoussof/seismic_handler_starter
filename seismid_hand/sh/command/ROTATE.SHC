@@ -1,0 +1,33 @@
+
+! file ROTATE.SHC
+!      ==========
+!
+! version 1, 30-JUL-91
+!
+! 3-dim rotation Z,N,E -> L,Q,T with azimtuh from q--file and automatically
+! inside p-wdw determined angle of incidence
+! K. Stammler, 30-JUL-91
+
+default 1 20. correlation window
+! test 1-3 station ^station(1)
+
+nr
+sdef rotangle ^azimuth(1)
+sdef wdwstart
+sdef wdwend
+sdef incidence
+
+rot 2,3 "rotangle
+calc t &wdwstart = ^p-onset(1) tdiff ^start(1)
+calc r &wdwend = "wdwstart + #1
+mdir 1,4 "wdwstart "wdwend &incidence
+
+del 4,5
+! calc r &incidence = 0 - "incidence
+rot 1-3 "rotangle "incidence
+rd
+
+echo azimuth "rotangle
+echo incidence "incidence
+
+return

@@ -1,0 +1,42 @@
+command procedure VESPA_AZ <az1> <az2> <azstep> <slowness> <power>
+=======================
+
+key: cp:azimuth vespagram
+
+Computes vespagram from all traces of the display.  For each
+azimuth value from <az1> to <az2> in steps of <azsteps>
+a beam trace is computed (using slowness <slowness>).  On the
+summation the <power>-th root process is applied.  <power>=1
+means plain summation.  The input traces are hidden after execution
+of this procedure.  To get them back, enter the command
+"display h:all".  Each output trace corresponds to an azimuth
+value.  The azimuth value is given in the "comment"-entry of the
+trace.  It is convenient to switch the trace info text to
+"comment" by the command "trctxt ^comment($x)".
+
+
+parameters
+----------
+
+<az1>, <az2>  ---  parameter type: real
+   Azimuth window. Units in degress.
+
+<azstep>  ---  parameter type: real
+   Step size within azimuth window.  Unit in degress.
+
+<slowness>  ---  parameter type: real
+   Beam slowness in deg/sec.
+
+<power>  ---  parameter type: real
+   Before each summation the <power>-th root of the input traces
+   is computed.  The result trace is then taken to the <power>-th
+   power.
+
+
+examples
+--------
+
+   vespa_az 30.0 50.0 1. 6.3 1.   ! usual vespagram (plain summation)
+
+   vespa_az 30.0 50.0 1. 6.3 4.   ! 4-th root process on each summation
+

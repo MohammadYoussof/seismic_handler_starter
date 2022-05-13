@@ -1,0 +1,24 @@
+! file ERR_2000.MSG
+!      ============
+!
+! version 2, 14-NOV-91
+!
+! error messages of modules FFTFILTR.C and RECFILTR.C
+! K. Stammler, 8-JUL-91
+!
+*** FL-01 too many filters ***
+*** FL-02 string overflow ***
+*** FL-03 error opening input file ***
+*** FL-04 error reading file ***
+*** FL-05 this file is not a filter file ***
+*** FL-06 this is not a recursive filter ***
+*** FL-07 degree too large ***
+*** FL-08 zero length trace as input ***
+*** FL-09 no filter read in ***
+*** FL-10 recursive filter does not match the sample rate ***
+*** FL-11 this is not a FFT filter ***
+*** FL-12 end of filter file found ***
+*** FL-13 not able to compress filters ***
+*** FL-14 this is not a digital filter ***
+*** FL-15 read error on filer file ***
+*** FL-16 range error in digital filter ***

@@ -1,0 +1,101 @@
+! file GETPEAKS.SHC
+!      ============
+!
+! version 1, 18-JUL-91
+!
+! extracts peak traces from various q-stack-files.  Input traces a determined
+! by a peak fille
+! K. Stammler, 18-JUL-91
+
+default 1 ;;       peak-file
+default 2 moho     discontinuity (sed,moho,200,400,670)
+
+sdef dsc_number       ! number of discontinuity
+sdef line             ! current line
+sdef linecnt 1        ! line counter
+sdef status           ! execution status
+sdef depth            ! depth of trace
+sdef qfile            ! input q-file
+sdef station          ! station name
+sdef lowdw            ! lower bound of time window
+sdef hiwdw            ! upper bound of time window
+
+! identify discontinuity
+if  #2 nes sed  goto/forward no_sed:
+   calc i &dsc_number = 3
+   calc r &lowdw = -10.0
+   calc r &hiwdw = 20.0
+   goto/forward dsc_recognized:
+no_sed:
+if  #2 nes moho  goto/forward no_moho:
+   calc i &dsc_number = 5
+   calc r &lowdw = -10.0
+   calc r &hiwdw = 20.0
+   goto/forward dsc_recognized:
+no_moho:
+if  #2 nes 200  goto/forward no_200:
+   calc i &dsc_number = 7
+   calc r &lowdw = 15.0
+   calc r &hiwdw = 35.0
+   goto/forward dsc_recognized:
+no_200:
+if  #2 nes 400  goto/forward no_400:
+   calc i &dsc_number = 9
+   calc r &lowdw = 35.0
+   calc r &hiwdw = 55.0
+   goto/forward dsc_recognized:
+no_400:
+if  #2 nes 670  goto/forward no_670:
+   calc i &dsc_number = 11
+   calc r &lowdw = 60.0
+   calc r &hiwdw = 80.0
+   goto/forward dsc_recognized:
+no_670:
+echo *** illegal discontinuity ***
+return
+dsc_recognized:
+
+nr
+del all
+dtw
+
+! read lines from peak-file
+line_loop_start:
+
+   ! get next line
+   switch cmderrstop off
+   switch noerrmsg on
+   calc s &line = %#1("linecnt)
+   calc i &status = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "status nei 0  goto/forward line_loop_exit:
+
+   calc s &g1 = "line extract 1 1
+   if  "g1 eqs $exclamation  goto/forward empty_line:
+      fct terminators |$blank|@|$slash|%semicolon|
+      calc s &depth = "line parse "dsc_number
+      calc s &qfile = "line parse 12
+      calc s &station = "line parse 1
+      fct terminators |$blank|$slash|%semicolon|
+      calc s &g1 = "depth extract 1 1
+      if  "g1 eqs -  goto/forward empty_line:
+         calc i &depth = "depth div 40
+         calc i &depth = "depth + 1
+         echo reading trace "depth from file "qfile
+         read "qfile "depth
+         set _created station "station
+   empty_line:
+
+   calc i &linecnt = "linecnt + 1
+
+goto line_loop_start:
+line_loop_exit:
+
+shift all time_al %default_time
+trctxt |$x|:| ^station($x)
+stw "lowdw "hiwdw
+norm sw
+zoom all -3
+rd
+return

@@ -1,0 +1,16 @@
+! file TF_VEL_GRSN.FLF
+!      ===============
+!
+! version 1, 14-Jul-2003
+!
+! BUG-SP transfer function (velocity input)
+! K. Stammler, 14-Jul-2003
+  1357913578
+           1
+1.0
+2
+(0.0,0.0)
+(0.0,0.0)
+           2
+( -3.89558, -4.9298 )
+( -3.89558, 4.9298 )

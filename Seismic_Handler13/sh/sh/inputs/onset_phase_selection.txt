@@ -1,0 +1,13 @@
+! file onset_phase_selection.txt
+!      =========================
+!
+! version 1, 8-Dec-93
+!
+! selected phases for external travel time programs
+! K. Stammler, 8-Dec-93
+P
+S
+Pg
+Pn
+Sg
+Sn

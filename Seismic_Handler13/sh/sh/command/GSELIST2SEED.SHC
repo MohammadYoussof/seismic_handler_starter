@@ -1,0 +1,27 @@
+! file GSELIST2SEED.SHC
+!      ================
+!
+! version 1, 31-Aug-94
+!
+! converts list of GSE files to SEED
+! K. Stammler, 31-Aug-94
+
+default 1 ;;     name of list file
+default 2 1      first item of list
+default 3 %#1(0) last item
+
+sdef cnt #2      ! line counter
+sdef gsefile     ! name of gse file
+
+loop_start:
+   if  "cnt gti #3  goto/forward loop_exit:
+   del all_dh
+   calc s &gsefile = %#1("cnt) parse 1
+	echo processing file "gsefile
+   readgse "gsefile all
+	writeseed
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

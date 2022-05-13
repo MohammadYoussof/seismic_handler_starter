@@ -1,0 +1,41 @@
+! file STATLIST_HART.STX
+!      ================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for old and new GRSN stations
+! G.Hartmann, 07-May-97
+
+set1: 0 19 GRSN
+set2: 0 0 ---
+
+* BFO
+* BRG
+* BRNL
+* BSEG
+* BUG
+* CLL
+* CLZ
+* FUR
+* GRFO
+* GSH
+* HAM
+* IBBN
+* LID
+* MOX
+* RGN
+* STU
+* TNS
+* WET
+* ---
+* ---
+* GRA1
+* GEC2
+* ---
+* ---
+* ---
+* CZAX
+* ---
+* ---
+* ---
+* ---

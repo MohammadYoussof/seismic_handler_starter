@@ -1,0 +1,18 @@
+! file MAKEJPG.SHC
+!      ===========
+!
+! version 1, 5-Mar-2006
+!
+! Creates jpg file from current display
+! K. Stammler, 5-Mar-2006
+
+default 1 ;;    filter
+
+sdef hcfile    ! name of postscript file
+sdef dprog     ! program path
+
+hc x1 p &hcfile
+fct local getenv:dprog &dprog
+@SYSTEM |"DPROG|$SLASH|export_jpg.csh|$BLANK|^STATION|$BLANK|#1|$BLANK|"HCFILE|
+
+return

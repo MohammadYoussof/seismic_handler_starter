@@ -1,0 +1,23 @@
+! file phc.shc
+!      =======
+!
+! version 2, 25-Mar-98
+!
+! PostScript hardcopy
+! K. Stammler, 27-Nov-92
+
+default 1 ;;   hc window
+
+sdef hcfile     ! name of hardcopy file
+sdef cmd        ! command line
+
+@ECHO writing hardcopy file
+hc #1 p &hcfile
+
+@ECHO pageview file "HCFILE
+@CALC S &CMD = |pageview|$BLANK|-right|$BLANK|"HCFILE|$BLANK|&|
+system "cmd
+!@CALC S &CMD = |\rm|$BLANK|"HCFILE|
+!system "cmd
+
+return

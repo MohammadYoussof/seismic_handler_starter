@@ -1,0 +1,18 @@
+! file FILTER_REPLACE.SHC
+! filters all traces on display and deletes the input traces
+
+default 1 ;;     filter
+
+sdef trcno $dsptrcs    ! number of input traces
+sdef trccnt 1          ! trace counter
+
+fili r #1
+loop_start:
+   if  "trccnt gti "trcno  goto/forward loop_exit:
+   filter r 1
+   del 1
+   calc i &trccnt = "trccnt + 1
+goto loop_start:
+loop_exit:
+
+return

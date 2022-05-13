@@ -1,0 +1,3 @@
+f77 -e -cg89 -O fk.f -o fk -Bstatic slbbfk.o slsubi.o slfout.o slcent.o sldir3.o \
+slfkms.o \
+slfkqa.o slfit2.o slfft.o ic0len.o chzero.o chmove.o

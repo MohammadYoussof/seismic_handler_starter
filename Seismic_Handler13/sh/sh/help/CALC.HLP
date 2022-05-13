@@ -1,0 +1,103 @@
+command CALC <type> <&var> <=> <operand1> [<operation> [<operand2>]] [<p>]
+============
+
+key: simple calculations
+! version 1, 5-May-92
+
+Performs a simple calculation and stores the result in a variable.
+
+
+parameters
+----------
+
+<type>  ---  parameter type: char
+   Determines type of operators <operand1>, <operand2> and result type.
+   Possible values are "i" (integer), "r" (real), "s" (string) and
+   "t" (time).
+
+<&var>  ---  parameter type: symbol address
+   Variable where to store the result of the calculation.  This may be
+   a local or global variable.
+
+<=>  ---  parameter type: constant
+   Must be "="-character.
+
+<operand1>, <operand2>  ---  parameter type: depends on <type>
+   operators
+
+<operation>  ---  parameter type: string
+   Operation to be applied to operators.
+
+
+type table
+----------
+
+  <type>          <operand2>
+  |  operation    |    result-type
+  |  |       <operand1>|
+  |  |       |    |    |
+  v  v       v    v    v
+
+  i  +       i    i    i            addition of integers
+  i  -       i    i    i            subtraction of integers
+  i  *       i    i    i            multiplication of integers
+  i  div     i    i    i            division of integers (no remainder)
+  i  mod     i    i    i            remainder of integer division
+  r  +       r    r    r            addition of real numbers
+  r  -       r    r    r            subtraction of real numbers
+  r  *       r    r    r            multiplication of real numbers
+  r  div     r    r    r            division of real numbers
+  r  abs     r         r            remove sign
+  r  arccos  r         r            arccos of <operand1> in degrees
+  r  arcsin  r         r            arcsin of <operand1> in degrees
+  r  arctan  r         r            arctan of <operand1> in degrees
+  r  arctan2 r    r    r            arctan of <operand1>/<operand2> in degrees
+  r  cos     r         r            cosine of <operand1> (input in degrees)
+  r  sin     r         r            sine of <operand1> (input in degrees)
+  r  tan     r         r            tangens of <operand1> (input in degrees)
+  r  cosh    r         r            cosh of <operand1>
+  r  sinh    r         r            sinh of <operand1>
+  r  tanh    r         r            tanh of <operand1>
+  r  exp     r         r            exp(<operand1>)
+  r  ln      r         r            natural logarithm
+  r  log     r         r            decimal logarithm
+  r  power   r    r    r            exponentiation of <operand1> by <operand2>
+  r  sqrt    r         r            square root of <operand1>
+  s  +       s    s    s            concatenation with blank
+  s  parse   s    i    s            takes "<operand2>"-th substring of <operand1>
+  s  extract s    i(+i)s            extracts <p> chars from pos <operand2>
+  t  tdiff   t    t    r            computes difference of absolute times in sec
+  t  tadd    t    r    t            adds <operand2> secs to <operand1>
+
+The "extract" operation requires an additional parameter <p>
+specifying the number of characters to be extracted.
+
+
+qualifiers
+----------
+
+/fmt
+   Produces output in a special format.  Format string must be entered
+   as in C printf commands.  The format string should be enclosed in
+   "< >" brackets.  Note the automatic lowercase to uppercase conversion
+   of the command line interpreter.  To prevent this conversion for
+   a single character within a format string precede this character
+   by a "@"-sign (Example: /fmt=<%5.2@f> creates real number in floating
+   point format "%5.2f" with two decimal digits).
+
+
+examples
+--------
+
+   calc r &res = 2.0 * ^delta(1)    ! computes real multiplication of
+                                    ! sample distance of second trace
+                                    ! by two and stores the result in
+                                    ! variable "res"
+
+   calc s &str = teststring         ! copies string "TESTSTRING" to
+                                    ! variable "str"
+
+   calc r &res = ^maxval(2) sqrt    ! computes square root of maximum value
+                                    ! of trace 2 and stores result in variable
+                                    ! "res"
+

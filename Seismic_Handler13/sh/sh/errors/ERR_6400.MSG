@@ -1,0 +1,18 @@
+! file ERR_6400.MSG
+!      ============
+!
+! version 1, 3-Feb-2001
+!
+! error messages of modules residual.c
+! K. Stammler, 3-Feb-2001
+!
+*** RS-01 file not found ***
+*** RS-02 table not closed ***
+*** RS-03 incomplete table ***
+*** RS-04 station name too long ***
+*** RS-05 error reading slowness range ***
+*** RS-06 syntax error ***
+*** RS-07 error reading table length ***
+*** RS-08 no matching table found ***
+*** RS-09 azimuth out of range ***
+*** RS-10 program bug ***

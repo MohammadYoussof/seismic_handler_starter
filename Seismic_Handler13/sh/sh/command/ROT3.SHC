@@ -1,0 +1,25 @@
+
+! file ROT3.SHC
+!      ========
+!
+! version 1, 30-JUL-91
+!
+! 3-dim rotation Z,N,E -> L,Q,T with labeling of output traces
+! K. Stammler, 30-JUL-91
+
+default 1 1-3        trace list (Z,N,E)
+default 2 0.0        azimuth
+default 3 0.0        angle of incidence
+
+sdef trcno $dsptrcs  ! number of traces on display
+
+nr
+rot #1 #2 #3
+calc i &trcno = "trcno + 1
+set "trcno comp l
+calc i &trcno = "trcno + 1
+set "trcno comp q
+calc i &trcno = "trcno + 1
+set "trcno comp t
+rd
+return

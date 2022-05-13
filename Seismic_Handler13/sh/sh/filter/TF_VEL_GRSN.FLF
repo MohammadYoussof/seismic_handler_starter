@@ -1,0 +1,16 @@
+! file TF_VEL_GRSN.FLF
+!      ===============
+!
+! version 1, 16-Aug-94
+!
+! GRSN transfer function (velocity input)
+! K. Stammler, 16-Aug-94
+  1357913578
+           1
+1.0
+2
+(0.0,0.0)
+(0.0,0.0)
+           2
+(-3.674286e-2,-3.675396e-2)
+(-3.674286e-2,3.675396e-2)

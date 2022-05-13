@@ -1,0 +1,40 @@
+! file gls_setup.shc
+!      =============
+!
+! version 1, 9-apr-96
+!
+! setup of glscd parameters
+! K. Stammler, 9-apr-96
+
+default 1 kls_pde_select     read procedure for next origin time
+@DEFAULT 2 %CDROM            device name of optical disk
+default 3 all                station list
+default 4 z,n,e              component list
+default 5 -20.0              lower bound of time window
+default 6 100.0              upper bound of time window
+default 7 xxx                event list file
+default 8 0                  event counter offset
+
+sdef fpath
+
+fct local getenv:home &fpath
+calc s &fpath = |"fpath|$slash|
+
+switch capcnv off
+DEFAULT 9 FIRST                  reference phase (mind upper- and lowercase)
+SWITCH CAPCNV ON
+
+echo_ch/new |"fpath|gls_setup|
+echo #1
+echo #2
+echo #3
+echo #4
+echo #5
+echo #6
+echo #7
+echo #9
+echo_ch/new |"fpath|kls_counter|
+echo #8
+echo_ch
+
+return

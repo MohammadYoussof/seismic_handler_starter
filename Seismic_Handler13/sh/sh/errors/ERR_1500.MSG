@@ -1,0 +1,16 @@
+! file ERR_1500.MSG
+!      ============
+!
+! version 3, 5-Jan-92
+!
+! error messages of module SYSCALL.C
+! K. Stammler, 8-JUL-91
+!
+*** SY-01 only word length imlemented ***
+*** SY-02 memory allocation error ***
+*** SY-03 error calling operating system ***
+*** SY-04 not implemented ***
+*** SY-05 error in device dependent routine ***
+*** SY-06 string overflow ***
+*** SY-07 zero allocation length ***
+*** SY-08 error submitting job ***

@@ -1,0 +1,41 @@
+! file STATLIST_YANQING.STX
+!      ====================
+!
+! version 1, 4-Jan-2001
+!
+! setup of dialog box for Vogtland stations
+! K. Stammler, 4-Jan-2001, E. Wetzig, 29-Apr-2005
+
+set1: 0 12 YQ
+set2: 13 25 GRSN+
+
+* XHTT
+* YJBT
+* FYKT
+* XYFT
+* SSHT
+* DHTT
+* DNHT
+* FJCT
+* HSKT
+* XBZT
+* CHCT
+* SHCT
+* ---
+* QSD
+* ----
+* MOX
+* CLL
+* BRG
+* GRFO
+* SNAA
+* BRIB
+* 0153
+* 0172
+* 0186
+* 0187
+* 0188
+* _BJBH
+* _BJSH
+* D355
+* D349

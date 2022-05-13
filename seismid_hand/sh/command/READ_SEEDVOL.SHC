@@ -1,0 +1,67 @@
+! file read_seedvol.shc
+!      ================
+!
+! version 1, 1-mar-95
+!
+! reads traces from given seed volume
+! K. Stammler, 1-mar-95
+
+default 1 ;;      name of file
+default 2 ;;      station
+default 3 ;;      channel
+default 4 ;;      start time
+default 5 ;;      end time
+
+sdef cmd          ! command line
+sdef listfile     ! list of new files
+sdef stime        ! converted start time
+sdef etime        ! converted start time
+sdef cnt          ! file counter
+sdef maxcnt       ! maximum value of counter
+sdef str          ! scratch string
+sdef year         ! year
+sdef julian       ! julian day
+
+!fct getpath scratch &listfile
+calc s &listfile = |ah_file_list.stx|
+
+! convert start time
+if  #4 eqs ;;  goto/forward empty_start:
+   calc t &str = #4 tadd 0.0    ! reformat time string
+   calc s &year = "str extract 8 4
+   calc t &julian = #4 julian
+   calc s &str = "str extract 13 100
+   calc s &stime = |"year|,|"julian|,|"str|
+empty_start:
+
+! convert end time
+if  #5 eqs ;;  goto/forward empty_end:
+   calc t &str = #5 tadd 0.0    ! reformat time string
+   calc s &year = "str extract 8 4
+   calc t &julian = #5 julian
+   calc s &str = "str extract 13 100
+   calc s &etime = |"year|,|"julian|,|"str|
+empty_end:
+
+!fct getpath extprog &cmd
+@CALC S &CMD = |$DOLLAR|SH_UTIL|$SLASH|extract_ah.csh|$BLANK|#1|$BLANK|#2|
+calc s &cmd = |"cmd|$BLANK|#3|$blank|"listfile|$blank|"stime|$blank|"etime|
+
+system "cmd
+
+readah_list "listfile
+
+calc i &maxcnt = %"listfile(0)
+calc i &cnt = 1
+loop_start:
+   if  "cnt gti "maxcnt  goto/forward loop_exit:
+   fct oscall fdelete %"listfile("cnt)
+	! echo deleting file %"listfile("cnt)
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+fct oscall fdelete "listfile
+
+! extract_ah.csh <seedvol> <station> <channel> <filelist> [<start> <end>]
+
+return

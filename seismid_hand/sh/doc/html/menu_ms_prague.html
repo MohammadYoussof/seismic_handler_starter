@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry MS Prague</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>MS Prague</em></H2>
+
+<P>Determination of surface wave magnitude. Needs measurement
+of amplitude of one or more S waves before. These S
+<A HREF="fil_amplitudes.html">amplitude
+measurements</A> are usually done on SRO-LP
+<A HREF="fil_simulation.html">simulated
+seismograms</A>. The steps to perform to get an MS magnitude are:</P>
+
+<UL>
+  <LI>Make source location of event
+  <LI>Apply SRO-LP simulation filter
+  <LI>Measure surface wave amplitude on vertical component (via
+  pseudo phase L, e.g. using <A HREF="menu_surface_ampl.html">Surface-Ampl
+  automatic</A>)
+  <LI>Call Menu entry MS Prague
+</UL>
+
+<P>The MS magnitudes are determined from all S amplitudes found
+using the Prague formula:</P>
+
+<PRE>ms = log10(ampl/period) + 1.66*log10(distance) + 3.3</PRE>
+
+<P>Depending on the epicentral distance there is a minimum period
+of the signal used for amplitude measurement. Periods smaller
+than this minimum period are not accepted.</P>
+
+<P><small>This page last modified 26-Jul-2000</small></P>
+
+</BODY>
+</HTML>

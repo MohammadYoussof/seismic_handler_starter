@@ -1,0 +1,50 @@
+! file REPORT_EVENTS.SHC
+!      =================
+!
+! version 1, 9-Sep-99
+!
+! Reports about large amplitudes (and maybe later about possible onsets)
+! K. Stammler, 9-Sep-99
+
+switch cmderrstop off
+
+default 1 ;;       filter
+
+sdef detwin 600    ! length of detection window
+sdef repprog       ! report program
+sdef param         ! parameters to program
+sdef tlth          ! trace length in sec
+sdef tstart        ! start of detection window
+sdef tend          ! end time of trace
+sdef max           ! maximum value
+sdef maxpos        ! position of maximum
+sdef relstart      ! relative start time
+
+!echo_ch report_events
+!echo ^station ^comp ^start
+!echo_ch
+
+! compute end time of trace and detection window
+calc r &tlth = ^delta * ^length
+calc t &tend = ^start tadd "tlth
+calc r &detwin = 0 - "detwin
+calc t &tstart = "tend tadd "detwin
+calc r &relstart = "tlth + "detwin
+
+! make detections
+am/abs 1 "relstart ^length ;;&max;;&maxpos
+calc t &maxpos = ^start tadd "maxpos
+
+! convert max to integer
+calc i &max = "max int
+
+fct getpath extprog &repprog
+@ CALC S &REPPROG = |"REPPROG|report_online_events.csh|
+!calc s &param = |"tstart|$blank|"tend|$blank|"max|$blank|"maxpos|$blank|#1|
+calc s &param = |"maxpos|$blank|"max|$blank|#1|
+
+! call report program
+system |"repprog|$blank|"param|
+
+return
+

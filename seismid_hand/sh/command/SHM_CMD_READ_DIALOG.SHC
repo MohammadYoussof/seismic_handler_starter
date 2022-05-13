@@ -1,0 +1,42 @@
+! file SHM_CMD_READ_DIALOG.SHC
+!      =======================
+!
+! version 6, 14-Jan-2003
+!
+! sets stations in read dialog box
+! On HPUX there is no '$PWD'.  HP can therefore read only from '$SH_GLOBALS'.
+! K. Stammler, 18-Aug-94
+
+default 1 STATLIST_DEFAULT.STX    list file
+
+sdef listfile
+sdef status
+
+!switch verify on
+
+! check whether file exists on private user directory
+
+!fct local getenv:pwd &listfile
+fct getpath userdir &listfile
+if  "listfile eqs ;;  goto/forward read_globals:
+calc s &listfile = |"listfile|$slash|#1|
+
+switch cmderrstop off
+switch noerrmsg on
+nop %"listfile
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status nei 0  goto/forward read_globals:
+
+external_routine |read_dialog:|"listfile|
+return
+
+read_globals:
+
+fct getpath globals &listfile
+calc s &listfile = |"listfile|#1|
+
+external_routine |read_dialog:|"listfile|
+
+return

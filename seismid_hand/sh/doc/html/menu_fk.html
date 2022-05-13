@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry FK</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>FK</em></H2>
+
+<P>External program, code mainly written by T. Kvaerna and Jan
+Fyen.</P>
+
+<P>Command to determine slowness and back-azimuth of a coherent
+teleseismic phase. It transforms all traces within the current
+time window in the main display into the frequency-wavenumber
+domain. The resulting range in this square domain is displayed
+in a separate window, the amplitudes (corresponding to wave energy)
+are coded in colors. A good result is achieved when there is a
+single, prominent maximum visible (yellow colors in the default
+setup). This maximum denotes slowness and back-azimuth of the
+investigated phase. Details of the FK algorithm can be found in
+???.</P>
+
+<P>After selecting the <em>FK</em>
+entry a dialog box pops up. Its parameters are:</P>
+
+<UL>
+  <LI><em>lo frq</em>, <em>hi frq</em>: frequency
+  window (in Hz) to which the FK computation should be restricted
+  to.
+  <LI><em>max slow</em>:
+  maximum slowness to compute (units either s/deg or s/km, see
+  below).
+  <LI><em>resolution</em>:
+  resolution of the resulting FK matrix, which is displayed in
+  the separate window. The computation time is strongly driven
+  by that parameter.
+  <LI><em>num colors</em>:
+  number of colors used in the display of the FK matrix.
+  <LI><em>Unit</em>: <em>deg</em> or
+  <em>km</em> used in input and output.
+  <LI><em>OK</em>: start
+  computation of FK matrix. Runs as independent background process,
+  i.e. the main window is fully operable. The results of the computation
+  have to be copied manually to the <A HREF="parambox.html">analysis
+  parameter box</A> by calling the <em>FK</em>
+  menu entry again (then <em>Get
+  Values</em>).
+  <LI><em>OK &amp; Get Values</em>:
+  start computation of FK matrix and copy the resulting slowness
+  and azimuth values to the analysis parameter box automatically.
+  The main window functions are disabled while computing.
+  <LI><em>Get Values</em>:
+  copy slowness and azimuth values of the last run of FK into the
+  analysis parameter box.
+  <LI><em>Cancel</em>: close
+  popup window and do not compute FK matrix.
+</UL>
+
+<P>After the computation of the FK matrix is finished a new window
+pops up. This has the following menu entries:</P>
+
+<UL>
+  <LI><em>Plot</em>: plot
+  FK matrix into window using linear amplitude scaling.
+  <LI><em>Plot Log</em>:
+  plot FK matrix into window using logarithmic amplitude scaling.
+  <LI><em>Pow ++</em>: increase
+  power of amplitude scaling (strongest peaks will be enhanced)
+  <LI><em>Pow --</em>: decrease
+  power of amplitude display (smaller peaks get more visible)
+  <LI><em>Rad Grid</em>:
+  toggle radial grid on and off.
+  <LI><em>G - R</em>: green
+  - red display of FK matrix
+  <LI><em>B - R</em>: blue
+  - red display of FK matrix
+  <LI><em>B - W</em>: black
+  - white display of FK matrix
+  <LI><em>B - Y</em>: blue
+  - yellow display of FK matrix (default)
+  <LI><em>Quit</em>: close
+  FK display window
+</UL>
+
+<P>This <em>FK</em> option
+is an alternative to picking phases (manually or automatically)
+and calling <A HREF="menu_plane_wave.html">Plane Wave</A>. However,
+the suppositions for applications are the same:</P>
+
+<UL>
+  <LI>The epicentral distance must be much larger than the aperture
+  of the recording array.
+  <LI>The dominating frequencies of the signal still allow coherency
+  <LI>The station information of the recording array is found in
+  the <A HREF="statloc.html">station file</A>. Required entries
+  are <em>lat</em>, <em>lon</em>, <em>xrel</em>, <em>yrel</em>
+  and <em>array</em>.
+</UL>
+
+<H3>Technical remark:</H3>
+
+<P>The computation of the FK spectrum is done by an external program
+located in the directory <em>$SH_UTIL/fk_src</em>.
+It is mainly written by other authors (see above) and it is Fortran
+code. Therefore it is not part of the SH/SHM program package.
+It has to be downloaded separately and compiled if no executable
+for your platform is available (see our ftp server
+<A HREF="ftp://ftp.szgrf.bgr.de/">ftp://ftp.szgrf.bgr.de</A>).</P>
+
+<P><small>This page last modified 6-Jul-2000</small></P>
+
+</BODY>
+</HTML>

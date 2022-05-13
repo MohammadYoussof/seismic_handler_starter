@@ -1,0 +1,69 @@
+! file MARKPHASES.SHC
+!      ==============
+!
+! version 1, 2-Jan-92
+!
+! marks phases on a trace on display.  Uses Travel time tables
+! for different phases in TTT format.
+! K. Stammler, 2-Jan-91
+
+default 1 1            trace number
+default 2 0.           shift time
+default 3 phaselist    phase list file
+
+sdef cnt 1             ! phase counter
+sdef maxphase %#3(0)   ! maximum phase number
+sdef phase             ! current phase
+sdef ttime             ! travel time in sec
+sdef tabs              ! absolute arrival time
+sdef distance 0.       ! distance of event
+sdef depth 0.          ! depth of event
+sdef timeok            ! computed time ok
+sdef origin            ! origin time
+
+if  #distcorr eqs _EXISTSNOT_  goto/forward no_distcorr:
+   calc r &distance = #distcorr
+no_distcorr:
+if  #distance eqs _EXISTSNOT_ goto/forward no_distance:
+   calc r &distance = #distance
+   goto/forward dist_ok:
+no_distance:
+calc r &distance = "distance + ^distance(#1)
+dist_ok:
+
+if  #depthcorr eqs _EXISTSNOT_  goto/forward no_depthcorr:
+   calc r &depth = #depthcorr
+no_depthcorr:
+if  #depth eqs _EXISTSNOT_  goto/forward no_depth:
+   calc r &depth = #depth
+   goto/forward depth_ok:
+no_depth:
+calc r &depth = "depth + ^depth(#1)
+depth_ok:
+
+if  #origin eqs _EXISTSNOT_  goto/forward no_origin:
+   calc s &origin = #origin
+   goto/forward origin_ok:
+no_origin:
+   calc s &origin = ^origin(#1)
+origin_ok:
+
+loop_start:
+   if  "cnt gti "maxphase  goto/forward loop_exit:
+   calc s &phase = %#3("cnt)
+   switch cmderrstop off
+   switch noerrmsg on
+   call travel "phase "distance "depth &ttime
+   calc i &timeok = $status
+   switch noerrmsg off
+   switch cmderrstop on
+   if  "timeok nei 0  goto/forward no_mark:
+      calc r &ttime = "ttime + #2
+      calc t &tabs = "origin tadd "ttime
+      mark/abs/label="phase #1 "tabs
+   no_mark:
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+return

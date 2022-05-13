@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>window_op</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;10102400">
+	<META NAME="CHANGED" CONTENT="20050910;13220900">
+</HEAD>
+
+<BODY LANG="en-US" BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+
+<H2>sfdb Table integrity</H2>
+<P>
+<ul>
+	<li><b>pathid</b>    INTEGER,
+	<li><b>chktime</b>   DATETIME,
+	<li><b>status</b>    TINYINT,
+	<li><b>msg</b>       VARCHAR(255),
+	<li>PRIMARY KEY(<b>pathid</b>)
+</ul>
+</P>
+
+<P>
+Description:
+<ul>
+<li><b>pathid</b>:    path ID as in 'pathtab'
+<li><b>chktime</b>:   time of last md5 check or creation time of checksum file
+<li><b>status</b>:    result of last check:<br>
+           0: no checksum file found, no check done yet;<br>
+           1: no error, md5 file came together with data;<br>
+           2: no error, md5 checksum created by sfdb cron job (integrity_check.csh);<br>
+           >10: error on checksums
+<li><b>msg</b>:       error message or name of log file
+</ul>
+</P>
+
+<P>This page last modified 27-Dec-2006</P>
+</BODY>
+</HTML>

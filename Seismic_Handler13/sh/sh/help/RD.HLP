@@ -1,0 +1,14 @@
+command RD [<reset>]
+==========
+
+key: redraw display
+
+Redraws the display of the current graphics window if there is no
+previous unmatched NR command or if <reset> equals 'R'.
+
+parameters:
+
+<reset>  ---  parameter type: char
+   If <reset> equals 'R' a redraw is forced, otherwise previously
+   entered NR commands are matched.
+

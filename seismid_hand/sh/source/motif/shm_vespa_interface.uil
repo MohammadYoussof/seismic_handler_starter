@@ -1,0 +1,453 @@
+! file shm_vespa_interface.uil
+!      =======================
+!
+! version 4, 17-Jun-2006
+!
+! interface to vespagram command procedure
+! K. Stammler, 19-Aug-94
+
+
+
+object
+   vespa_input_box: XmBulletinBoardDialog {
+      arguments {
+         XmNdialogTitle = 'vespa input';
+!         XmNdialogStyle = XmDIALOG_FULL_APPLICATION_MODAL;
+         XmNmarginWidth = 20;
+!         XmNbackground = color(k_bg_colour2,background);
+         XmNbuttonFontList = k_button_font;
+         XmNlabelFontList = k_label_font;
+         XmNtextFontList = k_text_font;
+      };
+      controls {
+         XmBulletinBoard vespa_input_frame;
+         XmRowColumn     vespa_main_button_box;
+      };
+   };
+
+object
+   vespa_main_button_box: XmRowColumn {
+      arguments {
+         XmNorientation = XmHORIZONTAL;
+         XmNspacing = 10;
+         XmNx = k_pos_x_vespa_main_buttons;
+         XmNy = k_pos_y_vespa_main_buttons;
+         XmNunitType = XmPIXELS;
+         XmNborderWidth = 0;
+         XmNentryBorder = 3;
+!         XmNbackground = color(k_bg_colour2,background);
+      };
+      controls {
+         XmPushButton     button_vespa_ok;
+         XmPushButton     button_vespa_cancel;
+         XmPushButton     button_vespa_undo;
+      };
+   };
+
+object
+   button_vespa_ok: XmPushButton {
+      arguments {
+         XmNlabelString = 'OK';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_ok );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_ok );
+      };
+   };
+
+object
+   button_vespa_cancel: XmPushButton {
+      arguments {
+         XmNlabelString = 'Cancel';
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_cancel );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_cancel );
+      };
+   };
+
+object
+   button_vespa_undo: XmPushButton {
+      arguments {
+         XmNlabelString = 'Undo';
+         XmNborderWidth = 5;
+			XmNsensitive = false;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_undo );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_undo );
+      };
+   };
+
+object
+   vespa_input_frame:  XmBulletinBoard {
+      arguments {
+         XmNdialogTitle = 'vespa input box';
+         XmNmarginWidth = 15;
+!         XmNbackground = color(k_bg_colour1,background);
+         XmNborderWidth = 5;
+         XmNshadowThickness = 3;
+      };
+      controls {
+         XmLabel         vespa_slolo_label;
+         XmText          vespa_slolo_text;
+         XmLabel         vespa_slohi_label;
+         XmText          vespa_slohi_text;
+         XmOptionMenu    vespa_slohi_option;
+         XmLabel         vespa_slostep_label;
+         XmText          vespa_slostep_text;
+			XmOptionMenu    vespa_slostep_option;
+         XmLabel         vespa_power_label;
+         XmText          vespa_power_text;
+			XmOptionMenu    vespa_power_option;
+			XmPushButton    button_vespa_export;
+      };
+   };
+
+object
+   vespa_slolo_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_vespa_slolo_label;
+         XmNy = k_pos_y_vespa_slolo_label;
+         XmNlabelString = 'from slowness:';
+      };
+   };
+
+object
+   vespa_slolo_text: XmText {
+      arguments {
+         XmNx = k_pos_x_vespa_slolo_text;
+         XmNy = k_pos_y_vespa_slolo_text;
+         XmNwidth = 60;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+         XmNvalue = '0.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slolo_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_vespa_slolo_text );
+      };
+   };
+
+object
+   vespa_slohi_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_vespa_slohi_label;
+         XmNy = k_pos_y_vespa_slohi_label;
+         XmNlabelString = 'to slowness:';
+      };
+   };
+
+object
+   vespa_slohi_text: XmText {
+      arguments {
+         XmNx = k_pos_x_vespa_slohi_text;
+         XmNy = k_pos_y_vespa_slohi_text;
+         XmNwidth = 60;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+         XmNvalue = '20.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slohi_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_vespa_slohi_text );
+      };
+   };
+
+object
+   vespa_slostep_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_vespa_slostep_label;
+         XmNy = k_pos_y_vespa_slostep_label;
+         XmNlabelString = 'slowness step:';
+      };
+   };
+
+object
+   vespa_slostep_text: XmText {
+      arguments {
+         XmNx = k_pos_x_vespa_slostep_text;
+         XmNy = k_pos_y_vespa_slostep_text;
+         XmNwidth = 60;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 5;
+         XmNvalue = '1.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slostep_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_vespa_slostep_text );
+      };
+   };
+
+object
+   vespa_power_label: XmLabel {
+      arguments {
+         XmNx = k_pos_x_vespa_power_label;
+         XmNy = k_pos_y_vespa_power_label;
+         XmNlabelString = 'power:';
+      };
+   };
+
+object
+   vespa_power_text: XmText {
+      arguments {
+         XmNx = k_pos_x_vespa_power_text;
+         XmNy = k_pos_y_vespa_power_text;
+         XmNwidth = 40;
+         XmNunitType = XmPIXELS;
+         XmNmaxLength = 3;
+         XmNvalue = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_text );
+         XmNmodifyVerifyCallback =
+            procedure xm_call_text_input( k_widget_vespa_power_text );
+      };
+   };
+
+object
+   vespa_power_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_vespa_power_option;
+         XmNy = k_pos_y_vespa_power_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Power';
+         XmNmenuHistory = XmPushButton button_vespa_power_1;
+      };
+      controls {
+         XmPulldownMenu vespa_power_menu;
+      };
+   };
+
+object
+   vespa_power_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_vespa_power_1;
+         XmPushButton   button_vespa_power_2;
+         XmPushButton   button_vespa_power_3;
+         XmPushButton   button_vespa_power_5;
+         XmPushButton   button_vespa_power_10;
+      };
+   };
+
+object
+   button_vespa_power_1: XmPushButton {
+      arguments {
+         XmNlabelString = '1';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_power_1 );
+      };
+   };
+
+object
+   button_vespa_power_2: XmPushButton {
+      arguments {
+         XmNlabelString = '2';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_power_2 );
+      };
+   };
+
+object
+   button_vespa_power_3: XmPushButton {
+      arguments {
+         XmNlabelString = '3';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_power_3 );
+      };
+   };
+
+object
+   button_vespa_power_5: XmPushButton {
+      arguments {
+         XmNlabelString = '5';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_5 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_power_5 );
+      };
+   };
+
+object
+   button_vespa_power_10: XmPushButton {
+      arguments {
+         XmNlabelString = '10';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_power_10 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_power_10 );
+      };
+   };
+
+object
+   vespa_slostep_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_vespa_slostep_option;
+         XmNy = k_pos_y_vespa_slostep_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Step';
+         XmNmenuHistory = XmPushButton button_vespa_slostep_2;
+      };
+      controls {
+         XmPulldownMenu vespa_slostep_menu;
+      };
+   };
+
+object
+   vespa_slostep_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_vespa_slostep_1;
+         XmPushButton   button_vespa_slostep_2;
+         XmPushButton   button_vespa_slostep_3;
+      };
+   };
+
+object
+   button_vespa_slostep_1: XmPushButton {
+      arguments {
+         XmNlabelString = '0.2';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slostep_1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slostep_1 );
+      };
+   };
+
+object
+   button_vespa_slostep_2: XmPushButton {
+      arguments {
+         XmNlabelString = '0.5';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slostep_2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slostep_2 );
+      };
+   };
+
+object
+   button_vespa_slostep_3: XmPushButton {
+      arguments {
+         XmNlabelString = '1.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slostep_3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slostep_3 );
+      };
+   };
+
+object
+   vespa_slohi_option: XmOptionMenu {
+      arguments {
+         XmNx = k_pos_x_vespa_slohi_option;
+         XmNy = k_pos_y_vespa_slohi_option;
+         XmNunitType = XmPIXELS;
+         XmNlabelString = 'Slow';
+         XmNmenuHistory = XmPushButton button_vespa_slohi_2;
+      };
+      controls {
+         XmPulldownMenu vespa_slohi_menu;
+      };
+   };
+
+object
+   vespa_slohi_menu: XmPulldownMenu {
+      controls {
+         XmPushButton   button_vespa_slohi_1;
+         XmPushButton   button_vespa_slohi_2;
+         XmPushButton   button_vespa_slohi_3;
+      };
+   };
+
+object
+   button_vespa_slohi_1: XmPushButton {
+      arguments {
+         XmNlabelString = '5.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slohi_1 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slohi_1 );
+      };
+   };
+
+object
+   button_vespa_slohi_2: XmPushButton {
+      arguments {
+         XmNlabelString = '8.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slohi_2 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slohi_2 );
+      };
+   };
+
+object
+   button_vespa_slohi_3: XmPushButton {
+      arguments {
+         XmNlabelString = '12.0';
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_slohi_3 );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_slohi_3 );
+      };
+   };
+
+
+object
+   button_vespa_export: XmPushButton {
+      arguments {
+         XmNlabelString = 'Export';
+         XmNx = k_pos_x_vespa_export_button;
+         XmNy = k_pos_y_vespa_export_button;
+         XmNborderWidth = 5;
+      };
+      callbacks {
+         MrmNcreateCallback =
+            procedure xm_call_create_widget( k_widget_vespa_export_button );
+         XmNactivateCallback =
+            procedure xm_call_activate( k_button_vespa_export );
+      };
+   };
+

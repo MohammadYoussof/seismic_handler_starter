@@ -1,0 +1,11 @@
+! file ulhc_setup.shc
+!      ==============
+!
+! set up display parameters for ULHC
+! K. Stammler, 19-Jan-93
+
+fct setstyle $trcinfostyle charsize 0.02
+fct setstyle $timeaxisstyle charsize 0.03
+rd
+
+return

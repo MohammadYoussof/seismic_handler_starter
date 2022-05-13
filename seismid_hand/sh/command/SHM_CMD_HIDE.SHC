@@ -1,0 +1,83 @@
+! file SHM_CMD_HIDE.SHC
+!      ================
+!
+! version 1, 9-Dec-93
+!
+! hides traces on display
+! K. Stammler, 9-Dec-93
+
+default 1 1      trace list
+default 2 normal normal or inverted
+
+sdef status    ! return status
+sdef flagfile  ! flag file
+sdef tmp       ! scratch
+
+! check whether hide or unhide is requested
+fct getpath scratch &flagfile
+calc s &flagfile = |"flagfile|$sh_id|hide|.flg|
+switch cmderrstop off
+switch noerrmsg on
+calc s &tmp = %"flagfile
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+
+if  "status eqi 0  goto/forward do_unhide:
+! create flag file
+echo_ch "flagfile
+echo flag
+echo_ch
+if  #2 eqs inverted goto/forward do_inverted:
+
+
+! -------------------------
+! hide traces (normal mode)
+! -------------------------
+
+if  #1 eqs all  return
+nr
+set #1 shm_hide y
+hide all
+external_routine prepare_display
+display _shm_view(y)
+rd r
+
+return
+
+
+! ---------------------------
+! hide traces (inverted mode)
+! ---------------------------
+
+do_inverted:
+
+if  #1 eqs all  return
+nr
+set all shm_hide y
+set #1 shm_hide n
+hide all
+external_routine prepare_display
+display _shm_view(y)
+rd r
+
+return
+
+
+! -------------
+! unhide traces
+! -------------
+
+do_unhide:
+
+! delete flag file
+fct oscall fdelete "flagfile
+
+nr
+set all_dh shm_hide n
+hide all
+external_routine prepare_display
+display _shm_view(y)
+rd r
+
+return

@@ -1,0 +1,23 @@
+! file GCP_LABELS.SHC
+!      ==============
+!
+! version 1, 14-Jan-93
+!
+! sets trace labelling to time
+! K. Stammler, 14-Jan-93
+
+sdef cnt 1      ! trace counter
+sdef text       ! trace text
+
+loop_start:
+   if  "cnt gti $dsptrcs  goto/forward loop_exit:
+   calc t &text = ^start("cnt) tadd 1.0
+   calc s &text = "text extract 13 5
+   set "cnt comment "text
+   calc i &cnt = "cnt + 1
+goto loop_start:
+loop_exit:
+
+trctxt ^comment($x)
+
+return

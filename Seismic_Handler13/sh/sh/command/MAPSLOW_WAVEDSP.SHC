@@ -1,0 +1,95 @@
+! file mapslow_wavedsp.shc
+!      ===================
+!
+! version 1, 13-Mar-2003
+!
+! Display beam traces
+!
+! K. Stammler, 13-Mar-2003
+
+default 1 grf     station list
+default 2 time    center time
+default 3 seclth  length of window
+default 4 cutlth  cut length at start
+default 5 slow    slowness
+default 6 baz     back azimuth
+default 7 filter  filter to apply
+default 8 ;;      origin time
+default 9 ;;      distance
+default 10 ;;     depth
+default 11 z      component
+
+sdef rtime        ! read time
+sdef rlth         ! read length
+sdef tmp          ! scratch
+sdef key          ! key pressed
+sdef daysold      ! that man days old
+sdef rpath sfd:   ! read path
+
+calc r &tmp = #3 div 2
+!calc r &tmp = #3
+calc t &rtime = #2 tadd |-|"tmp|
+calc t &rtime = "rtime tadd |-|#4|
+
+calc r &rlth = #3 + #4
+
+! check how old is the data
+unix_time
+calc t &daysold = "g1 tdiff #2
+calc r &daysold = "daysold div 86400
+if  "daysold ltr 40  goto/forward path_ok:
+   calc s &rpath = jk:
+path_ok:
+
+nr
+
+if  #11 eqs z  goto/forward read_z:
+   readhoriz "rpath "rtime "rlth #1 #11 bh #6
+   goto/forward read_ok:
+read_z:
+   reads "rpath "rtime "rlth #1 z bh
+read_ok:
+fili f #7
+calc i &tmp = $dsptrcs
+filter f all
+del |1-|"tmp|
+demean all
+
+shift all |-|#4|
+beam all #6 #5
+sum all
+cut all 0 #3
+zoom all 1.5
+
+calc s &tmp = |^start|$blank|slow:|#5|$blank|baz:|
+title 1 |"tmp|#6|$blank|fil:|#7|
+
+rd
+
+loop_start:
+
+   time &tmp;;;;&key
+   echo "tmp
+
+   if  "key eqs e  goto/forward loop_exit:
+   if  "key eqs q  goto/forward loop_exit:
+   if  "key eqs u  goto/forward fct_zoom_up:
+   if  "key eqs d  goto/forward fct_zoom_down:
+	if  "key eqs t  goto/forward fct_show_theo:
+
+   fct_zoom_up:
+   zoom/rel all 1.5
+   goto loop_start:
+
+   fct_zoom_down:
+   zoom/rel all 0.6666
+   goto loop_start:
+
+   fct_show_theo:
+   markp_ii 1 0.0 mapslowlist #9 #10 #8 0.4
+   goto loop_start:
+
+goto loop_start:
+loop_exit:
+
+return

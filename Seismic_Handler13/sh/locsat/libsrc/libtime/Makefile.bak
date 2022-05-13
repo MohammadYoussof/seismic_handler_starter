@@ -1,0 +1,121 @@
+#
+# Makefile.lib
+# SccsId:  @(#)Makefile	44.1	9/23/91
+#
+SRCS		= etoh.c htoe.c tmutils.c getdate.y \
+			timestr.c makeintt.c maketime.c etoh_.c htoe_.c \
+			untime_.c mktime_.c stime_.c doy_.c doy.c \
+			makedate.c mkdate_.c
+OBJS		= etoh.o htoe.o tmutils.o getdate.o \
+			timestr.o makeintt.o maketime.o etoh_.o htoe_.o \
+			untime_.o mktime_.o stime_.o doy_.o doy.o \
+			makedate.o mkdate_.o
+HDRS		=
+LIBS		=
+LIBRARY		= libtime.a
+SUBDIRS		=
+
+O		= -O
+INCLUDES	= -I../../include/css
+CFLAGS		= $O $(INCLUDES)
+FFLAGS		= $O				# Fortran flags
+LDFLAGS		= $O				# Linker flags
+LFLAGS		= $(INCLUDES)			# Lint flags
+
+DESTDIR		= ../../lib
+
+CC		= cc
+F77		= f77
+LD		= $(CC)
+LINT		= lint
+YACC		= yacc
+LEX		= lex
+
+LMODE		= 664
+PMODE		= 775
+
+GET		= sccs get
+GFLAGS		=
+SCLEAN		= sccs clean
+
+RM		= rm
+INSTALL		= install
+MAKE		= make
+PRINT		= lpr -p
+DEPEND		= makedepend
+AR		= ar
+RANLIB		= ranlib
+
+FLAGS		= $(MFLAGS) "CC=$(CC)" "F77=$(F77)" "O=$O" \
+		  "GET=$(GET)" "GFLAGS=$(GFLAGS)" "SCLEAN=$(SCLEAN)" \
+		  "LMODE=$(LMODE)" "PMODE=$(PMODE)" \
+		  "PRINT=$(PRINT)" "MAKE=$(MAKE)" "YACC=$(YACC)" \
+		  "YFLAGS=$(YFLAGS)"
+
+.y.o:
+		$(YACC) $(YFLAGS) $<
+		sed -e s/yy/ims_yy/g y.tab.c > $*.c
+		$(CC) $(CFLAGS) -c $*.c
+		$(RM) -f $*.c
+		$(RM) -f y.tab.c
+
+all:		$(LIBRARY)
+
+$(LIBRARY):	$(OBJS)
+		-$(RM) -f $(LIBRARY)
+		$(AR) cq $(LIBRARY) $(OBJS)
+		$(RANLIB) $(LIBRARY)
+
+install:	all
+		$(INSTALL) -m $(LMODE) $(LIBRARY) $(DESTDIR)
+		$(RANLIB) $(DESTDIR)/$(LIBRARY)
+
+clean:
+		-$(RM) -f $(OBJS) core
+
+xclean:
+		-$(RM) -f $(OBJS) core
+		-$(RM) -f $(PROGRAM) $(LIBRARY)
+		-$(SCLEAN)
+		
+lint:		$(SRCS) $(HDRS)
+		$(LINT) $(LFLAGS) $(SRCS)
+
+print:		$(SRCS) $(HDRS) Makefile
+		$(PRINT) $(SRCS) $(HDRS) Makefile
+
+sccs:
+		$(GET) $(GFLAGS) $(SRCS) $(HDRS) Makefile
+
+depend:		$(SRCS) $(HDRS) Makefile
+		$(DEPEND) $(INCLUDES) $(SRCS)
+
+###
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+etoh.o: ../../include/css/csstime.h
+htoe.o: ../../include/css/csstime.h
+tmutils.o: /usr/include/ctype.h /usr/include/features.h
+tmutils.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+tmutils.o: /usr/include/endian.h /usr/include/bytesex.h
+tmutils.o: /usr/include/sys/time.h /usr/include/time.h
+tmutils.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stddef.h
+tmutils.o: /usr/include/timebits.h /usr/include/gnu/types.h
+tmutils.o: /usr/include/sys/select.h /usr/include/selectbits.h
+getdate.o: /usr/include/sys/types.h /usr/include/features.h
+getdate.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+getdate.o: /usr/include/gnu/types.h /usr/include/time.h
+getdate.o: /usr/lib/gcc-lib/i486-linux/2.7.2.3/include/stddef.h
+getdate.o: /usr/include/timebits.h /usr/include/endian.h
+getdate.o: /usr/include/bytesex.h /usr/include/sys/select.h
+getdate.o: /usr/include/selectbits.h /usr/include/sys/timeb.h
+getdate.o: /usr/include/ctype.h /usr/include/sys/time.h
+timestr.o: ../../include/css/pfile.h
+makeintt.o: ../../include/css/pfile.h
+maketime.o: ../../include/css/pfile.h
+etoh_.o: ../../include/css/csstime.h
+untime_.o: ../../include/css/pfile.h
+mktime_.o: ../../include/css/pfile.h
+stime_.o: ../../include/css/pfile.h
+makedate.o: ../../include/css/pfile.h
+mkdate_.o: ../../include/css/pfile.h

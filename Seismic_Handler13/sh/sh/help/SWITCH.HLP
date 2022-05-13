@@ -1,0 +1,101 @@
+command SWITCH <switchname> <on/off>
+==============
+
+key: set global switches
+
+Turns an SH switch on or off.  Unless the "/global"-qualifier is
+specified the switch state is changed only locally.
+
+
+parameters
+----------
+
+<switchname>  ---  parameter type: string
+   Name of switch to be turned on or off.  Valid names see below.
+
+<on/off>  ---  parameter type: string
+   Either keyword "on" (turns switch on) of keyword "off" (turns
+   switch off)
+
+valid switch names are (default settings are underlined):
+
+cmderrstop  on:  On errors, command files are aborted, an error log file
+            ---  is created and SH returns to the interactive level 0.
+
+            off: Command files don't care about errors and continue
+                 execution.  Be careful turning this switch off, use it
+                 only in fail-safe command files.
+
+sherrstop   on:  On errors the whole seismhandler session is aborted.
+                 Useful mainly for batch jobs which should be terminated
+                 on errors to prevent them from working on erroneus data.
+
+            off: Errors cause error messages but no program exit.
+            ----
+
+verify      on:  Each command (interactively entered or read from command
+                 file) is displayed on screen after translating all
+                 parameters.
+
+            off: Commands are not displayed.
+            ----
+
+protocol    on:  Each interactive command is logged in the session
+            ---  protocol file.  The actual name of the session
+                 protocol file depends on the operating system.
+
+            off: The commands are not logged in the protocol file.
+
+echo        on:  Each command is echoed on the info channel(s) before
+                 translation.
+
+            off: The commands are not echoed
+            ----
+
+capcnv      on:  The whole command line is converted to uppercase letters
+            ---  before translation.
+
+            off: Lowercase letters are not converted.  In this case you
+                 have to enter all command verbs and keywords in uppercase
+                 otherwise they will not be recognized.
+
+step        on:  Stops execution of a command procedure after each command,
+                 displays the original comand line and waits for input
+                 of <CR>.
+
+            off: Command procedures are processed normally.
+            ----
+
+noerrmsg    on:  On errors no error messages are displayed and no
+                 warning bell is generated.  Useful in combination
+                 with "cmderrstop" flag if possibly occurring errors
+                 are handled inside a command procedure.
+
+            off: Errors cause messages and warning bell.
+            ----
+
+chatty      on:  Some commands print an information message, for
+            ---  example "sum" or "write".
+
+            off: The information message is suppressed.  This is
+                 useful in command procedures whode internal structure
+                 should be hidden from the user.
+
+startup     special flag.  A startup file of SH must contain the
+            command "switch startup off".
+
+
+qualifiers
+----------
+
+/global
+   The specified switch is changed globally and not only local to
+   the current command level.
+
+
+example
+-------
+
+   switch cmderrstop off     ! switches cmderrstop flag off
+
+

@@ -1,0 +1,32 @@
+! file SHM_CMD_GROWTW.SHC
+!      ==================
+!
+! version 1, 19-Jul-94
+!
+! enlarges time window
+! K. Stammler, 19-Jul-94
+
+default 1 right    right or left
+
+sdef width         ! width of display
+sdef new_x         ! new start of x window
+sdef new_xmax      ! new end of x window
+
+calc r &width = $dsp_xmax - $dsp_x
+calc r &width = "width * 1.5
+
+if  #1 nes right  goto/forward grow_left:
+
+calc r &new_x = $dsp_x
+calc r &new_xmax = $dsp_x + "width
+stw "new_x "new_xmax
+
+return
+
+grow_left:
+
+calc r &new_xmax = $dsp_xmax
+calc r &new_x = $dsp_xmax - "width
+stw "new_x "new_xmax
+
+return

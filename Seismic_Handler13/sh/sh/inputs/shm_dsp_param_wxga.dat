@@ -1,0 +1,26 @@
+! file shm_user_param.txt
+!      ==================
+!
+! version 1, 13-Oct-2005
+!
+! User parameters for SHM
+! K. Stammler, 13-Oct-2005
+
+parameter_box_x     93
+parameter_box_y      0
+parameter_box_w    125
+parameter_box_h    700
+phase_box_x        -38
+phase_box_y          0
+phase_box_w        155
+phase_box_h        720
+window_main_x      224
+window_main_y      220
+window_main_w     1039
+window_main_h      516
+single_trace_box_x 224
+single_trace_box_y   0
+single_trace_box_w 1039
+single_trace_box_h 203
+draw_area_width    1035
+draw_area_height    485

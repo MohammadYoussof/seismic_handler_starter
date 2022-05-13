@@ -1,0 +1,49 @@
+! file squarediff.shc
+!      ==============
+!
+! version 1, 6-Mar-95
+!
+! computes sum of squared differences for all GRF traces read in from
+! two different directories
+!
+! K. Stammler, 6-Mar-95
+
+sdef trcnum        ! number of traces from 1 directory
+sdef trc1          ! first trace
+sdef trc2          ! second trace
+sdef sqr           ! square sum
+
+switch chatty off
+nr
+unit_all;;
+calc i &trcnum = $dsptrcs div 2
+
+calc i &trc1 = 1
+calc i &trc2 = "trcnum + 1
+loop_start:
+	if  "trc1 gti "trcnum  goto/forward loop_exit:
+	sum/nonorm |"trc1|,|"trc2|
+	calc i &trc1 = "trc1 + 1
+	calc i &trc2 = "trc2 + 1
+goto loop_start:
+loop_exit:
+
+del |1-|"trcnum|
+del |1-|"trcnum|
+trcfct all square
+int all
+del |1-|"trcnum|
+
+calc r &sqr = 0.0
+calc i &trc1 = 1
+sum_loop:
+	if  "trc1 gti "trcnum  goto/forward sum_loop_exit:
+	calc r &sqr = "sqr + ^maxval("trc1)
+	calc i &trc1 = "trc1 + 1
+goto sum_loop:
+sum_loop_exit:
+rd
+
+calc r &ret = "sqr
+
+return

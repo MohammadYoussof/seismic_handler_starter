@@ -1,0 +1,1011 @@
+
+c NAME
+c	hypinv0 -- Compute a hypocentral location.
+
+c FILE
+c	hypinv0.f
+
+c SYNOPSIS
+c	Computes event locations, confidence bounds, residuals and
+c	importances using arrival time, azimuths and slowness
+c	measurements from stations at regional and teleseismic
+c	distances.
+
+c DESCRIPTION
+c	Subroutine.  Hypocenter inversion (event location), done as an 
+c	iterative non-linear least squares inversion of travel-time, 
+c	azimuth and slowness data.  Modified by Steve Bratt (March 1990).
+c	Modified by Walter Nagy (July 1990).
+c       modified by johannes schweitzer (ellipticity correction) (march 1991)
+
+c	---- Indexing ----
+c	i = 1, nsta;	j = 1, nwav;	k = 1, ntbd(j);	m = 1, ntbz(j);
+c	n = 1, ndata;
+
+c	---- On entry ----
+c	ndata:		Number of data
+c	nsta:		Number of stations in network
+c	nwav:		Number of phases in list
+c	maxtbd:		Maximum dimension of k'th position in tbd(), tbtt()
+c	maxtbz:		Maximum dimension of m'th position in tbz(), tbtt()
+
+c	dstaid(n):	Name of station for n'th datum
+c	dwavid(n):	Name of phase for n'th datum
+c	dtype(n):	Data type for n'th datum (time, azim, slow)
+c	atype(n):	Arrival usage
+c			  = d: Defining, used in location
+c			  = n: Could be defining, but not used in location
+c			  = a: Not to be used in location
+c	dobs(n):	Value of n'th datum (sec, deg, sec/deg)
+c	dsd(n): 	Standard deviation in value of n'th datum
+
+c	stalat(i):	Station latitude  for i'th station (deg)
+c	stalon(i):	Station longitude for i'th station (deg)
+
+c	ntbd(j):	Number of distance samples in travel-time tables
+c	ntbz(j):	Number of depth samples in travel-time tables
+c	tbd(k,j):	Angular distance (deg)
+c	tbz(m,j):	Depth (km)
+c	tbtt(k,m,j):	Travel-time (sec)
+
+c	ipsta(n):	Station index for n'th observation
+c	ipwav(n):	Wave index for n'th observation
+c	idtyp(n):	Type code for n'th observation
+c			  = 0, Data type unknown 
+c			  = 1, Arrival time datum 
+c			  = 2, Azimuth datum
+c			  = 3, Slowness datum
+c	iderr(n):	Error code for n'th observation
+c			=  0, No problem, normal interpolation
+c			=  1, No station information for datum
+c			=  2, No travel-time tables for datum
+c			=  3, Data type unknown
+c			=  4, S.D <= 0.0 for datum
+c			= 11, Distance-depth point (x0,z0) in hole of T-T curve
+c			= 12, x0 < x(1)
+c			= 13, x0 > x(max)
+c			= 14, z0 < z(1)
+c			= 15, z0 > z(max)
+c			= 16, x0 < x(1) and z0 < z(1)
+c			= 17, x0 > x(max) and z0 < z(1)
+c			= 18, x0 < x(1) and z0 > z(max)
+c			= 19, x0 > x(max) and z0 > z(max)
+c		[NOTE:	If any of these codes is .le. 0 (e.g. iderr = -17),
+c			the datum was used to compute event location]
+
+c	alat0:		Initial educated guess of event latitude (deg)
+c	alon0:		Initial educated guess of event longitude (deg)
+c	zfoc0:		Initial educated guess of event focal depth (km)
+c	sig0:		Prior estimate of data standard error
+c	ndf0:		Number of degrees of freedom in sig0
+c	pconf:		Confidence probability for confidence regions 
+c			(0.0 - 1.0)
+c			[WARNING: subr. fstatx_() accepts only 0.90 for now]
+c	radius:		Radius of the earth (km)
+C	azwt:		Weight applied to azimuth data and partials
+c			(default = 1.0)
+c	damp:		Percent damping relative to largest singular value,
+c			if < 0.0, only damp when condition number > million
+c	maxit:		Maximum number of iterations allowed in inversion
+c	prtflg:		= y, Verbose printout
+c			= n, None
+c	fxdflg:		Flag for constraining focal depth;
+c			  = n, Focal depth is a free parameter in inversion
+c			  = y, Focal depth is constrained to equal zfoc0
+c	luout:		Output file logical unit number
+
+c	---- On return ----
+c	alat:		Final estimate of event latitude (deg)
+c	alon:		Final estimate of event longitude (deg)
+c	zfoc:		Final estimate of event focal depth (km)
+c	torg:		Final estimate of event origin time (sec)
+c	sighat:		Final estimate of data standard error
+c	snssd:		Normalized sample standard deviation
+c	ndf:		Number of degrees of freedom in sighat
+c	epmaj:		Length of semi-major axis of confidence ellipse on 
+c			epicenter (km)
+c	epmin:		Length of semi-minor axis of confidence ellipse on 
+c			epicenter (km)
+c	epstr:		Strike of semi-major axis of confidence ellipse on 
+c			epicenter (deg)
+c	zfint:		Length of confidence semi-interval on focal depth (km)
+c			= < 0.0, if fxdflg = 'y' or depth was fixed by program
+c			due to convergence problem
+c	toint:		Length of confidence semi-interval on origin time (sec)
+c	sxx:		(Parameter covariance diagonal element)
+c	syy:		(Parameter covariance diagonal element)
+c	szz:		(Parameter covariance diagonal element)
+c			= < 0.0, if fxdflg = 'y' or depth was fixed due to
+c			to a convergence problem
+c	stt:		(Parameter covariance diagonal element)
+c	sxy:		(Parameter covariance element)
+c	sxz:		(Parameter covariance element)
+c	syz:		(Parameter covariance element)
+c	stx:		(Parameter covariance element)
+c	sty:		(Parameter covariance element)
+c	stz:		(Parameter covariance element)
+
+c	stadel(i):	Distance from event to i'th station (deg)
+c	staazi(i):	Azimuth  from event to i'th station (deg)
+c	stabaz(i):	Back-azimuth from event to i'th station (deg)
+c	epimp(n):	Epicenter importance of n'th datum
+c	resid(n):	Residual (obs-calc) for n'th datum (sec, deg, 
+c			sec/deg)
+c	rank:		Effective rank of the sensitivity matrix
+c	igap:		Maximum azimuthal gap (deg) for data used in solution
+c	niter:		Number of iterations performed in inversion
+c	ierr:		Error flag;
+c			  0 = No error
+c			  1 = Maximum number of iterations exhausted
+c			  2 = Iteration diverged
+c			  3 = Too few usable data to constrain any parameters
+c			  4 = Too few usable data to constrain origin time,
+c			      however, a valid location was obtained
+c			  5 = Insufficient data for a solution
+c			  6 = SVD routine cannot decompose matrix
+
+c	---- Functions called ----
+c	Local
+c		ttcal0: 	Compute travel-times and their partials
+c		azcal: 		Compute azimuthal partial derivatives
+c		slocal0:	Compute horizontal slownesses and partials 
+c		denuis:		Denuisance data before first iteration
+c		solve_via_svd: 	Perform least squares inversion via SVD
+c		ellips: 	Compute hypocentral error ellipsoid
+c		fstatx:  	Make an F-test
+
+c	From libgeog
+c		distaz2: 	Determine the distance between between two 
+c				lat./lon. pairs
+c		latlon2: 	Compute a second lat./lon. from the first,
+c				distance, and azimuth
+
+c DIAGNOSTICS
+c	Complains when input data are bad ...
+
+c FILES
+c	None.
+
+c NOTES
+c	It will probably be a good idea to remove the divergence 
+c	test condition (variable, divrg) altogether.  The removal of
+c	divrg will also facilitate the ommission of variables, dxnrms(), 
+c	dxn12 and dxn23.
+
+c SEE ALSO
+c	Bratt and Bache (1988) "Locating events with a sparse network of
+c	regional arrays", BSSA, 78, 780-798.  Also, Jordan and Sverdrup
+c	(1981) "Teleseismic location techniques and their application to
+c	earthquake clusters in the south-central Pacific", BSSA, 71,
+c	1105-1130.
+
+c AUTHOR
+c	Steve Bratt, December 1988.
+
+
+      subroutine hypinv0 (dstaid, dwavid, dtype, atype, dobs, dsd,
+     &                    ndata, stalat, stalon, nsta, maxtbd, maxtbz,
+     &                    ntbd, ntbz, tbd, tbz, tbtt, ipsta, ipwav,
+     &                    idtyp, iderr, alat0, alon0, zfoc0, sig0, ndf0,
+     &                    pconf, radius, azwt, damp, maxit, prtflg, 
+     &                    fxdflg, luout, alat, alon, zfoc, torg, sighat,
+     &                    snssd, ndf, epmaj, epmin, epstr, zfint, toint,
+     &                    sxx, syy, szz, stt, sxy, sxz, syz, stx, sty, 
+     &                    stz, stadel, staazi, stabaz, epimp, rank, 
+     &                    resid, igap, niter, nd, ierr)
+
+      implicit none     ! K.S. 1-Dec-97, changed 'undefined' to 'none'
+
+      common /sccshypinv0/ sccsid
+      character*80 sccsid
+      data sccsid /'@(#)hypinv0.f	44.1	9/20/91'/
+
+ 
+c     ---- Parameter declarations ----
+
+      integer*4 maxdata, maxhis, minit, maxparm
+      real*8    atol, ctol, rad2deg
+
+c     History of standard errors and perturbation vectors used to 
+c     decide on convergence
+      parameter (maxhis = 3) 
+
+c     Minimum number of iterations required
+      parameter (minit = 4) 
+
+c     Maximum number of data allowed
+      parameter (maxdata = 300) 
+
+c     Maximum number of parameters allowed
+      parameter (maxparm = 4) 
+
+c     Convert radians to degrees
+      parameter (rad2deg = 57.2957795)
+
+c     Tolerance setting for condition number
+      parameter (ctol = 100.0)
+
+c     Tolerance setting for convergence checks
+      parameter (atol = 1.0d-8)
+
+c     ---- On entry ----
+
+      integer*4 maxit, maxtbd, maxtbz, nd, ndata, nsta, iderr(ndata)
+      integer*4 idtyp(ndata), ipsta(ndata), ipwav(ndata), luout, ndf0
+      integer*4 ntbd(1), ntbz(1)
+      real*4    alat0, alon0, azwt, damp, dsd(ndata), dobs(ndata), pconf
+      real*4    radius, sig0, stalat(nsta), stalon(nsta), tbd(maxtbd,1)
+      real*4    tbtt(maxtbd,maxtbz,1), tbz(maxtbz,1), zfoc0
+      character*(*) atype(ndata), dtype(ndata), dstaid(ndata)
+      character*(*) dwavid(ndata), fxdflg, prtflg 
+
+c     ---- On return ----
+
+      integer*4 ierr, igap, ndf, niter
+      real*4    alat, alon, epimp(ndata), epmaj, epmin, epstr
+      real*4    resid(ndata), sighat, snssd, staazi(nsta), stabaz(nsta)
+      real*4    stadel(nsta), stt, stx, sty, stz, sxx, sxy, sxz, syy
+      real*4    syz, szz, toint, torg, zfint, zfoc
+      real*8    rank
+
+c     ---- Internal variables ----
+
+      integer*4 i, idtyp2(maxdata), ierr0, iga(maxdata), inerr
+      integer*4 ip0(maxdata), iterr, k, m, n, nairquake, nazims !, nd  ! K.S.
+      integer*4 ndftemp, nds(maxhis), np, nslows, ntimes, ntoodeep
+      real*4    correct, dcalx, colat, ecorr
+      real*8    alat2, alon2, andf, azi, at(maxparm,maxdata)
+      real*8    atx(maxparm), cnvg12, cnvg23, cnvgold, cnvghats(maxhis)
+      real*8    cnvgtst, condit(2), covar(maxparm,maxparm), delta, dist
+      real*8    dmean, dsd2(maxdata), dxmax, dxn12, dxn23, dxnorm
+      real*8    dxnrms(maxhis), epmaj0, epmin0, fac, fs, hymaj0
+      real*8    hymid0, hymin0, hyplu, hyrak, hystr, resid2(maxdata)
+      real*8    resid3(maxdata), scale, sgh12, sgh23, sghats(maxhis)
+      real*8    slwt, snssdden, snssdnum, ssq, step, unwtrms, wtrms
+      real*8    xold(maxparm), xsol(maxparm), zfint0
+      real*8    a1, a2, sta1, sta2, sta3, sta4, sta5
+      logical   cnvrg, divrg, ldenuis
+      character fxdsav*1,phase*8
+
+c === Temporary Grid Test === top
+
+c     integer*4 ilat, ilon, iprj, j, lnblnk, ncol, nrow, nz, ounit
+c     real*4    cm, bl, dx, dy, rot, xcen, xo, ycen, yo
+c     real*4    dcalx_array(80,240,20), deriv_array(80,240,20,4)
+c     real*4    resid_array(80,240,20), wtrms_array(80,240)
+c     character dd(4)*1, filename*80, id*56, pgm*8
+
+c === Temporary Grid Test === bottom
+
+
+c     Initializations
+
+      alat   = alat0
+      alon   = alon0
+      zfoc   = zfoc0
+      torg   =  0.0
+      sighat = -1.0
+      snssd  = -1.0
+      ndf    = -1
+      epmaj  = -1.0
+      epmin  = -1.0
+      epstr  = -1.0
+      zfint  = -1.0
+      toint  = -1.0
+      sxx    = -999.0
+      syy    = -999.0
+      szz    = -999.0
+      stt    = -999.0
+      sxy    = -999.0
+      sxz    = -999.0
+      syz    = -999.0
+      stx    = -999.0
+      sty    = -999.0
+      stz    = -999.0
+      slwt   = 1.0
+      azwt   = 1.0
+      cnvrg  = .false.
+      ldenuis= .false.
+
+      niter     = 0
+      ierr      = 0
+      ierr0     = 0
+      nairquake = 0
+      ntoodeep  = 0
+
+      do 1000  i = 1, nsta
+         stadel(i) = -1.0
+         staazi(i) = -1.0
+         stabaz(i) = -1.0
+ 1000 continue
+
+
+c === Temporary Grid Test === top
+
+c     alat0 = 1.15
+c     alon0 = 122.75
+c     ncol  = 240
+c     nrow  = 80
+c     xo    = 0.0
+c     yo    = 0.0
+c     dx    = 0.2316
+c     dy    = 0.2316
+c     bl    = alat0
+c     cm    = alon0
+c     do 4000 ilat = 1, nrow
+c        alat = alat0 + 0.00208333*(ilat-1)
+c        print*, 'Current row of latitude: ', alat, ' deg.'
+c        do 4000 ilon = 1, ncol
+c           alon = alon0 + 0.00208333*(ilon-1)
+
+c === Temporary Grid Test === bottom
+
+c     Main iterative loop
+
+ 1020 do 1030  n = 1, ndata
+         resid(n)  = -999.0
+         resid2(n) = -999.0
+         at(1,n)   =    0.0
+         at(2,n)   =    0.0
+         at(3,n)   =    0.0
+         at(4,n)   =    0.0
+ 1030 continue
+
+c     Set fix-depth flag and number of parameters.  Depth is always fixed
+c     during the first 2 iterations.  If depth becomes negative ("airquake"),
+c     then fix the depth at 0.0 during the next iteration.  If several 
+c     airquakes occur, then fix the depth at zero for all subsequent
+c     iterations.  Also fix events > 650.0 km to value 650.0 during the next
+c     iteration, i.e., to the approximate depth of the deepest credible 
+c     earthquake -- WCN.
+
+      if (niter.lt.3) then
+         fxdsav    = 'y'
+      else if (nairquake.gt.4) then
+         fxdsav    = 'y'
+         zfoc      = 0.0
+         xsol(4)   = 0.0
+      else if (ntoodeep.gt.4) then
+         fxdsav    = 'y'
+         zfoc      = 650.0
+         xsol(4)   = 0.0
+      else if (zfoc.lt.0.0) then
+         nairquake = nairquake + 1
+         zfoc      = 0.0
+         xsol(4)   = 0.0
+      else if (zfoc.gt.650.0) then
+         ntoodeep  = ntoodeep + 1
+         zfoc      = 650.0
+         xsol(4)   = 0.0
+      else
+         fxdsav    = fxdflg
+      end if
+
+c     How many model parameters?
+
+      if (fxdsav.ne.'y') then
+         np = 4
+      else
+         np = 3
+      end if
+
+c     Compute distance and azimuths to stations (forward problem for 
+c     azimuths)
+
+      a1 = alat
+      a2 = alon
+      do 1040 i = 1, nsta
+         sta1 = stalat(i)
+         sta2 = stalon(i)
+         call distaz2 (a1, a2, sta1, sta2, sta3, sta4, sta5)
+         stadel(i) = sta3
+         staazi(i) = sta4
+         stabaz(i) = sta5
+ 1040 continue
+
+c     Compute travel-times, slownesses and azimuths based on current 
+c     location hypothesis and determine partial derivatives.  Ignore 
+c     points with completely invalid data (i.e., iderr = 1, 2, 3).
+
+      nd	= 0
+      ntimes	= 0
+      nazims	= 0
+      nslows	= 0
+      do 1060 n = 1, ndata
+
+         if (iderr(n).lt.1 .or. iderr(n).gt.3) then
+            i = ipsta(n)
+            k = ipwav(n)
+
+c           Arrival times
+
+            if (idtyp(n).eq.1) then
+c              call ttime_calc (k-1, atx, staazi(i), stadel(i), radius,
+c    &                          zfoc, dcalx, iterr)
+               call ttcal0 (k, zfoc, radius, stadel(i), staazi(i),
+     &                      maxtbd, maxtbz, ntbd(k), ntbz(k), tbd(1,k),
+     &                      tbz(1,k), tbtt(1,1,k), dcalx, atx, iterr)
+
+c
+c      ellipticity corrections for travel times included with routine
+c      elpcor.f including the ellipticity corrections of the IASPEI 1991
+c      Travel Time Tables (Kennet, 1991). The routine was received by NEIC.
+c      johannes schweitzer mar 24, 1991
+c      bochum , geress
+c
+               phase=dwavid(n)
+               colat=90.-alat
+               call elpcor(phase,stadel(i),zfoc,staazi(i),colat,ecorr)
+               dcalx=dcalx+ecorr
+               
+
+c              Use only those data that have been interpolated (iterr = 0)
+c              or have been extrapolated to depths beyond these curves 
+c              (iterr = 15).  If the number of iterations is less than 
+c              minit, allow all extrapolated values. 
+
+	       if (niter.lt.minit .or. iterr.eq.15)
+     &             then
+                  iderr(n) = 0
+               else
+                  iderr(n) = iterr
+               end if
+
+c           Azimuths
+
+            else if (idtyp(n).eq.2) then
+               call azcal (radius, stadel(i), staazi(i), stabaz(i),
+     &                     dcalx, atx)
+
+c           Slownesses
+
+            else if (idtyp(n).eq.3) then
+c              call slow_calc (k-1, atx, staazi(i), stadel(i), radius,
+c    &                         zfoc, dcalx, iterr)
+               call slocal0 (k, zfoc, radius, stadel(i), staazi(i),
+     &                       maxtbd, maxtbz, ntbd(k), ntbz(k), tbd(1,k), 
+     &                       tbz(1,k), tbtt(1,1,k), dcalx, atx, iterr)
+
+c              Same rules as for travel-time calculations.
+
+               if (niter.lt.minit .or. iterr.eq.15)
+     &             then
+                  iderr(n) = 0
+               else
+                  iderr(n) = iterr
+               end if
+            end if
+
+c           Apply station correction adjustments, if necessary
+
+            correct = 0.0
+c           if (niter.gt.2 .and. idtyp(n).eq.1)
+c    &         call ssscor (alat, alon, correct, 1, i, k)
+
+c           Compute residual = [observed - calculated] datum
+c                              + station correction
+
+            if (idtyp(n).ne.1) then 
+               resid(n) = dobs(n) - dcalx
+            else
+               resid(n) = dobs(n) - dcalx - torg + correct
+            end if
+
+c           If the azimuth residual is > +/- 180.0 deg., change it to the
+c           corresponding difference that is < +/- 180.0 deg.
+
+            if (idtyp(n).eq.2 .and. abs(resid(n)).gt.180.0) 
+     &          resid(n) = -sign((360.0-abs(resid(n))), resid(n))
+
+c           Load valid data and partials for defining detections into
+c           arrays.  Note that parameters are ordered: origin-time;
+c           longitude; latitude; depth.  If depth is fixed, np = 3.
+
+            if (iderr(n).lt.1 .and. atype(n)(1:1).eq.'d') then
+               nd = nd + 1
+               do 1050 m = 1, np
+ 1050          at(m,nd) = atx(m)
+
+c              Array ip0 holds the original index of the n'th valid datum
+
+               ip0(nd)    = n
+               resid2(nd) = resid(n)
+               dsd2(nd)   = dsd(n)
+               idtyp2(nd) = idtyp(n)
+
+c              Count valid data for each data type
+
+               if (idtyp2(nd).eq.1) then
+     	          ntimes = ntimes + 1
+               else if (idtyp2(nd).eq.2) then
+                  nazims = nazims + 1
+               else if (idtyp2(nd).eq.3) then
+                  nslows = nslows + 1
+               end if
+c              dcalx_array(ilat,ilon,nd) = dcalx
+            end if
+         end if
+
+ 1060 continue
+
+c     Quick check on array declarations
+
+      if (np.gt.maxparm .or. nd.gt.maxdata) then
+         print*, '- Enlarge the dimensions of maxparm and/or maxdata'
+         call exit (-1)
+      end if
+
+c     Check for insufficient data
+
+      if (fxdsav.ne.'y') then
+         if (nd.lt.4) then 
+            ierr = 5
+            return
+         end if
+      else
+         if (nd.lt.3) then
+            ierr = 5
+            return
+         end if
+      end if
+
+c     If initial iteration, then orthogonalize out origin-time term
+
+      if (.not.ldenuis) then
+         call denuis (idtyp2, nd, np, resid2, dsd2, at, dmean, inerr)
+         torg = dmean
+         if (inerr.ne.0) torg = 0.0
+         ldenuis = .true.
+         goto 1020
+      end if
+
+c     Compute weighted and unweighted RMS residual (dimensionless quantities).
+c     Also normalize matrix and residuals w.r.t. data standard deviations 
+c     and apply weights to azimuth and slowness data, as necessary.
+
+      wtrms   = 0.0
+      unwtrms = 0.0
+      do 1080 n = 1, nd
+         resid3(n) = resid2(n)
+         unwtrms   = unwtrms + resid3(n)**2
+         if (idtyp2(n).eq.1) then
+            resid2(n) = resid2(n)/dsd2(n)
+         else if (idtyp2(n).eq.2) then
+            resid2(n) = azwt*resid2(n)/dsd2(n)
+         else if (idtyp2(n).eq.3) then
+            resid2(n) = slwt*resid2(n)/dsd2(n)
+         end if
+         wtrms = wtrms + resid2(n)**2
+c        resid_array(ilat,ilon,n) = resid2(n)
+         do 1070 m = 1, np
+            if (idtyp2(n).eq.1) then
+               at(m,n) = at(m,n)/dsd2(n)
+            else if (idtyp2(n).eq.2) then
+               at(m,n) = azwt*at(m,n)/dsd2(n)
+            else if (idtyp2(n).eq.3) then
+               at(m,n) = slwt*at(m,n)/dsd2(n)
+            end if
+c           deriv_array(ilat,ilon,n,m) = at(m,n)
+ 1070    continue
+ 1080 continue
+      wtrms   = dsqrt(wtrms/nd)
+      unwtrms = dsqrt(unwtrms/nd)
+
+c === Temporary Grid Test === top
+
+c     wtrms_array(ilat,ilon) = wtrms
+
+c4000 continue
+
+c     pgm = 'gsuperc'
+c     nz = 1
+c     iprj = 2
+c     rot = 0.0
+c     xcen = 0.0
+c     ycen = 0.0
+c     ounit = 29
+
+c     id 	= 'Overall Weighted RMS Residual For Event'
+c     filename	= 'wtrms.asc'
+c     open (ounit, file = filename)
+c     write (ounit, '(a56,a8)') id, pgm
+c     write (ounit, '(6x,i8,8x,i8,6x,i8)') ncol, nrow, nz
+c     write (ounit, '(4(5x,e14.8))') xo, dx, yo, dy
+c     write (ounit, '(12x,i4,6x,e14.8,6x,e14.8)') iprj, cm, bl
+c     write (ounit, '(6x,e14.8,7x,e14.8,7x,e14.8)') rot, xcen, ycen
+c     do 4002 ilat = 1, nrow
+c        write (ounit, '(e15.8)') 0.0
+c        do 4001 ilon = 1, ncol, 5
+c           write (ounit, '(5e15.8)') (wtrms_array(ilat,ilon+i-1),
+c    &                                 i = 1, 5)
+c4001    continue
+c4002 continue
+c     close (ounit)
+
+c     do 4010 n = 1, nd
+c        if (atype(ip0(n))(1:1).ne.'d') goto 4010
+c        k = lnblnk(dstaid(ip0(n)))
+c        j = lnblnk(dwavid(ip0(n)))
+c        filename = dstaid(ip0(n))(1:k)//'_'//dwavid(ip0(n))(1:j)//'_'//
+c    &              dtype(ip0(n))(1:1)//'_res.asc'
+c        id = 'Weighted Residuals: '//filename(1:lnblnk(filename))
+c        open (ounit, file = filename)
+c        write (ounit, '(a56,a8)') id, pgm
+c        write (ounit, '(6x,i8,8x,i8,6x,i8)') ncol, nrow, nz
+c        write (ounit, '(4(5x,e14.8))') xo, dx, yo, dy
+c        write (ounit, '(12x,i4,6x,e14.8,6x,e14.8)') iprj, cm, bl
+c        write (ounit, '(6x,e14.8,7x,e14.8,7x,e14.8)') rot, xcen, ycen
+c        do 4004 ilat = 1, nrow
+c           write (ounit, '(e15.8)') 0.0
+c           do 4003 ilon = 1, ncol, 5
+c              write (ounit, '(5e15.8)') (resid_array(ilat,ilon+i-1,n),
+c    &                                    i = 1, 5)
+c4003       continue
+c4004    continue
+c        close (ounit)
+c        filename = dstaid(ip0(n))(1:k)//'_'//dwavid(ip0(n))(1:j)//'_'//
+c    &              dtype(ip0(n))(1:1)//'_dcalx.asc'
+c        id = 'Calculated: '//filename(1:lnblnk(filename))
+c        open (ounit, file = filename)
+c        write (ounit, '(a56,a8)') id, pgm
+c        write (ounit, '(6x,i8,8x,i8,6x,i8)') ncol, nrow, nz
+c        write (ounit, '(4(5x,e14.8))') xo, dx, yo, dy
+c        write (ounit, '(12x,i4,6x,e14.8,6x,e14.8)') iprj, cm, bl
+c        write (ounit, '(6x,e14.8,7x,e14.8,7x,e14.8)') rot, xcen, ycen
+c        do 4006 ilat = 1, nrow
+c           write (ounit, '(e15.8)') 0.0
+c           do 4005 ilon = 1, ncol, 5
+c              write (ounit, '(5e15.8)') (dcalx_array(ilat,ilon+i-1,n),
+c    &                                    i = 1, 5)
+c4005       continue
+c4006    continue
+c        close (ounit)
+
+c        dd(1) = 'T'
+c        dd(2) = 'X'
+c        dd(3) = 'Y'
+c        dd(4) = 'Z'
+c        do 4009 m = 1, 4
+c           filename = dstaid(ip0(n))(1:k)//'_'//dwavid(ip0(n))(1:j)//
+c    &                 '_'//dtype(ip0(n))(1:1)//'_deriv_'//dd(m)//'.asc'
+c           id = dd(m)//'-derivative: '//filename(1:lnblnk(filename))
+c           open (ounit, file = filename)
+c           write (ounit, '(a56,a8)') id, pgm
+c           write (ounit, '(6x,i8,8x,i8,6x,i8)') ncol, nrow, nz
+c           write (ounit, '(4(5x,e14.8))') xo, dx, yo, dy
+c           write (ounit, '(12x,i4,6x,e14.8,6x,e14.8)') iprj, cm, bl
+c           write (ounit, '(6x,e14.8,7x,e14.8,7x,e14.8)') rot, xcen,
+c    &             ycen
+c           do 4008 ilat = 1, nrow
+c              write (ounit, '(e15.8)') 0.0
+c              do 4007 ilon = 1, ncol, 5
+c                 write (ounit, '(5e15.8)') 
+c    &                   (deriv_array(ilat,ilon+i-1,n,m), i = 1, 5)
+c4007          continue
+c4008       continue
+c           close (ounit)
+c4009    continue
+c4010 continue
+
+c     stop 'Grid completed !'
+
+c === Temporary Grid Test === bottom
+
+c     If convergence has been reached, break out of main iterative loop
+
+      if (cnvrg) goto 1200
+
+c     Determine least squares solution
+
+      call solve_via_svd (1, nd, np, 4, at, resid2, damp, cnvgtst,
+     &                    condit, xsol, covar, epimp, rank, ierr)
+      if (ierr.eq.6) return
+
+c     Print information at each iterative step
+
+      if (prtflg.eq.'y') then
+         write (luout, *) ' '
+         write (luout, *) ' '
+         write (luout, '(2(a,i3),/,a,f8.3,2(a,f9.3),a,f10.3,/,
+     &                   2(a,f8.4),a,e12.5,/)')
+     &   '- Iteration #', niter, '   Number of Obs. (Data):', nd,
+     &   '- Lat:', alat, '   Lon:', alon, '   Depth:', zfoc,
+     &   '   To:', torg, '- Unwt. RMS Res.:', unwtrms,
+     &   '   Wt. RMS Res.:', wtrms, '   CNVGTST:', cnvgtst
+         write (luout, '(2a,2(/,2a))')
+     &          '       Phase    Data      Travel Times      ',
+     &          '       Residuals      Distance',
+     &          'Sta    Type     Type  Observed  Calculated  ',
+     &          '    True  Normalized    (deg.)',
+     &          '------ -------- ----  --------  ----------  ',
+     &          '--------  ----------  --------'
+         do 1090 n = 1, nd
+            write (luout, '(a6,1x,a8,1x,a4,2(f10.2,f12.2),f10.2)')
+     &             dstaid(ip0(n)), dwavid(ip0(n)), dtype(ip0(n)),
+     &             dobs(ip0(n)), dobs(ip0(n))-resid3(n), resid3(n),
+     &             resid2(n), stadel(ipsta(ip0(n)))
+ 1090    continue
+      end if
+
+c     Compute number of degrees of freedom and data-variance estimate
+c     ndf0 is the K of Jordan and Sverdrup (1981); Bratt and Bache (1988)
+c	   set ndf0 = 8; here we set ndf0 = 9999
+c     sig0 is "not" the s-sub-k of Jordan and Sverdrup (1981);
+c          here, sig0 = 1.0
+c     ndf  is the total degrees of freedom assuming a chi-squared
+c          distribution = ndf0 + [# of data + # of parameters]
+c     ssq  is the numerator for the a posteriori estimate for the
+c          squared variance scale factor
+c     sighat, is therefore, the actual estimate of the variance scale 
+c	   factor (eqn. 34 of J&S, 1981), and subsequently,
+c     snssd is the normalized a priori estimate for the estimated
+c          variance scale factor
+
+      ndf = ndf0 + nd - np
+      ssq = ndf0*sig0*sig0
+      do 1100 n = 1, nd
+ 1100 ssq = ssq + resid2(n)**2
+      andf = ndf
+      if (ndf.eq.0) andf = 0.001
+      if (abs(float(ndf)-ssq).lt.0.00001) andf = ssq
+      sighat   = dsqrt(ssq/andf)
+      snssdnum = ssq-ndf0*sig0*sig0
+      snssdden = andf-ndf0
+      if (abs(snssdden).gt.0.001 .and. snssdnum/snssdden.ge.0.0) then
+         snssd = dsqrt(snssdnum/snssdden)
+      else
+         snssd = 999.0
+      end if
+
+c     Compute norm of hypocenter perturbations
+
+      ssq = 0.0
+      do 1110 m = 1, np
+ 1110 ssq = ssq + xsol(m)**2
+      dxnorm = dsqrt(ssq)
+
+c     Scale down hypocenter perturbations if they are very large.  Scale
+c     down even more for lat(t)er iterations.
+
+      dxmax = 1500.0
+      if (niter.lt.maxit/5+1) dxmax = 3000.0
+      if (dxnorm.gt.dxmax) then
+         scale = dxmax/dxnorm
+         do 1120 m = 1, np
+ 1120    xsol(m) = xsol(m)*scale
+         dxnorm = dxmax
+      end if
+
+      if (prtflg.eq.'y') 
+     &   write (luout, '(/,2(a,f7.3),3(a,f9.3),/,2(a,g11.3))')
+     &   '> Sighat:', sighat, '   NSSD:', snssd, '   dLat:', xsol(3),
+     &   '   dLon:', xsol(2), '   dZ:', xsol(4),
+     &   '> True Cond. Num.:', condit(1), 
+     &   '   Effective Cond. Num.:', condit(2)
+
+c     Store the convergence test information from the 2 previous iterations
+
+      do 1130 i = min(maxhis, niter+1), 2, -1
+         cnvghats(i)	= cnvghats(i-1)
+         sghats(i)	= sghats(i-1)
+         dxnrms(i)	= dxnrms(i-1)
+         nds(i)		= nds(i-1)
+ 1130 continue
+
+c     Current convergence test information
+
+      cnvghats(1)	= cnvgtst
+      sghats(1)		= snssd
+      dxnrms(1)		= dxnorm
+      nds(1)		= nd
+
+c     Stop iterations if number of data < number of parameters.  The 
+c     exception is when the depth is fixed (np = 3) and we have only
+c     azimuth, or one azimuth and one slowness data.  In that case
+c     continue on even though it will be impossible to get an origin time.
+
+      ndftemp = ndf0
+      if ( np.eq.3 .and. (nazims.gt.1 .or.
+     &    (nazims.gt.0 .and. nslows.gt.0)) ) ndftemp = ndf0 - 1
+
+c     Convergence, divergence or just keep on iterating
+
+      if (ndf.lt.ndftemp) then
+         write (luout, *) '   Too few data usable to continue:', nd
+         divrg	= .true.
+         cnvrg	= .false.
+         ierr0	= 1
+         ierr	= 2
+      else if (niter.lt.minit) then
+         divrg	= .false.
+         cnvrg	= .false.
+      else
+         if (dxnorm.gt.0.0) then
+            cnvg12 = cnvghats(1)/cnvghats(2)
+            cnvg23 = cnvghats(2)/cnvghats(3)
+            sgh12  = sghats(1)/sghats(2)
+            sgh23  = sghats(2)/sghats(3)
+            dxn12  = dxnrms(1)/dxnrms(2)
+            dxn23  = dxnrms(2)/dxnrms(3)
+            divrg  = ( (sgh23.gt.1.1 .and. sgh12.gt.sgh23) .or. 
+     &                (dxn23.gt.1.1 .and. dxn12.gt.dxn23) )
+     &              .and. (niter.gt.minit+2) .and. (dxnorm.gt.1000.0)
+            cnvrg = (nds(1).eq.nds(2)) .and. (.not. divrg)
+     &              .and. (sgh12.gt.0.99 .and. sgh12.lt.1.001)
+     &              .and. (cnvgtst.lt.atol .or. dxnorm.lt.0.5)
+            if ( (cnvgtst.lt.(cnvgold*1.01) .and. cnvgtst.lt.atol)
+     &           .or. ( niter.gt.3*maxit/4 .and. (cnvgtst.lt.dsqrt(atol)
+     &           .or. dabs(cnvg23 - cnvg12).lt.atol
+     &           .or. dabs(cnvghats(1)-cnvghats(3)).lt.0.00001) ) )
+     &         cnvrg = .true.
+            if ((wtrms.lt.0.001 .or. dxnrms(1).lt.0.001) 
+     &           .and. niter.gt.minit+2) cnvrg = .true.
+         else
+            divrg = .false.
+            cnvrg = .true.
+         end if
+      end if
+ 
+c     Apply step-length weighting, if unweighted RMS residual is increasing
+
+      if (niter.gt.minit+2 .and. (cnvgtst.gt.cnvgold .or.
+     &    cnvghats(1)-cnvghats(3).eq.0.0) .and. step.gt.0.05) then
+         step = 0.5*step
+         if (step.ne.0.5) then
+            do 1140 i = 1, np
+ 1140       xsol(i) = step*xold(i)
+         else
+            do 1150 i = 1, np
+               xsol(i)	= step*xsol(i)
+               xold(i)	= xsol(i)
+ 1150       continue
+         end if
+      else
+         step    = 1.0
+         cnvgold = cnvgtst
+      end if
+
+c     Perturb hypocenter
+
+      if (xsol(2).ne.0.0 .or. xsol(3).ne.0.0) then
+         azi	= rad2deg*atan2(xsol(2), xsol(3))
+         dist	= dsqrt(xsol(2)**2 + xsol(3)**2)
+         delta	= rad2deg*(dist/(radius-zfoc))
+         a1	= alat
+         a2	= alon
+         call latlon2 (a1, a2, delta, azi, alat2, alon2)
+         alat	= alat2
+         alon	= alon2
+      end if
+      torg = torg + xsol(1)
+      if (fxdsav.ne.'y') zfoc = zfoc - xsol(4)
+
+c     End of main iterative loop
+
+      if (cnvrg) then
+         ierr = 0
+         if (condit(1).gt.ctol*ctol) then
+            ierr = 5
+            return
+         end if
+         goto 1020
+      else if (divrg) then
+         ierr = 2
+         if (ierr0.eq.1) ierr = 3
+         goto 1210
+      else if (niter.ge.maxit) then
+         ierr = 1
+      else
+         niter = niter + 1
+         goto 1020
+      end if
+
+
+c     Compute confidence regions
+
+ 1200 call solve_via_svd (2, nd, np, 4, at, resid2, damp, cnvgtst,
+     &                    condit, xsol, covar, epimp, rank, ierr)
+      if (ierr.eq.6) return
+
+c     Compute location confidence bounds
+
+      call ellips (np, covar, hymaj0, hymid0, hymin0, hystr, hyplu,
+     &             hyrak, epmaj0, epmin0, epstr, zfint0, stt, stx, sty,
+     &             sxx, sxy, syy, stz, sxz, syz, szz)
+
+c     Not currently used, so commented out (WCN)
+c     call fstatx (3, ndf, pconf, fs)
+c     fac   = dsqrt(3.0*fs)*sighat
+c     hymaj = hymaj0*fac
+c     hymid = hymid0*fac
+c     hymin = hymin0*fac
+
+      call fstatx (2, ndf, pconf, fs)
+      fac   = dsqrt(2.0*fs)*sighat
+      epmaj = epmaj0*fac
+      epmin = epmin0*fac
+
+      call fstatx (1, ndf, pconf, fs)
+      fac   = dsqrt(fs)*sighat
+      zfint = zfint0*fac
+c     szz   = zfint0*zfint0
+
+      if (stt.lt.0.0 .or. ntimes.lt.1) then
+         toint = -999.0
+      else
+         toint = sqrt(stt)*fac
+      end if
+
+c     Remove weights and standard deviations from residuals
+
+ 1210 do 1220 n = 1, nd
+         if (idtyp2(n).eq.1) then
+            resid2(n) = resid2(n)*dsd2(n)
+         else if (idtyp2(n).eq.2) then
+            resid2(n) = resid2(n)*dsd2(n)/azwt
+         else if (idtyp2(n).eq.3) then
+            resid2(n) = resid2(n)*dsd2(n)/slwt
+         end if
+ 1220 continue
+
+c     Place input values back into original arrays
+
+      do 1230 n = nd, 1, -1
+         resid(ip0(n))	= resid2(n)
+         epimp(ip0(n))	= epimp(n)
+ 1230 continue
+
+c     Compute azimuthal GAP (deg.) for this event
+
+      do 1240 n = 1, nd
+         iga(n)	= 0
+         k	= ipsta(ip0(n))
+         iga(n)	= nint(staazi(k))
+ 1240 continue
+
+c     Quick and dirty shell sort routine
+
+      do 1250 k = (nd+1)/2, 1, -1
+         do 1250 n = 1, nd-k
+            if (iga(n).gt.iga(n+k)) then
+               m	= iga(n)
+               iga(n)	= iga(n+k)
+               iga(n+k)	= m
+            end if
+ 1250 continue
+
+      igap = 0
+      do 1260 n = 2, nd
+ 1260 if ((iga(n)-iga(n-1)).gt.igap) igap = iga(n)-iga(n-1)
+      m = 360-iga(nd) + iga(1)
+      if (m.gt.igap) igap = m
+
+c     Don't return a depth value < 0.0
+
+      if (zfoc.lt.0.0) zfoc = 0.0
+
+c     Correct non-defining arrival times for the origin time and then
+c     load the default values into arrays for the erroneous data
+
+      do 1270 n = 1, ndata
+         if ((iderr(n).gt.0 .and. iderr(n).lt.4) .or.
+     &       iderr(n).eq.11) then
+            resid(n)	= -999.0
+            epimp(n)	= -1.0
+            atype(n)	= 'n'
+         else if (idtyp(n).eq.1 .and.
+     &      (atype(n)(1:1).ne.'d' .or. iderr(n).gt.0)) then
+            epimp(n)	= -1.0
+            atype(n)	= 'n'
+         else if (iderr(n).gt.0) then
+            epimp(n)	= -1.0
+            atype(n)	= 'n'
+         end if
+         if (atype(n)(1:1).ne.'d') epimp(n) = -1.0
+ 1270 continue
+
+      if (toint.le.-888.0) ierr = 4
+
+      return
+      end
+

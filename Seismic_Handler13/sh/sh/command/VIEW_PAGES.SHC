@@ -1,0 +1,29 @@
+! file VIEW_PAGES.SHC
+
+default 1 dd1:              device
+default 2 3-apr-91_12:0:0   first start time
+default 3 1800              length of each trace in sec
+default 4 8                 number of -#3-sec-sequences per page
+default 5 1,7,14            trace list
+default 6 1                 number of pages
+default 7 wwssn_sp          filter
+
+sdef start #2
+sdef secinc
+sdef pagecnt 1
+calc r &secinc = #3 * #4
+loop_start:
+   if  "pagecnt gti #6  goto/forward loop_exit:
+   nr
+   view #1 "start #3 #4 #5
+   filter_replace #7
+   zoom all 3.
+   view_trctxt
+   rd r
+   hc
+   calc t &start = "start tadd "secinc
+   calc i &pagecnt = "pagecnt + 1
+goto loop_start:
+loop_exit:
+
+return

@@ -1,0 +1,101 @@
+! file SHOWDAY.SHC
+!      ===========
+!
+! version 7, 30-Jul-2001
+!
+! Displays one day of data of one station
+! K. Stammler, 18-Dec-99
+
+default 1 sfd:           sfdpath
+default 2 1-may-1995     day
+default 3 bfo            station
+default 4 lh             channel
+default 5 z              component
+default 6 GRSN_S+SRO_LP  filter
+default 7 112.5          zoom
+default 8 -100.0         amplicut
+default 9 1              reduction factor
+default 10 86400         read length
+default 11 3600          display line length
+default 12 0             despiking amplitude
+
+! switch verify on
+
+sdef tmp
+sdef newdelta
+sdef title
+sdef filter #6
+
+! check for GRFO filter
+if  #3 nes grfo  goto/forward statok:
+   if  "filter nes grsn_s+sro_lp  goto/forward statok:
+      calc s &filter = grfo_s+sro_lp
+statok:
+
+! switch verify on
+nr
+del all_dh
+
+! read given component for z, n or e
+if  #5 eqs u  goto/forward read_uvw:
+if  #5 eqs v  goto/forward read_uvw:
+if  #5 eqs w  goto/forward read_uvw:
+reads #1 #2 #10 #3 #5 #4
+goto/forward read_ok:
+
+! read zne for u, v or w
+read_uvw:
+reads #1 #2 #10 #3 zne #4
+rot/zne-uvw 1-3 0 0
+del 1-3
+set 1 comp u
+set 2 comp v
+set 3 comp w
+del _comp~(#5)
+
+read_ok:
+
+if  #12 eqi 0  goto/forward spike_ok:
+   despike $dsptrcs #12
+spike_ok:
+
+if  $dsptrcs gti 0  goto/forward trcok:
+   cresharp
+   set 1 station no-data
+   set 1 comp x
+   zoom 1 1.e-4
+   title 3 |no|$blank|data|$blank|found|$blank|#2|$blank|#3|
+	rd r
+   return
+trcok:
+demean 1
+if  "filter eqs none  goto/forward filter_ok:
+	fili f "filter
+	filter f 1
+	del 1
+filter_ok:
+split 1 #11
+del _length(1)
+gcp_labels
+reverse_traces
+norm c
+zoom all 2.0e-4
+zoom/rel all #7
+calc s &title = |^station|$blank|#4|$blank|^comp|$blank(3)|^date(2)|
+calc s &title = |"title|$blank|filter|$blank|"filter|
+calc s &title = |"title|$blank|zoom|$blank|#7|
+title 3 "title
+calc r &tmp = ^delta
+calc r &newdelta = ^delta div 60.
+set/priv all delta "newdelta
+if  #8 ler 0.0  goto/forward amplicut_ok:
+   fct amplicut #8
+   set all amplicut y
+amplicut_ok:
+!set all reduction #9
+if  #9 lei 1  goto/forward decim_ok:
+   decimate/nomean all #9
+decim_ok:
+rd
+!set/priv all delta "tmp
+return

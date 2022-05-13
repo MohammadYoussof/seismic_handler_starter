@@ -1,0 +1,30 @@
+command DERIVE <trc-list> <algorithm>
+==============
+
+key: compute derivative
+
+Computes derivatives of all traces given by <trc-list>.  The
+input traces remain unchanged.  The DERIVE command creates
+new traces containing the derivatives.
+
+
+parameters
+
+<trc-list>  ---  parameter type: trace list
+   List of traces to be derived.  These traces remain unchanged.
+
+<algorithm>  ---  parameter type: integer
+   ID of algorithm used to compute derivative.  Valid vales are
+   1 to 5.  The algorithms are listed below (h is sample distance):
+      1: y'[i] = 1/(2h) (-y[i-1] + y[i+1])
+      2: y'[i] = 1/(12h) (y[i-2] - 8y[i-1] + 8y[i+1] - y[i+2])
+      3: y'[i] = 1/h (-y[i] + y[i+1])
+      4: y'[i] = 1/(2h) (-3y[i] + 4y[i+1] - y[i+2])
+      5: y'[i] = 1/(12h) (-3y[i-1]-10y[i]+18y[i+1]-6y[i+2]+y[i+3])
+
+
+Example:
+
+   DERIVE 1-3 3    ! computes derivative of traces 1-3 by algorithm
+                   ! number 3
+

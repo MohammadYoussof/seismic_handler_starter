@@ -1,0 +1,26 @@
+command APPEND <src> <dst>
+==============
+
+key: append one trace to another
+! version 1, 5-May-92
+
+Appends trace <src> to trace <dst>.  Both traces must have the
+same sample rate.  It is not accounted for any time gaps between
+the traces.  Trace <dst> is changed by this command (greater length).
+
+
+parameters
+----------
+
+<trc>  ---  parameter type: trace
+   Trace to be appended.
+
+<dst>  ---  parameter type: trace
+   Trace to which <src> is appended to.
+
+
+example
+-------
+
+   append 2 1     ! appends trace 2 to trace 1
+

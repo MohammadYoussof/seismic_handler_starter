@@ -1,0 +1,208 @@
+
+! file ONLINE_DISPLAY.SHC
+!      ==================
+!
+! version 8, 28-Dec-2000
+!
+! automatically displays online data
+! K. Stammler, 28-Aug-96
+
+default 1 grfo_online parfile
+default 2 sleep sleep_or_exit
+
+!default 1 bh     channel
+!default 2 zne    component list
+!default 3 300    read length in sec
+!default 4 60     sleep time in sec
+!default 5 8.0e-4 zoom factor
+!default 6 ;;     filter
+!default 7 0.0    split length
+!default 8 r      filter type
+!default 9 GRFO   station
+
+sdef xfile       ! file which controls lifetime
+sdef pf          ! local parameter file
+sdef cmd         ! shell command
+sdef currtime    ! current time
+sdef endtime     ! end of display window
+sdef tdiff       ! time difference
+sdef trcno       ! number of traces
+sdef cnt         ! counter
+sdef fullhour    ! full hour
+sdef tmp         ! scratch
+sdef hostname    ! name of this host
+sdef maxdelay 15 ! maximum delay in sec for normal display
+sdef station     ! station name
+sdef sfile       ! file of station names
+sdef scnt 1      ! station counter
+sdef relzoom 1.0 ! relative zoom factor
+
+switch/global chatty off
+!switch verify on
+
+# get name of host
+hostname
+calc s &hostname = "ret
+
+! create xfile
+fct getpath scratch &xfile
+calc s &pf = "xfile
+calc s &xfile = |"xfile|#1|_alive.stx|
+echo_ch/new "xfile
+echo %#1(1)
+echo_ch
+calc s &pf = |"pf|od_par_|$sh_id|.stx|
+
+! set colors, do this later now
+! fct setstyle 2 color %red
+! fct setstyle 3 color %blue
+
+norm c
+
+loop_start:
+   ! copy user parameter file to local parameter file
+@  CALC S &CMD = |cp|$BLANK|#1|.STX|$BLANK|"PF|
+   system "cmd
+   nr
+   del all
+	nop %"xfile
+   ! find station name
+   switch cmderrstop off
+   switch noerrmsg on
+   calc r &relzoom = 1.0
+   calc s &sfile = %"pf(9)
+   calc s &station = %"sfile("scnt)
+   if  $status eqi 0  goto/forward inccnt:
+      calc s &station = %"pf(9)
+      goto/forward stationok:
+   inccnt:
+      calc i &scnt = "scnt + 1
+      if  "scnt lei %"sfile(0)  goto/forward numok:
+         calc i &scnt = 1
+      numok:
+      calc s &relzoom = "station parse 2
+      calc s &station = "station parse 1
+   stationok:
+   switch noerrmsg off
+   switch cmderrstop on
+   ! set maxdelay for GRF's and ISDN stations
+   if  "station eqs rue  goto/forward set_grfdelay:
+   calc s &tmp = "station extract 1 3
+   if  "tmp eqs gra  goto/forward set_grfdelay:
+   if  "tmp eqs grb  goto/forward set_grfdelay:
+   if  "tmp eqs grc  goto/forward set_grfdelay:
+      goto/forward delay_ok:
+   set_grfdelay:
+      calc r &maxdelay = 90
+   delay_ok:
+   ! read data
+   read_online_data "station %"pf(1) %"pf(2) %"pf(3)
+   if  $dsptrcs gti 0  goto/forward read_ok:
+      unix_time
+      create sharp 0.05 50. 1. 10. .1 .5
+      title 1 |no|$blank|traces|$blank|at|$blank|"g1|
+      rd
+@     CALC S &CMD = |sleep|$BLANK|%"PF(4)|
+      system "cmd
+      goto loop_start:
+   read_ok:
+   if  %"pf(6) eqs ;;  goto/forward filter_ok:
+      calc i &trcno = $dsptrcs
+      calc s &tmp = %"pf(6)
+      if  "tmp nes sro  goto/forward sro_ok:
+         !if  ^station eqs gra1  goto/forward setgrf:
+         if  ^station eqs gra2  goto/forward setgrf:
+         if  ^station eqs gra3  goto/forward setgrf:
+         if  ^station eqs gra4  goto/forward setgrf:
+         !if  ^station eqs grb2  goto/forward setgrf:
+         if  ^station eqs grb3  goto/forward setgrf:
+         if  ^station eqs grb4  goto/forward setgrf:
+         if  ^station eqs grb5  goto/forward setgrf:
+         !if  ^station eqs grc2  goto/forward setgrf:
+         !if  ^station eqs grc3  goto/forward setgrf:
+         if  ^station eqs grc4  goto/forward setgrf:
+         calc s &tmp = 20hz_grsn_s+sro_lp
+         goto/forward setgrfok:
+         setgrf:
+            calc s &tmp = 20hz_grf_s+sro_lp
+         setgrfok:
+      sro_ok:
+      fili %"pf(8) "tmp
+      filter %"pf(8) all
+      del |1-|"trcno|
+   filter_ok:
+	report_events %"pf(6)
+   unix_time
+   calc s &currtime = "g1
+   calc t &tdiff = "currtime tdiff ^start
+   calc r &tdiff = "tdiff - $dsp_w
+!   calc r &tdiff = "tdiff - 7200  ! 2 hours in summer
+   calc r &tdiff = "tdiff - 3600  ! 1 hour in winter
+   calc r &tdiff = "tdiff div 60.0  ! show minutes
+   calc r &tdiff = "tdiff /fmt=<%5.1@f>
+   calc t &endtime = ^start tadd $dsp_w
+   fct setstyle 4 color %zcolor
+   fct setstyle 2 color %ncolor
+   fct setstyle 3 color %ecolor
+   if  "tdiff ltr "maxdelay  goto/forward delay_ok:
+      fct setstyle 4 color %gold
+      fct setstyle 2 color %gold
+      fct setstyle 3 color %gold
+   delay_ok:
+   calc r &tmp = %"pf(5) * "relzoom /fmt=<%8.2@e>
+   title 3 |^STATION|$BLANK|online|$BLANK|"HOSTNAME|$BLANK|%"pf(6)|$BLANK|"tmp|
+@  TITLE 1 |^START|$BLANK(2)|to|$BLANK(2)|"ENDTIME|
+@  TITLE 2 |delay|$BLANK|"TDIFF|$BLANK|min|
+   zoom all %"pf(5)
+   zoom/rel all "relzoom
+   if  %"pf(7) eqr 0.0  goto/forward  split_ok:
+      ! find even hour, loop all traces
+      calc i &cnt = 1
+      trc_loop_start:
+         if  "cnt gti $dsptrcs  goto/forward trc_loop_end:
+         calc s &fullhour = ^start("cnt) extract 1 14
+         calc t &tdiff = ^start("cnt) tdiff "fullhour
+         calc r &tdiff = 3600.0 - "tdiff
+         calc r &tdiff = "tdiff + ^delta("cnt)  ! to have the right labelling
+         cut "cnt "tdiff $dsp_xmax
+         calc i &cnt = "cnt + 1
+      goto trc_loop_start:
+      trc_loop_end:
+      set all t-origin 0.0
+      if  $dsptrcs eqi 1  goto/forward  do_one:
+         split 1 %"pf(7)
+         split 1 %"pf(7)
+      do_one:
+      split 1 %"pf(7)
+		zoom all %"pf(5)
+      zoom/rel all "relzoom
+      ! set trc output
+      calc i &cnt = 1
+      trc_loop_start2:
+         if  "cnt gti $dsptrcs  goto/forward trc_loop_end2:
+         calc s &tmp = ^time("cnt) extract 1 5
+         set "cnt comment |^comp("cnt)|$blank|"tmp|
+         calc i &cnt = "cnt + 1
+      goto trc_loop_start2:
+      trc_loop_end2:
+      trctxt ^comment($x)
+		! set colors
+      set _comp(z) attrib 4
+      set _comp(n) attrib 2
+      set _comp(e) attrib 3
+		reverse_traces
+      ! time scale in min
+      calc r &tmp = ^delta div 60.0
+      set/priv all delta "tmp
+   split_ok:
+   rd
+   ! create jpg pictures for web page
+!!too many jobs   makejpg %"pf(6)
+   if  #2 eqs exit  goto/forward loop_exit:
+@  CALC S &CMD = |sleep|$BLANK|%"PF(4)|
+   system "cmd
+goto loop_start:
+loop_exit:
+
+
+return

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META NAME="GENERATOR" CONTENT="Adobe PageMill 3.0 Win">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+	<TITLE>SHM menu entry amplitude manually</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Menu entry <em>Ampl auto, Period manu</em></H2>
+
+<P>Measure absolute amplitude on waveform. On some complex waveforms
+the automatic determination of the signal period may not give
+acceptable results (see commands <A HREF="menu_ampl_per_p.html">Ampl
+&amp; Period auto Peak</A> and <A HREF="menu_ampl_per_z.html">Ampl
+&amp; Period auto Zero</A>). Here you can select the signal period
+directly by mouse using the left button, alike in the above commands.
+The algorithm searches minimum and maximum within the given window,
+half of their difference is used as plain amplitude. The period
+is read as the length of the time window you have selected. The
+dialog box popping up asks you for a multiplier of this selected
+period. E.g. if you selected only half of the period, choose 2.
+From the plain amplitude the absolute amplitudes of ground velocity
+and ground displacement is estimated dividing by the transfer
+function of the current simulation filter applied at the measured
+period (see <A HREF="fil_simulation.html">Work with simulation
+filters</A>). Amplitude determination works currently only after
+application of simulation filters. The results of the amplitude
+determination are written to the terminal window where SHM was
+called or may be viewed with menu entry <em>Show Parameters</em>.</P>
+
+<P><small>This page last modified 14-Jul-2000</small></P>
+
+</BODY>
+</HTML>

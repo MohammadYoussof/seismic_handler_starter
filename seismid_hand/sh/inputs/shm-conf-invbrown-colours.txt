@@ -1,0 +1,59 @@
+!                            RGB foreground colour (drawing traces)
+colour_fg_red                0.9882
+colour_fg_green              0.9490
+colour_fg_blue               0.8745
+
+!                            RGB background colour (canvas)
+colour_bg_red                0.13
+colour_bg_green              0.03
+colour_bg_blue               0.03
+
+!                            RGB colour values of manually created phases
+colour_mark_red              1.0
+colour_mark_green            0.0
+colour_mark_blue             0.0
+
+!                            RGB colour values of theoretical phases
+colour_theo_red              0.0
+colour_theo_green            1.0
+colour_theo_blue             0.0
+
+!                            RGB colour values of automatically created phases
+colour_auto_red              1.0
+colour_auto_green            0.5
+colour_auto_blue             0.5
+
+!                            RGB colour values of cursor and drag window
+colour_crsr_red              0.0
+colour_crsr_green            0.0
+colour_crsr_blue             1.0
+
+!                            RGB colour of dialog boxes foreground (letters)
+colour_dialog_fg_red         0.3882
+colour_dialog_fg_green       0.1569
+colour_dialog_fg_blue        0.1647
+
+!                            RGB colour of dialog boxes bright background
+colour_dialog_bg0_red        0.9686
+colour_dialog_bg0_green      0.8706
+colour_dialog_bg0_blue       0.7412
+
+!                            RGB colour of dialog boxes medium background
+colour_dialog_bg1_red        0.9490
+colour_dialog_bg1_green      0.6941
+colour_dialog_bg1_blue       0.4314
+
+!                            RGB colour of dialog boxes dark background
+colour_dialog_bg2_red        0.3882
+colour_dialog_bg2_green      0.1569
+colour_dialog_bg2_blue       0.1647
+
+!                            RGB colour of alert trace
+colour_alert_red             0.9
+colour_alert_green           0.0
+colour_alert_blue            0.0
+
+!                            RGB colour of trace with additional filter
+colour_addfil_red            1.0
+colour_addfil_green          0.3
+colour_addfil_blue           0.7

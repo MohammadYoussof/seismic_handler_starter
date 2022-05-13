@@ -1,0 +1,32 @@
+! file COMPARE_TRACES.SHC
+!      ==================
+!
+! version 1, 11-Mar-98
+!
+! Returns squared sum of differences of two traces in 'ret'
+! K. Stammler, 11-Mar-98
+
+default 1 1     first trace
+default 2 2     second trace
+
+sdef    trcno   ! trace number
+
+shift |#1|,|#2| time_al
+set #1 weight 1
+set #2 weight -1
+sum/nonorm |#1|,|#2|
+calc i &trcno = $dsptrcs
+if  ^length("trcno) eqi ^length(#1)  goto/forward lth_ok:
+   echo compare_traces: time not aligned
+	calc r &ret = 1.0e9
+   return
+lth_ok:
+trcfct "trcno square
+int "trcno
+del "trcno
+calc r &ret = ^maxval("trcno)
+echo "ret
+del "trcno
+
+return
+

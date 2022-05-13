@@ -1,0 +1,27 @@
+! file ENVELOPE.SHC
+!      ============
+!
+! version 2, 16-Jun-99
+!
+! computes envelope of a trace
+! K. Stammler, 4-NOV-91
+
+default 1 1     input trace
+
+sdef trcno $dsptrcs         ! get number of traces
+sdef ltrc
+
+calc i &trcno = "trcno + 1  ! first new trace
+calc i &ltrc = "trcno + 1   ! next trace
+nr
+copy #1
+filter h #1                 ! compute Hilbert transform
+trcfct |"trcno|,|"ltrc| square
+sum |"trcno|,|"ltrc|
+trcfct _created sqrt
+set _created station ^station("trcno)   ! save station name (neue Zeile)
+del |"trcno|,|"ltrc|
+rd
+
+return
+

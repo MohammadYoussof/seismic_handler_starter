@@ -1,0 +1,69 @@
+
+
+! file autodrm_request_setup.dat
+!      =========================
+!
+! version 1, 15-Jan-2002
+!
+! Setup file for AutoDRM requests.
+!
+! Data files are lines starting with DRM-nn, 'nn' is a 2 digit number
+! corresponding to the number of the AutDRM button in the AutoDRM request
+! dialog box.  The next token, separated by a single blank, is a tag:
+!    t : title of entry, appears as button label in dialog box (<20 char)
+!    c : plain command line for AutoDRM
+!    e : followed by the e-mail address of the AutoDRM
+!    w : number of 15sec waiting loops (for mail reply)
+!    f : mail file for arriving mail
+!    o : path and name of gse data file created on local host
+!    h : mail host, if not specified use local host
+!    s : Substitution, depending on keyword following, valid keywords are:
+!        <time>   : create time interval in AutoDRM syntax.
+!        <msg-id> : create unique message ID
+!
+! K. Stammler, 15-Jan-2002
+
+DRM-01 t Austria
+DRM-01 e autodrm@zamg.ac.at
+DRM-01 c BEGIN
+DRM-01 s <msg-id>
+DRM-01 c EMAIL klaus@szgrf.bgr.de
+DRM-01 c STA_LIST DAVA,MOA,KBA,ARSA,OBKA,SQTA
+DRM-01 c CHAN_LIST HH*
+DRM-01 s <time>
+DRM-01 c WAVEFORM GSE2.0
+DRM-01 c STOP
+DRM-01 w 10
+DRM-01 f /var/mail/klaus
+DRM-01 o /home/klaus/adrm.gse
+DRM-01 h ersn12
+
+DRM-02 t Denmark
+DRM-02 e autodrm@kms.dk
+DRM-02 c BEGIN
+DRM-02 s <msg-id>
+DRM-02 c EMAIL klaus@szgrf.bgr.de
+DRM-02 c STA_LIST COP,MUD,BSD
+DRM-02 c CHAN_LIST HH*
+DRM-02 s <time>
+DRM-02 c WAVEFORM GSE2.0
+DRM-02 c STOP
+DRM-02 w 10
+DRM-02 f /var/mail/klaus
+DRM-02 o /home/klaus/adrm.gse
+DRM-02 h ersn12
+
+DRM-10 t SZGRF-test
+DRM-10 e autodrm@szgrf.bgr.de
+DRM-10 c BEGIN
+DRM-10 s <msg-id>
+DRM-10 c EMAIL klaus@szgrf.bgr.de
+DRM-10 c STA_LIST MOX,CLL,BRG
+DRM-10 c CHAN_LIST BH*
+DRM-10 s <time>
+DRM-10 c WAVEFORM GSE2.0
+DRM-10 c STOP
+DRM-10 w 10
+DRM-10 f /var/mail/klaus
+DRM-10 o /home/klaus/adrm.gse
+DRM-10 h ersn12

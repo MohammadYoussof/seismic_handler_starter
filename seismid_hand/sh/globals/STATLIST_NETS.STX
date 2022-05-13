@@ -1,0 +1,41 @@
+! file STATLIST_GRF.STX
+!      ================
+!
+! version 1, 18-Aug-94
+!
+! setup of dialog box for GRF/GRSN stations
+! K. Stammler, 18-Aug-94
+
+set1: 0 13 SET1
+set2: 14 29 SET2
+
+* _GRF
+* _GRSN
+* _GER
+* _USNSN
+* ---
+* ---
+* GPO
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---
+* ---

@@ -1,0 +1,130 @@
+! file GRFUNFILDSP.SHC
+!      ===============
+!
+! version 1, 30-Nov-2005
+!
+! Menu options for LH display
+! K. Stammler, 30-Nov-2005
+
+! parameters
+default 1 sfd:           sfdpath
+default 2 1-may-1995     day
+
+! local variables
+sdef datpath #1
+sdef time #2
+sdef zoom 1.0            ! zoom factor
+sdef amplicut 1          ! amplitude cut
+sdef tmp
+sdef key                 ! key pressed
+sdef title               ! title
+sdef statno 0            ! station number
+sdef filappl 0           ! filter applied
+
+switch cmderrstop off
+fct amplicut "amplicut
+! calc r &amplicut = 0.0 - "amplicut
+
+! read in data
+nr
+del all_dh
+#reads/noswap/invhdr "datpath "time 86400 grf zne bh
+reads "datpath "time 86400 grf zne bh
+norm c
+zoom all 1.0e-4
+title 1 ^start
+rd r
+
+! do not exit on errors
+switch cmderrstop off
+
+loop_start:
+
+	! wait for next key
+   time;;;;;&key
+
+   ! Q -> exit
+   if  "key eqs q  goto/forward loop_exit:
+
+   ! P make hardcopy
+   if  "key nes p  goto/forward l1:
+      phc;;
+      goto loop_start:
+   l1:
+
+   ! O create PS file
+   if  "key nes o  goto/forward l1a:
+      hc ;; p &tmp
+      echo created file "tmp
+      goto loop_start:
+   l1a:
+
+   ! U increase amplitudes
+   if  "key nes u  goto/forward l2:
+      calc r &zoom = "zoom * 1.2 /fmt=<%5.1@f>
+      nr
+      zoom/rel all 1.2
+      calc s &title = |grf|$blank(3)|^start(2)|$blank|
+      calc s &title = |"title|$blank|zoom|$blank|"zoom|
+      title 3 "title
+      rd r
+      goto loop_start:
+   l2:
+
+   ! D decrease amplitudes
+   if  "key nes d  goto/forward l3:
+      calc r &zoom = "zoom div 1.2 /fmt=<%5.1@f>
+      nr
+      zoom/rel all 0.8
+      calc s &title = |grf|$blank(3)|^start(2)|$blank|
+      calc s &title = |"title|$blank|zoom|$blank|"zoom|
+      title 3 "title
+      rd r
+      goto loop_start:
+   l3:
+
+   ! A set/delete amplicut
+   if  "key nes a  goto/forward l10:
+      calc r &amplicut = 0.0 - "amplicut
+      if  "amplicut ler 0.0  goto/forward l10unset:
+         set all amplicut y
+         goto/forward l10amplok:
+      l10unset:
+         set all amplicut n
+      l10amplok:
+      rd r
+   l10:
+
+   ! V decrease amplicut value
+   if  "key nes v  goto/forward l11:
+      calc r &amplicut = "amplicut div 2
+      fct amplicut "amplicut
+      rd r
+   l11:
+
+   ! G increase amplicut value
+   if  "key nes g  goto/forward l12:
+      calc r &amplicut = "amplicut * 2
+      fct amplicut "amplicut
+      rd r
+   l12:
+
+   ! F apply SRO filter
+   if  "key nes f  goto/forward l13:
+	if  "filappl eqi 1  goto/forward l13:
+      nr
+      calc i &statno = $dsptrcs
+      fili r 20hz_grf_s+sro_lp
+      demean all
+      filter r all
+      del |1-|"statno|
+      zoom all 1.0e-2
+      cut all 600 $dsp_xmax
+      rd r
+      calc i &filappl = 1
+   l13:
+
+   goto loop_start:
+loop_exit:
+
+return

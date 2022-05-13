@@ -1,0 +1,37 @@
+! file GRFPLOT.SHC
+! plots GRF data
+
+default 1 dd1:     directory (including colon)
+default 2 ;;       start time
+default 3 all      station list
+default 4 300      number of seconds per plot
+default 5 1        number of plots
+
+sdef plotcnt 2
+
+fct setstyle $trcinfostyle charsize 0.01
+nr
+del all
+dtw
+norm c
+zoom/default all 0.3
+readk #1 #2 #4 #3
+title 1 ^start
+rd
+!enter &g1 continue...
+hc
+
+loop_start:
+   if  "plotcnt gti #5  goto/forward loop_exit:
+   nr
+   del all
+   readk;;
+   title 1 ^start
+   rd
+   !enter &g1 continue...
+   hc
+   calc i &plotcnt = "plotcnt + 1
+goto loop_start:
+loop_exit:
+
+return

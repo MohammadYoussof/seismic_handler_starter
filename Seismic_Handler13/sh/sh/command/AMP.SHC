@@ -1,0 +1,20 @@
+! file AMP.SHC
+
+sdef tm      ! time selected
+sdef trc     ! trace selected
+sdef amp     ! amplitude
+sdef key     ! key pressed
+
+loop_start:
+   time/interactive ;;&tm;;&trc;&key
+   if  "key eqs e  goto/forward loop_exit:
+   if  "key eqs x  goto/forward loop_exit:
+   am "trc "tm "tm &amp
+   calc/fmt=<%7.0@f> r &amp = "amp
+   echo/no_crlf time: "tm $blank(2) ampl.(dec): "amp $blank
+   calc/fmt=<%@x> i &amp = "amp
+   echo ampl.(hex): "amp
+goto loop_start:
+loop_exit:
+
+return

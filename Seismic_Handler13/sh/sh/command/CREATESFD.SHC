@@ -1,0 +1,52 @@
+
+! file CREATESFD.SHC
+!      =============
+!
+! version 1, 3-Aug-94
+!
+! creates sfd-file
+! K. Stammler, 3-Aug-94
+
+switch capcnv off
+DEFAULT 1 '*'            wild card for file
+SWITCH CAPCNV ON
+default 2 |.|$slash|     directory
+switch capcnv off
+DEFAULT 3 sfdfile.sfd    sfd-filename
+SWITCH CAPCNV ON
+default 4 log            log or nolog
+
+sdef dir                 ! directory
+sdef quiet               ! log actions
+sdef sfdprg              ! sfd program
+sdef cmd                 ! system command
+sdef wild                ! wild cards
+sdef tmp                 ! scratch
+
+! check directory for environment variable
+fct local |getenv:|#2| &dir
+if  "dir nes ;;  goto/forward dir_ok:
+	calc s &dir = #2
+dir_ok:
+
+! get name of sfdlist program
+fct getpath extprog &sfdprg
+@CALC S &SFDPRG = |"SFDPRG|sfdlist|
+
+! set quiet parameter
+if #4 eqs log  goto/forward log_ok:
+@  CALC S &QUIET = quiet
+log_ok:
+
+! check wildcard
+calc s &wild = #1
+calc s &tmp = #1 extract 1 1
+if  "tmp eqs '  goto/forward wild_ok:
+   calc s &wild = |'|#1|'|
+wild_ok:
+
+@CALC S &CMD = |"SFDPRG|$BLANK|"WILD|$BLANK|"DIR|$BLANK|#3|$BLANK|"QUIET|
+echo exec "cmd
+system "cmd
+
+return

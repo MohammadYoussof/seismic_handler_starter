@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0060)http://www.franken-online.de/seismosite/menu_read_other.html -->
+<HTML lang=en>
+<HEAD>
+	<TITLE>SHM menu entry AutoDRM request</TITLE>
+	<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+	<META content="MSHTML 6.00.2900.2802" name=GENERATOR>
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY dir=ltr bgColor=#fcf2df><IMG height=184 
+alt="SeismicHandler - Waveform Analysis Tool" 
+src="shmlogo.gif" width=837> 
+
+<H2>Menu entry <EM>Autodrm Request</EM></H2>
+<P>
+Requests data from an AutoDRM server and includes received traces to the
+seismogram display.  The AutoDRM server can be selected from a predefined
+list, the time window requested is the current window of the main seismogram
+display.
+</P>
+
+<p>
+After selecting the menu item, a dialog box pops up.  On top you find a list
+of 15 AutoDRM locations.  You can select only one these radio buttons. 
+The other elements of the dialog box are:
+<ul> 
+   <li><em>start time</em>: takes start time in <a href="timeformat.html">SH time format</a>
+   or is set to <em>from-display</em> which means it takes the time window from the
+   seismogram display.
+   </li>
+   <li><em>lth</em>: takes the length of the time window in minutes or remains empty if
+   <em>start time</em> is set to <em>from-display</em>
+   </li>
+   <li><em>Configure</em>: configuration of the AutoDRM list by editing the
+   configuration file with the standard
+   text editor.  Read below about details.
+   </li>
+   <li><em>OK</em>: sends request mail and waits for a replay mail. After the mail has
+   been received the data are added to the display.  It may take several minutes until
+   the replay mail arrives.
+   </li>
+   <li><em>Cancel</em>: exit from dialog box with no action.
+   </li>
+</ul>
+</p>
+
+<h3>Configuration of the AutoDRM request interface</h3>
+The interface to the AutoDRM servers is configured using a text file
+<em>$SH_USERDIR/autodrm_request_setup.dat</em>.  This file contains commands
+of the form
+<p>
+DRM-<em>num</em> <em>c</em> <em>parameter</em>
+</p>
+where<br>
+<dl>
+<dt><em>num</em>:</dt>
+	<dd>a two-digit number between 1 and 15 to identify the button number.</dd>
+<dt><em>c</em>:</dt>
+	<dd>a command character, valid command are listed below.</dd>
+<dt><em>parameter</em>:</dt>
+	<dd>a parameter string depending on the command character:</dd>
+</dl>
+<p>
+<em>t</em>: button title</br>
+<em>e</em>: email address of the AutoDRM server</br>
+<em>c</em>: AutoDRM command line</br>
+<em>s</em>: expression substituted by program
+            (<em>&lt;msg-id&gt;</em>, <em>&lt;time&gt;</em>)</br>
+<em>w</em>: number of 15s waiting loops for reply mail</br>
+<em>o</em>: name of separate file created containing the reply mail</br>
+<em>f</em>: name of mail file on mail server</br>
+<em>h</em>: mail server
+</p>
+<p>
+<strong>Important:</strong>
+The operation need a password-free ssh access to the mail server to
+retrieve the mail.
+</p>
+An example entry for the button number 5 is:
+<pre>
+DRM-05 t Czech Rep. / Praha
+DRM-05 e autodrm@seis.ig.cas.cz
+DRM-05 c BEGIN
+DRM-05 s &lt;msg-id&gt;
+DRM-05 c EMAIL seismo@yoursite.yourdomain
+DRM-05 c STA_LIST *
+DRM-05 c CHAN_LSI BH*
+DRM-05 s &lt;time&gt;
+DRM-05 c WAVEFORM GSE2.0
+DRM-05 c STOP
+DRM-05 w 25
+DRM-05 f /var/mail/seismo
+DRM-05 o /home/seismo/adrm.gse
+DRM-05 h szmail
+</pre>
+The lines with the <em>c</em> and <em>s</em> commands define the
+mail sent to the AutoDRM server.  Please specify your reply address
+correctly.  The expression <em>s &lt;msg-id&gt;</em> is
+replaced by a message ID, automatically created by the program, the expression
+<em>s &lt;time&gt;</em> is replaced by the time window specified in the
+dialog box described above.  The program expects the reply mail with the
+data requested on the host
+<em>szmail</em> in the mail file <em>/var/mail/seismo</em> and waits
+25 wait loops of 15s each for its arrival.  After arrival of the reply mail
+the data is extracted into a separate file <em>/home/seismo/adrm.gse</em>
+which is passed to SHM (read by GSE interface).  Please clear the mail file
+(in this case <em>/var/mail/seismo</em>) from time to time, since the mails
+are not deleted from there.
+
+<h3>Known Bugs</h3>
+If there are more than 99 mails in the mailbox
+syntax errors have been reported.
+<br>
+
+<P><small>This page last modified 1-Jan-2006</small></P>
+</BODY>
+</HTML>

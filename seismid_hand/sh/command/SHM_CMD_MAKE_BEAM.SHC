@@ -1,0 +1,59 @@
+! file SHM_CMD_MAKE_BEAM.SHC
+!      =====================
+!
+! version 4, 27-Feb-2001
+!
+! creates beam trace on display
+! K. Stammler, 24-Jun-93
+
+default 1 0.0      azimuth
+default 2 4.0      slowness
+default 3 center   reference station
+default 4 ;;       resid phase
+
+sdef refshift      ! shift time of first trace relative to reference trace
+sdef status        ! return status
+sdef newtime       ! new start time for beam trace
+
+switch chatty off
+
+nr
+
+! reset traces
+set all t-origin 0.0
+shift all time_al
+
+! compute and apply shift times
+if  #4 eqs ;;  goto/forward normal_beam:
+	echo residcorr beam
+   beam/resid=P/ref=#3 all #1 #2
+   goto/forward beam_ok:
+normal_beam:
+   echo normal beam
+   beam/ref=#3 all #1 #2
+beam_ok:
+
+! get reference time for beam trace
+switch cmderrstop off
+switch noerrmsg on
+calc s &refshift = ^opinfo parse 3
+calc i &status = $status
+switch noerrmsg off
+switch cmderrstop on
+if  "status eqi 0  goto/forward refshift_ok:
+	calc r &refshift = 0.0
+refshift_ok:
+
+! sum all traces and set info on result trace
+sum all
+set $dsptrcs station beam
+set $dsptrcs zoom ^zoom
+
+! set correct time on beam trace
+calc t &newtime = ^start($dsptrcs) tadd "refshift
+set $dsptrcs start "newtime
+
+! redraw display
+rd
+
+return

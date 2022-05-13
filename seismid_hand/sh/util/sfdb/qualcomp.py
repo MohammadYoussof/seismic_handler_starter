@@ -1,0 +1,5 @@
+XSym
+0038
+8b303740cc72231848b2fba89af05531
+/programs/linux/dprog/sfdb/qualcomp.py
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

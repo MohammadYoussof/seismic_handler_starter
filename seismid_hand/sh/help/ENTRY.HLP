@@ -1,0 +1,39 @@
+command ENTRY <keyword> <p1> <p2> ... <pN>
+=============
+
+key: info entry definitions
+
+Defines, renames or lists info entries.
+
+parameters:
+
+<keyword>  ---  parameter type: string
+   Subfunction keyword.  Valid values are
+
+   DEFINE    define new info entry
+      <p1>   text;    name of new info entry
+      <p2>   char;    type of new info entry (L,I,B,R,S,C,T,P,F)
+      <p3>   integer; internal index number of info entry
+      <p4>   integer; q-file entry number
+
+   RENAME    renames existing info entry
+      <p1>   text;    old name
+      <p2>   text;    new name
+
+   LIST      lists all currently defines info entries to a file and
+             to the info channel(s).
+      <p1>   text;    name of output file
+
+
+examples:
+
+   ENTRY DEFINE MYINFO R 12 26   ! defines new info entry.  Look at
+                                 ! free info entry numbers by
+                                 ! "ENTRY LIST XXX" command.
+
+   ENTRY RENAME DELTA DELTA_T    ! renames info entry
+
+   ENTRY LIST ENTRY.LIS          ! creates list of existing entries
+                                 ! in file ENTRY.LIS and displays this
+                                 ! file
+

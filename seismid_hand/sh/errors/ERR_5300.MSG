@@ -1,0 +1,12 @@
+! file ERR_5300.MSG
+!      ============
+!
+! version 2, 18-Oct-2006
+!
+! error messages of module spectrum.c
+! K. Stammler, 9-Oct-2006
+!
+*** SP-01 string overflow ***
+*** SP-02 error opening input file ***
+*** SP-03 spectrogram input trace too short ***
+*** SP-04 error opening output file ***

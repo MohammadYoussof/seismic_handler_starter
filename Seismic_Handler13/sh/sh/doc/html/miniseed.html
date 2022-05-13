@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Miniseed</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0-pre  (Linux)">
+	<META NAME="CREATED" CONTENT="20050910;14284500">
+	<META NAME="CHANGED" CONTENT="20051205;18012100">
+	<META NAME="AUTHOR" CONTENT="Klaus Stammler (BGR/SZGRF)">
+</HEAD>
+
+<BODY BGCOLOR="#fcf2df" DIR="LTR">
+<img src="shmlogo.gif" width="837" height="184"
+        alt="SeismicHandler - Waveform Analysis Tool">
+
+<H2>Reading MiniSEED data into SH/SHM</H2>
+<P>The MiniSEED format is a subformat of the commonly used SEED data
+format (get a description of the SEED data format from <A HREF="http://www.iris.edu/">IRIS</A>).
+It is well suited for continuous data sets or for archiving large
+time spans of data. SH accesses MiniSEED data by start time and read
+length and reads only part of the file rather than accepting a
+filename and reading it completely (like in other formats e.g. GSE or
+Q). SEED and even MiniSEED is a very flexible data format and allows
+a great variety of subformat types. SH/SHM is not able to read
+general MiniSEED, several restrictions apply:</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">the data must be coded in Steim1
+	or Steim2 compression</P>
+	<LI><P STYLE="margin-bottom: 0cm">the data must be organised in
+	separate files for each data stream 
+	</P>
+	<LI><P>the data must not contain records other than data records
+	(that's what I understand as MiniSEED) 
+	</P>
+</UL>
+<P>The record length of the SEED records should be a power of 2. We work
+with 4096 and 512 byte records, other record lengths are supported as well.
+There are no naming conventions to be
+matched for such MiniSEED files. Data are read in by specifying start
+time, read length, station list, channel code and components. In
+order to find the appropriate data file(s) for reading SH needs a
+directory file which holds necessary information about location,
+filename and content of a set of MiniSEED files. This file is usually
+called <em>sfdfile.sfd</em>
+and resides on the data directory or on any other location ('sfd'
+stands for 'seed file directory'). SH/SHM can read only data which
+are listed in such a file. Processing of online data in MiniSEED
+format with SH needs an update of the sfdfile before. The SH package
+contains a program to create <em>sfdfile.sfd</em>.
+Its syntax is</P>
+<P><em>sfdlist &lt;wild&gt;
+&lt;dataroot&gt; [&lt;outfile&gt;] [&lt;quiet&gt;] [&lt;reclth&gt;]
+[&lt;byteoff&gt;]</em></P>
+<P>where</P>
+<DL>
+	<DD><em>&lt;wild&gt;</em>
+	-- wildcard to match available data files in the data directory tree
+	(e.g. <em>&quot;*&quot;</em>
+	or <em>&quot;*.bh?&quot;</em>).
+	Please mind the quotes. 
+	</DD><DD>
+	<em>&lt;dataroot&gt;</em>
+	-- path to the root directory of the data files. It is recommended
+	to specify here an absolute path (e.g. <em>$PWD</em>
+	instead of <em>./</em>),
+	since otherwise SH cannot find the data files if it is called from
+	another directory. Also the resulting sfdfile cannot be moved to
+	another location. 
+	</DD><DD>
+	<em>&lt;outfile&gt;</em>
+	-- name of the output sfdfile, usually <em>sfdfile.sfd</em>
+	(default) 
+	</DD><DD>
+	<em>&lt;quiet&gt;</em>
+	-- if equal to <em>quiet</em>
+	the processed files are not written to stdout 
+	</DD><DD>
+	<em>&lt;reclth&gt;</em>
+	-- record length of SEED records, default is automatic detection 
+	</DD><DD STYLE="margin-bottom: 0.51cm">
+	<em>&lt;byteoff&gt;</em>
+	-- byte offset in MiniSEED file, the first <em>&lt;byteoff&gt;</em>
+	bytes in the file are ignored, default is automatic detection. 
+	</DD></DL>
+<P>
+The <em>sfdlist</em>
+program searches the specified directory and all its subdirectories
+for data files matching the given wildcard. If too many data files
+exist in the data directory tree the program aborts with an error
+message. In this case use the (slower) program <em>sfdlist_l</em>.
+The commands <em>sfdlist</em>
+and <em>sfdlist_l</em>
+are aliases to the programs <em>$SEED_PROG/sfdlist.csh</em>
+and <em>$SEED_PROG/sfdlist_l.csh</em>,
+respectively. After the <em>sfdfile.sfd</em>
+has been created SH can read in the data files listed. The
+appropriate SH command (<em>reads</em>)
+for reading MiniSEED data needs the location of the <em>sfdfile.sfd</em>.
+Because of its VAX/VMS origin, SH does not distinguish between upper
+and lowercase by default and has its own interpretation of slashes <em>/</em>
+in the command line. Therefore it is a good idea to define an
+environment variable pointing to your <em>sfdfile.sfd</em>
+before using SH. This makes it a easier to specify the required
+pathname within SH. E.g. if your sfdfile path is
+<em>/home/gonzo/data/sfdfile.sfd</em>
+use</P>
+<P><em>setenv DATA /home/gonzo/data</em></P>
+<P>to define the environment variable <em>DATA</em>.
+Please mind the uppercase variable name and do not include the
+<em>sfdfile.sfd</em>
+itself to the definition. From within SH you may read in MiniSEED
+data now using the command</P>
+<P><em>reads &lt;sfdpath&gt;
+&lt;start-time&gt; &lt;seclth&gt; &lt;stations&gt; &lt;comp&gt;
+&lt;chan&gt;</em></P>
+<P>where</P>
+<DL>
+	<DD><em>&lt;sfdpath&gt;</em>
+	-- path to the <em>sfdfile.sfd</em>
+	used. If a environment variable has been defined for this, give this
+	name and append a colon <em>:</em>
+	to it (e.g. <em>data:</em>).
+	As mentioned before SH is not case sensitive (all characters are
+	read as uppercase). 
+	</DD><DD>
+	<em>&lt;start-time&gt;</em>
+	-- start time for reading in <A HREF="timeformat.html">SH
+	time format</A> 
+	</DD><DD>
+	<em>&lt;seclth&gt;</em>
+	-- number of seconds to read in 
+	</DD><DD>
+	<em>&lt;stations&gt;</em>
+	-- station list. Separate the names by commas if more than one
+	station. Do not use blanks between stations (e.g. <em>bfo</em>
+	or <em>bfo,brg,wet</em>).
+		</DD><DD>
+	<em>&lt;comp&gt;</em>
+	-- component list. One or more component can be specified. Just
+	concatenate the component names or separate with commas (e.g. <em>z</em>
+	or <em>zne</em>
+	or <em>z,n,e</em>)
+		</DD><DD STYLE="margin-bottom: 0.51cm">
+	<em>&lt;chan&gt;</em>
+	-- channel to read (e.g. <em>bh</em>)
+		</DD></DL>
+<P>
+SHM has no command lines, all parameters are controlled by the
+<A HREF="menu_read.html">Read
+dialog box.</A> The <em>&lt;sfdpath&gt;</em>
+parameter is specified in the textfield in the lower right corner.
+The colon after the environment variable name may be omitted here.
+All other settings are done by mouse clicks and should be
+self-explaining.</P>
+<P>Complete SEED volumes may be read in using the program
+<em>$SEED_PROG/seed2sfd</em>,
+provided in recent SH/SHM distributions.  It creates an <em>sfdfile.sfd</em>
+appropriate to read in data directly from the SEED volume (encoded in Steim1
+or Steim2).
+Older SH/SHM versions need to split up SEED volumes into MiniSEED files
+using the program <em>$SEED_PROG/split_seed
+&lt;seedvolume&gt;</em>. The resulting <em>miniseed_*</em>
+files are MiniSEED formatted and can be read in as described above.
+The <em>split_seed</em>
+program can be used also for multiplexed MiniSEED files.</P>
+
+<P>SH/SHM read in the data from MiniSEED which is usually given in
+counts. To have access to true amplitudes you need to apply a calibration
+gain multiplied to the sample counts.  From version SHM-2.4 on this information
+is provided in a sensitivity file specified in the global setup file (by default
+this is <em>$SH_INPUTS/sensitivities.txt</em>).  For details about this file
+see the <a href="sensitivity_file.html">syntax of the sensitivity file</a>.
+</P>
+
+<P><b>Specification of calibration gain in older versions of SH/SHM</b><br>
+SH/SHM versions prior to 2.4 need a file
+<em>$SEED_INPUTS/seedcalib_&lt;station&gt;-&lt;chan&gt;-&lt;comp&gt;</em>
+for each stream. The files are formatted as text lines of the form
+<em>&lt;start&gt; &lt;end&gt;
+&lt;calib&gt;</em>. <em>&lt;start&gt;</em>
+and <em>&lt;end&gt;</em>
+are beginning and end dates (in <A HREF="timeformat.html">SH
+time format</A>) where <em>&lt;calib&gt;</em>
+is valid. <em>&lt;calib&gt;</em>
+is a floating point number and is multiplied to the counts when
+reading the data from the MiniSEED file. If no calibration file is
+found or no time window of the calibration file matches the start
+time of the data, a message is displayed and a calibration value of
+1.0 is used (i.e. counts remain unchanged).</P>
+
+<P><small>This page last modified 22-May-2006</small></P>
+</BODY>
+</HTML>

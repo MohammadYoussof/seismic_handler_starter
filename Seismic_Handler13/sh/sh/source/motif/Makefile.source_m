@@ -1,0 +1,321 @@
+# file Makefile
+#      ========
+#
+# version 10, 20-Feb-96
+#
+# Makefile of directory $SH_ROOT/source_m/motif
+# K. Stammler, 22-Jul-94
+
+CFLAGS      = $(SH_CCOPTIONS) -I$(SH_SOURCE) -I$(SH_UTIL) -I$(SH_SOURCE)/newgraph -I$(SH_SOURCE)/foreign -DBASECNST=\"basecnst.h\"
+CC          = $(SH_COMPILER)
+LD          = $(SH_COMPILER)
+RANLIB		= $(SH_RANLIB)
+LDFLAGS     = -L$(SH_LIB) $(SH_LINKOPTIONS)
+LIBS        = -lmotif -lsource_m -lgraph -lseed -lfrgn -lutil -lsource_m \
+						-lm -lMrm -lXm -lXt -lXext -lX11 $(SH_LINKLIBS)
+#                                         ^
+#   this second '-lsource_m' is necessary /
+
+PROGNAME		= shm
+
+LIB_SOURCE	= $(SH_LIB)/libsource_m.a
+LIB_SEED		= $(SH_LIB)/libseed.a
+LIB_GRAPH	= $(SH_LIB)/libgraph.a
+LIB_UTIL		= $(SH_LIB)/libutil.a
+LIB_FRGN		= $(SH_LIB)/libfrgn.a
+LIB_MOTIF	= $(SH_LIB)/libmotif.a
+ALL_SH_LIBS	= $(LIB_MOTIF) $(LIB_SOURCE) $(LIB_GRAPH) \
+					$(LIB_SEED) $(LIB_UTIL) $(LIB_FRGN)
+
+
+LOCAL_SRCS	= calibloc.c cblib.c cblib2.c cblib3.c cblib4.c cbutil.c \
+	event_id.c get_geo.c mfexec.c motifgraph.c phaseinf.c pixmaps.c \
+	seismics.c trcselect.c
+
+LOCAL_OBJS	=	$(LOCAL_SRCS:%.c=%.o)
+
+ALL			= $(PROGNAME) $(PROGNAME).uid
+
+all:	$(ALL)
+
+$(LIB_MOTIF):	$(LOCAL_OBJS)
+	ar r $@ $(LOCAL_OBJS); $(RANLIB) $@
+
+$(LIB_SOURCE):
+	@echo "Source-Lib not up to date"
+
+$(LIB_SEED):
+	@echo "SEED-Lib not up to date"
+
+$(LIB_UTIL):
+	@echo "Util-Lib not up to date"
+
+$(LIB_FRGN):
+	@echo "Frgn-Lib not up to date"
+
+$(PROGNAME):	shm.o $(MAKEFILE) $(ALL_SH_LIBS)
+	@echo "Linking $(PROGNAME) ..."
+	$(LD) shm.o $(LDFLAGS) $(LIBS) -o $@
+
+$(PROGNAME).uid:	*.uil
+	uil -o $@ $(PROGNAME).uil
+
+
+
+clean:
+	-@rm *% $(ALL) $(LOCAL_OBJS) $(PROGNAME).o $(PROGNAME)_world $(PROGNAME)_world.old
+	-@rm $(LIB_MOTIF)
+
+depend:
+	makedepend -s "# DO NOT DELETE" -- $(CFLAGS) -- $(LOCAL_SRCS) shm.c
+
+
+# DO NOT DELETE
+
+calibloc.o: /usr/include/stdio.h /usr/include/string.h
+calibloc.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+calibloc.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+calibloc.o: ../basecnst.h /usr/include/stdlib.h /usr/include/Xm/Xm.h
+calibloc.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+calibloc.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+calibloc.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+calibloc.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+calibloc.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+calibloc.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+calibloc.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+calibloc.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+calibloc.o: /usr/include/X11/Xatom.h /usr/include/Xm/XmStrDefs.h
+calibloc.o: /usr/include/X11/StringDefs.h /usr/include/Xm/VirtKeys.h
+calibloc.o: /usr/include/Xm/VendorS.h /home/ersn10/klaus/sh/source/sysbase.h
+calibloc.o: /home/ersn10/klaus/sh/source/fousrdef.h ../shvars.h ../shconst.h
+calibloc.o: ../erusrdef.h ../infoidx.h ../tcusrdef.h
+calibloc.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+calibloc.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../ptusrdef.h
+calibloc.o: ../earthloc.h globvars.h ../shconst.h pixmaps.h motifgraph.h
+calibloc.o: phaseinf.h cbutil.h ../glusrdef.h calibloc.h
+cblib.o: /usr/include/stdio.h /usr/include/string.h
+cblib.o: /usr/include/sys/stdtypes.h ../basecnst.h /usr/include/stdlib.h
+cblib.o: /usr/include/Xm/Xm.h /usr/include/X11/Intrinsic.h
+cblib.o: /usr/include/X11/Xlib.h /usr/include/sys/types.h
+cblib.o: /usr/include/sys/sysmacros.h /usr/include/X11/X.h
+cblib.o: /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h
+cblib.o: /usr/include/stddef.h /usr/include/X11/Xutil.h
+cblib.o: /usr/include/X11/Xresource.h /usr/include/X11/Core.h
+cblib.o: /usr/include/X11/Composite.h /usr/include/X11/Constraint.h
+cblib.o: /usr/include/X11/Object.h /usr/include/X11/RectObj.h
+cblib.o: /usr/include/X11/Shell.h /usr/include/X11/Xatom.h
+cblib.o: /usr/include/Xm/XmStrDefs.h /usr/include/X11/StringDefs.h
+cblib.o: /usr/include/Xm/VirtKeys.h /usr/include/Xm/VendorS.h
+cblib.o: /usr/include/Xm/Text.h /home/ersn10/klaus/sh/source/sysbase.h
+cblib.o: /home/ersn10/klaus/sh/source/fousrdef.h ../infoidx.h ../shconst.h
+cblib.o: ../tcusrdef.h /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+cblib.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../tcusrdef.h
+cblib.o: ../ptusrdef.h ../fctxdm.h ../fctxsl.h ../cpusrdef.h ../rfusrdef.h
+cblib.o: ../shvars.h ../utusrdef.h globvars.h ../shconst.h motifgraph.h
+cblib.o: phaseinf.h cbutil.h ../glusrdef.h cblib.h shm_widgets.h sysext.h
+cblib2.o: /usr/include/stdio.h /usr/include/string.h
+cblib2.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+cblib2.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+cblib2.o: ../basecnst.h /usr/include/stdlib.h /usr/include/Xm/Xm.h
+cblib2.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+cblib2.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+cblib2.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+cblib2.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+cblib2.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+cblib2.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+cblib2.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+cblib2.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+cblib2.o: /usr/include/X11/Xatom.h /usr/include/Xm/XmStrDefs.h
+cblib2.o: /usr/include/X11/StringDefs.h /usr/include/Xm/VirtKeys.h
+cblib2.o: /usr/include/Xm/VendorS.h /usr/include/Xm/Text.h
+cblib2.o: /usr/include/Xm/Scale.h /usr/include/unistd.h
+cblib2.o: /home/ersn10/klaus/sh/source/sysbase.h
+cblib2.o: /home/ersn10/klaus/sh/source/fousrdef.h ../shvars.h ../shconst.h
+cblib2.o: ../infoidx.h ../tcusrdef.h
+cblib2.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+cblib2.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../glusrdef.h
+cblib2.o: ../earthloc.h ../tcusrdef.h ../erusrdef.h ../ptusrdef.h
+cblib2.o: motifgraph.h phaseinf.h cbutil.h cblib2.h seismics.h globvars.h
+cblib2.o: ../shconst.h shm_widgets.h sysext.h
+cblib3.o: /usr/include/stdio.h /usr/include/string.h
+cblib3.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+cblib3.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+cblib3.o: ../basecnst.h /usr/include/stdlib.h /usr/include/Xm/Xm.h
+cblib3.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+cblib3.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+cblib3.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+cblib3.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+cblib3.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+cblib3.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+cblib3.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+cblib3.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+cblib3.o: /usr/include/X11/Xatom.h /usr/include/Xm/XmStrDefs.h
+cblib3.o: /usr/include/X11/StringDefs.h /usr/include/Xm/VirtKeys.h
+cblib3.o: /usr/include/Xm/VendorS.h /usr/include/Xm/ToggleB.h
+cblib3.o: /usr/include/Xm/Scale.h /home/ersn10/klaus/sh/source/sysbase.h
+cblib3.o: /home/ersn10/klaus/sh/source/fousrdef.h sysext.h ../shvars.h
+cblib3.o: ../shconst.h ../infoidx.h ../tcusrdef.h
+cblib3.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+cblib3.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../erusrdef.h
+cblib3.o: ../station_no.h ../glusrdef.h ../utusrdef.h ../earthloc.h
+cblib3.o: ../callsh.h ../../util/eventdsc.h shm_widgets.h globvars.h
+cblib3.o: ../shconst.h event_id.h phaseinf.h motifgraph.h cbutil.h mfexec.h
+cblib3.o: cblib.h cblib3.h
+cblib4.o: /usr/include/stdio.h /usr/include/string.h
+cblib4.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+cblib4.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+cblib4.o: ../basecnst.h /usr/include/stdlib.h /usr/include/Xm/Xm.h
+cblib4.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+cblib4.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+cblib4.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+cblib4.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+cblib4.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+cblib4.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+cblib4.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+cblib4.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+cblib4.o: /usr/include/X11/Xatom.h /usr/include/Xm/XmStrDefs.h
+cblib4.o: /usr/include/X11/StringDefs.h /usr/include/Xm/VirtKeys.h
+cblib4.o: /usr/include/Xm/VendorS.h /usr/include/Xm/List.h
+cblib4.o: /usr/include/Xm/ToggleB.h /usr/include/unistd.h
+cblib4.o: /home/ersn10/klaus/sh/source/sysbase.h
+cblib4.o: /home/ersn10/klaus/sh/source/fousrdef.h ../shvars.h ../shconst.h
+cblib4.o: ../infoidx.h ../tcusrdef.h
+cblib4.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+cblib4.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../tcusrdef.h
+cblib4.o: ../utusrdef.h ../erusrdef.h ../ptusrdef.h ../earthloc.h
+cblib4.o: ../station_no.h ../seed_io/seedcfg.h ../seed_io/seed_lib.h
+cblib4.o: motifgraph.h phaseinf.h cbutil.h ../glusrdef.h mfexec.h cblib4.h
+cblib4.o: shm_widgets.h globvars.h ../shconst.h
+cbutil.o: /usr/include/stdio.h /usr/include/string.h
+cbutil.o: /usr/include/sys/stdtypes.h ../basecnst.h /usr/include/stdlib.h
+cbutil.o: /usr/include/Xm/Xm.h /usr/include/X11/Intrinsic.h
+cbutil.o: /usr/include/X11/Xlib.h /usr/include/sys/types.h
+cbutil.o: /usr/include/sys/sysmacros.h /usr/include/X11/X.h
+cbutil.o: /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h
+cbutil.o: /usr/include/stddef.h /usr/include/X11/Xutil.h
+cbutil.o: /usr/include/X11/Xresource.h /usr/include/X11/Core.h
+cbutil.o: /usr/include/X11/Composite.h /usr/include/X11/Constraint.h
+cbutil.o: /usr/include/X11/Object.h /usr/include/X11/RectObj.h
+cbutil.o: /usr/include/X11/Shell.h /usr/include/X11/Xatom.h
+cbutil.o: /usr/include/Xm/XmStrDefs.h /usr/include/X11/StringDefs.h
+cbutil.o: /usr/include/Xm/VirtKeys.h /usr/include/Xm/VendorS.h
+cbutil.o: /usr/include/Xm/ToggleB.h /usr/include/Xm/Text.h
+cbutil.o: /usr/include/time.h /usr/include/math.h
+cbutil.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+cbutil.o: /home/ersn10/klaus/sh/source/sysbase.h
+cbutil.o: /home/ersn10/klaus/sh/source/fousrdef.h ../tcusrdef.h ../infoidx.h
+cbutil.o: ../shconst.h /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+cbutil.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../glusrdef.h
+cbutil.o: ../fctxmt.h ../sherrors.h ../earthloc.h ../ptusrdef.h ../ffusrdef.h
+cbutil.o: ../erusrdef.h ../utusrdef.h motifgraph.h phaseinf.h seismics.h
+cbutil.o: cbutil.h globvars.h ../shconst.h ../shvars.h shm_widgets.h
+event_id.o: /usr/include/stdio.h /usr/include/string.h
+event_id.o: /usr/include/sys/stdtypes.h ../basecnst.h
+event_id.o: /home/ersn10/klaus/sh/source/sysbase.h
+event_id.o: /home/ersn10/klaus/sh/source/fousrdef.h ../tcusrdef.h event_id.h
+get_geo.o: /usr/include/stdio.h /usr/include/string.h
+get_geo.o: /usr/include/sys/stdtypes.h /usr/include/stdlib.h
+get_geo.o: /usr/include/math.h /usr/include/floatingpoint.h
+get_geo.o: /usr/include/sys/ieeefp.h
+mfexec.o: /usr/include/stdio.h /usr/include/string.h
+mfexec.o: /usr/include/sys/stdtypes.h ../basecnst.h /usr/include/stdlib.h
+mfexec.o: /usr/include/Xm/Xm.h /usr/include/X11/Intrinsic.h
+mfexec.o: /usr/include/X11/Xlib.h /usr/include/sys/types.h
+mfexec.o: /usr/include/sys/sysmacros.h /usr/include/X11/X.h
+mfexec.o: /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h
+mfexec.o: /usr/include/stddef.h /usr/include/X11/Xutil.h
+mfexec.o: /usr/include/X11/Xresource.h /usr/include/X11/Core.h
+mfexec.o: /usr/include/X11/Composite.h /usr/include/X11/Constraint.h
+mfexec.o: /usr/include/X11/Object.h /usr/include/X11/RectObj.h
+mfexec.o: /usr/include/X11/Shell.h /usr/include/X11/Xatom.h
+mfexec.o: /usr/include/Xm/XmStrDefs.h /usr/include/X11/StringDefs.h
+mfexec.o: /usr/include/Xm/VirtKeys.h /usr/include/Xm/VendorS.h
+mfexec.o: /usr/include/Xm/ToggleB.h /usr/include/Xm/Text.h
+mfexec.o: /home/ersn10/klaus/sh/source/sysbase.h
+mfexec.o: /home/ersn10/klaus/sh/source/fousrdef.h ../erusrdef.h motifgraph.h
+mfexec.o: phaseinf.h ../station_no.h cbutil.h ../glusrdef.h mfexec.h cblib.h
+mfexec.o: cblib3.h ../callsh.h ../infoidx.h ../shconst.h ../tcusrdef.h
+mfexec.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+mfexec.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../utusrdef.h
+mfexec.o: ../shvars.h globvars.h ../shconst.h trcselect.h shm_widgets.h
+mfexec.o: sysext.h
+motifgraph.o: /usr/include/stdio.h /usr/include/string.h
+motifgraph.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+motifgraph.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+motifgraph.o: ../basecnst.h /usr/include/stdlib.h /usr/include/Xm/Xm.h
+motifgraph.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+motifgraph.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+motifgraph.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+motifgraph.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+motifgraph.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+motifgraph.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+motifgraph.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+motifgraph.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+motifgraph.o: /usr/include/X11/Xatom.h /usr/include/Xm/XmStrDefs.h
+motifgraph.o: /usr/include/X11/StringDefs.h /usr/include/Xm/VirtKeys.h
+motifgraph.o: /usr/include/Xm/VendorS.h /usr/include/Mrm/MrmPublic.h
+motifgraph.o: /usr/include/Mrm/MrmDecls.h
+motifgraph.o: /home/ersn10/klaus/sh/source/sysbase.h
+motifgraph.o: /home/ersn10/klaus/sh/source/fousrdef.h ../infoidx.h
+motifgraph.o: ../shconst.h ../tcusrdef.h
+motifgraph.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+motifgraph.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../fctxdm.h
+motifgraph.o: ../trusrdef.h ../cpusrdef.h ../tcusrdef.h ../ffusrdef.h
+motifgraph.o: phaseinf.h pixmaps.h motifgraph.h globvars.h ../shconst.h
+motifgraph.o: trcselect.h
+phaseinf.o: /usr/include/stdio.h /usr/include/string.h
+phaseinf.o: /usr/include/sys/stdtypes.h ../basecnst.h /usr/include/stdlib.h
+phaseinf.o: /home/ersn10/klaus/sh/source/sysbase.h
+phaseinf.o: /home/ersn10/klaus/sh/source/fousrdef.h ../tcusrdef.h phaseinf.h
+pixmaps.o: /usr/include/stdio.h ../basecnst.h /usr/include/stdlib.h
+pixmaps.o: /usr/include/sys/stdtypes.h /usr/include/Xm/Xm.h
+pixmaps.o: /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h
+pixmaps.o: /usr/include/sys/types.h /usr/include/sys/sysmacros.h
+pixmaps.o: /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h
+pixmaps.o: /usr/include/X11/Xosdefs.h /usr/include/stddef.h
+pixmaps.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+pixmaps.o: /usr/include/string.h /usr/include/X11/Core.h
+pixmaps.o: /usr/include/X11/Composite.h /usr/include/X11/Constraint.h
+pixmaps.o: /usr/include/X11/Object.h /usr/include/X11/RectObj.h
+pixmaps.o: /usr/include/X11/Shell.h /usr/include/X11/Xatom.h
+pixmaps.o: /usr/include/Xm/XmStrDefs.h /usr/include/X11/StringDefs.h
+pixmaps.o: /usr/include/Xm/VirtKeys.h /usr/include/Xm/VendorS.h
+pixmaps.o: /home/ersn10/klaus/sh/source/sysbase.h
+pixmaps.o: /home/ersn10/klaus/sh/source/fousrdef.h pixmaps.h
+seismics.o: /usr/include/stdio.h /usr/include/string.h
+seismics.o: /usr/include/sys/stdtypes.h /usr/include/math.h
+seismics.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+seismics.o: ../basecnst.h ../sysbase.h
+seismics.o: /home/ersn10/klaus/sh/source/fousrdef.h ../ptusrdef.h
+seismics.o: ../earthloc.h ../glusrdef.h seismics.h
+trcselect.o: /usr/include/stdio.h /usr/include/string.h
+trcselect.o: /usr/include/sys/stdtypes.h ../basecnst.h
+trcselect.o: /home/ersn10/klaus/sh/source/sysbase.h
+trcselect.o: /home/ersn10/klaus/sh/source/fousrdef.h trcselect.h
+shm.o: /usr/include/stdio.h /usr/include/string.h /usr/include/sys/stdtypes.h
+shm.o: /usr/include/ctype.h /usr/include/math.h /usr/include/floatingpoint.h
+shm.o: /usr/include/sys/ieeefp.h ../basecnst.h /usr/include/stdlib.h
+shm.o: /usr/include/Xm/Xm.h /usr/include/X11/Intrinsic.h
+shm.o: /usr/include/X11/Xlib.h /usr/include/sys/types.h
+shm.o: /usr/include/sys/sysmacros.h /usr/include/X11/X.h
+shm.o: /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h
+shm.o: /usr/include/stddef.h /usr/include/X11/Xutil.h
+shm.o: /usr/include/X11/Xresource.h /usr/include/X11/Core.h
+shm.o: /usr/include/X11/Composite.h /usr/include/X11/Constraint.h
+shm.o: /usr/include/X11/Object.h /usr/include/X11/RectObj.h
+shm.o: /usr/include/X11/Shell.h /usr/include/X11/Xatom.h
+shm.o: /usr/include/Xm/XmStrDefs.h /usr/include/X11/StringDefs.h
+shm.o: /usr/include/Xm/VirtKeys.h /usr/include/Xm/VendorS.h
+shm.o: /usr/include/Xm/ToggleB.h /usr/include/Xm/Scale.h
+shm.o: /usr/include/Xm/Text.h /usr/include/Mrm/MrmPublic.h
+shm.o: /usr/include/Mrm/MrmDecls.h /home/ersn10/klaus/sh/source/sysbase.h
+shm.o: /home/ersn10/klaus/sh/source/fousrdef.h ../shconst.h
+shm.o: /home/ersn10/klaus/sh/source/shdirs.h
+shm.o: /home/ersn10/klaus/sh/source/basecnst.h ../tcusrdef.h phaseinf.h
+shm.o: ../seusrdef.h ../sysbase.h
+shm.o: /home/ersn10/klaus/sh/source/newgraph/gcusrdef.h
+shm.o: /home/ersn10/klaus/sh/source/newgraph/graphbas.h ../cpusrdef.h
+shm.o: ../fctxmn5.h ../callsh.h ../infoidx.h motifgraph.h cbutil.h
+shm.o: ../glusrdef.h mfexec.h ../station_no.h pixmaps.h seismics.h cblib.h
+shm.o: cblib2.h cblib3.h cblib4.h globvars.h ../shconst.h calibloc.h
+shm.o: shm_widgets.h

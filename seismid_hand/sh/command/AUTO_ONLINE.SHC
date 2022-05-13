@@ -1,0 +1,56 @@
+
+! file AUTO_ONLINE.SHC
+!      ===============
+!
+! version 2, 6-Oct-94
+!
+! automatically displays online data
+! K. Stammler, 3-Aug-94
+
+default 1 grf    station list
+default 2 300    read length in sec
+default 3 60     sleep time in sec
+default 4 8.0e-4 zoom factor
+
+sdef xfile       ! file which controls lifetime
+sdef cmd         ! shell command
+sdef currtime    ! current time
+sdef endtime     ! end of display window
+sdef tdiff       ! time difference
+
+switch/global chatty off
+
+! create xfile
+fct getpath scratch &xfile
+calc s &xfile = |"xfile|auto_online.stx|
+echo_ch/new "xfile
+echo #1
+echo_ch
+
+norm c
+
+loop_start:
+   nr
+   del all
+   online_data %"xfile #2
+   unix_time
+   calc s &currtime = "g1
+   calc t &tdiff = "currtime tdiff ^start
+   calc r &tdiff = "tdiff - $dsp_w
+   calc r &tdiff = "tdiff - 7200  ! 2 hours in summer
+!   calc r &tdiff = "tdiff - 3600  ! 1 hour in winter
+   calc r &tdiff = "tdiff div 60.0  ! show minutes
+   calc r &tdiff = "tdiff /fmt=<%5.1@f>
+   calc t &endtime = ^start tadd $dsp_w
+   title 3 |GRF|$BLANK|online|$BLANK|data|
+@  TITLE 1 |^START|$BLANK(4)|to|$BLANK(4)|"ENDTIME|
+@  TITLE 2 |delay|$BLANK|"TDIFF|$BLANK|min|
+   zoom all #4
+   rd
+@  CALC S &CMD = |sleep|$BLANK|#3|
+   system "cmd
+goto loop_start:
+loop_exit:
+
+
+return

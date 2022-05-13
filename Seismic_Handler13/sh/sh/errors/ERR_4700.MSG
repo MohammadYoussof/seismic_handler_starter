@@ -1,0 +1,23 @@
+! file ERR_4700.MSG
+!      ============
+!
+! version 3, 25-Feb-2001
+!
+! error messages of module cblib.c
+! K. Stammler, 13-Aug-93
+!
+*** CB-01 no depth phases found ***
+*** CB-02 illegal path mode ***
+*** CB-03 no drag window selected ***
+*** CB-04 zero window specified ***
+*** CB-05 reference trace has already beam phase ***
+*** CB-06 string overflow ***
+*** CB-07 couldn't read floating number ***
+*** CB-08 couldn't read integer number ***
+*** CB-09 no value in dialog box ***
+*** CB-10 no traces on screen ***
+*** CB-11 already phases in memory ***
+*** CB-12 no extremum found in window ***
+*** CB-13 illegal distance ***
+*** CB-14 file not found ***
+*** CB-15 no phase found ***

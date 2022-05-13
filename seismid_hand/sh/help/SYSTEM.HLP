@@ -1,0 +1,37 @@
+command SYSTEM [<cmd>]
+==============
+
+key: call operating system
+
+Calls the command interpreter of the operating system of the computer
+and passes <cmd> as input.  If the operating system is case-sensitive
+it is necessary to switch off the automatic case conversion by
+"switch capcnv off", byt then you have to enter all following
+command verbs and keywords in uppercase until the cap conversion
+is switched on again by "SWITCH CAPCNV ON"
+
+
+parameters
+----------
+
+<cmd>  ---  parameter type: string
+   Machine dependent command string.
+
+
+example
+-------
+
+   system
+       enables the user to enter one command line to the
+       operating system
+
+   system
+   mount duc1 disklabel
+       VMS-command: mounts device "duc1" with label "disklabel"
+
+   switch capcnv off
+   SYSTEM
+   ls -1 *.SHC
+   SWITCH CAPCNV ON
+       UNIX-command: lists all *.SHC files of the current directory.
+
